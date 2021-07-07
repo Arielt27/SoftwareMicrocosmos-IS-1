@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="DB" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.clases.AreaLaboral</class>
+    <class>com.clases.AreaLaboralHistorica</class>
+    <class>com.clases.Articulo</class>
+    <class>com.clases.Articulo_SeccionTienda</class>
+    <class>com.clases.Clientes</class>
+    <class>com.clases.Compra</class>
+    <class>com.clases.DetalleCompra</class>
+    <class>com.clases.DetalleVenta</class>
+    <class>com.clases.Empleados</class>
+    <class>com.clases.Estado</class>
+    <class>com.clases.Parametros</class>
+    <class>com.clases.PrecioHistorico</class>
+    <class>com.clases.Proveedores</class>
+    <class>com.clases.SeccionTienda</class>
+    <class>com.clases.Sexo</class>
+    <class>com.clases.Talla</class>
+    <class>com.clases.TipoDePago</class>
+    <class>com.clases.TipoDocumento</class>
+    <class>com.clases.Usuarios</class>
+    <class>com.clases.Venta</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Microcosmos?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="12345"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
+    </properties>
+  </persistence-unit>
+</persistence>
