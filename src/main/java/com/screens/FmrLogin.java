@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -237,38 +238,121 @@ public class FmrLogin extends javax.swing.JFrame {
         Limpiar();
         
         }else{
-        
-        
-        }
- 
-        
-        
+            
+        ValidarAcceso(Txt_Usuario.getText().toString(),Txt_Contraseña.getText().toString());
+             
+        }    
        
     }//GEN-LAST:event_Btn_IniciarSesiónActionPerformed
 
     
-    public void VerificarUsuario(){
+    public void ValidarAcceso(String Usuario, String Contraseña){
+        
+        
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    EntityManager em = emf.createEntityManager();
 
-       EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-       EntityManager em = emf.createEntityManager();
-        
-              
-          for(int i = 1; i == -1 ;i++){
-     
-       Usuarios us = em.find(Usuarios.class, i);
-       String p = us.getNombreUsuario();
+
+    String select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND activoUsuario = true";
+   
+    Query query = em.createQuery(select);
+      
+      if(query.getResultList().size() == 0){
        
-       if(p == null){
+           JOptionPane.showMessageDialog(this, "El usuario no existe o está desactivado");
+           Limpiar(); 
+          
+          
+    }else{
+          select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND contraseña = '" + Contraseña + "' AND activoUsuario = true"; 
+          query = em.createQuery(select);
+          
+          if(query.getResultList().size() != 0){
+             
+        em.getTransaction().begin();
+        select = "UPDATE Usuarios SET numeroDeIntentos = 0 WHERE nombreUsuario = '"+Usuario+ "'"; 
+        query = em.createQuery(select);
+        query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+              
+        FmrMenú m = new FmrMenú();
+        m.setVisible(true);
+        this.dispose();
+                                 
         
-            i = -1;
        
        }else{
-    
-           
-    
+       
+          select = "SELECT nombreUsuario FROM Usuarios WHERE numeroDeIntentos = 0 AND nombreUsuario = '"+Usuario+"'";
+          query = em.createQuery(select);
+          
+          if(query.getResultList().size() != 0){    
+              
+                     
+             em.getTransaction().begin();
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 1) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+             
+             Limpiar();
+             JOptionPane.showMessageDialog(this, "Le quedan 2 intentos");
+
+        
+       }else{
+              
+          select = "SELECT nombreUsuario FROM Usuarios WHERE numeroDeIntentos = 1 AND nombreUsuario = '"+Usuario+"'";
+          query = em.createQuery(select);
+          
+          if(query.getResultList().size() != 0){ 
+          
+             em.getTransaction().begin();
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 2) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+             
+             Limpiar();
+             JOptionPane.showMessageDialog(this, "Le queda un intento");
+
+          
+          
+          }else{
+          
+             em.getTransaction().begin();
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 1) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+          
+             DesactivarUsuario(Usuario);
+             Limpiar();
+             JOptionPane.showMessageDialog(this, "Su usuario ha sido desactivado");
+
+          }
+          }
+          }          
+    } 
     }
-   
-}}
+    
+    
+    public void DesactivarUsuario(String Usuario){
+      
+      EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+      EntityManager em = emf.createEntityManager();
+
+      em.getTransaction().begin();
+      String select = "UPDATE Usuarios SET activoUsuario = false WHERE nombreUsuario = '"+ Usuario+ "'";
+      Query query = em.createQuery(select);
+      query.executeUpdate();
+      em.getTransaction().commit();
+      em.close();
+      }
+    
    
     public void Limpiar(){
      
