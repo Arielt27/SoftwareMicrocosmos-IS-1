@@ -374,7 +374,7 @@ public class FmrTalla extends javax.swing.JFrame {
         Txt_DescripcionTalla.setText(Descripcion);
         Txt_Activo.setText(Activo);
         
-        if(Activo == "true"){
+        if(Activo == "Activado"){
         Btn_Activar_Desactivar.setText("Desactivar");
         }else{
         
@@ -426,17 +426,24 @@ public class FmrTalla extends javax.swing.JFrame {
             t.addColumn("Id");
             t.addColumn("Nombre");
             t.addColumn("Descripción");
-            t.addColumn("Activa");
+            t.addColumn("Estado");
         
             List<Talla> talla = this.daoTalla.findTallaEntities();
         
+            String s;
             for(Talla Talla : talla){
+                
+                if(Talla.isActivoTalla() == true){
+                s = "Activado";
+                }else{
+                s = "Desactivado";
+                }
                 t.addRow(
                     new Object[]{
                         Talla.getIdTalla(),
                         Talla.getNombreTalla(),
                         Talla.getDescripcionTalla(),
-                        Talla.isActivoTalla()
+                        s
                     });
             }
        
@@ -495,7 +502,7 @@ public class FmrTalla extends javax.swing.JFrame {
         
         String a = Txt_Activo.getText().toString();
        
-        if(a.equals("true")){
+        if(a.equals("Activado")){
         
         objTalla.setIdTalla(Integer.parseInt(Txt_IdTalla.getText()));
         objTalla.setNombreTalla(Tbl_Talla.getValueAt(fila, 1).toString());
