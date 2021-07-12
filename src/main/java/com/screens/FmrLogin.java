@@ -28,10 +28,10 @@ public class FmrLogin extends javax.swing.JFrame {
      */
     public FmrLogin() {
         initComponents();    
-        this.setLocationRelativeTo(null); 
-        
+        this.setLocationRelativeTo(null);   
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
+        ResetearTodo();
     }
 
     /**
@@ -264,6 +264,8 @@ public class FmrLogin extends javax.swing.JFrame {
           
           
     }else{
+          
+          Resetear(Usuario);
           select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND contraseña = '" + Contraseña + "' AND activoUsuario = true"; 
           query = em.createQuery(select);
           
@@ -309,7 +311,7 @@ public class FmrLogin extends javax.swing.JFrame {
           if(query.getResultList().size() != 0){ 
           
              em.getTransaction().begin();
-             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 2) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 1) WHERE nombreUsuario = '"+ Usuario+"'"; 
              query = em.createQuery(select);
              query.executeUpdate();
              em.getTransaction().commit();
@@ -361,6 +363,37 @@ public class FmrLogin extends javax.swing.JFrame {
     
     }
     
+       public void Resetear(String Usuario){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             em.getTransaction().begin();
+             String select = "UPDATE Usuarios SET numeroDeIntentos = 0 WHERE nombreUsuario != '"+ Usuario+"'"; 
+             Query query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+       
+       
+       }
+       
+           public void ResetearTodo(){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             em.getTransaction().begin();
+             String select = "UPDATE Usuarios SET numeroDeIntentos = 0 WHERE numeroDeIntentos < 3"; 
+             Query query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+       
+       
+       }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -390,6 +423,9 @@ public class FmrLogin extends javax.swing.JFrame {
             new FmrLogin().setVisible(true);
         });
     }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_IniciarSesión;
