@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -27,10 +28,10 @@ public class FmrLogin extends javax.swing.JFrame {
      */
     public FmrLogin() {
         initComponents();    
-        this.setLocationRelativeTo(null); 
-        
+        this.setLocationRelativeTo(null);   
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
+        ResetearTodo();
     }
 
     /**
@@ -43,6 +44,7 @@ public class FmrLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -62,15 +64,18 @@ public class FmrLogin extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(49, 49, 49));
 
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LogoMicrocosmos.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel1.setBackground(new java.awt.Color(60, 63, 65));
@@ -209,7 +214,7 @@ public class FmrLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, Short.MAX_VALUE))
         );
 
         pack();
@@ -237,38 +242,123 @@ public class FmrLogin extends javax.swing.JFrame {
         Limpiar();
         
         }else{
-        
-        
-        }
- 
-        
-        
+            
+        ValidarAcceso(Txt_Usuario.getText().toString(),Txt_Contraseña.getText().toString());
+             
+        }    
        
     }//GEN-LAST:event_Btn_IniciarSesiónActionPerformed
 
     
-    public void VerificarUsuario(){
+    public void ValidarAcceso(String Usuario, String Contraseña){
+        
+        
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    EntityManager em = emf.createEntityManager();
 
-       EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-       EntityManager em = emf.createEntityManager();
-        
-              
-          for(int i = 1; i == -1 ;i++){
-     
-       Usuarios us = em.find(Usuarios.class, i);
-       String p = us.getNombreUsuario();
+
+    String select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND activoUsuario = true";
+   
+    Query query = em.createQuery(select);
+      
+      if(query.getResultList().size() == 0){
        
-       if(p == null){
+           JOptionPane.showMessageDialog(this, "El usuario no existe o está desactivado");
+           Limpiar(); 
+          
+          
+    }else{
+          
+          Resetear(Usuario);
+          select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND contraseña = '" + Contraseña + "' AND activoUsuario = true"; 
+          query = em.createQuery(select);
+          
+          if(query.getResultList().size() != 0){
+             
+        em.getTransaction().begin();
+        select = "UPDATE Usuarios SET numeroDeIntentos = 0 WHERE nombreUsuario = '"+Usuario+ "'"; 
+        query = em.createQuery(select);
+        query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+              
+        FmrMenú m = new FmrMenú();
+        m.setVisible(true);
+        this.dispose();
+                                 
         
-            i = -1;
        
        }else{
-    
-           
-    
+       
+          select = "SELECT nombreUsuario FROM Usuarios WHERE numeroDeIntentos = 0 AND nombreUsuario = '"+Usuario+"'";
+          query = em.createQuery(select);
+          
+          if(query.getResultList().size() != 0){    
+              
+                     
+             em.getTransaction().begin();
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 1) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+             
+             Limpiar();
+             JOptionPane.showMessageDialog(this, "Le quedan 2 intentos");
+
+        
+       }else{
+              
+          select = "SELECT nombreUsuario FROM Usuarios WHERE numeroDeIntentos = 1 AND nombreUsuario = '"+Usuario+"'";
+          query = em.createQuery(select);
+          
+          if(query.getResultList().size() != 0){ 
+          
+             em.getTransaction().begin();
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 1) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+             
+             Limpiar();
+             JOptionPane.showMessageDialog(this, "Le queda un intento");
+
+          
+          
+          }else{
+          
+             em.getTransaction().begin();
+             select = "UPDATE Usuarios SET numeroDeIntentos = (numeroDeIntentos + 1) WHERE nombreUsuario = '"+ Usuario+"'"; 
+             query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+          
+             DesactivarUsuario(Usuario);
+             Limpiar();
+             JOptionPane.showMessageDialog(this, "Su usuario ha sido desactivado");
+
+          }
+          }
+          }          
+    } 
     }
-   
-}}
+    
+    
+    public void DesactivarUsuario(String Usuario){
+      
+      EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+      EntityManager em = emf.createEntityManager();
+
+      em.getTransaction().begin();
+      String select = "UPDATE Usuarios SET activoUsuario = false WHERE nombreUsuario = '"+ Usuario+ "'";
+      Query query = em.createQuery(select);
+      query.executeUpdate();
+      em.getTransaction().commit();
+      em.close();
+      }
+    
    
     public void Limpiar(){
      
@@ -276,6 +366,37 @@ public class FmrLogin extends javax.swing.JFrame {
     Txt_Contraseña.setText("");
     
     }
+    
+       public void Resetear(String Usuario){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             em.getTransaction().begin();
+             String select = "UPDATE Usuarios SET numeroDeIntentos = 0 WHERE nombreUsuario != '"+ Usuario+"'"; 
+             Query query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+       
+       
+       }
+       
+           public void ResetearTodo(){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             em.getTransaction().begin();
+             String select = "UPDATE Usuarios SET numeroDeIntentos = 0 WHERE numeroDeIntentos < 3"; 
+             Query query = em.createQuery(select);
+             query.executeUpdate();
+             em.getTransaction().commit();
+             em.close();
+       
+       
+       }
+    
     
     /**
      * @param args the command line arguments
@@ -306,6 +427,9 @@ public class FmrLogin extends javax.swing.JFrame {
             new FmrLogin().setVisible(true);
         });
     }
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_IniciarSesión;
@@ -315,6 +439,7 @@ public class FmrLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
