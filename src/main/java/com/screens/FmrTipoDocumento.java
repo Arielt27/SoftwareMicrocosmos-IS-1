@@ -8,6 +8,7 @@ package com.screens;
 import com.clases.TipoDocumento;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -448,7 +449,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         Txt_DescripcionTipoDocumento.setText(Descripcion);
         Txt_Activo.setText(Activo);
         
-        if(Activo == "true"){
+        if(Activo == "Activado"){
              Btn_Activar_Desactivar.setText("Desactivar");
        
         }else{ 
@@ -464,11 +465,27 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         char c = evt.getKeyChar();
            String Texto = Txt_NombreTipoDocumento.getText();
         
-        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
+           String X = Txt_NombreTipoDocumento.getText();
+                     
+          if((evt.getKeyChar() == 22)){
+        
+            Txt_NombreTipoDocumento.setText(X.substring(0, 4));
+          
+              
+        }
+          
+      if(Txt_NombreTipoDocumento.getText().length() >= 4){
+
+             evt.consume();
+        
+        }
+      
+           if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
         
             evt.consume();
         
         }
+        
         
           if (Txt_NombreTipoDocumento.getText().length() == 1){
 
@@ -515,13 +532,21 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
             List<TipoDocumento> tipoDocumento = this.daoTipoDocumento.findTipoDocumentoEntities();
         
+            String s;
             for(TipoDocumento TipoDocumento : tipoDocumento){
+                
+                if(TipoDocumento.isActivoTipoDocumento() == true){
+                s = "Activado";
+                }else{
+                s = "Desactivado";
+                }
+                
                 t.addRow(
                     new Object[]{
                         TipoDocumento.getIdTipoDocumento(),
                         TipoDocumento.getNombreTipoDocumento(),
                         TipoDocumento.getDescripcionTipoDocumento(),
-                        TipoDocumento.isActivoTipoDocumento()
+                        s
                     });
             }
        
@@ -565,7 +590,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
         String a = Txt_Activo.getText().toString();
        
-        if(a.equals("true")){
+        if(a.equals("Activado")){
             
             
         objTipoDocumento.setIdTipoDocumento(Integer.parseInt(Txt_IdDocumento.getText()));
@@ -580,7 +605,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             Btn_Activar_Desactivar.setText("Activar");
         JOptionPane.showMessageDialog(this, "se desactivó correctamente");
         } catch (Exception ex) {
-            Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FmrTipoDocumento.class.getName()).log(Level.SEVERE, null, ex);
         }
         
        
@@ -599,7 +624,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             Btn_Activar_Desactivar.setText("Desactivar");
             JOptionPane.showMessageDialog(this, "se activó correctamente");
         } catch (Exception ex) {
-            Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FmrTipoDocumento.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         LimpiarTipoDocumento();

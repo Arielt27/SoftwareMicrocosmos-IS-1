@@ -5,6 +5,7 @@
  */
 package com.microcosmosproyecto;
 
+import com.screens.FmrClientes;
 import com.screens.FmrLogin;
 import com.screens.FmrMenú;
 import com.screens.FmrTalla;
@@ -12,6 +13,7 @@ import com.screens.FmrTipoDocumento;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 
 
@@ -24,7 +26,16 @@ public class Main {
 //    
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     EntityManager em = emf.createEntityManager();
+    
+       
+//       System.out.println(ValidacionTresLetras("Dddewqewewew"));
 
+//   String select = "SELECT nombreUsuario FROM Usuarios WHERE idUsuario = 1 ";
+//    Query query = em.createQuery(select);
+//    
+//   System.out.println(query.getSingleResult());
+    
+    
  //   FmrTalla t = em.find(FmrTalla.class, 1);
    // System.out.println(t.getIdTalla());
  //   System.out.println(t.getNombreTalla());
@@ -32,20 +43,93 @@ public class Main {
    // System.out.println(t.isActivoTalla());
 
 
-//  FmrTalla t = new FmrTalla();
-//  t.show();
+ // FmrTalla t = new FmrTalla();
+ // t.show();
 
-//  FmrTipoDocumento D = new FmrTipoDocumento();
-//  D.show();
+ // FmrTipoDocumento D = new FmrTipoDocumento();
+ // D.show();
 
-    FmrLogin L = new FmrLogin();
-    L.show();
+//  FmrLogin L = new FmrLogin();
+//  L.show();
     
 //    FmrMenú m = new FmrMenú();
 //    m.show();
 
+     FmrClientes c = new FmrClientes();
+     c.show();
+
  
     }
     
-    
+      public static boolean ValidacionMail(String Nombre){
+        
+        return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
+        
+        
+        }
+      
+       public static boolean ValidacionDNI(String DNI){
+        
+        return DNI.matches("^[0-9]{13}$");
+                
+        }
+       
+       public static boolean ValidacionVisa(String visa){
+        
+        return visa.matches("^[0-9]{13}$");
+                
+        }
+      
+       public static boolean ValidacionPasaporte(String Pasaporte){
+        
+        return Pasaporte.matches("^[0-9]{13}$");
+                
+        }
+       
+       public static boolean ValidacionRTN(String RTN){
+        
+        return RTN.matches("^[0-9]{14}$");
+                
+        }
+      
+     private static boolean ValidacionTresLetras(String Nombre){
+        
+        String Letra1 = Nombre.substring(0, 1);
+        String Letra2 = Nombre.substring(1, 2);
+        String Letra3 = Nombre.substring(2, 3);
+        
+        
+        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
+        
+        return true;
+         
+        }else{
+        
+        return false;
+              
+        }
+              
+        }
+     
+        public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idUsuario FROM Usuarios WHERE nombreUsuario = '"+ Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+                   
+       }
+         
 }
