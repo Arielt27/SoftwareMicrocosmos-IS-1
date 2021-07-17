@@ -23,6 +23,8 @@ public class Estado implements Serializable {
     private String nombreEstado;
     @Column
     private String descripcionEstado;
+    @Column
+    private boolean activoEstado;
 
     public int getIdEstado() {
         return idEstado;
@@ -46,6 +48,14 @@ public class Estado implements Serializable {
 
     public void setDescripcionEstado(String descripcionEstado) {
         this.descripcionEstado = descripcionEstado;
+    }
+
+    public boolean isActivoEstado() {
+        return activoEstado;
+    }
+
+    public void setActivoEstado(boolean activoEstado) {
+        this.activoEstado = activoEstado;
     }
     
     

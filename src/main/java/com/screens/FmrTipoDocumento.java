@@ -470,8 +470,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
           if((evt.getKeyChar() == 22)){
         
             Txt_NombreTipoDocumento.setText(X.substring(0, 4));
-          
-              
+                    
         }
           
       if(Txt_NombreTipoDocumento.getText().length() >= 4){
