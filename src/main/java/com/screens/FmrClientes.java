@@ -13,11 +13,14 @@ import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,6 +46,7 @@ public class FmrClientes extends javax.swing.JFrame {
         listaTipoDocumento();
         listaSexo();
         ActualizarCliente();
+        Txt_Activo.setVisible(false);
     }
 
     /**
@@ -78,6 +82,7 @@ public class FmrClientes extends javax.swing.JFrame {
         Txt_DireccionCliente = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        Txt_Activo = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -104,6 +109,11 @@ public class FmrClientes extends javax.swing.JFrame {
                 "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento"
             }
         ));
+        Tbl_Clientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tbl_ClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tbl_Clientes);
         if (Tbl_Clientes.getColumnModel().getColumnCount() > 0) {
             Tbl_Clientes.getColumnModel().getColumn(0).setResizable(false);
@@ -275,17 +285,22 @@ public class FmrClientes extends javax.swing.JFrame {
                             .addComponent(Txt_TelefonoCliente))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Txt_CorreoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Txt_DocumentoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Txt_DireccionCliente))
-                .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Txt_CorreoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Txt_DocumentoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Txt_DireccionCliente))
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(76, 76, 76))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +334,9 @@ public class FmrClientes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
 
@@ -334,6 +351,11 @@ public class FmrClientes extends javax.swing.JFrame {
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AñadirActionPerformed(evt);
+            }
+        });
 
         Btn_Editar.setText("Actualizar");
         Btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -341,6 +363,11 @@ public class FmrClientes extends javax.swing.JFrame {
         Btn_Editar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Editar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Editar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_EditarActionPerformed(evt);
+            }
+        });
 
         Btn_Activar_Desactivar.setText("Desactivar");
         Btn_Activar_Desactivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -348,6 +375,11 @@ public class FmrClientes extends javax.swing.JFrame {
         Btn_Activar_Desactivar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Activar_Desactivar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Activar_Desactivar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar_Desactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_Activar_DesactivarActionPerformed(evt);
+            }
+        });
 
         Btn_Limpiar.setText("Limpiar");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -482,6 +514,91 @@ public class FmrClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_NombreClienteActionPerformed
 
+    private void Tbl_ClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_ClientesMouseClicked
+     
+        int fila =  Tbl_Clientes.getSelectedRow();
+        if(fila == -1){
+        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        
+        }else{
+        
+        String Id = Tbl_Clientes.getValueAt(fila, 0).toString();
+        String Nombre = Tbl_Clientes.getValueAt(fila, 1).toString();
+        String Apellido = Tbl_Clientes.getValueAt(fila, 2).toString();
+        String Telefono = Tbl_Clientes.getValueAt(fila, 3).toString();
+        String Direccion = Tbl_Clientes.getValueAt(fila, 4).toString();
+        String Correo = Tbl_Clientes.getValueAt(fila, 5).toString();
+        String TipoDocumento = Tbl_Clientes.getValueAt(fila, 6).toString();
+        String Documento = Tbl_Clientes.getValueAt(fila, 7).toString();
+        String Sexo = Tbl_Clientes.getValueAt(fila, 8).toString();
+        String Activo = Tbl_Clientes.getValueAt(fila, 9).toString();
+        
+        
+
+        Txt_IdCliente.setText(Id);
+        Txt_NombreCliente.setText(Nombre);
+        Txt_ApellidoCliente.setText(Apellido);
+        Txt_TelefonoCliente.setText(Telefono);
+        jComboBox2.setSelectedItem(Sexo);
+        Txt_DireccionCliente.setText(Direccion);
+        Txt_CorreoCliente.setText(Correo);
+        jComboBox1.setSelectedItem(TipoDocumento);
+        Txt_DocumentoCliente.setText(Documento);
+        Txt_Activo.setText(Activo);
+        
+        if(Activo == "Activado"){
+        Btn_Activar_Desactivar.setText("Desactivar");
+        }else{
+        
+             Btn_Activar_Desactivar.setText("Activar");
+        
+        }
+        }
+        
+        
+    }//GEN-LAST:event_Tbl_ClientesMouseClicked
+
+    private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
+ 
+         int fila = Tbl_Clientes.getSelectedRow();
+
+        if(fila != -1){
+
+            Activar_Desactivar();
+
+        }else{
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
+
+        }
+        
+    }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
+
+    private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
+         
+        int fila = Tbl_Clientes.getSelectedRow();
+        if(fila == -1){
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
+
+        }else{
+
+            EditarCliente();
+            LimpiarCliente();
+            
+        }        
+        
+    }//GEN-LAST:event_Btn_EditarActionPerformed
+
+    private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
+         
+        LlenarCliente();
+        LimpiarCliente();        
+        
+    }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    
     private void LimpiarCliente(){
        
         Txt_IdCliente.setText("");
@@ -513,13 +630,13 @@ public class FmrClientes extends javax.swing.JFrame {
                     };
   }  
     
-            public void listaSexo(){
+       public void listaSexo(){
   
-      jComboBox2.removeAllItems();
+         jComboBox2.removeAllItems();
   
-      List<Sexo> sexo = this.daoSexo.findSexoEntities();
+         List<Sexo> sexo = this.daoSexo.findSexoEntities();
   
-             jComboBox2.addItem("Seleccione");
+         jComboBox2.addItem("Seleccione");
       
          for(Sexo Sexo : sexo){
              
@@ -572,6 +689,131 @@ public class FmrClientes extends javax.swing.JFrame {
        
        
        }
+            
+                  
+       private void LlenarCliente(){
+        
+        if(Txt_NombreCliente.getText().length() < 1){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        
+        }else{
+            
+            
+            objCliente.setNombreCliente(Txt_NombreCliente.getText());
+            objCliente.setApellidoCliente(Txt_ApellidoCliente.getText());
+            objCliente.setTelefonoCliente(Integer.parseInt(Txt_TelefonoCliente.getText()));
+            objCliente.setDireccionCliente(Txt_DireccionCliente.getText());
+            objCliente.setCorreoCliente(Txt_CorreoCliente.getText());
+            objCliente.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(jComboBox1.getSelectedItem())));
+            objCliente.setDocumento(Txt_DocumentoCliente.getText());
+            objCliente.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
+            objCliente.setActivoCliente(true);
+            
+            
+        try {
+            daoClientes.create(objCliente);
+            ActualizarCliente();
+            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       }   
+       } 
+            
+            private void EditarCliente(){
+            
+            
+            if(Txt_NombreCliente.getText().length() < 1){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        
+        }else{
+            
+            objCliente.setIdCliente(Integer.parseInt(Txt_IdCliente.getText()));
+            objCliente.setNombreCliente(Txt_NombreCliente.getText());
+            objCliente.setApellidoCliente(Txt_ApellidoCliente.getText());
+            objCliente.setTelefonoCliente(Integer.parseInt(Txt_TelefonoCliente.getText()));
+            objCliente.setDireccionCliente(Txt_DireccionCliente.getText());
+            objCliente.setCorreoCliente(Txt_CorreoCliente.getText());
+            objCliente.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(jComboBox1.getSelectedItem())));
+            objCliente.setDocumento(Txt_DocumentoCliente.getText());
+            objCliente.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
+                        
+            
+        try {
+            daoClientes.edit(objCliente);
+            ActualizarCliente();
+             JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+        } catch (Exception ex) {
+             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       }  
+            
+            }
+            
+            
+      private void Activar_Desactivar(){
+        
+        int fila = Tbl_Clientes.getSelectedRow();
+        
+        String a = Txt_Activo.getText().toString();
+       
+        if(a.equals("Activado")){
+        
+            objCliente.setIdCliente(Integer.parseInt(Txt_IdCliente.getText()));
+            objCliente.setNombreCliente(Tbl_Clientes.getValueAt(fila, 1).toString());
+            objCliente.setApellidoCliente(Tbl_Clientes.getValueAt(fila, 2).toString());
+            objCliente.setTelefonoCliente(Integer.parseInt(Tbl_Clientes.getValueAt(fila, 3).toString()));
+            objCliente.setDireccionCliente(Tbl_Clientes.getValueAt(fila, 4).toString());
+            objCliente.setCorreoCliente(Tbl_Clientes.getValueAt(fila, 5).toString());
+            objCliente.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Clientes.getValueAt(fila, 6).toString()));
+            objCliente.setDocumento(Tbl_Clientes.getValueAt(fila, 7).toString());
+            objCliente.setIdSexo(GetIdSexo(Tbl_Clientes.getValueAt(fila, 8).toString()));
+            objCliente.setActivoCliente(false);
+        
+        
+        try {
+            daoClientes.edit(objCliente);
+            ActualizarCliente();
+            Btn_Activar_Desactivar.setText("Activar");
+            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        LimpiarCliente();
+        
+        }else{
+        
+            objCliente.setIdCliente(Integer.parseInt(Txt_IdCliente.getText()));
+            objCliente.setNombreCliente(Tbl_Clientes.getValueAt(fila, 1).toString());
+            objCliente.setApellidoCliente(Tbl_Clientes.getValueAt(fila, 2).toString());
+            objCliente.setTelefonoCliente(Integer.parseInt(Tbl_Clientes.getValueAt(fila, 3).toString()));
+            objCliente.setDireccionCliente(Tbl_Clientes.getValueAt(fila, 4).toString());
+            objCliente.setCorreoCliente(Tbl_Clientes.getValueAt(fila, 5).toString());
+            objCliente.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Clientes.getValueAt(fila, 6).toString()));
+            objCliente.setDocumento(Tbl_Clientes.getValueAt(fila, 7).toString());
+            objCliente.setIdSexo(GetIdSexo(Tbl_Clientes.getValueAt(fila, 8).toString()));
+            objCliente.setActivoCliente(true);
+        
+        try {
+            daoClientes.edit(objCliente);
+            ActualizarCliente();
+            Btn_Activar_Desactivar.setText("Desactivar");
+            JOptionPane.showMessageDialog(this, "se activó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        LimpiarCliente();
+        
+        }
+        
+        }
+            
+            
     
           private static String GetNombreTipoDocumento(int id){
         
@@ -606,6 +848,18 @@ public class FmrClientes extends javax.swing.JFrame {
               return query.getSingleResult().toString() ;
             
           }   
+          
+          private static int GetIdSexo(String Nombre){
+        
+              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+              EntityManager em = emf.createEntityManager();
+              String select = "SELECT idSexo FROM Sexo WHERE nombreSexo  = '"+ Nombre + "'";
+              Query query = em.createQuery(select);
+    
+              return Integer.parseInt(query.getSingleResult().toString());
+            
+          }   
+          
           
     /**
      * @param args the command line arguments
@@ -649,6 +903,7 @@ public class FmrClientes extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTable Tbl_Clientes;
+    private javax.swing.JTextField Txt_Activo;
     private javax.swing.JTextField Txt_ApellidoCliente;
     private javax.swing.JTextField Txt_CorreoCliente;
     private javax.swing.JTextField Txt_DireccionCliente;
