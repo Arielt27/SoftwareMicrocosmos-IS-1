@@ -197,6 +197,12 @@ public class FmrClientes extends javax.swing.JFrame {
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_ApellidoCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_ApellidoClienteKeyTyped(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -204,6 +210,12 @@ public class FmrClientes extends javax.swing.JFrame {
         jLabel6.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel6.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel6.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_TelefonoCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_TelefonoClienteKeyTyped(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -224,6 +236,11 @@ public class FmrClientes extends javax.swing.JFrame {
         Txt_CorreoCliente.setMaximumSize(new java.awt.Dimension(180, 20));
         Txt_CorreoCliente.setMinimumSize(new java.awt.Dimension(180, 20));
         Txt_CorreoCliente.setPreferredSize(new java.awt.Dimension(180, 20));
+        Txt_CorreoCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_CorreoClienteKeyTyped(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
         jComboBox1.setMaximumSize(new java.awt.Dimension(180, 20));
@@ -241,6 +258,16 @@ public class FmrClientes extends javax.swing.JFrame {
         Txt_DocumentoCliente.setMaximumSize(new java.awt.Dimension(180, 20));
         Txt_DocumentoCliente.setMinimumSize(new java.awt.Dimension(180, 20));
         Txt_DocumentoCliente.setPreferredSize(new java.awt.Dimension(180, 20));
+        Txt_DocumentoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Txt_DocumentoClienteActionPerformed(evt);
+            }
+        });
+        Txt_DocumentoCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DocumentoClienteKeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -249,6 +276,12 @@ public class FmrClientes extends javax.swing.JFrame {
         jLabel10.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel10.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel10.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_DireccionCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DireccionClienteKeyTyped(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -486,7 +519,19 @@ public class FmrClientes extends javax.swing.JFrame {
             evt.consume();
 
         }
-
+              
+        if (Txt_NombreCliente.getText().length() >= 20){
+        
+        evt.consume();
+        
+        }
+    
+         if((evt.getKeyChar() == 22)){
+        
+            Txt_NombreCliente.setText(Texto.substring(0, 20));
+                    
+        }
+          
         if (Txt_NombreCliente.getText().length() == 1){
 
             char mayuscula = Texto.charAt(0);
@@ -593,10 +638,144 @@ public class FmrClientes extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
          
-        LlenarCliente();
-        LimpiarCliente();        
+        LlenarCliente();        
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    private void Txt_ApellidoClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_ApellidoClienteKeyTyped
+         
+                char c = evt.getKeyChar();
+        String Texto = Txt_ApellidoCliente.getText();
+
+        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
+
+            evt.consume();
+
+        }
+              
+        if (Txt_ApellidoCliente.getText().length() >= 20){
+        
+        evt.consume();
+        
+        }
+    
+         if((evt.getKeyChar() == 22)){
+        
+            Txt_ApellidoCliente.setText(Texto.substring(0, 20));
+                    
+        }
+          
+        if (Txt_ApellidoCliente.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_ApellidoCliente.setText(Texto);
+
+        }
+        
+    }//GEN-LAST:event_Txt_ApellidoClienteKeyTyped
+
+    private void Txt_TelefonoClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_TelefonoClienteKeyTyped
+          
+                
+        char c = evt.getKeyChar();
+        String Texto = Txt_TelefonoCliente.getText();
+       
+        if(c < '0' || c > '9') {
+        
+            //consume no valida los datos
+            evt.consume();
+             
+        
+        }
+        
+        if (Txt_TelefonoCliente.getText().length() == 0 && (c == '0' || c == '4' || c == '5' || c == '6' || c == '1') ){
+       
+        evt.consume();
+        JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2, 3, 7, 8 ó 9");
+        
+        }
+        
+        
+        if (Txt_TelefonoCliente.getText().length() >= 8){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_TelefonoCliente.setText(Texto.substring(0, 8));
+                    
+        }
+        
+    }//GEN-LAST:event_Txt_TelefonoClienteKeyTyped
+
+    private void Txt_DireccionClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DireccionClienteKeyTyped
+         
+        char c = evt.getKeyChar();
+        String Texto = Txt_DireccionCliente.getText();
+        
+          if (Txt_DireccionCliente.getText().length() >= 125){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_DireccionCliente.setText(Texto.substring(0, 125));
+                    
+        }
+        
+    }//GEN-LAST:event_Txt_DireccionClienteKeyTyped
+
+    private void Txt_CorreoClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CorreoClienteKeyTyped
+        
+        char c = evt.getKeyChar();
+        String Texto = Txt_CorreoCliente.getText();
+        
+          if (Txt_CorreoCliente.getText().length() >= 45){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_CorreoCliente.setText(Texto.substring(0, 45));
+                    
+        }        
+        
+    }//GEN-LAST:event_Txt_CorreoClienteKeyTyped
+
+    private void Txt_DocumentoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_DocumentoClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_DocumentoClienteActionPerformed
+
+    private void Txt_DocumentoClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DocumentoClienteKeyTyped
+            
+        char c = evt.getKeyChar();
+        String Texto = Txt_DocumentoCliente.getText();
+        
+         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
+        
+            evt.consume();
+        
+        }
+        
+          if (Txt_DocumentoCliente.getText().length() >= 20){
+        
+            evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_DocumentoCliente.setText(Texto.substring(0, 20));
+                    
+        }
+    }//GEN-LAST:event_Txt_DocumentoClienteKeyTyped
 
     
     private void LimpiarCliente(){
@@ -693,11 +872,40 @@ public class FmrClientes extends javax.swing.JFrame {
                   
        private void LlenarCliente(){
         
-        if(Txt_NombreCliente.getText().length() < 1){
+        if(Txt_NombreCliente.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
         
-        }else{
+        }else if(Txt_ApellidoCliente.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
+        
+        }else if(Txt_TelefonoCliente.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+        
+        }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar un sexo");
+        
+        }else if(Txt_DireccionCliente.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
+        
+        }else if(ValidacionMail(Txt_CorreoCliente.getText())== false){
+        
+        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+        
+        }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+        
+        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoCliente.getText())== false)){
+        
+        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
+        
+        }
+        else{
             
             
             objCliente.setNombreCliente(Txt_NombreCliente.getText());
@@ -714,6 +922,7 @@ public class FmrClientes extends javax.swing.JFrame {
         try {
             daoClientes.create(objCliente);
             ActualizarCliente();
+            LimpiarCliente();
             JOptionPane.showMessageDialog(this, "se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
@@ -859,6 +1068,26 @@ public class FmrClientes extends javax.swing.JFrame {
               return Integer.parseInt(query.getSingleResult().toString());
             
           }   
+          
+          
+          public static boolean ValidacionMail(String Nombre){
+        
+        return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
+        
+        
+        }
+          
+        public static boolean ValidacionDNI(String DNI){
+        
+        return DNI.matches("^[0-1]{1}[0-9]{12}$");
+                
+        }
+       
+       public static boolean ValidacionRTN(String RTN){
+        
+        return RTN.matches("^[0-1]{1}[0-9]{13}$");
+                
+        }
           
           
     /**
