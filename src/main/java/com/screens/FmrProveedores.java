@@ -856,9 +856,29 @@ public class FmrProveedores extends javax.swing.JFrame {
         private void EditarProveedor(){
             
             
-            if(Txt_NombreProveedor.getText().length() < 1){
+        if(Txt_NombreProveedor.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        JOptionPane.showMessageDialog(this, "El Proveedor tiene que contener al menos 3 letras");
+        
+        }else if(Txt_TelefonoProveedor.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+        
+        }else if(ValidacionMail(Txt_CorreoProveedor.getText())== false){
+        
+        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+        
+        }else if(Txt_DireccionProveedor.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
+        
+        }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+        
+        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoProveedor.getText())== false)){
+        
+        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
         
         }else{
                 
