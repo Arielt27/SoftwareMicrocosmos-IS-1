@@ -29,12 +29,12 @@ public class Main {
     EntityManager em = emf.createEntityManager();
     
        
-//       System.out.println(ValidacionTresLetras("Dddewqewewew"));
+//      System.out.println(ValidacionDNI("12345678901234")); //false
 
-//   String select = "SELECT nombreUsuario FROM Usuarios WHERE idUsuario = 1 ";
-//    Query query = em.createQuery(select);
+//   String select = "SELECT idCliente FROM Clientes WHERE apellidoCliente = 'Santamaria' ";
+//   Query query = em.createQuery(select);
 //    
-//   System.out.println(query.getSingleResult());
+//   System.out.println(query.getResultList());
     
     
  //   FmrTalla t = em.find(FmrTalla.class, 1);
@@ -74,25 +74,13 @@ public class Main {
       
        public static boolean ValidacionDNI(String DNI){
         
-        return DNI.matches("^[0-9]{13}$");
-                
-        }
-       
-       public static boolean ValidacionVisa(String visa){
-        
-        return visa.matches("^[0-9]{13}$");
-                
-        }
-      
-       public static boolean ValidacionPasaporte(String Pasaporte){
-        
-        return Pasaporte.matches("^[0-9]{13}$");
+        return DNI.matches("^[0-1]{1}[0-9]{12}$");
                 
         }
        
        public static boolean ValidacionRTN(String RTN){
         
-        return RTN.matches("^[0-9]{14}$");
+        return RTN.matches("^[0-1]{1}[0-9]{13}$");
                 
         }
       

@@ -189,6 +189,12 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_TelefonoProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_TelefonoProveedorKeyTyped(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -196,6 +202,12 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel6.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel6.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel6.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_CorreoProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_CorreoProveedorKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -208,6 +220,11 @@ public class FmrProveedores extends javax.swing.JFrame {
         Txt_DocumentoProveedor.setMaximumSize(new java.awt.Dimension(180, 20));
         Txt_DocumentoProveedor.setMinimumSize(new java.awt.Dimension(180, 20));
         Txt_DocumentoProveedor.setPreferredSize(new java.awt.Dimension(180, 20));
+        Txt_DocumentoProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DocumentoProveedorKeyTyped(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
         jComboBox1.setMaximumSize(new java.awt.Dimension(180, 20));
@@ -221,6 +238,12 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel7.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel7.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel7.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_DireccionProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DireccionProveedorKeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -442,13 +465,20 @@ public class FmrProveedores extends javax.swing.JFrame {
 
         char c = evt.getKeyChar();
         String Texto = Txt_NombreProveedor.getText();
-
-        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-
-            evt.consume();
-
+        
+        if (Txt_NombreProveedor.getText().length() >= 40){
+        
+        evt.consume();
+        
         }
-
+        
+        
+         if((evt.getKeyChar() == 22)){
+        
+            Txt_NombreProveedor.setText(Texto.substring(0, 40));
+                    
+        }
+          
         if (Txt_NombreProveedor.getText().length() == 1){
 
             char mayuscula = Texto.charAt(0);
@@ -551,9 +581,112 @@ public class FmrProveedores extends javax.swing.JFrame {
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
         LlenarProveedor();
-        LimpiarProveedor();
+        
               
     }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    private void Txt_TelefonoProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_TelefonoProveedorKeyTyped
+       
+        
+        char c = evt.getKeyChar();
+        String Texto = Txt_TelefonoProveedor.getText();
+       
+        if(c < '0' || c > '9') {
+        
+            //consume no valida los datos
+            evt.consume();
+             
+        
+        }
+        
+        if (Txt_TelefonoProveedor.getText().length() == 0 && c != '2' ){
+       
+        evt.consume();
+        JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2");
+        
+        }
+        
+        
+        if (Txt_TelefonoProveedor.getText().length() >= 8){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_TelefonoProveedor.setText(Texto.substring(0, 8));
+                    
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_Txt_TelefonoProveedorKeyTyped
+
+    private void Txt_CorreoProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CorreoProveedorKeyTyped
+        
+        char c = evt.getKeyChar();
+        String Texto = Txt_CorreoProveedor.getText();
+        
+          if (Txt_CorreoProveedor.getText().length() >= 45){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_CorreoProveedor.setText(Texto.substring(0, 45));
+                    
+        }
+        
+        
+    }//GEN-LAST:event_Txt_CorreoProveedorKeyTyped
+
+    private void Txt_DireccionProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DireccionProveedorKeyTyped
+         
+        char c = evt.getKeyChar();
+        String Texto = Txt_DireccionProveedor.getText();
+        
+          if (Txt_DireccionProveedor.getText().length() >= 125){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_DireccionProveedor.setText(Texto.substring(0, 125));
+                    
+        }
+        
+    }//GEN-LAST:event_Txt_DireccionProveedorKeyTyped
+
+    private void Txt_DocumentoProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DocumentoProveedorKeyTyped
+         
+        char c = evt.getKeyChar();
+        String Texto = Txt_DocumentoProveedor.getText();
+        
+         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
+        
+            evt.consume();
+        
+        }
+        
+          if (Txt_DocumentoProveedor.getText().length() >= 20){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_DocumentoProveedor.setText(Texto.substring(0, 20));
+                    
+        }
+        
+    }//GEN-LAST:event_Txt_DocumentoProveedorKeyTyped
 
     
     
@@ -672,11 +805,32 @@ public class FmrProveedores extends javax.swing.JFrame {
        
         private void LlenarProveedor(){
         
-        if(Txt_NombreProveedor.getText().length() < 1){
+        if(Txt_NombreProveedor.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        JOptionPane.showMessageDialog(this, "El Proveedor tiene que contener al menos 3 letras");
         
-        }else{
+        }else if(Txt_TelefonoProveedor.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+        
+        }else if(ValidacionMail(Txt_CorreoProveedor.getText())== false){
+        
+        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+        
+        }else if(Txt_DireccionProveedor.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
+        
+        }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+        
+        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoProveedor.getText())== false)){
+        
+        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
+        
+        }
+        else{
             
             objProveedores.setNombreProveedor(Txt_NombreProveedor.getText());
             objProveedores.setTelefonoProveedor(Integer.parseInt(Txt_TelefonoProveedor.getText()));
@@ -690,6 +844,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         try {
             daoProveedores.create(objProveedores);
             ActualizarProveedor();
+            LimpiarProveedor();
             JOptionPane.showMessageDialog(this, "se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
@@ -762,6 +917,25 @@ public class FmrProveedores extends javax.swing.JFrame {
               return Integer.parseInt(query.getSingleResult().toString());
             
           }   
+          
+          public static boolean ValidacionMail(String Nombre){
+        
+        return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
+        
+        
+        }
+          
+        public static boolean ValidacionDNI(String DNI){
+        
+        return DNI.matches("^[0-1]{1}[0-9]{12}$");
+                
+        }
+       
+       public static boolean ValidacionRTN(String RTN){
+        
+        return RTN.matches("^[0-1]{1}[0-9]{13}$");
+                
+        }
     
     /**
      * @param args the command line arguments
