@@ -599,10 +599,10 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         }
         
-        if (Txt_TelefonoProveedor.getText().length() == 0 && c != '2' ){
+        if (Txt_TelefonoProveedor.getText().length() == 0 && (c == '0' || c == '4' || c == '5' || c == '6' || c == '1') ){
        
         evt.consume();
-        JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2");
+        JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2, 3, 7, 8 ó 9");
         
         }
         
@@ -772,7 +772,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             Tbl_Proveedores.setModel(t);
             t.addColumn("Id");
             t.addColumn("Proveedor");
-            t.addColumn("Telefono");
+            t.addColumn("Teléfono");
             t.addColumn("Correo");
             t.addColumn("Dirección");
             t.addColumn("Tipo Documento");

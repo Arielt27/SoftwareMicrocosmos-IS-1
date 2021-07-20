@@ -56,12 +56,12 @@ public class Main {
 //    FmrMenú m = new FmrMenú();
 //    m.show();
 
-//     FmrClientes c = new FmrClientes();
-//     c.show();
+     FmrClientes c = new FmrClientes();
+     c.show();
 
 
-      FmrProveedores P = new FmrProveedores();
-      P.show();
+//     FmrProveedores P = new FmrProveedores();
+//     P.show();
  
     }
     
