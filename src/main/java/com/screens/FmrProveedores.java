@@ -44,6 +44,8 @@ public class FmrProveedores extends javax.swing.JFrame {
         listaTipoDocumento();
         ActualizarProveedor();
         Txt_Activo.setVisible(false);
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
     }
 
     /**
@@ -189,6 +191,11 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_TelefonoProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Txt_TelefonoProveedorActionPerformed(evt);
+            }
+        });
         Txt_TelefonoProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_TelefonoProveedorKeyTyped(evt);
@@ -313,9 +320,9 @@ public class FmrProveedores extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_TelefonoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_DocumentoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_TelefonoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -530,7 +537,8 @@ public class FmrProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
-        
+        Btn_Editar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Proveedores.getValueAt(fila, 0).toString();
         String Nombre = Tbl_Proveedores.getValueAt(fila, 1).toString();
         String Telefono = Tbl_Proveedores.getValueAt(fila, 2).toString();
@@ -687,6 +695,10 @@ public class FmrProveedores extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_Txt_DocumentoProveedorKeyTyped
+
+    private void Txt_TelefonoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_TelefonoProveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_TelefonoProveedorActionPerformed
 
     
     
@@ -905,7 +917,8 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         
         private void LimpiarProveedor(){
-       
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
         Txt_IdProveedor.setText("");
         Txt_NombreProveedor.setText("");
         Txt_TelefonoProveedor.setText("");

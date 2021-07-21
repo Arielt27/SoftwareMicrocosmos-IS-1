@@ -47,6 +47,8 @@ public class FmrClientes extends javax.swing.JFrame {
         listaSexo();
         ActualizarCliente();
         Txt_Activo.setVisible(false);
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
     }
 
     /**
@@ -567,7 +569,8 @@ public class FmrClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
-        
+        Btn_Editar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Clientes.getValueAt(fila, 0).toString();
         String Nombre = Tbl_Clientes.getValueAt(fila, 1).toString();
         String Apellido = Tbl_Clientes.getValueAt(fila, 2).toString();
@@ -779,7 +782,8 @@ public class FmrClientes extends javax.swing.JFrame {
 
     
     private void LimpiarCliente(){
-       
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
         Txt_IdCliente.setText("");
         Txt_NombreCliente.setText("");
         Txt_ApellidoCliente.setText("");
@@ -933,9 +937,37 @@ public class FmrClientes extends javax.swing.JFrame {
             private void EditarCliente(){
             
             
-            if(Txt_NombreCliente.getText().length() < 1){
+            if(Txt_NombreCliente.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
+        
+        }else if(Txt_ApellidoCliente.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
+        
+        }else if(Txt_TelefonoCliente.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+        
+        }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar un sexo");
+        
+        }else if(Txt_DireccionCliente.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
+        
+        }else if(ValidacionMail(Txt_CorreoCliente.getText())== false){
+        
+        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+        
+        }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+        
+        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoCliente.getText())== false)){
+        
+        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
         
         }else{
             

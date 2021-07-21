@@ -247,6 +247,9 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="Txt_DescripcionTipoDocumento">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_DescripcionTipoDocumentoKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>

@@ -250,7 +250,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="Txt_NombreProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="jComboBox1" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabel7" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
@@ -258,9 +258,9 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="Txt_TelefonoProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Txt_DocumentoProveedor" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="jLabel9" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="Txt_DocumentoProveedor" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="Txt_TelefonoProveedor" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -368,6 +368,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_TelefonoProveedor">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Txt_TelefonoProveedorActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_TelefonoProveedorKeyTyped"/>
           </Events>
         </Component>

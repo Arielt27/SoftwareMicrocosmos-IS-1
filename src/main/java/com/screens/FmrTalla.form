@@ -223,6 +223,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="Txt_DescripcionTalla">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_DescripcionTallaKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="Txt_Activo">
               <Properties>

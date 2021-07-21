@@ -12,8 +12,10 @@ import java.awt.Toolkit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +42,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         setIconImage(icon);
         ActualizarTipoDocumento();
         Txt_Activo.setVisible(false);
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
     }
 
     /**
@@ -120,6 +124,12 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         Txt_NombreTipoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_NombreTipoDocumentoKeyTyped(evt);
+            }
+        });
+
+        Txt_DescripcionTipoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DescripcionTipoDocumentoKeyTyped(evt);
             }
         });
 
@@ -392,8 +402,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
         LlenarTipoDocumento();
-        ActualizarTipoDocumento();
-        LimpiarTipoDocumento();
+               
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
@@ -439,7 +448,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
-        
+        Btn_Editar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_TipoDocumento.getValueAt(fila, 0).toString();
         String Nombre = Tbl_TipoDocumento.getValueAt(fila, 1).toString();
         String Descripcion = Tbl_TipoDocumento.getValueAt(fila, 2).toString();
@@ -469,11 +479,11 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                      
           if((evt.getKeyChar() == 22)){
         
-            Txt_NombreTipoDocumento.setText(X.substring(0, 4));
+            Txt_NombreTipoDocumento.setText(X.substring(0, 40));
                     
         }
           
-      if(Txt_NombreTipoDocumento.getText().length() >= 4){
+      if(Txt_NombreTipoDocumento.getText().length() >= 40){
 
              evt.consume();
         
@@ -496,6 +506,34 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_Txt_NombreTipoDocumentoKeyTyped
 
+    private void Txt_DescripcionTipoDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripcionTipoDocumentoKeyTyped
+         
+        char c = evt.getKeyChar();
+        String Texto = Txt_DescripcionTipoDocumento.getText();
+        
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_DescripcionTipoDocumento.setText(Texto.substring(0, 95));
+                    
+        }
+        
+        if (Txt_DescripcionTipoDocumento.getText().length() >= 95){
+        
+        evt.consume();
+        
+        }
+        
+        if (Txt_DescripcionTipoDocumento.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_DescripcionTipoDocumento.setText(Texto);
+
+        }
+        
+    }//GEN-LAST:event_Txt_DescripcionTipoDocumentoKeyTyped
+
   
     
     private void LlenarTipoDocumento(){
@@ -503,6 +541,18 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         if(Txt_NombreTipoDocumento.getText().length() < 3){
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras");
+        
+        }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        
+        }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripcionTipoDocumento.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
         
         }else{
        objTipoDocumento.setNombreTipoDocumento(Txt_NombreTipoDocumento.getText());
@@ -512,6 +562,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         try {
             daoTipoDocumento.create(objTipoDocumento);
             ActualizarTipoDocumento();
+            LimpiarTipoDocumento();
             JOptionPane.showMessageDialog(this, "se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
@@ -580,6 +631,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
        Txt_IdDocumento.setText("");
        Txt_NombreTipoDocumento.setText("");
        Txt_DescripcionTipoDocumento.setText("");
+       Btn_Editar.setEnabled(false);
+       Btn_Activar_Desactivar.setEnabled(false);
        
        }
     
@@ -630,6 +683,54 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
         }
         
+        }
+        
+        
+                public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idTipoDocumento FROM TipoDocumento WHERE nombreTipoDocumento  = '"+Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+             
+        }
+        
+        private static boolean ValidacionTresLetras(String Nombre){
+        
+            
+        if(Nombre.length() >= 3){
+        String Letra1 = Nombre.substring(0, 1);
+        String Letra2 = Nombre.substring(1, 2);
+        String Letra3 = Nombre.substring(2, 3);
+        
+        
+        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
+        
+        return true;
+         
+        }else{
+        
+        return false;
+              
+        }
+        }else{
+        
+            return false;
+        
+        }
+              
         }
     
     

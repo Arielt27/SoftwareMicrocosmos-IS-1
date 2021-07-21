@@ -103,7 +103,29 @@ public class Main {
               
         }
      
-        public static boolean ValidacionDeRepetidos(String Nombre){
+     
+      public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idTalla FROM Talla WHERE nombreTalla  = '"+ Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+             
+        }
+     
+        public static boolean ValidacionDeRepetidos2(String Nombre){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();

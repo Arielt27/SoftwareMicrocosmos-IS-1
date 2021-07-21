@@ -11,8 +11,10 @@ import java.awt.Image;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +41,8 @@ public class FmrTalla extends javax.swing.JFrame {
         setIconImage(icon);
         ActualizarTalla();
         Txt_Activo.setVisible(false);
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
     }
 
     /**
@@ -121,6 +125,12 @@ public class FmrTalla extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Descripción");
         jLabel3.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        Txt_DescripcionTalla.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DescripcionTallaKeyTyped(evt);
+            }
+        });
 
         Txt_Activo.setMinimumSize(new java.awt.Dimension(0, 0));
         Txt_Activo.addActionListener(new java.awt.event.ActionListener() {
@@ -410,7 +420,8 @@ public class FmrTalla extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
-        
+        Btn_Editar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Talla.getValueAt(fila, 0).toString();
         String Nombre = Tbl_Talla.getValueAt(fila, 1).toString();
         String Descripcion = Tbl_Talla.getValueAt(fila, 2).toString();
@@ -433,7 +444,32 @@ public class FmrTalla extends javax.swing.JFrame {
     }//GEN-LAST:event_Tbl_TallaMouseClicked
 
     private void Txt_NombreTallaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreTallaKeyTyped
-              
+
+        
+        char c = evt.getKeyChar();
+        String Texto = Txt_NombreTalla.getText();
+        
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_NombreTalla.setText(Texto.substring(0, 20));
+                    
+        }
+        
+        if (Txt_NombreTalla.getText().length() >= 20){
+        
+        evt.consume();
+        
+        }
+        
+        if (Txt_NombreTalla.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_NombreTalla.setText(Texto);
+
+        }
+        
     }//GEN-LAST:event_Txt_NombreTallaKeyTyped
 
     private void Txt_ActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_ActivoActionPerformed
@@ -442,7 +478,7 @@ public class FmrTalla extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         LlenarTalla();
-        LimpiarTalla();
+        
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
@@ -487,8 +523,37 @@ public class FmrTalla extends javax.swing.JFrame {
 
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
+    private void Txt_DescripcionTallaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripcionTallaKeyTyped
+         
+        char c = evt.getKeyChar();
+        String Texto = Txt_DescripcionTalla.getText();
+        
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_DescripcionTalla.setText(Texto.substring(0, 45));
+                    
+        }
+        
+        if (Txt_DescripcionTalla.getText().length() >= 45){
+        
+        evt.consume();
+        
+        }
+        
+        if (Txt_DescripcionTalla.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_DescripcionTalla.setText(Texto);
+
+        }
+        
+    }//GEN-LAST:event_Txt_DescripcionTallaKeyTyped
+
        private void LimpiarTalla(){
-       
+       Btn_Editar.setEnabled(false);
+       Btn_Activar_Desactivar.setEnabled(false);
        Txt_IdTalla.setText("");
        Txt_NombreTalla.setText("");
        Txt_DescripcionTalla.setText("");
@@ -531,7 +596,20 @@ public class FmrTalla extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
         
-        }else{
+        }else if(ValidacionDeRepetidos(Txt_NombreTalla.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        
+        }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripcionTalla.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+        
+        }
+        else{
        objTalla.setNombreTalla(Txt_NombreTalla.getText());
        objTalla.setDescripcionTalla(Txt_DescripcionTalla.getText());
        objTalla.setActivoTalla(true);
@@ -539,6 +617,7 @@ public class FmrTalla extends javax.swing.JFrame {
         try {
             daoTalla.create(objTalla);
             ActualizarTalla();
+            LimpiarTalla();
             JOptionPane.showMessageDialog(this, "se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
@@ -552,6 +631,18 @@ public class FmrTalla extends javax.swing.JFrame {
         if(Txt_NombreTalla.getText().length() < 1){
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        
+        }else if(ValidacionDeRepetidos(Txt_NombreTalla.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        
+        }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripcionTalla.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
         
         }else{
        objTalla.setIdTalla(Integer.parseInt(Txt_IdTalla.getText()));
@@ -617,6 +708,54 @@ public class FmrTalla extends javax.swing.JFrame {
         
         }
         
+        }
+        
+        
+        public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idTalla FROM Talla WHERE nombreTalla  = '"+Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+             
+        }
+        
+        private static boolean ValidacionTresLetras(String Nombre){
+        
+            
+        if(Nombre.length() >= 3){
+        String Letra1 = Nombre.substring(0, 1);
+        String Letra2 = Nombre.substring(1, 2);
+        String Letra3 = Nombre.substring(2, 3);
+        
+        
+        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
+        
+        return true;
+         
+        }else{
+        
+        return false;
+              
+        }
+        }else{
+        
+            return false;
+        
+        }
+              
         }
     
     /**
