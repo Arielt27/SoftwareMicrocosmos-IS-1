@@ -39,6 +39,8 @@ Estado objEstado = new Estado();
         setIconImage(icon);
   
        Txt_Activo.setVisible(false);
+       Btn_Actualizar.setEnabled(false);
+       Btn_Activar.setEnabled(false);
     }
 
     /**
@@ -92,6 +94,11 @@ Estado objEstado = new Estado();
                 "ID", "Estado", "Descripción"
             }
         ));
+        Tbl_Estado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tbl_EstadoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tbl_Estado);
         if (Tbl_Estado.getColumnModel().getColumnCount() > 0) {
             Tbl_Estado.getColumnModel().getColumn(0).setResizable(false);
@@ -229,6 +236,11 @@ Estado objEstado = new Estado();
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AñadirActionPerformed(evt);
+            }
+        });
 
         Btn_Actualizar.setText("Actualizar");
         Btn_Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -236,6 +248,11 @@ Estado objEstado = new Estado();
         Btn_Actualizar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Actualizar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Actualizar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ActualizarActionPerformed(evt);
+            }
+        });
 
         Btn_Activar.setText("Desactivar");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -243,6 +260,11 @@ Estado objEstado = new Estado();
         Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Activar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Activar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ActivarActionPerformed(evt);
+            }
+        });
 
         Btn_Limpiar.setText("Limpiar");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -250,6 +272,11 @@ Estado objEstado = new Estado();
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_LimpiarActionPerformed(evt);
+            }
+        });
 
         Btn_Regresar.setText("Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -257,6 +284,11 @@ Estado objEstado = new Estado();
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Regresar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Regresar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_RegresarActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -345,7 +377,20 @@ Estado objEstado = new Estado();
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
             Txt_NombreEstado.setText(Texto);
+            
+            
 
+        }
+         if((evt.getKeyChar() == 22)){
+        
+            Txt_NombreEstado.setText(Texto.substring(0, 25));
+                    
+        }
+        
+        if (Txt_NombreEstado.getText().length() >= 25){
+        
+        evt.consume();
+        
         }
 
     }//GEN-LAST:event_Txt_NombreEstadoKeyTyped
@@ -353,6 +398,82 @@ Estado objEstado = new Estado();
     private void Txt_IdEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_IdEstadoKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_IdEstadoKeyTyped
+
+    private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
+       LlenarEstado();
+        
+        
+    }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    private void Btn_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActualizarActionPerformed
+       int fila = Tbl_Estado.getSelectedRow();
+        if(fila == -1){
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
+
+        }else{
+
+            EditarEstado();
+            LimpiarEstado();
+        }
+     
+    }//GEN-LAST:event_Btn_ActualizarActionPerformed
+
+    private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
+         int fila = Tbl_Estado.getSelectedRow();
+        if(fila == -1){
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
+
+        }else{
+
+            EditarEstado();
+            LimpiarEstado();
+        }
+        
+    }//GEN-LAST:event_Btn_ActivarActionPerformed
+
+    private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
+
+        LimpiarEstado();
+    }//GEN-LAST:event_Btn_LimpiarActionPerformed
+
+    private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
+
+        FmrConfiguraciones conf = new FmrConfiguraciones();
+        conf.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Btn_RegresarActionPerformed
+
+    private void Tbl_EstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_EstadoMouseClicked
+
+            
+        int fila = Tbl_Estado.getSelectedRow();
+        if(fila == -1){
+        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        
+        }else{
+        Btn_Actualizar.setEnabled(true);
+        Btn_Activar.setEnabled(true);
+        String Id = Tbl_Estado.getValueAt(fila, 0).toString();
+        String Nombre = Tbl_Estado.getValueAt(fila, 1).toString();
+        String Descripcion = Tbl_Estado.getValueAt(fila, 2).toString();
+        String Activo = Tbl_Estado.getValueAt(fila, 3).toString();
+        Txt_IdEstado.setText(Id);
+        Txt_NombreEstado.setText(Nombre);
+        Txt_DescripcionEstado.setText(Descripcion);
+        Txt_Activo.setText(Activo);
+        
+        if(Activo == "Activado"){
+        Btn_Activar.setText("Desactivar");
+        }else{
+        
+             Btn_Activar.setText("Activar");
+        
+        }
+        }
+    }//GEN-LAST:event_Tbl_EstadoMouseClicked
 
     private void LimpiarEstado(){
        
@@ -430,11 +551,24 @@ Estado objEstado = new Estado();
         private void EditarEstado(){
                   
            
-        if(Txt_NombreEstado.getText().length() < 3){
+        if(Txt_NombreEstado.getText().length() < 5){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 5 letra");
         
-        }else{
+        }else if(ValidacionDeRepetidos(Txt_NombreEstado.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        
+        }else if(ValidacionTresLetras(Txt_NombreEstado.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripcionEstado.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+        
+        }
+        else{
          objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
          objEstado.setNombreEstado(Txt_NombreEstado.getText());
          objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
@@ -477,6 +611,7 @@ Estado objEstado = new Estado();
         try {
             daoEstado.edit(objEstado);
              ActualizarEstado();
+             LimpiarEstado();
             JOptionPane.showMessageDialog(this, "se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);

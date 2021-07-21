@@ -5,17 +5,37 @@
  */
 package com.screens;
 
+import com.clases.AreaLaboral;
+import com.dao.AreaLaboralJpaController;
+import java.awt.Image;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Ariel
  */
 public class FmrAreaLaboral extends javax.swing.JFrame {
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
+AreaLaboralJpaController daoAreaLaboral = new AreaLaboralJpaController();  
+AreaLaboral objAreaLaboral = new AreaLaboral();
     /**
      * Creates new form ÁreaLaboral
      */
     public FmrAreaLaboral() {
         initComponents();
+        this.setLocationRelativeTo(null);
+         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
+        setIconImage(icon);
+        ActualizarAreaLaboral();
+       Txt_Activo.setVisible(false);
     }
 
     /**
@@ -32,20 +52,21 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        Txt_IdDocumento = new javax.swing.JTextField();
+        Txt_IdÁreaLaboral = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        Txt_NombreTipoDocumento = new javax.swing.JTextField();
+        Txt_ÁreaLaboral = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        Txt_DescripcionTipoDocumento = new javax.swing.JTextField();
+        Txt_DescripciónÁreaLaboral = new javax.swing.JTextField();
+        Txt_Activo = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        Btn_Actualizar = new javax.swing.JButton();
+        Btn_Activar = new javax.swing.JButton();
+        Btn_Limpiar = new javax.swing.JButton();
+        Btn_Regresar = new javax.swing.JButton();
+        Btn_Añadir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tbl_AreaLaboral = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Área Laboral - Microcosmos");
@@ -93,7 +114,7 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         jLabel2.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel2.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_IdDocumento.setEditable(false);
+        Txt_IdÁreaLaboral.setEditable(false);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -103,9 +124,9 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         jLabel3.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel3.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_NombreTipoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+        Txt_ÁreaLaboral.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                Txt_NombreTipoDocumentoKeyTyped(evt);
+                Txt_ÁreaLaboralKeyTyped(evt);
             }
         });
 
@@ -122,46 +143,51 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(251, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(248, 248, 248))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_IdDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Txt_IdÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_DescripcionTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Txt_DescripciónÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_NombreTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(196, 196, 196))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(248, 248, 248))))
+                                .addComponent(Txt_ÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(196, 196, 196))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_IdDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_IdÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_NombreTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_ÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_DescripcionTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                    .addComponent(Txt_DescripciónÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.setBackground(new java.awt.Color(60, 63, 65));
@@ -177,40 +203,40 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         jLabel6.setMinimumSize(new java.awt.Dimension(265, 25));
         jLabel6.setPreferredSize(new java.awt.Dimension(265, 25));
 
-        jButton1.setText("Actualizar");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton1.setFocusPainted(false);
-        jButton1.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton1.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton1.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.setText("Actualizar");
+        Btn_Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Actualizar.setFocusPainted(false);
+        Btn_Actualizar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton2.setText("Desactivar");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton2.setFocusPainted(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton2.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton2.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setText("Desactivar");
+        Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Activar.setFocusPainted(false);
+        Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton3.setText("Limpiar");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton3.setFocusPainted(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton3.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton3.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.setText("Limpiar");
+        Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Limpiar.setFocusPainted(false);
+        Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton4.setText("Regresar");
-        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton4.setFocusPainted(false);
-        jButton4.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton4.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton4.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.setText("Regresar");
+        Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Regresar.setFocusPainted(false);
+        Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton5.setText("Añadir");
-        jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton5.setFocusPainted(false);
-        jButton5.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton5.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton5.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.setText("Añadir");
+        Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Añadir.setFocusPainted(false);
+        Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -218,15 +244,15 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -240,15 +266,15 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Actualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Activar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Limpiar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Regresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tbl_AreaLaboral.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -262,14 +288,14 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
                 "ID", "Área Laboral", "Descripción"
             }
         ));
-        jTable1.setMaximumSize(new java.awt.Dimension(800, 140));
-        jTable1.setMinimumSize(new java.awt.Dimension(800, 140));
-        jTable1.setPreferredSize(new java.awt.Dimension(800, 140));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        Tbl_AreaLaboral.setMaximumSize(new java.awt.Dimension(800, 140));
+        Tbl_AreaLaboral.setMinimumSize(new java.awt.Dimension(800, 140));
+        Tbl_AreaLaboral.setPreferredSize(new java.awt.Dimension(800, 140));
+        jScrollPane1.setViewportView(Tbl_AreaLaboral);
+        if (Tbl_AreaLaboral.getColumnModel().getColumnCount() > 0) {
+            Tbl_AreaLaboral.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_AreaLaboral.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_AreaLaboral.getColumnModel().getColumn(2).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -301,10 +327,10 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Txt_NombreTipoDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreTipoDocumentoKeyTyped
+    private void Txt_ÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_ÁreaLaboralKeyTyped
 
         char c = evt.getKeyChar();
-        String Texto = Txt_NombreTipoDocumento.getText();
+        String Texto = Txt_ÁreaLaboral.getText();
 
         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
 
@@ -312,16 +338,167 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
 
         }
 
-        if (Txt_NombreTipoDocumento.getText().length() == 1){
+        if (Txt_ÁreaLaboral.getText().length() == 1){
 
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
-            Txt_NombreTipoDocumento.setText(Texto);
+            Txt_ÁreaLaboral.setText(Texto);
 
         }
 
-    }//GEN-LAST:event_Txt_NombreTipoDocumentoKeyTyped
+    }//GEN-LAST:event_Txt_ÁreaLaboralKeyTyped
 
+    private void LimpiarAreaLaboral(){
+       
+       Txt_IdÁreaLaboral.setText("");
+       Txt_ÁreaLaboral.setText("");
+       Txt_DescripciónÁreaLaboral.setText("");
+       }
+
+ private void ActualizarAreaLaboral(){
+          DefaultTableModel t = new DefaultTableModel();
+            Tbl_AreaLaboral.setModel(t);
+            t.addColumn("Id");
+            t.addColumn("Nombre");
+            t.addColumn("Descripción");
+            t.addColumn("Estado");
+                        
+            List<AreaLaboral> arealaboral = this.daoAreaLaboral.findAreaLaboralEntities();
+               String s;
+                   for(AreaLaboral AreaLaboral : arealaboral){
+                
+                if(AreaLaboral.isActivoAreaLaboral() == true){
+                s = "Activado";
+                }else{
+                s = "Desactivado";
+                }
+                t.addRow(
+                    new Object[]{
+                        AreaLaboral.getIdAreaLaboral(),
+                        AreaLaboral.getNombreAreaLaboral(),
+                        AreaLaboral.getDescripcionAreaLaboral(),
+                        
+                       
+                        s
+                    });
+            }
+
+      }
+ 
+ private void Activar_Desactivar(){
+            int fila = Tbl_AreaLaboral.getSelectedRow();
+        
+              String a = Txt_Activo.getText().toString();
+               if(a.equals("Activado")){
+                   
+        objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
+        objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
+        objAreaLaboral.setDescripcionAreaLaboral(Tbl_AreaLaboral.getValueAt(fila, 2).toString());
+        objAreaLaboral.setActivoAreaLaboral(false);         
+      
+       try {
+            daoAreaLaboral.edit(objAreaLaboral);
+             ActualizarAreaLaboral();
+            Btn_Activar.setText("Activar");
+            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         LimpiarAreaLaboral();
+          }else{  
+         objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
+        objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
+        objAreaLaboral.setDescripcionAreaLaboral(Tbl_AreaLaboral.getValueAt(fila, 2).toString());
+        objAreaLaboral.setActivoAreaLaboral(true); 
+        try {
+           daoAreaLaboral.edit(objAreaLaboral);
+             ActualizarAreaLaboral();
+            Btn_Activar.setText("Desactivar");
+            JOptionPane.showMessageDialog(this, "se activó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        LimpiarAreaLaboral();
+        
+        }
+         
+               
+       
+       }
+       private void EditarAreaLaboral(){
+                  
+           
+        if(Txt_ÁreaLaboral.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
+        
+        }else{
+        objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
+        objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
+        objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
+        
+       
+        try {
+           daoAreaLaboral.edit(objAreaLaboral);
+              ActualizarAreaLaboral();
+            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+       }
+          private void LlenarAreaLaboral(){
+        
+       if(Txt_ÁreaLaboral.getText().length() < 5){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 5 letra");
+        
+        }else{
+       
+         objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
+         objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
+         objAreaLaboral.setActivoAreaLaboral(true);
+        
+        try {
+            daoAreaLaboral.edit(objAreaLaboral);
+              ActualizarAreaLaboral();
+            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       }   
+       }     
+          
+      private static boolean ValidacionTresLetras(String Nombre){
+        
+            
+        if(Nombre.length() >= 3){
+        String Letra1 = Nombre.substring(0, 1);
+        String Letra2 = Nombre.substring(1, 2);
+        String Letra3 = Nombre.substring(2, 3);
+        
+        
+        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
+        
+        return true;
+         
+        }else{
+        
+        return false;
+              
+        }
+        }else{
+        
+            return false;
+        
+        }
+              
+        }    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -361,14 +538,16 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Txt_DescripcionTipoDocumento;
-    private javax.swing.JTextField Txt_IdDocumento;
-    private javax.swing.JTextField Txt_NombreTipoDocumento;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton Btn_Activar;
+    private javax.swing.JButton Btn_Actualizar;
+    private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Limpiar;
+    private javax.swing.JButton Btn_Regresar;
+    private javax.swing.JTable Tbl_AreaLaboral;
+    private javax.swing.JTextField Txt_Activo;
+    private javax.swing.JTextField Txt_DescripciónÁreaLaboral;
+    private javax.swing.JTextField Txt_IdÁreaLaboral;
+    private javax.swing.JTextField Txt_ÁreaLaboral;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -379,6 +558,5 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
