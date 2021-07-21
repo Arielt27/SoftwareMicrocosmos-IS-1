@@ -5,18 +5,40 @@
  */
 package com.screens;
 
+import com.clases.Estado;
+import com.dao.EstadoJpaController;
+import static com.screens.FmrTalla.ValidacionDeRepetidos;
+import java.awt.Image;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author david
  */
 public class FmrEstado extends javax.swing.JFrame {
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
+EstadoJpaController daoEstado = new EstadoJpaController();  
+Estado objEstado = new Estado();
     /**
      * Creates new form Estado
      */
     public FmrEstado() {
         initComponents();
         this.setLocationRelativeTo(null);
+         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
+        setIconImage(icon);
+  
+       Txt_Activo.setVisible(false);
     }
 
     /**
@@ -29,7 +51,7 @@ public class FmrEstado extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tbl_Estado = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -37,15 +59,16 @@ public class FmrEstado extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        Txt_DescripcionTipoDocumento = new javax.swing.JTextField();
-        Txt_NombreTipoDocumento = new javax.swing.JTextField();
-        Txt_NombreTipoDocumento1 = new javax.swing.JTextField();
+        Txt_DescripcionEstado = new javax.swing.JTextField();
+        Txt_NombreEstado = new javax.swing.JTextField();
+        Txt_IdEstado = new javax.swing.JTextField();
+        Txt_Activo = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        Btn_Añadir = new javax.swing.JButton();
+        Btn_Actualizar = new javax.swing.JButton();
+        Btn_Activar = new javax.swing.JButton();
+        Btn_Limpiar = new javax.swing.JButton();
+        Btn_Regresar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -55,7 +78,7 @@ public class FmrEstado extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tbl_Estado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -69,11 +92,11 @@ public class FmrEstado extends javax.swing.JFrame {
                 "ID", "Estado", "Descripción"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane1.setViewportView(Tbl_Estado);
+        if (Tbl_Estado.getColumnModel().getColumnCount() > 0) {
+            Tbl_Estado.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Estado.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Estado.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -133,16 +156,16 @@ public class FmrEstado extends javax.swing.JFrame {
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_NombreTipoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+        Txt_NombreEstado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                Txt_NombreTipoDocumentoKeyTyped(evt);
+                Txt_NombreEstadoKeyTyped(evt);
             }
         });
 
-        Txt_NombreTipoDocumento1.setEditable(false);
-        Txt_NombreTipoDocumento1.addKeyListener(new java.awt.event.KeyAdapter() {
+        Txt_IdEstado.setEditable(false);
+        Txt_IdEstado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                Txt_NombreTipoDocumento1KeyTyped(evt);
+                Txt_IdEstadoKeyTyped(evt);
             }
         });
 
@@ -151,7 +174,7 @@ public class FmrEstado extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,73 +182,81 @@ public class FmrEstado extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Txt_DescripcionTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_NombreTipoDocumento1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_NombreTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_DescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_IdEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_NombreEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(196, 196, 196))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_NombreTipoDocumento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_NombreTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_DescripcionTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_IdEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_NombreEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_DescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
         jPanel3.setMaximumSize(new java.awt.Dimension(800, 130));
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 130));
 
-        jButton5.setText("Añadir");
-        jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton5.setFocusPainted(false);
-        jButton5.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton5.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton5.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.setText("Añadir");
+        Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Añadir.setFocusPainted(false);
+        Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton1.setText("Actualizar");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton1.setFocusPainted(false);
-        jButton1.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton1.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton1.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.setText("Actualizar");
+        Btn_Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Actualizar.setFocusPainted(false);
+        Btn_Actualizar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton2.setText("Desactivar");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton2.setFocusPainted(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton2.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton2.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setText("Desactivar");
+        Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Activar.setFocusPainted(false);
+        Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton3.setText("Limpiar");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton3.setFocusPainted(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton3.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton3.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.setText("Limpiar");
+        Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Limpiar.setFocusPainted(false);
+        Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton4.setText("Regresar");
-        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton4.setFocusPainted(false);
-        jButton4.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton4.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton4.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.setText("Regresar");
+        Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Regresar.setFocusPainted(false);
+        Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.setPreferredSize(new java.awt.Dimension(120, 50));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -241,15 +272,15 @@ public class FmrEstado extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Actualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -263,11 +294,11 @@ public class FmrEstado extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Actualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Activar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Limpiar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Regresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -298,10 +329,10 @@ public class FmrEstado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Txt_NombreTipoDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreTipoDocumentoKeyTyped
+    private void Txt_NombreEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreEstadoKeyTyped
 
         char c = evt.getKeyChar();
-        String Texto = Txt_NombreTipoDocumento.getText();
+        String Texto = Txt_NombreEstado.getText();
 
         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
 
@@ -309,20 +340,198 @@ public class FmrEstado extends javax.swing.JFrame {
 
         }
 
-        if (Txt_NombreTipoDocumento.getText().length() == 1){
+        if (Txt_NombreEstado.getText().length() == 1){
 
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
-            Txt_NombreTipoDocumento.setText(Texto);
+            Txt_NombreEstado.setText(Texto);
 
         }
 
-    }//GEN-LAST:event_Txt_NombreTipoDocumentoKeyTyped
+    }//GEN-LAST:event_Txt_NombreEstadoKeyTyped
 
-    private void Txt_NombreTipoDocumento1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreTipoDocumento1KeyTyped
+    private void Txt_IdEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_IdEstadoKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_Txt_NombreTipoDocumento1KeyTyped
+    }//GEN-LAST:event_Txt_IdEstadoKeyTyped
 
+    private void LimpiarEstado(){
+       
+       Txt_IdEstado.setText("");
+       Txt_NombreEstado.setText("");
+       Txt_DescripcionEstado.setText("");
+       }
+      private void ActualizarEstado(){
+          DefaultTableModel t = new DefaultTableModel();
+            Tbl_Estado.setModel(t);
+            t.addColumn("Id");
+            t.addColumn("Nombre");
+            t.addColumn("Descripción");
+            t.addColumn("Estado");
+                        
+            List<Estado> estado = this.daoEstado.findEstadoEntities();
+               String s;
+                   for(Estado Estado : estado){
+                
+                if(Estado.isActivoEstado() == true){
+                s = "Activado";
+                }else{
+                s = "Desactivado";
+                }
+                t.addRow(
+                    new Object[]{
+                        Estado.getIdEstado(),
+                        Estado.getNombreEstado(),
+                        Estado.getDescripcionEstado(),
+                        s
+                    });
+            }
+
+      }
+      
+       private void Activar_Desactivar(){
+            int fila = Tbl_Estado.getSelectedRow();
+        
+              String a = Txt_Activo.getText().toString();
+               if(a.equals("Activado")){
+        objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
+        objEstado.setNombreEstado((Tbl_Estado.getValueAt(fila, 1).toString()));
+        objEstado.setDescripcionEstado(Tbl_Estado.getValueAt(fila, 2).toString());
+        objEstado.setActivoEstado(false);
+       try {
+            daoEstado.edit(objEstado);
+             ActualizarEstado();
+            Btn_Activar.setText("Activar");
+            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         LimpiarEstado();
+          }else{  
+         objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
+        objEstado.setNombreEstado((Tbl_Estado.getValueAt(fila, 1).toString()));
+        objEstado.setDescripcionEstado(Tbl_Estado.getValueAt(fila, 2).toString());
+        objEstado.setActivoEstado(true);
+        try {
+            daoEstado.edit(objEstado);
+             ActualizarEstado();
+            Btn_Activar.setText("Desactivar");
+            JOptionPane.showMessageDialog(this, "se activó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        LimpiarEstado();
+        
+        }
+         
+               
+       
+       }
+        private void EditarEstado(){
+                  
+           
+        if(Txt_NombreEstado.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
+        
+        }else{
+         objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
+         objEstado.setNombreEstado(Txt_NombreEstado.getText());
+         objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
+       
+        try {
+            daoEstado.edit(objEstado);
+             ActualizarEstado();
+            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+       }
+           
+           private void LlenarEstado(){
+        
+       if(Txt_NombreEstado.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
+        
+        }else if(ValidacionTresLetras(Txt_NombreEstado.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripcionEstado.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+        
+        }else if(ValidacionDeRepetidos(Txt_NombreEstado.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        
+        }
+       else{
+       
+         objEstado.setNombreEstado(Txt_NombreEstado.getText());
+         objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
+         objEstado.setActivoEstado(true);
+        
+        try {
+            daoEstado.edit(objEstado);
+             ActualizarEstado();
+            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       }   
+       }  
+       
+           public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT  idEstado FROM Estado WHERE nombreEstado = '"+Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+             
+        }
+        
+        private static boolean ValidacionTresLetras(String Nombre){
+        
+            
+        if(Nombre.length() >= 3){
+        String Letra1 = Nombre.substring(0, 1);
+        String Letra2 = Nombre.substring(1, 2);
+        String Letra3 = Nombre.substring(2, 3);
+        
+        
+        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
+        
+        return true;
+         
+        }else{
+        
+        return false;
+              
+        }
+        }else{
+        
+            return false;
+        
+        }
+              
+        }
+           
+           
     /**
      * @param args the command line arguments
      */
@@ -365,15 +574,18 @@ public class FmrEstado extends javax.swing.JFrame {
         });
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Txt_DescripcionTipoDocumento;
-    private javax.swing.JTextField Txt_NombreTipoDocumento;
-    private javax.swing.JTextField Txt_NombreTipoDocumento1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton Btn_Activar;
+    private javax.swing.JButton Btn_Actualizar;
+    private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Limpiar;
+    private javax.swing.JButton Btn_Regresar;
+    private javax.swing.JTable Tbl_Estado;
+    private javax.swing.JTextField Txt_Activo;
+    private javax.swing.JTextField Txt_DescripcionEstado;
+    private javax.swing.JTextField Txt_IdEstado;
+    private javax.swing.JTextField Txt_NombreEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -384,6 +596,5 @@ public class FmrEstado extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
