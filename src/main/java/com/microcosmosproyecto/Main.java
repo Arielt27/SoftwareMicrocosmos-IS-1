@@ -5,6 +5,7 @@
  */
 package com.microcosmosproyecto;
 
+import com.screens.FmrArticulos;
 import com.screens.FmrClientes;
 import com.screens.FmrLogin;
 import com.screens.FmrMenú;
@@ -22,9 +23,9 @@ import javax.persistence.Query;
 public class Main {
     
     public static void main(String[] args){
+        
+        
     
-//    System.out.println("Hola");
-//    
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     EntityManager em = emf.createEntityManager();
     
@@ -50,18 +51,20 @@ public class Main {
  // FmrTipoDocumento D = new FmrTipoDocumento();
  // D.show();
 
-//  FmrLogin L = new FmrLogin();
-//  L.show();
+  FmrLogin L = new FmrLogin();
+  L.show();
     
-//    FmrMenú m = new FmrMenú();
-//    m.show();
+//  FmrMenú m = new FmrMenú();
+//  m.show();
 
-     FmrClientes c = new FmrClientes();
-     c.show();
+//  FmrClientes c = new FmrClientes();
+//  c.show();
 
+//  FmrArticulos Art = new FmrArticulos();
+//  Art.show();
 
-//     FmrProveedores P = new FmrProveedores();
-//     P.show();
+//  FmrProveedores P = new FmrProveedores();
+//  P.show();
  
     }
     
@@ -142,8 +145,6 @@ public class Main {
              
              return true;
                 
-             }
-                   
-       }
-         
+             }                   
+       }         
 }

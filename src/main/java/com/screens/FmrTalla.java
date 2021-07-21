@@ -704,8 +704,7 @@ public class FmrTalla extends javax.swing.JFrame {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        LimpiarTalla();
-        
+        LimpiarTalla();        
         }
         
         }

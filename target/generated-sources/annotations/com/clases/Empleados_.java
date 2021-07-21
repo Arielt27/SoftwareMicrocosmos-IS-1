@@ -1,5 +1,6 @@
 package com.clases;
 
+import java.sql.Timestamp;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -8,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Empleados.class)
 public abstract class Empleados_ {
 
-	public static volatile SingularAttribute<Empleados, String> fechaDeNacimiento;
+	public static volatile SingularAttribute<Empleados, Timestamp> fechaDeNacimiento;
 	public static volatile SingularAttribute<Empleados, Integer> idSexo;
 	public static volatile SingularAttribute<Empleados, Boolean> activoEmpleado;
 	public static volatile SingularAttribute<Empleados, String> apellidoEmpleado;
