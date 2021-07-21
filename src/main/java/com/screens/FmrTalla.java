@@ -126,6 +126,11 @@ public class FmrTalla extends javax.swing.JFrame {
         jLabel3.setText("Descripción");
         jLabel3.setPreferredSize(new java.awt.Dimension(80, 20));
 
+        Txt_DescripcionTalla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Txt_DescripcionTallaActionPerformed(evt);
+            }
+        });
         Txt_DescripcionTalla.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_DescripcionTallaKeyTyped(evt);
@@ -550,6 +555,10 @@ public class FmrTalla extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_Txt_DescripcionTallaKeyTyped
+
+    private void Txt_DescripcionTallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_DescripcionTallaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_DescripcionTallaActionPerformed
 
        private void LimpiarTalla(){
        Btn_Editar.setEnabled(false);

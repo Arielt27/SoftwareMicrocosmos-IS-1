@@ -138,6 +138,17 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_DescripciónÁreaLaboral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Txt_DescripciónÁreaLaboralActionPerformed(evt);
+            }
+        });
+        Txt_DescripciónÁreaLaboral.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DescripciónÁreaLaboralKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -209,6 +220,11 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         Btn_Actualizar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Actualizar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Actualizar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ActualizarActionPerformed(evt);
+            }
+        });
 
         Btn_Activar.setText("Desactivar");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -216,6 +232,11 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Activar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Activar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ActivarActionPerformed(evt);
+            }
+        });
 
         Btn_Limpiar.setText("Limpiar");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -223,6 +244,11 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_LimpiarActionPerformed(evt);
+            }
+        });
 
         Btn_Regresar.setText("Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -230,6 +256,11 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Regresar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Regresar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_RegresarActionPerformed(evt);
+            }
+        });
 
         Btn_Añadir.setText("Añadir");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -237,6 +268,11 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AñadirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -291,6 +327,11 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         Tbl_AreaLaboral.setMaximumSize(new java.awt.Dimension(800, 140));
         Tbl_AreaLaboral.setMinimumSize(new java.awt.Dimension(800, 140));
         Tbl_AreaLaboral.setPreferredSize(new java.awt.Dimension(800, 140));
+        Tbl_AreaLaboral.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tbl_AreaLaboralMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tbl_AreaLaboral);
         if (Tbl_AreaLaboral.getColumnModel().getColumnCount() > 0) {
             Tbl_AreaLaboral.getColumnModel().getColumn(0).setResizable(false);
@@ -345,8 +386,125 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             Txt_ÁreaLaboral.setText(Texto);
 
         }
+          if((evt.getKeyChar() == 22)){
+        
+            Txt_ÁreaLaboral.setText(Texto.substring(0, 25));
+                    
+        }
+        
+        if (Txt_ÁreaLaboral.getText().length() >= 25){
+        
+        evt.consume();
+        
+        }
 
     }//GEN-LAST:event_Txt_ÁreaLaboralKeyTyped
+
+    private void Txt_DescripciónÁreaLaboralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_DescripciónÁreaLaboralActionPerformed
+
+    private void Txt_DescripciónÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralKeyTyped
+
+         char c = evt.getKeyChar();
+        String Texto = Txt_DescripciónÁreaLaboral.getText();
+        
+        
+        if((evt.getKeyChar() == 40)){
+        
+             Txt_DescripciónÁreaLaboral.setText(Texto.substring(0, 45));
+                    
+        }
+        
+        if ( Txt_DescripciónÁreaLaboral.getText().length() >= 45){
+        
+        evt.consume();
+        
+        }
+        
+        if ( Txt_DescripciónÁreaLaboral.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_DescripciónÁreaLaboral.setText(Texto);
+
+        }
+    }//GEN-LAST:event_Txt_DescripciónÁreaLaboralKeyTyped
+
+    private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
+
+        LlenarAreaLaboral();
+    }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    private void Btn_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActualizarActionPerformed
+
+        int fila = Tbl_AreaLaboral.getSelectedRow();
+        if(fila == -1){
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
+
+        }else{
+
+            EditarAreaLaboral();
+            LimpiarAreaLaboral();
+        }
+    }//GEN-LAST:event_Btn_ActualizarActionPerformed
+
+    private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
+        int fila = Tbl_AreaLaboral.getSelectedRow();
+
+        if(fila != -1){
+
+            Activar_Desactivar();
+
+        }else{
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
+
+        }
+        
+    }//GEN-LAST:event_Btn_ActivarActionPerformed
+
+    private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
+      LimpiarAreaLaboral();
+        
+    }//GEN-LAST:event_Btn_LimpiarActionPerformed
+
+    private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
+
+         FmrConfiguraciones conf = new FmrConfiguraciones();
+        conf.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Btn_RegresarActionPerformed
+
+    private void Tbl_AreaLaboralMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_AreaLaboralMouseClicked
+
+        int fila = Tbl_AreaLaboral.getSelectedRow();
+        if(fila == -1){
+        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        
+        }else{
+        Btn_Actualizar.setEnabled(true);
+        Btn_Activar.setEnabled(true);
+        String Id = Tbl_AreaLaboral.getValueAt(fila, 0).toString();
+        String Nombre = Tbl_AreaLaboral.getValueAt(fila, 1).toString();
+        String Descripcion = Tbl_AreaLaboral.getValueAt(fila, 2).toString();
+        String Activo = Tbl_AreaLaboral.getValueAt(fila, 3).toString();
+         Txt_IdÁreaLaboral.setText(Id);
+        Txt_ÁreaLaboral.setText(Nombre);
+        Txt_DescripciónÁreaLaboral.setText(Descripcion);
+        Txt_Activo.setText(Activo);
+        
+        if(Activo == "Activado"){
+        Btn_Activar.setText("Desactivar");
+        }else{
+        
+             Btn_Activar.setText("Activar");
+        
+        }
+        }
+    }//GEN-LAST:event_Tbl_AreaLaboralMouseClicked
 
     private void LimpiarAreaLaboral(){
        
@@ -433,7 +591,16 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
         
-        }else{
+        }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripciónÁreaLaboral.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+        
+        }
+        else{
         objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
         objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
         objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
@@ -454,7 +621,16 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 5 letra");
         
-        }else{
+        }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripciónÁreaLaboral.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+        
+        }
+       else{
        
          objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
          objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
