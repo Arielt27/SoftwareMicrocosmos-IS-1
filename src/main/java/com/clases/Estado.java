@@ -56,8 +56,5 @@ public class Estado implements Serializable {
 
     public void setActivoEstado(boolean activoEstado) {
         this.activoEstado = activoEstado;
-    }
-    
-    
-    
+    } 
 }

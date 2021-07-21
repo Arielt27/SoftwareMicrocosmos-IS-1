@@ -11,6 +11,7 @@ public abstract class Estado_ {
 	public static volatile SingularAttribute<Estado, String> descripcionEstado;
 	public static volatile SingularAttribute<Estado, Integer> idEstado;
 	public static volatile SingularAttribute<Estado, String> nombreEstado;
+	public static volatile SingularAttribute<Estado, Boolean> activoEstado;
 
 }
 

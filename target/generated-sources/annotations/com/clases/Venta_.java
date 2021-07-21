@@ -1,5 +1,6 @@
 package com.clases;
 
+import java.sql.Timestamp;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -16,7 +17,7 @@ public abstract class Venta_ {
 	public static volatile SingularAttribute<Venta, Double> subTotal;
 	public static volatile SingularAttribute<Venta, Integer> idEmpleados;
 	public static volatile SingularAttribute<Venta, Integer> idVenta;
-	public static volatile SingularAttribute<Venta, String> fechaVenta;
+	public static volatile SingularAttribute<Venta, Timestamp> fechaVenta;
 
 }
 
