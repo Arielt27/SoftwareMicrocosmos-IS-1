@@ -370,8 +370,11 @@ TipoDePago objTipoDePago = new TipoDePago();
         String Texto = Txt_TipoPago.getText();
 
         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-
-            evt.consume();
+              if(c==32){
+                  
+              }else{
+               evt.consume();   
+              }
 
         }
         
