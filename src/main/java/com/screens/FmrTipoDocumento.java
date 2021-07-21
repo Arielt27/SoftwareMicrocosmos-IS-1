@@ -610,6 +610,18 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras");
         
+        }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        
+        }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+        
+        }else if(Txt_DescripcionTipoDocumento.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+        
         }else{
        objTipoDocumento.setIdTipoDocumento(Integer.parseInt(Txt_IdDocumento.getText()));
        objTipoDocumento.setNombreTipoDocumento(Txt_NombreTipoDocumento.getText());
