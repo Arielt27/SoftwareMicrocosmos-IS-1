@@ -36,6 +36,9 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         setIconImage(icon);
         ActualizarAreaLaboral();
        Txt_Activo.setVisible(false);
+       Btn_Actualizar.setEnabled(false);
+       Btn_Activar.setEnabled(false);
+    
     }
 
     /**
@@ -374,8 +377,12 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         String Texto = Txt_ÁreaLaboral.getText();
 
         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-
-            evt.consume();
+              if(c==32){
+                  
+              }else{
+               evt.consume();   
+              }
+            
 
         }
 
@@ -507,7 +514,9 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
     }//GEN-LAST:event_Tbl_AreaLaboralMouseClicked
 
     private void LimpiarAreaLaboral(){
-       
+       Btn_Actualizar.setEnabled(false);
+       Btn_Activar.setEnabled(false);
+    
        Txt_IdÁreaLaboral.setText("");
        Txt_ÁreaLaboral.setText("");
        Txt_DescripciónÁreaLaboral.setText("");

@@ -40,6 +40,10 @@ TipoDePago objTipoDePago = new TipoDePago();
         setIconImage(icon);
         ActualizarTipoPago();
         Txt_Activo.setVisible(false);
+        Btn_Actualizar.setEnabled(false);
+       Btn_Activar.setEnabled(false);
+    
+        
     }
 
     /**
@@ -540,7 +544,9 @@ TipoDePago objTipoDePago = new TipoDePago();
     }
     
     private void LimpiarTipoPago(){
-       
+       Btn_Actualizar.setEnabled(false);
+       Btn_Activar.setEnabled(false);
+    
        Txt_IdTipoPago.setText("");
        Txt_TipoPago.setText("");
        Txt_DescripcionTipoPago.setText("");

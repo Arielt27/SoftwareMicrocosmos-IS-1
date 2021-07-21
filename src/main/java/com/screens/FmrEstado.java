@@ -41,6 +41,7 @@ Estado objEstado = new Estado();
        Txt_Activo.setVisible(false);
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
+        ActualizarEstado();
     }
 
     /**
@@ -162,6 +163,12 @@ Estado objEstado = new Estado();
         jLabel4.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_DescripcionEstado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DescripcionEstadoKeyTyped(evt);
+            }
+        });
 
         Txt_NombreEstado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -475,8 +482,37 @@ Estado objEstado = new Estado();
         }
     }//GEN-LAST:event_Tbl_EstadoMouseClicked
 
+    private void Txt_DescripcionEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripcionEstadoKeyTyped
+
+         char c = evt.getKeyChar();
+        String Texto = Txt_DescripcionEstado.getText();
+        
+        
+        if((evt.getKeyChar() == 40)){
+        
+             Txt_DescripcionEstado.setText(Texto.substring(0, 45));
+                    
+        }
+        
+        if ( Txt_DescripcionEstado.getText().length() >= 45){
+        
+        evt.consume();
+        
+        }
+        
+        if ( Txt_DescripcionEstado.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_DescripcionEstado.setText(Texto);
+
+        }
+    }//GEN-LAST:event_Txt_DescripcionEstadoKeyTyped
+
     private void LimpiarEstado(){
-       
+       Btn_Actualizar.setEnabled(false);
+       Btn_Activar.setEnabled(false);
+    
        Txt_IdEstado.setText("");
        Txt_NombreEstado.setText("");
        Txt_DescripcionEstado.setText("");
