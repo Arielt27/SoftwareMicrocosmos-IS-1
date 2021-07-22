@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Software de Facturación e Inventario desarrollado por el Grupo#1 
+ * para la clase de Ingeniería de Software 1. 
  */
 package com.microcosmosproyecto;
 
@@ -17,8 +16,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-
-
+/**
+ * @author Ariel Torres
+ * @author David Escobar
+ * @author Christian Castro
+ */
 
 public class Main {
     
@@ -30,7 +32,7 @@ public class Main {
     EntityManager em = emf.createEntityManager();
     
        
-//      System.out.println(ValidacionDNI("12345678901234")); //false
+//   System.out.println(ValidacionDNI("12345678901234")); //false
 
 //   String select = "SELECT idCliente FROM Clientes WHERE apellidoCliente = 'Santamaria' ";
 //   Query query = em.createQuery(select);
@@ -38,21 +40,21 @@ public class Main {
 //   System.out.println(query.getResultList());
     
     
- //   FmrTalla t = em.find(FmrTalla.class, 1);
-   // System.out.println(t.getIdTalla());
- //   System.out.println(t.getNombreTalla());
-   // System.out.println(t.getDescripcionTalla());
-   // System.out.println(t.isActivoTalla());
+//   FmrTalla t = em.find(FmrTalla.class, 1);
+//   System.out.println(t.getIdTalla());
+//   System.out.println(t.getNombreTalla());
+//   System.out.println(t.getDescripcionTalla());
+//   System.out.println(t.isActivoTalla());
 
 
- // FmrTalla t = new FmrTalla();
- // t.show();
+//   FmrTalla t = new FmrTalla();
+//   t.show();
 
- // FmrTipoDocumento D = new FmrTipoDocumento();
- // D.show();
+//   FmrTipoDocumento D = new FmrTipoDocumento();
+//   D.show();
 
-  FmrLogin L = new FmrLogin();
-  L.show();
+//  FmrLogin L = new FmrLogin();
+//  L.show();
     
 //  FmrMenú m = new FmrMenú();
 //  m.show();
@@ -60,8 +62,8 @@ public class Main {
 //  FmrClientes c = new FmrClientes();
 //  c.show();
 
-//  FmrArticulos Art = new FmrArticulos();
-//  Art.show();
+  FmrArticulos Art = new FmrArticulos();
+  Art.show();
 
 //  FmrProveedores P = new FmrProveedores();
 //  P.show();

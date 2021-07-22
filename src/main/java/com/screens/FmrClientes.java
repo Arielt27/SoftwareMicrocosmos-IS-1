@@ -811,7 +811,7 @@ public class FmrClientes extends javax.swing.JFrame {
              jComboBox1.addItem(lista);
                                 
                     };
-  }  
+    }  
     
        public void listaSexo(){
   

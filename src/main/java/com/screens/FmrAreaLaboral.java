@@ -413,7 +413,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
 
     private void Txt_DescripciónÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralKeyTyped
 
-         char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         String Texto = Txt_DescripciónÁreaLaboral.getText();
         
         

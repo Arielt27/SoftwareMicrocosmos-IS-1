@@ -1,15 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Software de Facturación e Inventario desarrollado por el Grupo#1 
+ * para la clase de Ingeniería de Software 1. 
  */
 package com.screens;
 
 
 //Imports
 import com.clases.Articulo;
+import com.clases.Articulo_SeccionTienda;
+import com.clases.Talla;
+import com.clases.SeccionTienda;
 import com.dao.ArticuloJpaController;
+import com.dao.Articulo_SeccionTiendaJpaController;
+import com.dao.SeccionTiendaJpaController;
+import com.dao.TallaJpaController;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +33,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FmrArticulos extends javax.swing.JFrame {
 
-    /*Creando EntityManager
+    //Creando EntityManager
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     //Declarando drivers
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
-    Articulo Art = new Articulo();*/
+    Articulo Art = new Articulo();
+    
+    TallaJpaController daoTalla = new TallaJpaController();
+    Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();
+    
+    Articulo objArticulo = new Articulo();
+    Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
     
     
     /**
@@ -43,6 +56,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         //Icono
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
+        listaTalla();
         Txt_Activo.setVisible(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
@@ -70,7 +84,6 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         Txt_DescripcionArticulo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        Txt_PrecioArticulo = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         Txt_StockMin = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -79,9 +92,10 @@ public class FmrArticulos extends javax.swing.JFrame {
         Txt_StockMax = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        ComboTalla = new javax.swing.JComboBox<>();
+        ComboSeccion = new javax.swing.JComboBox<>();
         Txt_Activo = new javax.swing.JTextField();
+        Txt_PrecioArticulo = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -108,7 +122,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Artículo", "Descripción", "Stock Actual", "Stock Mínimo", "Stock Máximo", "Precio", "Talla", "Sección"
+                "ID", "Artículo", "Precio", "Descripción", "Talla", "Stock Actual", "Stock Mínimo", "Stock Máximo", "Sección"
             }
         ));
         jScrollPane1.setViewportView(Tbl_Articulo);
@@ -189,6 +203,12 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_DescripcionArticulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DescripcionArticuloKeyTyped(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -205,6 +225,12 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel10.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel10.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_StockMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_StockMinKeyTyped(evt);
+            }
+        });
+
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -213,6 +239,8 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel9.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel9.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_StockAct.setEditable(false);
+
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -220,6 +248,12 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel12.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel12.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel12.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_StockMax.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_StockMaxKeyTyped(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -237,14 +271,21 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel7.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel7.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Talla" }));
+        ComboTalla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Talla" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Sección" }));
+        ComboSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Sección" }));
 
         Txt_Activo.setMinimumSize(new java.awt.Dimension(0, 0));
         Txt_Activo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Txt_ActivoActionPerformed(evt);
+            }
+        });
+
+        Txt_PrecioArticulo.setPreferredSize(new java.awt.Dimension(60, 20));
+        Txt_PrecioArticulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_PrecioArticuloKeyTyped(evt);
             }
         });
 
@@ -280,7 +321,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jComboBox1, 0, 150, Short.MAX_VALUE)
+                            .addComponent(ComboTalla, 0, 150, Short.MAX_VALUE)
                             .addComponent(Txt_DescripcionArticulo))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -294,7 +335,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                     .addComponent(Txt_StockMin)
                     .addComponent(Txt_StockAct)
                     .addComponent(Txt_StockMax)
-                    .addComponent(jComboBox2, 0, 150, Short.MAX_VALUE))
+                    .addComponent(ComboSeccion, 0, 150, Short.MAX_VALUE))
                 .addGap(35, 35, 35))
         );
         jPanel2Layout.setVerticalGroup(
@@ -319,19 +360,19 @@ public class FmrArticulos extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_PrecioArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_StockMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_StockMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_PrecioArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ComboSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ComboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8))
                     .addComponent(Txt_Activo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
@@ -346,6 +387,11 @@ public class FmrArticulos extends javax.swing.JFrame {
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AñadirActionPerformed(evt);
+            }
+        });
 
         Btn_Editar.setText("Actualizar");
         Btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -353,6 +399,11 @@ public class FmrArticulos extends javax.swing.JFrame {
         Btn_Editar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Editar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Editar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_EditarActionPerformed(evt);
+            }
+        });
 
         Btn_Activar_Desactivar.setText("Desactivar");
         Btn_Activar_Desactivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -360,6 +411,11 @@ public class FmrArticulos extends javax.swing.JFrame {
         Btn_Activar_Desactivar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Activar_Desactivar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Activar_Desactivar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar_Desactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_Activar_DesactivarActionPerformed(evt);
+            }
+        });
 
         Btn_Limpiar.setText("Limpiar");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -367,6 +423,11 @@ public class FmrArticulos extends javax.swing.JFrame {
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_LimpiarActionPerformed(evt);
+            }
+        });
 
         Btn_Regresar.setText("Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -374,6 +435,11 @@ public class FmrArticulos extends javax.swing.JFrame {
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Regresar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Regresar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_RegresarActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -446,30 +512,324 @@ public class FmrArticulos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //VALIDACIONES CAMPOS
     private void Txt_NombreArticuloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreArticuloKeyTyped
 
-        char c = evt.getKeyChar();
+        char l = evt.getKeyChar();
         String Texto = Txt_NombreArticulo.getText();
-
-        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-
-            evt.consume();
-
-        }
-
+        
+        // Primera letra mayúscula
         if (Txt_NombreArticulo.getText().length() == 1){
 
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
             Txt_NombreArticulo.setText(Texto);
-
         }
+        
+        // Bloquear carácteres especiales menos espacio
+        if (!Character.isLetter(l) && l != KeyEvent.VK_SPACE)
+        {
+            evt.consume();            
+        }
+        
+        // Maximo de carácteres permitidos
+        if (Txt_NombreArticulo.getText().length() >= 25)
+        {
+            evt.consume();     
+            Toolkit.getDefaultToolkit().beep();
+        }  
     }//GEN-LAST:event_Txt_NombreArticuloKeyTyped
-
+    
     private void Txt_ActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_ActivoActionPerformed
 
     }//GEN-LAST:event_Txt_ActivoActionPerformed
 
+    private void Txt_PrecioArticuloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_PrecioArticuloKeyTyped
+        
+        char n = evt.getKeyChar();
+        
+        // Permitir solo números y puntos
+        if (!Character.isDigit(n) && n != KeyEvent.VK_PERIOD)
+        {
+            evt.consume();            
+        }
+        
+        // Máximo de carácteres
+        if (Txt_PrecioArticulo.getText().length() >= 8)
+        {
+            evt.consume();     
+            Toolkit.getDefaultToolkit().beep();
+        } 
+    }//GEN-LAST:event_Txt_PrecioArticuloKeyTyped
+
+    private void Txt_DescripcionArticuloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripcionArticuloKeyTyped
+        
+        char l = evt.getKeyChar();
+        String Txt = Txt_DescripcionArticulo.getText();
+        
+        // Primera letra masyúscula
+        if (Txt_DescripcionArticulo.getText().length() == 1)
+        {
+            char mayus = Txt.charAt(0);
+            Txt = Character.toUpperCase(mayus)+ Txt.substring(1,Txt.length());
+            Txt_DescripcionArticulo.setText(Txt);
+        }
+        
+        // Bloquear carácteres especiales menos espacio
+        if (!Character.isLetter(l) && l != KeyEvent.VK_SPACE && l != KeyEvent.VK_COMMA)
+        {
+            evt.consume();            
+        }
+
+        // Máximo de carácteres permitidos
+        if (Txt_DescripcionArticulo.getText().length() >= 45)
+        {
+            evt.consume();        
+            Toolkit.getDefaultToolkit().beep();
+        }     
+    }//GEN-LAST:event_Txt_DescripcionArticuloKeyTyped
+
+    private void Txt_StockMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_StockMinKeyTyped
+        
+        char n = evt.getKeyChar();
+        
+        // Permitir solo números
+        if (!Character.isDigit(n))
+        {
+            evt.consume();            
+        }
+        
+        // Máximo de carácteres
+        if (Txt_StockMin.getText().length() >= 4)
+        {
+            evt.consume();     
+            Toolkit.getDefaultToolkit().beep();
+        }               
+    }//GEN-LAST:event_Txt_StockMinKeyTyped
+
+    private void Txt_StockMaxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_StockMaxKeyTyped
+        
+        char n = evt.getKeyChar();
+        
+        // Permitir solo números
+        if (!Character.isDigit(n))
+        {
+            evt.consume();            
+        }
+        
+        // Máximo de carácteres
+        if (Txt_StockMin.getText().length() >= 4)
+        {
+            evt.consume();     
+            Toolkit.getDefaultToolkit().beep();
+        }           
+    }//GEN-LAST:event_Txt_StockMaxKeyTyped
+
+    //FUNCIONES BOTONES
+    private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
+        
+        FmrMenú M = new FmrMenú();
+        M.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_Btn_RegresarActionPerformed
+
+    private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
+        
+        LimpiarArticulo();
+        
+    }//GEN-LAST:event_Btn_LimpiarActionPerformed
+
+    private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
+
+    private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_EditarActionPerformed
+
+    private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
+        
+        LlenarArticulo();
+        
+    }//GEN-LAST:event_Btn_AñadirActionPerformed
+      
+    //FUNCIONES Y MÉTODOS
+    public void listaTalla()
+    {
+        ComboTalla.removeAllItems();
+        
+        List<Talla> Tallas = this.daoTalla.findTallaEntities(); 
+        ComboTalla.addItem("Seleccione");
+      
+        Tallas.stream().map((Talla) -> Talla.getNombreTalla()).forEachOrdered((lista) -> 
+        {
+            ComboTalla.addItem(lista);
+        });
+    }
+    
+    private static int GetIdTalla(String Nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT idTalla FROM Talla WHERE nombreTalla = '"+ Nombre+ "'";
+        Query query = em.createQuery(select);
+    
+        return Integer.parseInt(query.getSingleResult().toString());
+    }    
+    
+    private static String GetNombreTipoDocumento(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT nombreTalla FROM Talla WHERE idTalla = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;  
+    } 
+    
+    public void listaSeccion()
+    {
+        ComboSeccion.removeAllItems();
+        
+        List<Articulo_SeccionTienda> Secciones = this.daoSeccionT.findArticulo_SeccionTiendaEntities();
+        ComboSeccion.addItem("Seleccione");
+        
+        Secciones.stream().map((Articulo_SeccionTienda) -> Articulo_SeccionTienda.getIdSeccionTienda()).forEachOrdered((lista) -> 
+        {
+            //ComboSeccion.addItem(lista);
+        });
+    }
+    
+    private static int GetIdSeccion(String Nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT idSeccion FROM SeccionTienda WHERE nombreSeccion = '"+ Nombre+ "'";
+        Query query = em.createQuery(select);
+    
+        return Integer.parseInt(query.getSingleResult().toString());        
+    }
+    
+    private static String GetNombreSeccion(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT nombreSeccion FROM SeccionTienda WHERE idSeccion = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;         
+    }
+    
+    
+    private void ActualizarArticulo()
+    {
+        DefaultTableModel t = new DefaultTableModel();
+        Tbl_Articulo.setModel(t);
+        
+        t.addColumn("Id");
+        t.addColumn("Artículo");
+        t.addColumn("Precio");
+        t.addColumn("Descripción");
+        t.addColumn("Talla");
+        t.addColumn("Stock Actual");
+        t.addColumn("Stock Mínimo");
+        t.addColumn("Stock Máximo");
+        t.addColumn("Sección");
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        String s;
+        for(Articulo Articulos : articulo)
+        {
+            if(Articulos.isActivoArticulo() == true)
+            {
+                s = "Activado";
+            }else{
+                s = "Desactivado";
+            }            
+            
+            t.addRow(
+                    new Object[]{
+                        Articulos.getIdArticulo(),
+                        Articulos.getNombreArticulo(),
+                        Articulos.getPrecioArticulo(),
+                        Articulos.getDescripcionArticulo(),                        
+                        //GetIdTalla(Articulos.getIdTalla()),
+                        Articulos.getStock(),
+                        Articulos.getStockMinimo(),
+                        Articulos.getStockMaximo(),
+                    
+                        s                        
+                    });                   
+        }
+        
+    }
+    
+    private void LimpiarArticulo()
+    {
+        Txt_IdArticulo.setText("");
+        Txt_NombreArticulo.setText("");        
+        Txt_PrecioArticulo.setText("");
+        Txt_DescripcionArticulo.setText("");
+        ComboTalla.setSelectedIndex(0);        
+        Txt_StockAct.setText("");
+        Txt_StockMin.setText("");
+        Txt_StockMax.setText("");
+        ComboSeccion.setSelectedIndex(0);        
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);       
+    }
+    
+    private void LlenarArticulo()
+    {     
+        if(Txt_NombreArticulo.getText().length() < 4)
+        {       
+            JOptionPane.showMessageDialog(this, "El nombre del artículo tiene que contener al menos 4 letras.");       
+        }else if(Txt_PrecioArticulo.getText().length() < 2)
+        {
+            JOptionPane.showMessageDialog(this, "El precio debe de contener 2 dígitos.");        
+        }else if(Txt_DescripcionArticulo.getText().length() <= 0)
+        {
+            JOptionPane.showMessageDialog(this, "Debe añadir una descripción del artículo.");
+        }else if("Seleccione".equals(String.valueOf(ComboTalla.getSelectedItem())))
+        {
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar una talla.");
+        }else if(Txt_StockMin.getText().length() >= 1) if(Txt_StockMax.getText().length() < 1)
+        {
+            JOptionPane.showMessageDialog(this, "Debe añadir una cantidad de stock máximo para este artículo.");
+        }/*else if("Seleccione".equals(String.valueOf(ComboSeccion.getSelectedItem())))
+        {
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar una sección.");
+        }*/
+        
+        else{
+            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
+            objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
+            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
+            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
+            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
+            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
+            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
+            //objArtSec.setIdSeccionTienda(getIdSeccionTienda(String.valueOf(ComboSeccion.getSelectedItem())));
+        }else {
+            JOptionPane.showMessageDialog(this, "Debe añadir una cantidad de stock mínimo para este artículo.");
+        }
+        
+        try{
+            daoArticulo.create(objArticulo);
+            ActualizarArticulo();
+            LimpiarArticulo();
+            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -509,7 +869,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             public void run() {
                 new FmrArticulos().setVisible(true);
             }
-        });
+        });   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -518,6 +878,8 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Editar;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
+    private javax.swing.JComboBox<String> ComboSeccion;
+    private javax.swing.JComboBox<String> ComboTalla;
     private javax.swing.JTable Tbl_Articulo;
     private javax.swing.JTextField Txt_Activo;
     private javax.swing.JTextField Txt_DescripcionArticulo;
@@ -527,8 +889,6 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_StockAct;
     private javax.swing.JTextField Txt_StockMax;
     private javax.swing.JTextField Txt_StockMin;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -546,8 +906,5 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
-    
-    
-    
+  
 }
