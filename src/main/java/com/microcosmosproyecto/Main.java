@@ -56,14 +56,14 @@ public class Main {
 //  FmrLogin L = new FmrLogin();
 //  L.show();
     
-//  FmrMenú m = new FmrMenú();
-//  m.show();
+  FmrMenú m = new FmrMenú();
+  m.show();
 
 //  FmrClientes c = new FmrClientes();
 //  c.show();
 
-  FmrArticulos Art = new FmrArticulos();
-  Art.show();
+//  FmrArticulos Art = new FmrArticulos();
+//  Art.show();
 
 //  FmrProveedores P = new FmrProveedores();
 //  P.show();
