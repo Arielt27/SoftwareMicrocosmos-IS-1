@@ -38,7 +38,8 @@ public class Empleados implements Serializable {
     private int idSexo;
     @Column
     private int idTipoDocumento;
-    
+    @Column
+    private String direccion;
 
     public int getIdEmpleados() {
         return idEmpleados;
@@ -122,7 +123,13 @@ public class Empleados implements Serializable {
         this.idTipoDocumento = idTipoDocumento;
     }
     
-    
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
     
     
 }
