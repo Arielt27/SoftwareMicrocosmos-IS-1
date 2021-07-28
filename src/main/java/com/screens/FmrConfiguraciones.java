@@ -44,7 +44,6 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
         Btn_AreaLaboral = new javax.swing.JButton();
         Btn_PrecioHistorico = new javax.swing.JButton();
         Btn_Talla = new javax.swing.JButton();
-        Btn_Parametros = new javax.swing.JButton();
         Btn_Menu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -188,21 +187,6 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
             }
         });
 
-        Btn_Parametros.setBackground(new java.awt.Color(204, 204, 204));
-        Btn_Parametros.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        Btn_Parametros.setText("Parámetros");
-        Btn_Parametros.setToolTipText("Ingresa a la pantalla de parámetros.");
-        Btn_Parametros.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_Parametros.setFocusPainted(false);
-        Btn_Parametros.setMaximumSize(new java.awt.Dimension(150, 50));
-        Btn_Parametros.setMinimumSize(new java.awt.Dimension(150, 50));
-        Btn_Parametros.setPreferredSize(new java.awt.Dimension(150, 50));
-        Btn_Parametros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_ParametrosActionPerformed(evt);
-            }
-        });
-
         Btn_Menu.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Menu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Btn_Menu.setText("Regresar");
@@ -230,28 +214,19 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(190, 190, 190)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Btn_AreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Btn_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Btn_TipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Btn_SeccionTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(118, 118, 118)
-                                    .addComponent(Btn_Parametros, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(Btn_TipoPago, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Btn_PrecioHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Btn_Talla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Btn_Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(135, 135, 135)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Btn_AreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_TipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_SeccionTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Btn_TipoPago, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_PrecioHistorico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_Talla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_Menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(190, 190, 190))
         );
         jPanel2Layout.setVerticalGroup(
@@ -274,10 +249,8 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Parametros, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(Btn_Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                    .addComponent(Btn_Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(115, 115, 115))
         );
 
         Btn_TipoPago.getAccessibleContext().setAccessibleDescription("");
@@ -357,14 +330,6 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_EstadoActionPerformed
 
-    private void Btn_ParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ParametrosActionPerformed
-        
-        FmrParametros P = new FmrParametros();
-        P.setVisible(true);
-        this.dispose();        
-        
-    }//GEN-LAST:event_Btn_ParametrosActionPerformed
-
     private void Btn_MenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_MenuActionPerformed
         
         FmrMenú M = new FmrMenú();
@@ -421,7 +386,6 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
     private javax.swing.JButton Btn_AreaLaboral;
     private javax.swing.JButton Btn_Estado;
     private javax.swing.JButton Btn_Menu;
-    private javax.swing.JButton Btn_Parametros;
     private javax.swing.JButton Btn_PrecioHistorico;
     private javax.swing.JButton Btn_SeccionTienda;
     private javax.swing.JButton Btn_Talla;

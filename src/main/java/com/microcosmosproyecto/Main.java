@@ -8,6 +8,7 @@ import com.screens.FmrArticulos;
 import com.screens.FmrClientes;
 import com.screens.FmrLogin;
 import com.screens.FmrMenú;
+import com.screens.FmrSecciónTienda;
 import com.screens.FmrProveedores;
 import com.screens.FmrTalla;
 import com.screens.FmrTipoDocumento;
@@ -67,6 +68,9 @@ public class Main {
 
 //  FmrProveedores P = new FmrProveedores();
 //  P.show();
+
+  //FmrSecciónTienda Sec = new FmrSecciónTienda();
+  //Sec.show();
  
     }
     

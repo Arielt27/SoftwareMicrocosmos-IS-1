@@ -41,9 +41,7 @@ TipoDePago objTipoDePago = new TipoDePago();
         ActualizarTipoPago();
         Txt_Activo.setVisible(false);
         Btn_Actualizar.setEnabled(false);
-       Btn_Activar.setEnabled(false);
-    
-        
+        Btn_Activar.setEnabled(false);   
     }
 
     /**
