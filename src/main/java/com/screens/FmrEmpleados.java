@@ -131,6 +131,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                 return canEdit [columnIndex];
             }
         });
+        Tbl_Empleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tbl_EmpleadosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tbl_Empleados);
         if (Tbl_Empleados.getColumnModel().getColumnCount() > 0) {
             Tbl_Empleados.getColumnModel().getColumn(0).setResizable(false);
@@ -211,6 +216,12 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_Apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_ApellidoKeyTyped(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -220,6 +231,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel6.setPreferredSize(new java.awt.Dimension(120, 20));
 
         Txt_Telefono.setEditable(false);
+        Txt_Telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_TelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -229,6 +245,12 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel7.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel7.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_Direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DireccionKeyTyped(evt);
+            }
+        });
+
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -236,6 +258,12 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel8.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel8.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel8.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        Txt_Correo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_CorreoKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -263,7 +291,18 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel12.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel12.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Txt_Documento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_DocumentoKeyTyped(evt);
+            }
+        });
+
         Txt_Fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("DD/MM/YYYY"))));
+        Txt_Fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_FechaKeyTyped(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -294,6 +333,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel15.setPreferredSize(new java.awt.Dimension(120, 20));
 
         Txt_Usuario.setEditable(false);
+        Txt_Usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_UsuarioKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout Txt_ActivoLayout = new javax.swing.GroupLayout(Txt_Activo);
         Txt_Activo.setLayout(Txt_ActivoLayout);
@@ -398,6 +442,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AñadirActionPerformed(evt);
+            }
+        });
 
         Btn_Editar.setText("Actualizar");
         Btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -405,6 +454,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         Btn_Editar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Editar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Editar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_EditarActionPerformed(evt);
+            }
+        });
 
         Btn_Activar_Desactivar.setText("Desactivar");
         Btn_Activar_Desactivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -412,6 +466,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         Btn_Activar_Desactivar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Activar_Desactivar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Activar_Desactivar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar_Desactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_Activar_DesactivarActionPerformed(evt);
+            }
+        });
 
         Btn_Limpiar.setText("Limpiar");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -419,6 +478,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Limpiar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_LimpiarActionPerformed(evt);
+            }
+        });
 
         Btn_Regresar.setText("Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -531,6 +595,269 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         this.dispose();
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
+    private void Txt_ApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_ApellidoKeyTyped
+
+ 
+                char c = evt.getKeyChar();
+        String Texto = Txt_Apellido.getText();
+
+        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
+
+            evt.consume();
+
+        }
+              
+        if (Txt_Apellido.getText().length() >= 20){
+        
+        evt.consume();
+        
+        }
+    
+         if((evt.getKeyChar() == 22)){
+        
+            Txt_Apellido.setText(Texto.substring(0, 20));
+                    
+        }
+          
+        if (Txt_Apellido.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_Apellido.setText(Texto);
+
+        }
+                // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_ApellidoKeyTyped
+
+    private void Txt_TelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_TelefonoKeyTyped
+
+        // TODO add your handling code here:
+          char c = evt.getKeyChar();
+        String Texto = Txt_Telefono.getText();
+       
+        if(c < '0' || c > '9') {
+        
+            //consume no valida los datos
+            evt.consume();
+             
+        
+        }
+        
+        if (Txt_Telefono.getText().length() == 0 && (c == '0' || c == '4' || c == '5' || c == '6' || c == '1') ){
+       
+        evt.consume();
+        JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2, 3, 7, 8 ó 9");
+        
+        }
+        
+        
+        if (Txt_Telefono.getText().length() >= 8){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_Telefono.setText(Texto.substring(0, 8));
+                    
+        }
+    }//GEN-LAST:event_Txt_TelefonoKeyTyped
+
+    private void Txt_DireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DireccionKeyTyped
+
+
+ char c = evt.getKeyChar();
+        String Texto = Txt_Direccion.getText();
+        
+          if (Txt_Direccion.getText().length() >= 125){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_Direccion.setText(Texto.substring(0, 125));
+                    
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_DireccionKeyTyped
+
+    private void Txt_CorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CorreoKeyTyped
+
+        // TODO add your handling code here:
+        
+        char c = evt.getKeyChar();
+        String Texto = Txt_Correo.getText();
+        
+          if (Txt_Correo.getText().length() >= 45){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+         Txt_Correo.setText(Texto.substring(0, 45));
+        }
+        
+           
+    }//GEN-LAST:event_Txt_CorreoKeyTyped
+          
+    private void Txt_DocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DocumentoKeyTyped
+         char c = evt.getKeyChar();
+        String Texto = Txt_Documento.getText();
+        
+         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
+        
+            evt.consume();
+        
+        }
+        
+          if (Txt_Documento.getText().length() >= 20){
+        
+            evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_Documento.setText(Texto.substring(0, 20));
+                    
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_DocumentoKeyTyped
+
+    private void Txt_FechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_FechaKeyTyped
+
+        // TODO add your handling code here:
+          char c = evt.getKeyChar();
+        String Texto = Txt_Fecha.getText();
+       
+        if(c < '0' || c > '9') {
+        
+            //consume no valida los datos
+            evt.consume();
+             
+        
+        }
+        
+        
+        
+        
+        if (Txt_Fecha.getText().length() >= 9){
+        
+        evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_Telefono.setText(Texto.substring(0, 8));
+                    
+        }
+    }//GEN-LAST:event_Txt_FechaKeyTyped
+
+    private void Txt_UsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_UsuarioKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        String Texto = Txt_Usuario.getText();
+        
+         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
+        
+            evt.consume();
+        
+        }
+        
+          if (Txt_Usuario.getText().length() >= 20){
+        
+            evt.consume();
+        
+        }
+        
+        if((evt.getKeyChar() == 22)){
+        
+            Txt_Usuario.setText(Texto.substring(0, 20));
+                    
+        }
+    }//GEN-LAST:event_Txt_UsuarioKeyTyped
+
+    private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
+    LlenarEmpleado();
+       
+    }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
+     LimpiarEmpleado();
+     EditarEmpleado();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_EditarActionPerformed
+
+    private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
+       int fila = Tbl_Empleados.getSelectedRow();
+
+        if(fila != -1){
+
+            Activar_Desactivar();
+
+        }else{
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
+
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
+
+    private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
+         LimpiarEmpleado();
+       
+    }//GEN-LAST:event_Btn_LimpiarActionPerformed
+
+    private void Tbl_EmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_EmpleadosMouseClicked
+        
+        int fila =  Tbl_Empleados.getSelectedRow();
+        if(fila == -1){
+        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        
+        }else{
+        Btn_Editar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(true);
+        String Id = Tbl_Empleados.getValueAt(fila, 0).toString();
+        String Nombre = Tbl_Empleados.getValueAt(fila, 1).toString();
+        String Apellido =Tbl_Empleados.getValueAt(fila, 1).toString();
+        String Telefono = Tbl_Empleados.getValueAt(fila, 3).toString();
+        String Direccion = Tbl_Empleados.getValueAt(fila, 4).toString();
+        String Correo = Tbl_Empleados.getValueAt(fila, 5).toString();
+        String TipoDocumento = Tbl_Empleados.getValueAt(fila, 6).toString();
+        String Documento = Tbl_Empleados.getValueAt(fila, 7).toString();
+        String Sexo = Tbl_Empleados.getValueAt(fila, 9).toString();
+        String Fecha = Tbl_Empleados.getValueAt(fila, 8).toString();
+        String Area = Tbl_Empleados.getValueAt(fila, 10).toString();
+        String Usuario = Tbl_Empleados.getValueAt(fila, 11).toString();
+        String Activo = Tbl_Empleados.getValueAt(fila, 12).toString();
+
+        Txt_IdEmpleados.setText(Id);
+        Txt_NombreEmpleado.setText(Nombre);
+        Txt_Apellido.setText(Apellido);
+        Txt_Telefono.setText(Telefono);
+        jComboBox2.setSelectedItem(Sexo);
+        Txt_Direccion.setText(Direccion);
+        Txt_Correo.setText(Correo);
+        jComboBox1.setSelectedItem(TipoDocumento);
+        Txt_Documento.setText(Documento);
+        Txt_Activar.setText(Activo);
+        
+        if(Activo == "Activado"){
+        Btn_Activar_Desactivar.setText("Desactivar");
+        }else{
+        
+             Btn_Activar_Desactivar.setText("Activar");
+        
+        }
+    }//GEN-LAST:event_Tbl_EmpleadosMouseClicked
+       }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -879,7 +1206,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         }
         
         }
-          private void EditarCliente(){
+          private void EditarEmpleado(){
             
             
             if(Txt_NombreEmpleado.getText().length() < 3){

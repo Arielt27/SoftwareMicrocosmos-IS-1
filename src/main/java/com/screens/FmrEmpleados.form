@@ -150,6 +150,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Tbl_EmpleadosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -413,6 +416,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Apellido">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_ApellidoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
@@ -439,6 +445,9 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_TelefonoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -462,6 +471,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Direccion">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_DireccionKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
@@ -485,6 +497,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Correo">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_CorreoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
@@ -565,6 +580,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Documento">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_DocumentoKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="Txt_Fecha">
           <Properties>
@@ -572,6 +590,9 @@
               <Format format="DD/MM/YYYY" subtype="-1" type="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_FechaKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
@@ -670,6 +691,9 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_UsuarioKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Activar">
         </Component>
@@ -753,6 +777,9 @@
               <Dimension value="[120, 50]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_A&#xf1;adirActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Btn_Editar">
           <Properties>
@@ -775,6 +802,9 @@
               <Dimension value="[120, 50]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_EditarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Btn_Activar_Desactivar">
           <Properties>
@@ -797,6 +827,9 @@
               <Dimension value="[120, 50]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_Activar_DesactivarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Btn_Limpiar">
           <Properties>
@@ -819,6 +852,9 @@
               <Dimension value="[120, 50]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_LimpiarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="Btn_Regresar">
           <Properties>
