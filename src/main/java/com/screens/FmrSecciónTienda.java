@@ -637,7 +637,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
       
-             String select = "SELECT IdSeccionTienda FROM SeccionTienda WHERE NombreSeccionTienda  = '"+Nombre+ "'";
+             String select = "SELECT idSeccionTienda FROM SeccionTienda WHERE nombreSeccionTienda  = '"+Nombre+ "'";
    
              Query query = em.createQuery(select);
        
