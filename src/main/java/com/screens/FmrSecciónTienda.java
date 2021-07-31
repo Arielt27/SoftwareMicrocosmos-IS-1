@@ -38,7 +38,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
          Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
-        setIconImage(icon);        
+        setIconImage(icon); 
+        ActualizarSeccion();
         Txt_Activo.setVisible(false);
         Btn_Actualizar.setEnabled(false);
         Btn_Activar.setEnabled(false);
@@ -93,13 +94,16 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
             new String [] {
                 "ID", "Sección en Tienda", "Descripción"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(JTable_Sección);
-        if (JTable_Sección.getColumnModel().getColumnCount() > 0) {
-            JTable_Sección.getColumnModel().getColumn(0).setResizable(false);
-            JTable_Sección.getColumnModel().getColumn(1).setResizable(false);
-            JTable_Sección.getColumnModel().getColumn(2).setResizable(false);
-        }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
         jPanel1.setMaximumSize(new java.awt.Dimension(800, 100));

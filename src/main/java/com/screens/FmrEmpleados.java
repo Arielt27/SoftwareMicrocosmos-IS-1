@@ -230,7 +230,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel6.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel6.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_Telefono.setEditable(false);
         Txt_Telefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_TelefonoKeyTyped(evt);

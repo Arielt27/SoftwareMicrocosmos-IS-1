@@ -94,7 +94,15 @@ Estado objEstado = new Estado();
             new String [] {
                 "ID", "Estado", "Descripción"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tbl_Estado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_EstadoMouseClicked(evt);
@@ -558,7 +566,7 @@ Estado objEstado = new Estado();
             daoEstado.edit(objEstado);
              ActualizarEstado();
             Btn_Activar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -572,7 +580,7 @@ Estado objEstado = new Estado();
             daoEstado.edit(objEstado);
              ActualizarEstado();
             Btn_Activar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -612,7 +620,7 @@ Estado objEstado = new Estado();
         try {
             daoEstado.edit(objEstado);
              ActualizarEstado();
-            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }

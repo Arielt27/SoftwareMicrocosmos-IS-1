@@ -531,7 +531,7 @@
                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                   <Component id="jButton5" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                  <Component id="jButton6" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="Btn_Regresar" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -544,7 +544,7 @@
                       <Component id="jButton3" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="jButton4" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="jButton5" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="jButton6" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="Btn_Regresar" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="jButton7" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="30" max="32767" attributes="0"/>
@@ -619,7 +619,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton6">
+        <Component class="javax.swing.JButton" name="Btn_Regresar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Regresar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -640,6 +640,9 @@
               <Dimension value="[120, 50]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_RegresarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>
