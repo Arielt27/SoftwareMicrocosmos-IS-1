@@ -646,11 +646,32 @@ public class FmrArticulos extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
-        // TODO add your handling code here:
+                 int fila = Tbl_Articulo.getSelectedRow();
+
+        if(fila != -1){
+
+        Activar_Desactivar();
+
+        }else{
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
+
+        }
+        
     }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
-        // TODO add your handling code here:
+         int fila = Tbl_Articulo.getSelectedRow();
+        if(fila == -1){
+
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
+
+        }else{
+
+            EditarArticulo();
+            LimpiarArticulo();
+            
+        }        
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
@@ -834,8 +855,117 @@ public class FmrArticulos extends javax.swing.JFrame {
             Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private void Activar_Desactivar(){
+            int fila = Tbl_Articulo.getSelectedRow();
+        
+              String a = Txt_Activo.getText().toString();
+               if(a.equals("Activado")){
+         objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
+         objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
+         objArticulo.setPrecioArticulo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 2).toString()));
+         objArticulo.setDescripcionArticulo(Tbl_Articulo.getValueAt(fila, 3).toString());
+         objArticulo.setIdTalla(GetIdTalla(Tbl_Articulo.getValueAt(fila, 4).toString()));
+         objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
+         objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
+         objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
+       //  objArtSec.setIdSeccionTienda(getIdSeccionTienda(Tbl_Articulo.getValueAt(fila, 8)));
+       objArticulo.setActivoArticulo(false);
+          
+      
+       try {
+            daoArticulo.edit(objArticulo);
+             ActualizarArticulo();
+            Btn_Activar_Desactivar.setText("Activar");
+            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         LimpiarArticulo();
+          }else{  
+         objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
+         objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
+         objArticulo.setPrecioArticulo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 2).toString()));
+         objArticulo.setDescripcionArticulo(Tbl_Articulo.getValueAt(fila, 3).toString());
+         objArticulo.setIdTalla(GetIdTalla(Tbl_Articulo.getValueAt(fila, 4).toString()));
+         objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
+         objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
+         objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
+       //  objArtSec.setIdSeccionTienda(getIdSeccionTienda(Tbl_Articulo.getValueAt(fila, 8)));
+       objArticulo.setActivoArticulo(true);
+        try {
+           daoArticulo.edit(objArticulo);
+             ActualizarArticulo();
+            Btn_Activar_Desactivar.setText("Desactivar");
+            JOptionPane.showMessageDialog(this, "se activó correctamente");
+        } catch (Exception ex) {
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        LimpiarArticulo();
+        
+        }
+         
+               
+       
+       }
+    
+    private void EditarArticulo(){
+            
+            
+            if(Txt_NombreArticulo.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
+        
+        }else if(Txt_PrecioArticulo.getText().length() < 3){
+        
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
+        
+        }else if(Txt_DescripcionArticulo.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "la descripcion  debe de contener 8 letras");
+        
+        }else if(String.valueOf(ComboTalla.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar una talla");
+        
+        }else if(Txt_StockAct.getText().length() < 8){
+        
+        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
+        
+        }
+        
+        else if(String.valueOf(ComboSeccion.getSelectedItem()) == "Seleccione"){
+        
+        JOptionPane.showMessageDialog(this, "Debe de seleccionar una seccion");
+        
+        }else{
+            
+             objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
+            objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
+            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
+            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
+            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
+            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
+            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
+            
+                        
+            
+        try {
+            daoArticulo.edit(objArticulo);
+            ActualizarArticulo();
+             JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+        } catch (Exception ex) {
+             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       }  
+            
+            }
+    
+    
     
     /**
+     * 
+     * 
      * @param args the command line arguments
      */
     public static void main(String args[]) {
