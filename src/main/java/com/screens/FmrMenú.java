@@ -18,8 +18,12 @@ public class FmrMenú extends javax.swing.JFrame {
     /**
      * Creates new form Menú
      */
+    
+    //ICONOS
+    
+    
     public FmrMenú() {
-        initComponents();
+        initComponents();             
         this.setLocationRelativeTo(null);
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
@@ -79,7 +83,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Empleados.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Empleados.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Empleados.setText("Empleados");
+        Btn_Empleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Empleado.png"))); // NOI18N
+        Btn_Empleados.setText(" Empleados");
         Btn_Empleados.setToolTipText("Añade empleados y modifica sus datos.");
         Btn_Empleados.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Empleados.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -92,7 +97,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Proveedores.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Proveedores.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Proveedores.setText("Proveedores");
+        Btn_Proveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedores.png"))); // NOI18N
+        Btn_Proveedores.setText(" Proveedores");
         Btn_Proveedores.setToolTipText("Añade proveedores y modifica sus datos.");
         Btn_Proveedores.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Proveedores.setFocusPainted(false);
@@ -104,7 +110,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Clientes.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Clientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Clientes.setText("Clientes");
+        Btn_Clientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cliente.png"))); // NOI18N
+        Btn_Clientes.setText(" Clientes");
         Btn_Clientes.setToolTipText("Añade clientes y modifica sus datos.");
         Btn_Clientes.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Clientes.setFocusPainted(false);
@@ -116,7 +123,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Compras.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Compras.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Compras.setText("Compras");
+        Btn_Compras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/compras.png"))); // NOI18N
+        Btn_Compras.setText(" Compras");
         Btn_Compras.setToolTipText("Realiza compras de inventario.");
         Btn_Compras.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Compras.setFocusPainted(false);
@@ -128,7 +136,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Ventas.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Ventas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Ventas.setText("Ventas");
+        Btn_Ventas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ventas.png"))); // NOI18N
+        Btn_Ventas.setText(" Ventas");
         Btn_Ventas.setToolTipText("Accede para realizar ventas y generar facturas.");
         Btn_Ventas.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Ventas.setFocusPainted(false);
@@ -140,7 +149,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Configuracion.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Configuracion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Configuracion.setText("Configuración");
+        Btn_Configuracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/configuracion.png"))); // NOI18N
+        Btn_Configuracion.setText(" Ajustes");
         Btn_Configuracion.setToolTipText("Accede para realizar configuraciones del sistema.");
         Btn_Configuracion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Configuracion.setFocusPainted(false);
@@ -152,6 +162,7 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_CerrarSesion.setBackground(new java.awt.Color(204, 204, 204));
         Btn_CerrarSesion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Btn_CerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cerrarsesion.png"))); // NOI18N
         Btn_CerrarSesion.setText("Cerrar Sesión");
         Btn_CerrarSesion.setToolTipText("Cierra tu sesión actual.");
         Btn_CerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
@@ -164,7 +175,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Articulos.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Articulos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Articulos.setText("Artículos");
+        Btn_Articulos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/articulos_1.png"))); // NOI18N
+        Btn_Articulos.setText(" Artículos");
         Btn_Articulos.setToolTipText("Añade, modifica y elimina datos de los artículos.");
         Btn_Articulos.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Articulos.setFocusPainted(false);
@@ -176,7 +188,8 @@ public class FmrMenú extends javax.swing.JFrame {
 
         Btn_Usuarios.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Usuarios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Btn_Usuarios.setText("Usuarios");
+        Btn_Usuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/usuario.png"))); // NOI18N
+        Btn_Usuarios.setText(" Usuarios");
         Btn_Usuarios.setToolTipText("Añade y elimina usuarios del sistema.");
         Btn_Usuarios.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Usuarios.setFocusPainted(false);
@@ -196,7 +209,7 @@ public class FmrMenú extends javax.swing.JFrame {
                     .addComponent(Btn_Usuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Btn_Empleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Btn_Compras, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(79, 79, 79)
+                .addGap(75, 75, 75)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Btn_Ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Proveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -211,22 +224,22 @@ public class FmrMenú extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Proveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Empleados, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Compras, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Ventas, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Configuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_CerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Articulos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

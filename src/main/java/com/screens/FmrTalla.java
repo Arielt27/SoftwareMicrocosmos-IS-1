@@ -238,7 +238,8 @@ public class FmrTalla extends javax.swing.JFrame {
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 130));
         jPanel3.setPreferredSize(new java.awt.Dimension(800, 130));
 
-        Btn_Regresar.setText("Regresar");
+        Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_Regresar.setText(" Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -250,7 +251,8 @@ public class FmrTalla extends javax.swing.JFrame {
             }
         });
 
-        Btn_Limpiar.setText("Limpiar");
+        Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
+        Btn_Limpiar.setText(" Limpiar");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -262,7 +264,8 @@ public class FmrTalla extends javax.swing.JFrame {
             }
         });
 
-        Btn_Activar_Desactivar.setText("Desactivar");
+        Btn_Activar_Desactivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
+        Btn_Activar_Desactivar.setText(" Desactivar");
         Btn_Activar_Desactivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar_Desactivar.setFocusPainted(false);
         Btn_Activar_Desactivar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -274,7 +277,8 @@ public class FmrTalla extends javax.swing.JFrame {
             }
         });
 
-        Btn_Editar.setText("Actualizar");
+        Btn_Editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
+        Btn_Editar.setText(" Actualizar");
         Btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Editar.setFocusPainted(false);
         Btn_Editar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -286,7 +290,8 @@ public class FmrTalla extends javax.swing.JFrame {
             }
         });
 
-        Btn_Añadir.setText("Añadir");
+        Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
+        Btn_Añadir.setText(" Añadir");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Añadir.setFocusPainted(false);
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));

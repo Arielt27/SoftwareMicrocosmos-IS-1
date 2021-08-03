@@ -178,10 +178,10 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Txt_Intentos)
-                    .addComponent(jCheckAdmin))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckAdmin)
+                    .addComponent(Txt_Intentos, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(176, 176, 176))
         );
         jPanel2Layout.setVerticalGroup(
@@ -249,6 +249,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(800, 130));
         jPanel4.setPreferredSize(new java.awt.Dimension(800, 130));
 
+        Btn_CambiarPass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/contrasena.png"))); // NOI18N
         Btn_CambiarPass.setText("Cambiar Contraseña");
         Btn_CambiarPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_CambiarPass.setFocusPainted(false);
@@ -261,7 +262,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }
         });
 
-        Btn_Activar.setText("Desactivar Usuario");
+        Btn_Activar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
+        Btn_Activar.setText("Activar Usuario");
+        Btn_Activar.setActionCommand(" Activar Usuario");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar.setFocusPainted(false);
         Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -273,7 +276,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }
         });
 
-        Btn_Return.setText("Regresar");
+        Btn_Return.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_Return.setText(" Regresar");
         Btn_Return.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Return.setFocusPainted(false);
         Btn_Return.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -290,13 +294,13 @@ public class FmrUsuarios extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(206, Short.MAX_VALUE)
-                .addComponent(Btn_CambiarPass, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Btn_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(198, 198, 198))
+                .addContainerGap(150, Short.MAX_VALUE)
+                .addComponent(Btn_CambiarPass, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(Btn_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(Btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(140, 140, 140))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,12 +393,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar;
-    private javax.swing.JButton Btn_Activar_Desactivar;
-    private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_CambiarPass;
-    private javax.swing.JButton Btn_Editar;
-    private javax.swing.JButton Btn_Limpiar;
-    private javax.swing.JButton Btn_Regresar;
     private javax.swing.JButton Btn_Return;
     private javax.swing.JTextField Txt_Contraseña;
     private javax.swing.JTextField Txt_IdEmpleado;
@@ -404,7 +403,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckAdmin;
     private javax.swing.JComboBox<String> jComboEstado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -414,7 +412,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

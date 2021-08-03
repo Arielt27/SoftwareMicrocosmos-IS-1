@@ -316,6 +316,7 @@ public class FmrCompras extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
         jButton3.setText("Imprimir Factura");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         jButton3.setFocusPainted(false);
@@ -323,7 +324,8 @@ public class FmrCompras extends javax.swing.JFrame {
         jButton3.setMinimumSize(new java.awt.Dimension(120, 50));
         jButton3.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        jButton4.setText("Cancelar");
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
+        jButton4.setText(" Cancelar");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         jButton4.setFocusPainted(false);
         jButton4.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -337,7 +339,8 @@ public class FmrCompras extends javax.swing.JFrame {
         jButton5.setMinimumSize(new java.awt.Dimension(120, 50));
         jButton5.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        Btn_Regresar.setText("Regresar");
+        Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_Regresar.setText(" Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -349,7 +352,8 @@ public class FmrCompras extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Realizar Compra");
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/comprar.png"))); // NOI18N
+        jButton7.setText("Facturar");
         jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         jButton7.setFocusPainted(false);
         jButton7.setMaximumSize(new java.awt.Dimension(120, 50));

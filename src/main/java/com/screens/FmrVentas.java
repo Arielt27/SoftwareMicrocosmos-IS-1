@@ -271,7 +271,8 @@ public class FmrVentas extends javax.swing.JFrame {
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 90));
         jPanel3.setPreferredSize(new java.awt.Dimension(800, 90));
 
-        Btn_Regresar.setText("Regresar");
+        Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_Regresar.setText(" Regresar");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -290,6 +291,7 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Estado.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Estado.setPreferredSize(new java.awt.Dimension(120, 50));
 
+        Btn_Imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
         Btn_Imprimir.setText("Imprimir Factura");
         Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Imprimir.setFocusPainted(false);
@@ -297,13 +299,15 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Imprimir.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Imprimir.setPreferredSize(new java.awt.Dimension(120, 50));
 
-        Btn_Cancelar.setText("Cancelar Venta");
+        Btn_Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
+        Btn_Cancelar.setText(" Cancelar Venta");
         Btn_Cancelar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Cancelar.setFocusPainted(false);
         Btn_Cancelar.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_Cancelar.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_Cancelar.setPreferredSize(new java.awt.Dimension(120, 50));
 
+        Btn_Venta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/vender.png"))); // NOI18N
         Btn_Venta.setText("Realizar Venta");
         Btn_Venta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Venta.setFocusPainted(false);
