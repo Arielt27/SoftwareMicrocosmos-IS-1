@@ -44,6 +44,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         listaTipoDocumento();
         ActualizarProveedor();
         Txt_Activo.setVisible(false);
+        Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
     }
@@ -103,7 +104,15 @@ public class FmrProveedores extends javax.swing.JFrame {
             new String [] {
                 "ID", "Proveedor", "Teléfono", "Correo", "Dirección", "Tipo Documento", "Documento"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tbl_Proveedores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ProveedoresMouseClicked(evt);
@@ -517,6 +526,9 @@ public class FmrProveedores extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         LimpiarProveedor();
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
+        
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
@@ -544,6 +556,8 @@ public class FmrProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Proveedores.getValueAt(fila, 0).toString();
@@ -750,7 +764,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -773,7 +787,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -879,6 +893,12 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this, "El Proveedor tiene que contener al menos 3 letras");
         
+        }else if(ValidacionDeRepetidos(Txt_NombreProveedor.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
+        
         }else if(Txt_TelefonoProveedor.getText().length() < 8){
         
         JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
@@ -913,7 +933,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         try {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
-             JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+             JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
              Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -975,6 +995,27 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         return RTN.matches("^[0-1]{1}[0-9]{13}$");
                 
+        }
+       
+       public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idProveedor FROM Proveedores WHERE nombreProveedor  = '"+Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+             
         }
     
     /**

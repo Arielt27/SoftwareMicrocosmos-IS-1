@@ -39,6 +39,7 @@ Estado objEstado = new Estado();
         setIconImage(icon);
   
        Txt_Activo.setVisible(false);
+       Btn_Limpiar.setEnabled(false);
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
         ActualizarEstado();
@@ -456,6 +457,8 @@ Estado objEstado = new Estado();
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
 
         LimpiarEstado();
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
@@ -474,6 +477,8 @@ Estado objEstado = new Estado();
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Actualizar.setEnabled(true);
         Btn_Activar.setEnabled(true);
         String Id = Tbl_Estado.getValueAt(fila, 0).toString();
@@ -649,6 +654,8 @@ Estado objEstado = new Estado();
         }else if(ValidacionDeRepetidos(Txt_NombreEstado.getText()) == true){
         
         JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
         
         }
        else{
@@ -661,7 +668,7 @@ Estado objEstado = new Estado();
             daoEstado.edit(objEstado);
              ActualizarEstado();
              LimpiarEstado();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }

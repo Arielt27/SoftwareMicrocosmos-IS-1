@@ -54,11 +54,11 @@ public class Main {
 //   FmrTipoDocumento D = new FmrTipoDocumento();
 //   D.show();
 
-  FmrLogin L = new FmrLogin();
-  L.show();
+//  FmrLogin L = new FmrLogin();
+//  L.show();
     
-//  FmrMenú m = new FmrMenú();
-//  m.show();
+  FmrMenú m = new FmrMenú();
+  m.show();
 
 //  FmrClientes c = new FmrClientes();
 //  c.show();

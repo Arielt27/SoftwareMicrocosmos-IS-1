@@ -11,8 +11,10 @@ import java.awt.Image;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +38,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         setIconImage(icon);
         ActualizarAreaLaboral();
        Txt_Activo.setVisible(false);
+       Btn_Limpiar.setEnabled(false);
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
     
@@ -480,6 +483,8 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
       LimpiarAreaLaboral();
+      Btn_Añadir.setEnabled(true);
+      Btn_Limpiar.setEnabled(false);
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
@@ -498,6 +503,8 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Actualizar.setEnabled(true);
         Btn_Activar.setEnabled(true);
         String Id = Tbl_AreaLaboral.getValueAt(fila, 0).toString();
@@ -606,6 +613,12 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
         
+        }else if(ValidacionDeRepetidos(Txt_ÁreaLaboral.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
+        
         }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){
         
         JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
@@ -624,7 +637,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         try {
            daoAreaLaboral.edit(objAreaLaboral);
               ActualizarAreaLaboral();
-            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -685,7 +698,26 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         
         }
               
-        }    
+        }
+      
+      
+      public static boolean ValidacionDeRepetidos(String Nombre)
+      {
+
+          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+          EntityManager em = emf.createEntityManager();
+      
+          String select = "SELECT idAreaLaboral FROM AreaLaboral WHERE nombreAreaLaboral  = '"+Nombre+ "'";
+   
+          Query query = em.createQuery(select);
+       
+          if(query.getResultList().size() == 0)
+          {
+              return false;
+          }else{
+              return true;                
+          }             
+      }
     
     
     

@@ -40,6 +40,7 @@ TipoDePago objTipoDePago = new TipoDePago();
         setIconImage(icon);
         ActualizarTipoPago();
         Txt_Activo.setVisible(false);
+        Btn_Limpiar.setEnabled(false);
         Btn_Actualizar.setEnabled(false);
         Btn_Activar.setEnabled(false);   
     }
@@ -471,6 +472,8 @@ TipoDePago objTipoDePago = new TipoDePago();
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
 
        LimpiarTipoPago();
+       Btn_Añadir.setEnabled(true);
+       Btn_Limpiar.setEnabled(false);
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
@@ -489,6 +492,8 @@ TipoDePago objTipoDePago = new TipoDePago();
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Actualizar.setEnabled(true);
         Btn_Activar.setEnabled(true);
         String Id = Tbl_TipoPago.getValueAt(fila, 0).toString();
@@ -603,7 +608,7 @@ TipoDePago objTipoDePago = new TipoDePago();
             daoTipoDePago.edit(objTipoDePago);
              ActualizarTipoPago();
             Btn_Activar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -620,7 +625,7 @@ TipoDePago objTipoDePago = new TipoDePago();
             daoTipoDePago.edit(objTipoDePago);
              ActualizarTipoPago();
             Btn_Activar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -640,6 +645,8 @@ TipoDePago objTipoDePago = new TipoDePago();
         }else if(ValidacionDeRepetidos(Txt_TipoPago.getText()) == true){
         
         JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
         
         }else if(ValidacionTresLetras(Txt_TipoPago.getText()) == true){
         
@@ -659,7 +666,7 @@ TipoDePago objTipoDePago = new TipoDePago();
         try {
             daoTipoDePago.edit(objTipoDePago);
             ActualizarTipoPago();
-            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -694,7 +701,7 @@ TipoDePago objTipoDePago = new TipoDePago();
         try {
             daoTipoDePago.create(objTipoDePago);
             ActualizarTipoPago();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -47,6 +47,7 @@ public class FmrClientes extends javax.swing.JFrame {
         listaSexo();
         ActualizarCliente();
         Txt_Activo.setVisible(false);
+        Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
     }
@@ -110,7 +111,15 @@ public class FmrClientes extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tbl_Clientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ClientesMouseClicked(evt);
@@ -559,6 +568,8 @@ public class FmrClientes extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         LimpiarCliente();
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
@@ -574,6 +585,8 @@ public class FmrClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Clientes.getValueAt(fila, 0).toString();
@@ -946,6 +959,12 @@ public class FmrClientes extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
         
+        }else if(ValidacionDeRepetidos(Txt_NombreCliente.getText()) == true){
+        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
+        
         }else if(Txt_ApellidoCliente.getText().length() < 3){
         
         JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
@@ -1124,6 +1143,27 @@ public class FmrClientes extends javax.swing.JFrame {
         
         return RTN.matches("^[0-1]{1}[0-9]{13}$");
                 
+        }
+       
+       public static boolean ValidacionDeRepetidos(String Nombre){
+       
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idCliente FROM Clientes WHERE nombreCliente  = '"+Nombre+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }
+             
         }
           
           

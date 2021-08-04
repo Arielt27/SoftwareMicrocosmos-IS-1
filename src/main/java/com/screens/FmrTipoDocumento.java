@@ -42,6 +42,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         setIconImage(icon);
         ActualizarTipoDocumento();
         Txt_Activo.setVisible(false);
+        Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
     }
@@ -401,6 +402,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         LimpiarTipoDocumento();
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
                      
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
@@ -453,6 +456,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_TipoDocumento.getValueAt(fila, 0).toString();
@@ -618,6 +623,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
         
         JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
         
         }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
         

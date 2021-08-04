@@ -41,6 +41,7 @@ public class FmrTalla extends javax.swing.JFrame {
         setIconImage(icon);
         ActualizarTalla();
         Txt_Activo.setVisible(false);
+        Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
     }
@@ -430,6 +431,8 @@ public class FmrTalla extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Talla.getValueAt(fila, 0).toString();
@@ -523,6 +526,8 @@ public class FmrTalla extends javax.swing.JFrame {
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         LimpiarTalla();
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
@@ -632,7 +637,7 @@ public class FmrTalla extends javax.swing.JFrame {
             daoTalla.create(objTalla);
             ActualizarTalla();
             LimpiarTalla();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -649,6 +654,8 @@ public class FmrTalla extends javax.swing.JFrame {
         }else if(ValidacionDeRepetidos(Txt_NombreTalla.getText()) == true){
         
         JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
         
         }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){
         
@@ -667,7 +674,7 @@ public class FmrTalla extends javax.swing.JFrame {
         try {
             daoTalla.edit(objTalla);
             ActualizarTalla();
-            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -694,7 +701,7 @@ public class FmrTalla extends javax.swing.JFrame {
             daoTalla.edit(objTalla);
             ActualizarTalla();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -713,7 +720,7 @@ public class FmrTalla extends javax.swing.JFrame {
             daoTalla.edit(objTalla);
             ActualizarTalla();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }

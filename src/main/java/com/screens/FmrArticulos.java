@@ -56,6 +56,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         //Icono
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
+        listaSeccion();
         listaTalla();
         Txt_Activo.setVisible(false);
         Btn_Editar.setEnabled(false);
