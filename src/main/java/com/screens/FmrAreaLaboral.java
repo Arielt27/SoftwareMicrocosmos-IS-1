@@ -498,6 +498,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);
         Btn_Actualizar.setEnabled(true);
         Btn_Activar.setEnabled(true);
         String Id = Tbl_AreaLaboral.getValueAt(fila, 0).toString();

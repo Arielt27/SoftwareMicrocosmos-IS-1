@@ -45,6 +45,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         ActualizarProveedor();
         Txt_Activo.setVisible(false);
         Btn_Editar.setEnabled(false);
+        Btn_Limpiar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
     }
 
@@ -544,6 +545,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);        
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Proveedores.getValueAt(fila, 0).toString();
@@ -595,8 +597,7 @@ public class FmrProveedores extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
-        LlenarProveedor();
-        
+        LlenarProveedor();        
               
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 

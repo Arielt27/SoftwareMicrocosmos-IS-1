@@ -37,7 +37,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
     public FmrSecciónTienda() {
         initComponents();
         this.setLocationRelativeTo(null);
-         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
+        Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon); 
         ActualizarSeccion();
         Txt_Activo.setVisible(false);
@@ -101,6 +101,11 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        JTable_Sección.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTable_SecciónMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(JTable_Sección);
@@ -441,7 +446,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
             Txt_DescripcionSecciónTienda.setText(Texto);
         }    
     }//GEN-LAST:event_Txt_DescripcionSecciónTiendaKeyTyped
-
+    
     //FUNCIONES BOTONES
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
@@ -456,8 +461,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
 
         }else{
-
             EditarSeccion();
+            ActualizarSeccion();
             LimpiarSeccion();
         }
     }//GEN-LAST:event_Btn_ActualizarActionPerformed
@@ -489,12 +494,43 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
+    private void JTable_SecciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTable_SecciónMouseClicked
+        
+        int fila = JTable_Sección.getSelectedRow();
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        }else{
+            Btn_Añadir.setEnabled(false);            
+            Btn_Actualizar.setEnabled(true);
+            Btn_Activar.setEnabled(true);
+            
+            String Id = JTable_Sección.getValueAt(fila, 0).toString();
+            String Nombre = JTable_Sección.getValueAt(fila, 1).toString();
+            String Descripcion = JTable_Sección.getValueAt(fila, 2).toString();
+            String Estado = JTable_Sección.getValueAt(fila, 3).toString();
+            
+            Txt_IdSección.setText(Id);
+            Txt_NombreSección.setText(Nombre);
+            Txt_DescripcionSecciónTienda.setText(Descripcion);
+            Txt_Activo.setText(Estado);
+            
+            if(Estado == "Activado")
+            {
+                Btn_Activar.setText("Desactivar");
+            }else{ 
+                Btn_Activar.setText("Activar");   
+            }            
+        }
+        
+    }//GEN-LAST:event_JTable_SecciónMouseClicked
+
     //FUNCIONES 
     private void LlenarSeccion()
     {
-        if(Txt_NombreSección.getText().length() < 1){
+        if(Txt_NombreSección.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras");
         
         }else if(ValidacionDeRepetidos(Txt_NombreSección.getText()) == true){
         
@@ -526,9 +562,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
     
     private void EditarSeccion()
     {
-        if(Txt_NombreSección.getText().length() < 1){
+        if(Txt_NombreSección.getText().length() < 4){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras");
         
         }else if(ValidacionDeRepetidos(Txt_NombreSección.getText()) == true){
         

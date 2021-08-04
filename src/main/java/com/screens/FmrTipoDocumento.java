@@ -417,7 +417,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         int fila = Tbl_TipoDocumento.getSelectedRow();
         if(fila == -1){
         
-             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a editar en la Fila");
+             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
             
         }else{
         EditarTipoDocumento();
@@ -453,6 +453,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
+        Btn_Añadir.setEnabled(false);        
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_TipoDocumento.getValueAt(fila, 0).toString();
@@ -573,10 +574,9 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
        }   
-       }
+       }    
     
-    
-           private void ActualizarTipoDocumento(){
+    private void ActualizarTipoDocumento(){
        
             DefaultTableModel t = new DefaultTableModel();
             Tbl_TipoDocumento.setModel(t);
@@ -602,14 +602,13 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                         TipoDocumento.getNombreTipoDocumento(),
                         TipoDocumento.getDescripcionTipoDocumento(),
                         s
-                    });
+                    });                
             }
        
        
-       }
+       }    
     
-    
-       private void EditarTipoDocumento(){
+    private void EditarTipoDocumento(){
                
         if(Txt_NombreTipoDocumento.getText().length() < 3){
         
@@ -635,15 +634,14 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         try {
             daoTipoDocumento.edit(objTipoDocumento);
             ActualizarTipoDocumento();
-            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
-       }
-                 
+       }                 
            
-       private void LimpiarTipoDocumento(){
+    private void LimpiarTipoDocumento(){
        
        Txt_IdDocumento.setText("");
        Txt_NombreTipoDocumento.setText("");
@@ -653,7 +651,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
        
        }
     
-        private void Activar_Desactivar(){
+    private void Activar_Desactivar(){
         
         int fila = Tbl_TipoDocumento.getSelectedRow();
         
@@ -701,9 +699,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         }
         
         }
-        
-        
-                public static boolean ValidacionDeRepetidos(String Nombre){
+          
+    public static boolean ValidacionDeRepetidos(String Nombre){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -724,7 +721,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
              
         }
         
-        private static boolean ValidacionTresLetras(String Nombre){
+    private static boolean ValidacionTresLetras(String Nombre){
         
             
         if(Nombre.length() >= 3){

@@ -150,7 +150,7 @@ public class FmrMenú extends javax.swing.JFrame {
         Btn_Configuracion.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Configuracion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Btn_Configuracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/configuracion.png"))); // NOI18N
-        Btn_Configuracion.setText(" Ajustes");
+        Btn_Configuracion.setText(" Parámetros");
         Btn_Configuracion.setToolTipText("Accede para realizar configuraciones del sistema.");
         Btn_Configuracion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_Configuracion.setFocusPainted(false);
