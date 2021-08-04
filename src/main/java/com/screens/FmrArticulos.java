@@ -891,6 +891,8 @@ public class FmrArticulos extends javax.swing.JFrame {
          objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
          objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
          objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
+         objArtSec.setIdSeccionTienda(GetIdSeccion(Tbl_Articulo.getValueAt(fila, 8).toString()));
+         
        //  objArtSec.setIdSeccionTienda(getIdSeccionTienda(Tbl_Articulo.getValueAt(fila, 8)));
        objArticulo.setActivoArticulo(true);
         try {
