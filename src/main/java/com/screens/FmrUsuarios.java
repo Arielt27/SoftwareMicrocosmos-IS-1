@@ -8,9 +8,14 @@ package com.screens;
 import com.clases.Usuarios;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -34,10 +39,10 @@ public class FmrUsuarios extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
-        actualizarUsuario();
-        Txt_Activo.setVisible(false);
+        actualizarUsuario();        
         Btn_CambiarPass.setEnabled(false);
-        Btn_Activar.setEnabled(false);        
+        Btn_Activar.setEnabled(false);  
+        Btn_Limpiar.setEnabled(false);
     }
 
     /**
@@ -64,15 +69,15 @@ public class FmrUsuarios extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         Txt_Intentos = new javax.swing.JTextField();
-        jCheckAdmin = new javax.swing.JCheckBox();
-        Txt_Activo = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        Txt_Estado = new javax.swing.JTextField();
+        Txt_Admin = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_Usuarios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         Btn_CambiarPass = new javax.swing.JButton();
         Btn_Activar = new javax.swing.JButton();
         Btn_Return = new javax.swing.JButton();
+        Btn_Limpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Usuarios - Microcosmos");
@@ -166,6 +171,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         Txt_Intentos.setEditable(false);
 
+        Txt_Estado.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -200,11 +207,10 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Txt_Intentos, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(Txt_Activo, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jCheckAdmin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(Txt_Intentos, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                        .addComponent(Txt_Admin))
+                    .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(181, 181, 181))
         );
         jPanel2Layout.setVerticalGroup(
@@ -221,23 +227,21 @@ public class FmrUsuarios extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_IdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_UserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckAdmin))
+                    .addComponent(Txt_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -259,21 +263,21 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable_Usuarios.getTableHeader().setReorderingAllowed(false);
+        jTable_Usuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                jTable_UsuariosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(6).setResizable(false);
+        jScrollPane1.setViewportView(jTable_Usuarios);
+        if (jTable_Usuarios.getColumnModel().getColumnCount() > 0) {
+            jTable_Usuarios.getColumnModel().getColumn(0).setResizable(false);
+            jTable_Usuarios.getColumnModel().getColumn(1).setResizable(false);
+            jTable_Usuarios.getColumnModel().getColumn(2).setResizable(false);
+            jTable_Usuarios.getColumnModel().getColumn(3).setResizable(false);
+            jTable_Usuarios.getColumnModel().getColumn(4).setResizable(false);
+            jTable_Usuarios.getColumnModel().getColumn(5).setResizable(false);
+            jTable_Usuarios.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jPanel4.setBackground(new java.awt.Color(60, 63, 65));
@@ -285,9 +289,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_CambiarPass.setText("Cambiar Contraseña");
         Btn_CambiarPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_CambiarPass.setFocusPainted(false);
-        Btn_CambiarPass.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarPass.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarPass.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_CambiarPass.setMaximumSize(new java.awt.Dimension(160, 50));
+        Btn_CambiarPass.setMinimumSize(new java.awt.Dimension(160, 50));
+        Btn_CambiarPass.setPreferredSize(new java.awt.Dimension(160, 50));
         Btn_CambiarPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_CambiarPassActionPerformed(evt);
@@ -299,9 +303,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_Activar.setActionCommand(" Activar Usuario");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar.setFocusPainted(false);
-        Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_Activar.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_Activar.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Activar.setMaximumSize(new java.awt.Dimension(160, 50));
+        Btn_Activar.setMinimumSize(new java.awt.Dimension(160, 50));
+        Btn_Activar.setPreferredSize(new java.awt.Dimension(160, 50));
         Btn_Activar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_ActivarActionPerformed(evt);
@@ -312,12 +316,25 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_Return.setText(" Regresar");
         Btn_Return.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Return.setFocusPainted(false);
-        Btn_Return.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_Return.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_Return.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Return.setMaximumSize(new java.awt.Dimension(160, 50));
+        Btn_Return.setMinimumSize(new java.awt.Dimension(160, 50));
+        Btn_Return.setPreferredSize(new java.awt.Dimension(160, 50));
         Btn_Return.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_ReturnActionPerformed(evt);
+            }
+        });
+
+        Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
+        Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Limpiar.setFocusPainted(false);
+        Btn_Limpiar.setMaximumSize(new java.awt.Dimension(160, 50));
+        Btn_Limpiar.setMinimumSize(new java.awt.Dimension(160, 50));
+        Btn_Limpiar.setPreferredSize(new java.awt.Dimension(160, 50));
+        Btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_LimpiarActionPerformed(evt);
             }
         });
 
@@ -326,13 +343,15 @@ public class FmrUsuarios extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(30, 30, 30)
                 .addComponent(Btn_CambiarPass, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
+                .addGap(35, 35, 35)
                 .addComponent(Btn_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(Btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
+                .addGap(30, 30, 30))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +360,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_CambiarPass, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -372,14 +392,25 @@ public class FmrUsuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //BOTONES Y TABLA   
     private void Btn_CambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Btn_CambiarPassActionPerformed
 
     private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
-        // TODO add your handling code here:
+               
+        int fila = jTable_Usuarios.getSelectedRow();
+        
+        if(fila != -1)
+        {
+            estadoUsuario();
+            Btn_Limpiar.setEnabled(false);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Tabla");
+        }             
+                
     }//GEN-LAST:event_Btn_ActivarActionPerformed
-
+      
     private void Btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ReturnActionPerformed
         
         FmrMenú M = new FmrMenú();
@@ -388,14 +419,172 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_ReturnActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable1MouseClicked
+    private void jTable_UsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_UsuariosMouseClicked
+        
+        int fila = jTable_Usuarios.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");                    
+        }else{
+            Btn_CambiarPass.setEnabled(true);
+            Btn_Activar.setEnabled(true);  
+            Btn_Limpiar.setEnabled(true);
+            
+            String IdU = jTable_Usuarios.getValueAt(fila, 0).toString();
+            String Nombre = jTable_Usuarios.getValueAt(fila, 1).toString();
+            String Contraseña = jTable_Usuarios.getValueAt(fila, 2).toString();
+            String Intentos = jTable_Usuarios.getValueAt(fila, 3).toString();
+            String Estado = jTable_Usuarios.getValueAt(fila, 4).toString();
+            String Admin = jTable_Usuarios.getValueAt(fila, 5).toString();
+            String IdE = jTable_Usuarios.getValueAt(fila, 6).toString();
+            
+            Txt_IdUsuario.setText(IdU);
+            Txt_UserName.setText(Nombre);
+            Txt_Contraseña.setText(Contraseña);
+            Txt_Intentos.setText(Intentos);
+            Txt_Estado.setText(Estado); 
+            Txt_Admin.setText(Admin);
+            Txt_IdEmpleado.setText(IdE);
+            
+            if(Estado == "1")
+            {
+                Btn_Activar.setText("Desactivar Usuario");
+            }else{ 
+                Btn_Activar.setText("Activar Usuario");   
+            }     
+            
+            if(Estado == "true")
+            {
+                Txt_Estado.setText("Activo");                                 
+            }else if(Estado == "false"){
+                Txt_Estado.setText("Desactivado"); 
+            }
+            
+            if(Admin == "true")
+            {
+                Txt_Admin.setText("1");                
+            }else{
+                Txt_Admin.setText("0");
+            }
+        }
+        
+    }//GEN-LAST:event_jTable_UsuariosMouseClicked
 
+    private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
+        
+        limpiarUsuario();
+        Btn_CambiarPass.setEnabled(false);
+        Btn_Limpiar.setEnabled(false);
+        
+    }//GEN-LAST:event_Btn_LimpiarActionPerformed
+
+    
     //FUNCIONES
     private void actualizarUsuario()
     {
+        DefaultTableModel t = new DefaultTableModel();
+        jTable_Usuarios.setModel(t);
         
+        t.addColumn("Id Usuario");
+        t.addColumn("Nombre");
+        t.addColumn("Contraseña");
+        t.addColumn("Intentos");
+        t.addColumn("Estado");
+        t.addColumn("Admin");
+        t.addColumn("Id Empleado");
+        
+        List<Usuarios> usuario = this.daoUsuarios.findUsuariosEntities();
+        
+        String s;
+        for(Usuarios Usuarios : usuario)
+        {
+            if(Usuarios.isActivoUsuario() == true) 
+            {
+                s = "Desactivar Usuario";                
+            }else{
+                s = "Activar Usuario";
+            }
+            
+            t.addRow(
+                    new Object[]{
+                        Usuarios.getIdUsuario(),
+                        Usuarios.getNombreUsuario(),
+                        Usuarios.getContraseña(),
+                        Usuarios.getNumeroDeIntentos(),
+                        Usuarios.isActivoUsuario(),
+                        Usuarios.isAdmin(),
+                        Usuarios.getIdEmpleados(),
+                        s
+                    });
+        }    
+    }
+    
+    private void estadoUsuario()
+    {
+        int fila = jTable_Usuarios.getSelectedRow();        
+        
+        String estado = Txt_Estado.getText();
+        
+        if(estado.equals("true"))
+        {            
+            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
+            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
+            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
+            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));            
+            objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
+            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
+            objUsuario.setActivoUsuario(false); 
+                        
+            try{
+                daoUsuarios.edit(objUsuario);
+                actualizarUsuario();
+                Btn_Activar.setText("Activar Usuario");
+                JOptionPane.showMessageDialog(this, "Se desactivó correctamente");            
+            }catch(Exception ex){
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);            
+            }
+        
+            limpiarUsuario();
+            Btn_CambiarPass.setEnabled(true);
+            Btn_Limpiar.setEnabled(false);
+            
+        }else{            
+            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
+            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
+            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
+            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));            
+            objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
+            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
+            objUsuario.setActivoUsuario(true);  
+            
+            try{
+                daoUsuarios.edit(objUsuario);
+                actualizarUsuario();
+                Btn_Activar.setText("Desactivar Usuario");
+                JOptionPane.showMessageDialog(this, "Se activó correctamente");            
+            }catch(Exception ex){
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);            
+            }
+            
+            limpiarUsuario();
+            Btn_CambiarPass.setEnabled(true);
+            Btn_Limpiar.setEnabled(false);
+        }                     
+    }
+    
+    private void limpiarUsuario()
+    {
+        Btn_CambiarPass.setEnabled(false);
+        Btn_Activar.setEnabled(false);
+        
+        Txt_IdUsuario.setText("");
+        Txt_IdEmpleado.setText("");
+        Txt_UserName.setText("");
+        Txt_Contraseña.setText("");
+        Txt_Intentos.setText("");
+        Txt_Estado.setText("");
+        Txt_Admin.setText("");             
     }
     
     /**
@@ -436,14 +625,15 @@ public class FmrUsuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar;
     private javax.swing.JButton Btn_CambiarPass;
+    private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Return;
-    private javax.swing.JTextField Txt_Activo;
+    private javax.swing.JTextField Txt_Admin;
     private javax.swing.JTextField Txt_Contraseña;
+    private javax.swing.JTextField Txt_Estado;
     private javax.swing.JTextField Txt_IdEmpleado;
     private javax.swing.JTextField Txt_IdUsuario;
     private javax.swing.JTextField Txt_Intentos;
     private javax.swing.JTextField Txt_UserName;
-    private javax.swing.JCheckBox jCheckAdmin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -456,7 +646,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable jTable_Usuarios;
     // End of variables declaration//GEN-END:variables
 }

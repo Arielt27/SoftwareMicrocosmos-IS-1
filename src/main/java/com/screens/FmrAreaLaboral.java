@@ -585,6 +585,8 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
          LimpiarAreaLaboral();
+         Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
           }else{  
          objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
         objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
@@ -600,6 +602,8 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         }
         
         LimpiarAreaLaboral();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }
          

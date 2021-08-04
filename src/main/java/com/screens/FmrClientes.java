@@ -635,7 +635,7 @@ public class FmrClientes extends javax.swing.JFrame {
 
         }else{
 
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Tabla");
 
         }
         
@@ -1042,13 +1042,15 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.edit(objCliente);
             ActualizarCliente();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
         LimpiarCliente();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }else{
         
@@ -1067,16 +1069,18 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.edit(objCliente);
             ActualizarCliente();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         LimpiarCliente();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }
         
-        }
+        }// aqui termina activar
             
             
     

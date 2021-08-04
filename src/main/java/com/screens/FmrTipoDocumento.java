@@ -686,6 +686,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
        
         LimpiarTipoDocumento();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }else{
         
@@ -704,6 +706,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         }
         
         LimpiarTipoDocumento();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }
         

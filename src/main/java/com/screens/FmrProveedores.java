@@ -88,7 +88,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Tipo de Pago - Microcosmos");
+        setTitle("Proveedores - Microcosmos");
         setResizable(false);
 
         Tbl_Proveedores.setModel(new javax.swing.table.DefaultTableModel(
@@ -771,6 +771,8 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         
         LimpiarProveedor();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }else{
         
@@ -793,6 +795,8 @@ public class FmrProveedores extends javax.swing.JFrame {
         }
         
         LimpiarProveedor();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }
         
