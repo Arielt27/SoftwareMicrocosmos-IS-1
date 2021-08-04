@@ -840,7 +840,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         String Usuario = Tbl_Empleados.getValueAt(fila, 11).toString();
         String Activo = Tbl_Empleados.getValueAt(fila, 12).toString();
 
-        Txt_IdEmpleados.setText(Id);
+          Txt_IdEmpleados.setText(Id);
         Txt_NombreEmpleado.setText(Nombre);
         Txt_Apellido.setText(Apellido);
         Txt_Telefono.setText(Telefono);
@@ -849,8 +849,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         Txt_Correo.setText(Correo);
         jComboBox1.setSelectedItem(TipoDocumento);
         Txt_Documento.setText(Documento);
+        jComboBox3.setSelectedItem(Area);
         Txt_Activar.setText(Activo);
-        
         if(Activo == "Activado"){
         Btn_Activar_Desactivar.setText("Desactivar");
         }else{
