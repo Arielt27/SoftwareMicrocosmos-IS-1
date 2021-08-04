@@ -126,6 +126,11 @@ public class FmrArticulos extends javax.swing.JFrame {
                 "ID", "Artículo", "Precio", "Descripción", "Talla", "Stock Actual", "Stock Mínimo", "Stock Máximo", "Sección"
             }
         ));
+        Tbl_Articulo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Tbl_ArticuloMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Tbl_Articulo);
         if (Tbl_Articulo.getColumnModel().getColumnCount() > 0) {
             Tbl_Articulo.getColumnModel().getColumn(0).setResizable(false);
@@ -680,6 +685,52 @@ public class FmrArticulos extends javax.swing.JFrame {
         LlenarArticulo();
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
+
+    private void Tbl_ArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_ArticuloMouseClicked
+
+         int fila =  Tbl_Articulo.getSelectedRow();
+        if(fila == -1){
+        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        
+        }else{
+        Btn_Añadir.setEnabled(false);
+        Btn_Limpiar.setEnabled(true);
+        Btn_Editar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(true);
+        String Id = Tbl_Articulo.getValueAt(fila, 0).toString();
+        String Nombre = Tbl_Articulo.getValueAt(fila, 1).toString();
+        String Precio = Tbl_Articulo.getValueAt(fila, 2).toString();
+        String Destripcion = Tbl_Articulo.getValueAt(fila, 3).toString();
+        String Talla= Tbl_Articulo.getValueAt(fila, 4).toString();
+        String StockAct= Tbl_Articulo.getValueAt(fila, 5).toString();
+        String StockMin = Tbl_Articulo.getValueAt(fila, 6).toString();
+        String StockMax = Tbl_Articulo.getValueAt(fila, 7).toString();
+        String Seccion = Tbl_Articulo.getValueAt(fila, 8).toString();
+        String Activo = Tbl_Articulo.getValueAt(fila, 9).toString();
+        
+        
+
+        Txt_IdArticulo.setText(Id);
+        Txt_NombreArticulo.setText(Nombre);
+        Txt_PrecioArticulo.setText(Precio);
+        Txt_DescripcionArticulo.setText(Destripcion);
+        ComboTalla.setSelectedItem(Talla);
+        Txt_StockAct.setText(StockAct);
+        Txt_StockMin.setText(StockMin);
+        Txt_StockMax.setText(StockMax);
+       ComboSeccion.setSelectedItem(Seccion);
+        Txt_Activo.setText(Activo);
+        
+        if(Activo == "Activado"){
+        Btn_Activar_Desactivar.setText("Desactivar");
+        }else{
+        
+             Btn_Activar_Desactivar.setText("Activar");
+        
+        }
+        }
+    }//GEN-LAST:event_Tbl_ArticuloMouseClicked
       
     //FUNCIONES Y MÉTODOS
     public void listaTalla()
@@ -842,6 +893,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
             objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
             objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
+            objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
             //objArtSec.setIdSeccionTienda(getIdSeccionTienda(String.valueOf(ComboSeccion.getSelectedItem())));
         }else {
             JOptionPane.showMessageDialog(this, "Debe añadir una cantidad de stock mínimo para este artículo.");
@@ -869,6 +921,7 @@ public class FmrArticulos extends javax.swing.JFrame {
          objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
          objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
          objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
+         objArtSec.setIdSeccionTienda(GetIdSeccion(Tbl_Articulo.getValueAt(fila, 8).toString()));
        //  objArtSec.setIdSeccionTienda(getIdSeccionTienda(Tbl_Articulo.getValueAt(fila, 8)));
        objArticulo.setActivoArticulo(false);
           
@@ -893,7 +946,7 @@ public class FmrArticulos extends javax.swing.JFrame {
          objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
          objArtSec.setIdSeccionTienda(GetIdSeccion(Tbl_Articulo.getValueAt(fila, 8).toString()));
          
-       //  objArtSec.setIdSeccionTienda(getIdSeccionTienda(Tbl_Articulo.getValueAt(fila, 8)));
+       
        objArticulo.setActivoArticulo(true);
         try {
            daoArticulo.edit(objArticulo);
@@ -950,7 +1003,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
             objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
             objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
-            
+            objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
                         
             
         try {
