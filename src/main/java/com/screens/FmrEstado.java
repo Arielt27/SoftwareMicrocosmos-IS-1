@@ -581,6 +581,8 @@ Estado objEstado = new Estado();
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
          LimpiarEstado();
+         Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
           }else{  
          objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
         objEstado.setNombreEstado((Tbl_Estado.getValueAt(fila, 1).toString()));
@@ -596,6 +598,8 @@ Estado objEstado = new Estado();
         }
         
         LimpiarEstado();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }
          

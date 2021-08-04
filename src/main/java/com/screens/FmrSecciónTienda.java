@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Ariel
  */
-public class FmrSecciónTienda extends javax.swing.JFrame {
+public class FmrSecciónTienda extends javax.swing.JFrame{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     SeccionTiendaJpaController daoSeccionTienda = new SeccionTiendaJpaController();
@@ -34,11 +34,15 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
     /**
      * Creates new form SecciónTienda
      */
-    public FmrSecciónTienda() {
+    
+    public FmrSecciónTienda(){
         initComponents();
         this.setLocationRelativeTo(null);
-         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
+        
+        //ÍCONO
+        Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon); 
+        
         ActualizarSeccion();
         Txt_Activo.setVisible(false);
         Btn_Actualizar.setEnabled(false);
@@ -101,6 +105,11 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        JTable_Sección.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTable_SecciónMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(JTable_Sección);
@@ -458,7 +467,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         }else{
 
             EditarSeccion();
-            LimpiarSeccion();
+            LimpiarSeccion();            
         }
     }//GEN-LAST:event_Btn_ActualizarActionPerformed
 
@@ -489,6 +498,38 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
+    private void JTable_SecciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTable_SecciónMouseClicked
+        
+        int fila = JTable_Sección.getSelectedRow();
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");            
+        }else{
+            Btn_Añadir.setEnabled(false);
+            Btn_Limpiar.setEnabled(true);
+            Btn_Actualizar.setEnabled(true);
+            Btn_Activar.setEnabled(true);
+            
+            String Id = JTable_Sección.getValueAt(fila, 0).toString();
+            String Nombre = JTable_Sección.getValueAt(fila, 1).toString();
+            String Descripcion = JTable_Sección.getValueAt(fila, 2).toString();
+            String Activo = JTable_Sección.getValueAt(fila, 3).toString();
+            
+            Txt_IdSección.setText(Id);
+            Txt_NombreSección.setText(Nombre);
+            Txt_DescripcionSecciónTienda.setText(Descripcion);
+            Txt_Activo.setText(Activo);
+            
+            if(Activo == "Activado")
+            {
+                Btn_Activar.setText("Desactivar");
+            }else{
+                Btn_Activar.setText("Activar");
+            }
+        }        
+    }//GEN-LAST:event_JTable_SecciónMouseClicked
+
+        
     //FUNCIONES 
     private void LlenarSeccion()
     {
@@ -533,6 +574,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         }else if(ValidacionDeRepetidos(Txt_NombreSección.getText()) == true){
         
         JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
         
         }else if(ValidacionTresLetras(Txt_NombreSección.getText()) == true){
         
@@ -543,16 +586,16 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
         
         }else{
-       objSeccionTienda.setIdSeccionTienda(Integer.parseInt(Txt_NombreSección.getText()));
+       objSeccionTienda.setIdSeccionTienda(Integer.parseInt(Txt_IdSección.getText()));
        objSeccionTienda.setNombreSeccionTienda(Txt_NombreSección.getText());
        objSeccionTienda.setDescripcionSeccionTienda(Txt_DescripcionSecciónTienda.getText());
        
        
-        try {
-            daoSeccionTienda.edit(objSeccionTienda);
-            ActualizarSeccion();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
-        } catch (Exception ex) {
+       try{
+           daoSeccionTienda.edit(objSeccionTienda);
+           ActualizarSeccion();
+           JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
+        }catch(Exception ex){
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
         }
         }        
@@ -561,23 +604,26 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
     private void ActualizarSeccion()
     {
         DefaultTableModel t = new DefaultTableModel();
-            JTable_Sección.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Descripción");
-            t.addColumn("Estado");
         
-            List<SeccionTienda> seccion = this.daoSeccionTienda.findSeccionTiendaEntities();
+        JTable_Sección.setModel(t);
+        t.addColumn("Id");
+        t.addColumn("Nombre");
+        t.addColumn("Descripción");
+        t.addColumn("Estado");
         
-            String s;
-            for(SeccionTienda Seccion : seccion){
-                
-                if(Seccion.isActivoSeccionTienda() == true){
+        List<SeccionTienda> seccion = this.daoSeccionTienda.findSeccionTiendaEntities();
+        
+        String s;
+        for(SeccionTienda Seccion : seccion)
+        {                         
+            if(Seccion.isActivoSeccionTienda() == true)
+            {
                 s = "Activado";
-                }else{
+            }else{
                 s = "Desactivado";
-                }
-                t.addRow(
+            }
+            
+            t.addRow(
                     new Object[]{
                         Seccion.getIdSeccionTienda(),
                         Seccion.getNombreSeccionTienda(),
@@ -585,6 +631,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
                         s
                     });
             }        
+        
+        Btn_Añadir.setEnabled(true);
+        Btn_Limpiar.setEnabled(false);
     }
     
     private void LimpiarSeccion()
@@ -621,6 +670,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
         
         
         LimpiarSeccion();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }else{
         
@@ -638,7 +689,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame {
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        LimpiarSeccion();       
+        LimpiarSeccion();    
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         }        
     }
     

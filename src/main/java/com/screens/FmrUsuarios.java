@@ -447,7 +447,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Txt_Admin.setText(Admin);
             Txt_IdEmpleado.setText(IdE);
             
-            if(Estado == "1")
+            if(Estado == "true")
             {
                 Btn_Activar.setText("Desactivar Usuario");
             }else{ 
@@ -534,7 +534,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));            
             objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
             objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
-            objUsuario.setActivoUsuario(false); 
+            objUsuario.setActivoUsuario(false);            
                         
             try{
                 daoUsuarios.edit(objUsuario);

@@ -893,7 +893,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
             objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
             objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
-            objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
+            //objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
             //objArtSec.setIdSeccionTienda(getIdSeccionTienda(String.valueOf(ComboSeccion.getSelectedItem())));
         }else {
             JOptionPane.showMessageDialog(this, "Debe añadir una cantidad de stock mínimo para este artículo.");
@@ -930,7 +930,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             daoArticulo.edit(objArticulo);
              ActualizarArticulo();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -952,7 +952,7 @@ public class FmrArticulos extends javax.swing.JFrame {
            daoArticulo.edit(objArticulo);
              ActualizarArticulo();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -996,20 +996,20 @@ public class FmrArticulos extends javax.swing.JFrame {
         
         }else{
             
-             objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
+            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
             objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
             objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
             objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
             objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
             objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
             objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
-            objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
+            //objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
                         
             
         try {
             daoArticulo.edit(objArticulo);
             ActualizarArticulo();
-             JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+             JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
              Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }

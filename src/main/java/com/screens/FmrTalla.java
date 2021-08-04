@@ -570,7 +570,7 @@ public class FmrTalla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_DescripcionTallaActionPerformed
 
-       private void LimpiarTalla(){
+    private void LimpiarTalla(){
        Btn_Editar.setEnabled(false);
        Btn_Activar_Desactivar.setEnabled(false);
        Txt_IdTalla.setText("");
@@ -578,7 +578,7 @@ public class FmrTalla extends javax.swing.JFrame {
        Txt_DescripcionTalla.setText("");
        }
        
-       private void ActualizarTalla(){
+    private void ActualizarTalla(){
        
             DefaultTableModel t = new DefaultTableModel();
             Tbl_Talla.setModel(t);
@@ -609,7 +609,7 @@ public class FmrTalla extends javax.swing.JFrame {
        
        }
        
-       private void LlenarTalla(){
+    private void LlenarTalla(){
         
         if(Txt_NombreTalla.getText().length() < 1){
         
@@ -644,7 +644,7 @@ public class FmrTalla extends javax.swing.JFrame {
        }   
        }
     
-       private void EditarTalla(){
+    private void EditarTalla(){
                   
            
         if(Txt_NombreTalla.getText().length() < 1){
@@ -679,11 +679,9 @@ public class FmrTalla extends javax.swing.JFrame {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
-       }
+       }      
        
-       
-       
-        private void Activar_Desactivar(){
+    private void Activar_Desactivar(){
         
         int fila = Tbl_Talla.getSelectedRow();
         
@@ -708,6 +706,8 @@ public class FmrTalla extends javax.swing.JFrame {
         
         
         LimpiarTalla();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }else{
         
@@ -725,13 +725,14 @@ public class FmrTalla extends javax.swing.JFrame {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        LimpiarTalla();        
+        LimpiarTalla(); 
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         }
         
         }
-        
-        
-        public static boolean ValidacionDeRepetidos(String Nombre){
+                
+    public static boolean ValidacionDeRepetidos(String Nombre){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -752,7 +753,7 @@ public class FmrTalla extends javax.swing.JFrame {
              
         }
         
-        private static boolean ValidacionTresLetras(String Nombre){
+    private static boolean ValidacionTresLetras(String Nombre){
         
             
         if(Nombre.length() >= 3){

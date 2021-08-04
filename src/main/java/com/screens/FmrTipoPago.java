@@ -615,6 +615,8 @@ TipoDePago objTipoDePago = new TipoDePago();
         
         
         LimpiarTipoPago();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }else{  
          objTipoDePago.setIdTipoDePago(Integer.parseInt(Txt_IdTipoPago.getText()));
@@ -631,6 +633,8 @@ TipoDePago objTipoDePago = new TipoDePago();
         }
         
         LimpiarTipoPago();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         
         }
         
