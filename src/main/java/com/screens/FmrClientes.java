@@ -574,7 +574,6 @@ public class FmrClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
-        Btn_Añadir.setEnabled(false);        
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
         String Id = Tbl_Clientes.getValueAt(fila, 0).toString();
