@@ -904,6 +904,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         });
     }
 
+   
      public void listaTipoDocumento(){
   
          jComboBox1.removeAllItems();
@@ -1072,7 +1073,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                         Empleados.getDocumento(),
                         Empleados.getFechaDeNacimiento(),
                         GetNombreSexo(Empleados.getIdSexo()),
-                        
+                        GetNombreAreaLaboral(Empleados.getidareaLaboral()),
+                        Empleados.getusuario(),
                         s
                     });
             }   
@@ -1123,6 +1125,9 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             objEmpleados.setDocumento(Txt_Documento.getText());
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
             objEmpleados.setActivoEmpleado(true);
+            objEmpleados.setidareaLaboral(GetIdAreaLaboral(String.valueOf(jComboBox3.getSelectedItem())));
+            objEmpleados.setusuario(Txt_Usuario.getText());
+            
             //objEmpleados.setAreaLaboral;
             
         try {
@@ -1167,6 +1172,9 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             objEmpleados.setCorreoEmpleado(Tbl_Empleados.getValueAt(fila, 5).toString());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Empleados.getValueAt(fila, 6).toString()));
             objEmpleados.setDocumento(Tbl_Empleados.getValueAt(fila, 7).toString());
+            objEmpleados.setIdSexo(GetIdSexo(Tbl_Empleados.getValueAt(fila, 9).toString()));
+            objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
+            objEmpleados.setusuario(Tbl_Empleados.getValueAt(fila, 11).toString());
             objEmpleados.setActivoEmpleado(false);
             
             
@@ -1194,6 +1202,10 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             objEmpleados.setCorreoEmpleado(Tbl_Empleados.getValueAt(fila, 5).toString());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Empleados.getValueAt(fila, 6).toString()));
             objEmpleados.setDocumento(Tbl_Empleados.getValueAt(fila, 7).toString());
+            //objEmpleados.setFechaDeNacimiento(Integer.parseInt(Tbl_Empleados.getValueAt(fila, 7).toString())));
+            objEmpleados.setIdSexo(GetIdSexo(Tbl_Empleados.getValueAt(fila, 9).toString()));
+            objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
+            objEmpleados.setusuario(Tbl_Empleados.getValueAt(fila, 11).toString());
             objEmpleados.setActivoEmpleado(true);
             
         try {
@@ -1268,6 +1280,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
        }  
             
             }
+            
             
          
     // Variables declaration - do not modify//GEN-BEGIN:variables
