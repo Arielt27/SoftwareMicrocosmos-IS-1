@@ -40,10 +40,10 @@ public class Empleados implements Serializable {
     private int idTipoDocumento;
     @Column
     private String direccion;
-    @Column
-    private int idareaLaboral;
-     @Column
-    private String usuario;
+    /*@Column
+    private int idareaLaboral;*/
+     //@Column
+    //private String usuario;
     public int getIdEmpleados() {
         return idEmpleados;
     }
@@ -133,18 +133,18 @@ public class Empleados implements Serializable {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    public int getidareaLaboral() {
+    /*public int getidareaLaboral() {
         return idareaLaboral;
     }
 
     public void setidareaLaboral(int idareaLaboral) {
         this.idareaLaboral = idareaLaboral;
-    }
-     public String getusuario() {
+    }*/
+    /* public String getusuario() {
         return usuario;
     }
 
     public void setusuario(String Usuario) {
         this.usuario = Usuario;
-    }
+    }*/
 }

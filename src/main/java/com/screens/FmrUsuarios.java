@@ -11,8 +11,10 @@ import java.awt.Image;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -71,6 +73,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Intentos = new javax.swing.JTextField();
         Txt_Estado = new javax.swing.JTextField();
         Txt_Admin = new javax.swing.JTextField();
+        Btn_Admin = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        Txt_Confirmar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Usuarios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -172,6 +177,29 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Intentos.setEditable(false);
 
         Txt_Estado.setEditable(false);
+        Txt_Estado.setMaximumSize(new java.awt.Dimension(75, 20));
+        Txt_Estado.setMinimumSize(new java.awt.Dimension(75, 20));
+        Txt_Estado.setPreferredSize(new java.awt.Dimension(75, 20));
+
+        Btn_Admin.setText("Administrador");
+        Btn_Admin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Admin.setFocusPainted(false);
+        Btn_Admin.setMaximumSize(new java.awt.Dimension(85, 30));
+        Btn_Admin.setMinimumSize(new java.awt.Dimension(85, 30));
+        Btn_Admin.setPreferredSize(new java.awt.Dimension(85, 30));
+        Btn_Admin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AdminActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("Confirmar Contraseña");
+        jLabel9.setMaximumSize(new java.awt.Dimension(120, 20));
+        jLabel9.setMinimumSize(new java.awt.Dimension(120, 20));
+        jLabel9.setPreferredSize(new java.awt.Dimension(120, 20));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -207,11 +235,20 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(Txt_Intentos, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                        .addComponent(Txt_Admin))
-                    .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(181, 181, 181))
+                    .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Txt_Intentos, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(Txt_Admin))
+                        .addGap(18, 18, 18)
+                        .addComponent(Btn_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(123, 123, 123))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,13 +270,21 @@ public class FmrUsuarios extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_UserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(Txt_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
+
+        Txt_Estado.getAccessibleContext().setAccessibleDescription("");
+        Btn_Admin.getAccessibleContext().setAccessibleDescription("Otorga privilegios de administrador al usuario seleccionado.");
 
         jTable_Usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -365,6 +410,11 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
+        Btn_CambiarPass.getAccessibleContext().setAccessibleDescription("Cambia la contraseña del usuario seleccionado.");
+        Btn_Activar.getAccessibleContext().setAccessibleDescription("Permite activar o desactivar el elemento seleccionado.");
+        Btn_Return.getAccessibleContext().setAccessibleDescription("Vuelve a la pantalla anterior.");
+        Btn_Limpiar.getAccessibleContext().setAccessibleDescription("Borra los datos de todos los campos de texto.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -394,7 +444,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     //BOTONES Y TABLA   
     private void Btn_CambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarPassActionPerformed
-        // TODO add your handling code here:
+        
+        cambiarPass();
+        
     }//GEN-LAST:event_Btn_CambiarPassActionPerformed
 
     private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
@@ -403,8 +455,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         if(fila != -1)
         {
-            estadoUsuario();
-            Btn_Limpiar.setEnabled(false);
+            estadoUsuario();            
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Tabla");
         }             
@@ -473,14 +524,38 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
-        limpiarUsuario();
-        Btn_CambiarPass.setEnabled(false);
+        limpiarUsuario();        
         Btn_Limpiar.setEnabled(false);
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
+    private void Btn_AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AdminActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_AdminActionPerformed
     
+            
     //FUNCIONES
+    private void cambiarPass()
+    {
+        if(Txt_Contraseña.getText().length() < 8)
+        {                 
+            JOptionPane.showMessageDialog(this, "La contraseña debe contener mínimo 8 carácteres.");        
+        }else if(contraseñaRepetida(Txt_Contraseña.getText()) == true)
+        {
+            JOptionPane.showMessageDialog(this, "La contraseña no debe repetirse.");                                
+        }else{
+            objUsuario.setContraseña(Txt_Contraseña.getText());                      
+        }
+        
+        try{
+            daoUsuarios.edit(objUsuario);
+            actualizarUsuario();
+            JOptionPane.showMessageDialog(this, "La contraseña ha sido actualizada.");
+        }catch(Exception ex){
+            Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);            
+        }
+    }
+    
     private void actualizarUsuario()
     {
         DefaultTableModel t = new DefaultTableModel();
@@ -526,7 +601,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         String estado = Txt_Estado.getText();
         
-        if(estado.equals("true"))
+        if(estado.equals("Activo"))
         {            
             objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
             objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
@@ -569,13 +644,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
             
             limpiarUsuario();
             Btn_CambiarPass.setEnabled(true);
-            Btn_Limpiar.setEnabled(false);
-        }                     
+            Btn_Limpiar.setEnabled(false);            
+        }         
+        
     }
     
     private void limpiarUsuario()
     {
-        Btn_CambiarPass.setEnabled(false);
+        Btn_CambiarPass.setEnabled(true);
         Btn_Activar.setEnabled(false);
         
         Txt_IdUsuario.setText("");
@@ -585,6 +661,24 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Intentos.setText("");
         Txt_Estado.setText("");
         Txt_Admin.setText("");             
+    }
+    
+    public static boolean contraseñaRepetida(String Contraseña)
+    {             
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+                    
+        String select = "SELECT idUsuario FROM Usuarios WHERE contraseña  = '"+Contraseña+ "'";
+   
+        Query query = em.createQuery(select);
+       
+        if(query.getResultList().size() == 0)
+        {
+            return false;
+             
+        }else{
+            return true;                
+        }             
     }
     
     /**
@@ -624,10 +718,12 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar;
+    private javax.swing.JButton Btn_Admin;
     private javax.swing.JButton Btn_CambiarPass;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Return;
     private javax.swing.JTextField Txt_Admin;
+    private javax.swing.JTextField Txt_Confirmar;
     private javax.swing.JTextField Txt_Contraseña;
     private javax.swing.JTextField Txt_Estado;
     private javax.swing.JTextField Txt_IdEmpleado;
@@ -642,6 +738,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

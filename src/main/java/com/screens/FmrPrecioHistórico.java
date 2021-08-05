@@ -5,11 +5,25 @@
  */
 package com.screens;
 
+import com.clases.PrecioHistorico;
+import com.dao.PrecioHistoricoJpaController;
+import java.awt.Image;
+import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author david
  */
 public class FmrPrecioHistórico extends javax.swing.JFrame {
+    
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    PrecioHistoricoJpaController daoPrecioH = new PrecioHistoricoJpaController();
+    PrecioHistorico objPrecioH = new PrecioHistorico();
 
     /**
      * Creates new form PrecioHistórico
@@ -17,6 +31,13 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     public FmrPrecioHistórico() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        //Ícono
+        Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
+        setIconImage(icon);
+        
+        actualizarPrecioHistorico();  
+        Btn_Clean.setEnabled(false);
     }
 
     /**
@@ -29,13 +50,24 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_PrecioHistorico = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        Txt_PH = new javax.swing.JTextField();
+        Txt_Precio = new javax.swing.JTextField();
+        Txt_FechaI = new javax.swing.JTextField();
+        Txt_FechaF = new javax.swing.JTextField();
+        Txt_Estado = new javax.swing.JTextField();
+        Txt_IdArticulo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        Btn_Clean = new javax.swing.JButton();
         Btn_Regresar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
 
@@ -45,21 +77,42 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_PrecioHistorico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Precio H.", "Precio", "Fecha Inicial", "Fecha Final", "Activo", "ID Articulo"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable_PrecioHistorico.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_PrecioHistoricoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable_PrecioHistorico);
+        if (jTable_PrecioHistorico.getColumnModel().getColumnCount() > 0) {
+            jTable_PrecioHistorico.getColumnModel().getColumn(0).setResizable(false);
+            jTable_PrecioHistorico.getColumnModel().getColumn(1).setResizable(false);
+            jTable_PrecioHistorico.getColumnModel().getColumn(2).setResizable(false);
+            jTable_PrecioHistorico.getColumnModel().getColumn(3).setResizable(false);
+            jTable_PrecioHistorico.getColumnModel().getColumn(4).setResizable(false);
+            jTable_PrecioHistorico.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
         jPanel1.setMaximumSize(new java.awt.Dimension(800, 100));
@@ -88,15 +141,109 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(800, 230));
         jPanel2.setPreferredSize(new java.awt.Dimension(800, 230));
 
+        Txt_PH.setEditable(false);
+
+        Txt_Precio.setEditable(false);
+
+        Txt_FechaI.setEditable(false);
+
+        Txt_FechaF.setEditable(false);
+
+        Txt_Estado.setEditable(false);
+
+        Txt_IdArticulo.setEditable(false);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("ID Precio Histórico");
+        jLabel2.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Precio");
+        jLabel3.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Fecha Inicial");
+        jLabel4.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Fecha Final");
+        jLabel5.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Estado");
+        jLabel6.setPreferredSize(new java.awt.Dimension(80, 20));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("ID Artículo");
+        jLabel7.setPreferredSize(new java.awt.Dimension(80, 20));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Txt_Precio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Txt_PH, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_FechaI, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Txt_FechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(100, 100, 100))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 228, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Txt_PH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_FechaF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Txt_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Txt_FechaI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -104,21 +251,18 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 130));
         jPanel3.setPreferredSize(new java.awt.Dimension(800, 130));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
-        jButton1.setText(" Actualizar");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton1.setFocusPainted(false);
-        jButton1.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton1.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton1.setPreferredSize(new java.awt.Dimension(120, 50));
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
-        jButton3.setText(" Limpiar");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton3.setFocusPainted(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(120, 50));
-        jButton3.setMinimumSize(new java.awt.Dimension(120, 50));
-        jButton3.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Clean.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
+        Btn_Clean.setText(" Limpiar");
+        Btn_Clean.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Clean.setFocusPainted(false);
+        Btn_Clean.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Clean.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Clean.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Clean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_CleanActionPerformed(evt);
+            }
+        });
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
@@ -146,18 +290,15 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(140, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(82, 82, 82)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
-                        .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(148, 148, 148))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(260, 260, 260))))
+                .addContainerGap(275, Short.MAX_VALUE)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(260, 260, 260))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(250, 250, 250)
+                .addComponent(Btn_Clean, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(250, 250, 250))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,8 +308,7 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Regresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Clean, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -207,6 +347,97 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
+    private void jTable_PrecioHistoricoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PrecioHistoricoMouseClicked
+        
+        int fila = jTable_PrecioHistorico.getSelectedRow();
+                
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+        }else{
+            Btn_Clean.setEnabled(true);
+            
+            String IdPH = jTable_PrecioHistorico.getValueAt(fila, 0).toString();
+            String Precio = jTable_PrecioHistorico.getValueAt(fila, 1).toString();
+            String FechaI = jTable_PrecioHistorico.getValueAt(fila, 2).toString();
+            String FechaF = jTable_PrecioHistorico.getValueAt(fila, 3).toString();
+            String Estado = jTable_PrecioHistorico.getValueAt(fila, 4).toString();
+            String IdArticulo = jTable_PrecioHistorico.getValueAt(fila, 5).toString();
+
+            Txt_PH.setText(IdPH);
+            Txt_Precio.setText(Precio);
+            Txt_FechaI.setText(FechaI);
+            Txt_FechaF.setText(FechaF);
+            Txt_Estado.setText(Estado);
+            Txt_IdArticulo.setText(IdArticulo);
+            
+            if(Estado == "true")
+            {
+                Txt_Estado.setText("Activo");                                 
+            }else if(Estado == "false"){
+                Txt_Estado.setText("Desactivado"); 
+            } 
+        }       
+        
+    }//GEN-LAST:event_jTable_PrecioHistoricoMouseClicked
+
+    private void Btn_CleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CleanActionPerformed
+                               
+        limpiar();
+        Btn_Clean.setEnabled(false);
+        
+    }//GEN-LAST:event_Btn_CleanActionPerformed
+
+    
+    //METODOS
+    private void actualizarPrecioHistorico()
+    {
+        DefaultTableModel t = new DefaultTableModel();
+        jTable_PrecioHistorico.setModel(t);
+        
+        t.addColumn("Id Precio H");
+        t.addColumn("Precio");
+        t.addColumn("Fecha Inicial");
+        t.addColumn("Fecha Final");
+        t.addColumn("Estado");
+        t.addColumn("Id Artículo");
+        
+        List<PrecioHistorico> precioH = this.daoPrecioH.findPrecioHistoricoEntities();
+        
+        String s;
+        for(PrecioHistorico PrecioHistorico : precioH)
+        {
+            if(PrecioHistorico.isActivoPrecioHistorico() == true)
+            {
+                s = "Activado";                
+            }else{
+                s = "Desactivado";
+            }
+            
+            t.addRow(
+                    new Object[]{
+                        PrecioHistorico.getIdPrecioHistorico(),
+                        PrecioHistorico.getPrecio(),
+                        PrecioHistorico.getFechaInicial(),
+                        PrecioHistorico.getFechaFinal(),
+                        PrecioHistorico.isActivoPrecioHistorico(),
+                        PrecioHistorico.getIdArticulo(),
+                        s
+                    });
+        }                 
+    }
+    
+    private void limpiar()
+    {
+        Txt_PH.setText("");
+        Txt_Precio.setText("");
+        Txt_FechaI.setText("");
+        Txt_FechaF.setText("");
+        Txt_Estado.setText("");
+        Txt_Estado.setText("");
+        Txt_IdArticulo.setText("");        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -250,15 +481,28 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Btn_Clean;
+    private javax.swing.JButton Btn_Limpiar;
+    private javax.swing.JButton Btn_Limpiar1;
     private javax.swing.JButton Btn_Regresar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JTextField Txt_Estado;
+    private javax.swing.JTextField Txt_FechaF;
+    private javax.swing.JTextField Txt_FechaI;
+    private javax.swing.JTextField Txt_IdArticulo;
+    private javax.swing.JTextField Txt_PH;
+    private javax.swing.JTextField Txt_Precio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_PrecioHistorico;
     // End of variables declaration//GEN-END:variables
 }

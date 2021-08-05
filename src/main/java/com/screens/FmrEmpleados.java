@@ -46,9 +46,9 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         this.setLocationRelativeTo(null);
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
-        listaTipoDocumento();
-        listaSexo();
-        listaAreaLaboral();
+        //listaTipoDocumento();
+        //listaSexo();
+        //listaAreaLaboral();
         Txt_Activar.setVisible(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
@@ -786,18 +786,18 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     }//GEN-LAST:event_Txt_UsuarioKeyTyped
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
-    LlenarEmpleado();
+    //LlenarEmpleado();
        
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
-     LimpiarEmpleado();
-     EditarEmpleado();
+     //LimpiarEmpleado();
+     //EditarEmpleado();
         // TODO add your handling code here:
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
-       int fila = Tbl_Empleados.getSelectedRow();
+       /*int fila = Tbl_Empleados.getSelectedRow();
 
         if(fila != -1){
 
@@ -807,18 +807,18 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
 
-        }
+        }*/
         // TODO add your handling code here:
     }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
-         LimpiarEmpleado();
+         //LimpiarEmpleado();
        
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Tbl_EmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_EmpleadosMouseClicked
         
-        int fila =  Tbl_Empleados.getSelectedRow();
+       /* int fila =  Tbl_Empleados.getSelectedRow();
         if(fila == -1){
         
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
@@ -859,7 +859,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         
         }
     }//GEN-LAST:event_Tbl_EmpleadosMouseClicked
-       }
+    */
+        }
     
     
     /**
@@ -905,7 +906,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     }
 
    
-     public void listaTipoDocumento(){
+     /*public void listaTipoDocumento(){
   
          jComboBox1.removeAllItems();
   
@@ -1073,7 +1074,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                         Empleados.getDocumento(),
                         Empleados.getFechaDeNacimiento(),
                         GetNombreSexo(Empleados.getIdSexo()),
-                        GetNombreAreaLaboral(Empleados.getidareaLaboral()),
+                        //GetNombreAreaLaboral(Empleados.getidareaLaboral()),
                         Empleados.getusuario(),
                         s
                     });
@@ -1125,7 +1126,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             objEmpleados.setDocumento(Txt_Documento.getText());
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
             objEmpleados.setActivoEmpleado(true);
-            objEmpleados.setidareaLaboral(GetIdAreaLaboral(String.valueOf(jComboBox3.getSelectedItem())));
+            //objEmpleados.setidareaLaboral(GetIdAreaLaboral(String.valueOf(jComboBox3.getSelectedItem())));
             objEmpleados.setusuario(Txt_Usuario.getText());
             
             //objEmpleados.setAreaLaboral;
@@ -1173,7 +1174,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Empleados.getValueAt(fila, 6).toString()));
             objEmpleados.setDocumento(Tbl_Empleados.getValueAt(fila, 7).toString());
             objEmpleados.setIdSexo(GetIdSexo(Tbl_Empleados.getValueAt(fila, 9).toString()));
-            objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
+            //objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
             objEmpleados.setusuario(Tbl_Empleados.getValueAt(fila, 11).toString());
             objEmpleados.setActivoEmpleado(false);
             
@@ -1204,7 +1205,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             objEmpleados.setDocumento(Tbl_Empleados.getValueAt(fila, 7).toString());
             //objEmpleados.setFechaDeNacimiento(Integer.parseInt(Tbl_Empleados.getValueAt(fila, 7).toString())));
             objEmpleados.setIdSexo(GetIdSexo(Tbl_Empleados.getValueAt(fila, 9).toString()));
-            objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
+            //objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
             objEmpleados.setusuario(Tbl_Empleados.getValueAt(fila, 11).toString());
             objEmpleados.setActivoEmpleado(true);
             
@@ -1279,7 +1280,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         }
        }  
             
-            }
+            }*/
             
             
          
