@@ -11,6 +11,8 @@ import java.awt.Image;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -44,7 +46,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         actualizarUsuario();        
         Btn_CambiarPass.setEnabled(false);
         Btn_Activar.setEnabled(false);  
-        Btn_Limpiar.setEnabled(false);
+        Btn_Limpiar.setEnabled(false);        
     }
 
     /**
@@ -253,7 +255,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_IdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,11 +278,11 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         Txt_Estado.getAccessibleContext().setAccessibleDescription("");
@@ -459,7 +461,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Tabla");
         }             
-                
+                       
     }//GEN-LAST:event_Btn_ActivarActionPerformed
       
     private void Btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ReturnActionPerformed
@@ -496,27 +498,29 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Txt_Intentos.setText(Intentos);
             Txt_Estado.setText(Estado); 
             Txt_Admin.setText(Admin);
-            Txt_IdEmpleado.setText(IdE);
+            Txt_IdEmpleado.setText(IdE);                       
             
             if(Estado == "true")
             {
                 Btn_Activar.setText("Desactivar Usuario");
+                Btn_Admin.setEnabled(true);
             }else{ 
                 Btn_Activar.setText("Activar Usuario");   
+                Btn_Admin.setEnabled(false);
             }     
             
             if(Estado == "true")
             {
-                Txt_Estado.setText("Activo");                                 
+                Txt_Estado.setText("Activo");                                                 
             }else if(Estado == "false"){
                 Txt_Estado.setText("Desactivado"); 
             }
             
             if(Admin == "true")
             {
-                Txt_Admin.setText("1");                
+                Txt_Admin.setText("Si");                
             }else{
-                Txt_Admin.setText("0");
+                Txt_Admin.setText("No");
             }
         }
         
@@ -526,34 +530,60 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         limpiarUsuario();        
         Btn_Limpiar.setEnabled(false);
+        Btn_Admin.setEnabled(false);
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AdminActionPerformed
-        // TODO add your handling code here:
+        
+        int fila = jTable_Usuarios.getSelectedRow();
+        
+        if(fila != -1)
+        {                      
+            adminUsuario();                                                                              
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
+        }                     
+        
     }//GEN-LAST:event_Btn_AdminActionPerformed
     
             
     //FUNCIONES
     private void cambiarPass()
     {
-        if(Txt_Contraseña.getText().length() < 8)
-        {                 
-            JOptionPane.showMessageDialog(this, "La contraseña debe contener mínimo 8 carácteres.");        
-        }else if(contraseñaRepetida(Txt_Contraseña.getText()) == true)
-        {
-            JOptionPane.showMessageDialog(this, "La contraseña no debe repetirse.");                                
-        }else{
-            objUsuario.setContraseña(Txt_Contraseña.getText());                      
-        }
+        String contra = Txt_Contraseña.getText();
+        String pass2 = Txt_Confirmar.getText();
         
-        try{
-            daoUsuarios.edit(objUsuario);
-            actualizarUsuario();
-            JOptionPane.showMessageDialog(this, "La contraseña ha sido actualizada.");
-        }catch(Exception ex){
-            Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);            
-        }
+         Pattern pass = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");        
+         Matcher mat = pass.matcher(Txt_Contraseña.getText());
+         
+         if(mat.matches())
+         {
+             if(contra.equals(pass2))            
+             {                 
+                 JOptionPane.showMessageDialog(this, "Las contraseñas coinciden.");                        
+                 
+                 objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
+                 objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
+                 objUsuario.setNombreUsuario(Txt_UserName.getText());
+                 objUsuario.setContraseña(Txt_Contraseña.getText());
+                 objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));
+                 objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
+                 objUsuario.setActivoUsuario(Boolean.parseBoolean(Txt_Estado.getText()));
+                 
+                 try{
+                     daoUsuarios.edit(objUsuario);
+                     actualizarUsuario();
+                     JOptionPane.showMessageDialog(this, "La contraseña se actualizó correctamente.");
+                 }catch(Exception ex){
+                     Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                 }                 
+             }else{
+                 JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.","Contraseña incorrecta", JOptionPane.ERROR_MESSAGE);
+             }             
+         }else{
+             JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos un número, una letra mayúscula y minúscula, un carácter especial y mínimo 8 dígitos.","Formato de contraseña incorrecto", JOptionPane.ERROR_MESSAGE);             
+         }                  
     }
     
     private void actualizarUsuario()
@@ -576,9 +606,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         {
             if(Usuarios.isActivoUsuario() == true) 
             {
-                s = "Desactivar Usuario";                
+                s = "Activado";                
             }else{
-                s = "Activar Usuario";
+                s = "Desactivado";
             }
             
             t.addRow(
@@ -649,6 +679,46 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
     }
     
+    private void adminUsuario()
+    {
+        int fila = jTable_Usuarios.getSelectedRow();
+        
+        String admin = Txt_Admin.getText();
+        
+        if(admin.equals("Si"))
+        {
+            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
+            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
+            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
+            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));                        
+            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));                        
+            objUsuario.setAdmin(false);
+            
+            try{
+                daoUsuarios.edit(objUsuario);
+                actualizarUsuario();
+                JOptionPane.showMessageDialog(this, "El usuario ya no es Administrador.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);                                            
+            }                                  
+        }else{
+            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
+            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
+            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
+            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));                        
+            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));            
+            objUsuario.setAdmin(true);
+            
+            try{
+                daoUsuarios.edit(objUsuario);
+                actualizarUsuario();
+                JOptionPane.showMessageDialog(this, "El usuario ahora es Administrador.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);                                            
+            }                                                           
+        }        
+    }
+    
     private void limpiarUsuario()
     {
         Btn_CambiarPass.setEnabled(true);
@@ -658,10 +728,11 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_IdEmpleado.setText("");
         Txt_UserName.setText("");
         Txt_Contraseña.setText("");
+        Txt_Confirmar.setText("");
         Txt_Intentos.setText("");
         Txt_Estado.setText("");
         Txt_Admin.setText("");             
-    }
+    }        
     
     public static boolean contraseñaRepetida(String Contraseña)
     {             
@@ -680,7 +751,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             return true;                
         }             
     }
-    
+            
     /**
      * @param args the command line arguments
      */
@@ -714,7 +785,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 new FmrUsuarios().setVisible(true);
             }
         });
-    }
+    }        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar;
