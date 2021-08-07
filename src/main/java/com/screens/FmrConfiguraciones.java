@@ -47,7 +47,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
         Btn_Menu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Btn_Facturas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Configuración - Microcosmos");
@@ -223,14 +223,19 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(204, 204, 204));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setText("Historial de Facturas");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        jButton2.setFocusPainted(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(150, 50));
-        jButton2.setMinimumSize(new java.awt.Dimension(150, 50));
-        jButton2.setPreferredSize(new java.awt.Dimension(150, 50));
+        Btn_Facturas.setBackground(new java.awt.Color(204, 204, 204));
+        Btn_Facturas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Btn_Facturas.setText("Historial de Facturas");
+        Btn_Facturas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Facturas.setFocusPainted(false);
+        Btn_Facturas.setMaximumSize(new java.awt.Dimension(150, 50));
+        Btn_Facturas.setMinimumSize(new java.awt.Dimension(150, 50));
+        Btn_Facturas.setPreferredSize(new java.awt.Dimension(150, 50));
+        Btn_Facturas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_FacturasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -246,7 +251,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                             .addComponent(Btn_Estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Btn_TipoDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Btn_SeccionTienda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Btn_Facturas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Btn_Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,7 +286,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Btn_Menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Facturas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47))
         );
 
@@ -379,6 +384,14 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void Btn_FacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_FacturasActionPerformed
+        
+        FmrHistorialFacturas Fact = new FmrHistorialFacturas();
+        Fact.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_Btn_FacturasActionPerformed
+
     
     
     /**
@@ -426,6 +439,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_AreaLaboral;
     private javax.swing.JButton Btn_Estado;
+    private javax.swing.JButton Btn_Facturas;
     private javax.swing.JButton Btn_Menu;
     private javax.swing.JButton Btn_PrecioHistorico;
     private javax.swing.JButton Btn_SeccionTienda;
@@ -433,7 +447,6 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
     private javax.swing.JButton Btn_TipoDocumento;
     private javax.swing.JButton Btn_TipoPago;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

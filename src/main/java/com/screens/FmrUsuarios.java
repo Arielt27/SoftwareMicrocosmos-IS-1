@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author david
+ * @author Ariel
  */
 public class FmrUsuarios extends javax.swing.JFrame {
     
@@ -182,6 +182,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Estado.setMaximumSize(new java.awt.Dimension(75, 20));
         Txt_Estado.setMinimumSize(new java.awt.Dimension(75, 20));
         Txt_Estado.setPreferredSize(new java.awt.Dimension(75, 20));
+
+        Txt_Admin.setEditable(false);
 
         Btn_Admin.setText("Administrador");
         Btn_Admin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
@@ -507,6 +509,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }else{ 
                 Btn_Activar.setText("Activar Usuario");   
                 Btn_Admin.setEnabled(false);
+                Btn_CambiarPass.setEnabled(false);
             }     
             
             if(Estado == "true")
@@ -569,7 +572,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  objUsuario.setContraseña(Txt_Contraseña.getText());
                  objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));
                  objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
-                 objUsuario.setActivoUsuario(Boolean.parseBoolean(Txt_Estado.getText()));
+                 //objUsuario.setActivoUsuario(Boolean.parseBoolean(Txt_Estado.getText()));
                  
                  try{
                      daoUsuarios.edit(objUsuario);

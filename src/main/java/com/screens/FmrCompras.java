@@ -128,7 +128,7 @@ public class FmrCompras extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Proveedor");
+        jLabel10.setText("Artículo");
         jLabel10.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel10.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel10.setPreferredSize(new java.awt.Dimension(120, 20));

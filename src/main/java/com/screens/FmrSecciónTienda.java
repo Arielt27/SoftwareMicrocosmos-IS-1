@@ -43,6 +43,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon); 
         
+        //INICIALIZAR PANTALLA
         ActualizarSeccion();
         Txt_Activo.setVisible(false);
         Btn_Actualizar.setEnabled(false);
@@ -385,7 +386,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     }//GEN-LAST:event_Txt_IdSecciónKeyTyped
 
     private void Txt_NombreSecciónKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreSecciónKeyTyped
-
+       
         char l = evt.getKeyChar();                
         String Texto = Txt_NombreSección.getText();
 

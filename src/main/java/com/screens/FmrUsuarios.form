@@ -398,6 +398,9 @@
           </AccessibilityProperties>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Admin">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="Btn_Admin">
           <Properties>

@@ -5,19 +5,34 @@
  */
 package com.screens;
 
+import com.clases.Parametros;
+import com.dao.ParametrosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author david
  */
 public class FmrParametros extends javax.swing.JFrame {
+    
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    ParametrosJpaController daoParam = new ParametrosJpaController();
+    Parametros objParam = new Parametros();        
 
     /**
      * Creates new form FmrParametros
@@ -30,7 +45,10 @@ public class FmrParametros extends javax.swing.JFrame {
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
         
-        Btn_Añadir.setEnabled(false);
+        //INICIALIZAR PANTALLA
+        actualizarCai();
+        Txt_Estado.setVisible(false);
+        Txt_IdCai.setVisible(false);                
     }
 
     /**
@@ -45,7 +63,7 @@ public class FmrParametros extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_CAI = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -59,6 +77,8 @@ public class FmrParametros extends javax.swing.JFrame {
         Txt_NumeroF = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        Txt_Estado = new javax.swing.JTextField();
+        Txt_IdCai = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Btn_Regresar2 = new javax.swing.JButton();
         Btn_Limpiar = new javax.swing.JButton();
@@ -66,7 +86,6 @@ public class FmrParametros extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Parámetros - Microcosmos");
-        setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
@@ -87,7 +106,7 @@ public class FmrParametros extends javax.swing.JFrame {
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_CAI.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -96,7 +115,7 @@ public class FmrParametros extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID CAI", "CAI", "Fecha Inicial", "Fecha Final", "Inicio Facturas", "Fin Facturas"
+                "ID CAI", "CAI", "Fecha Inicial", "Fecha Final", "Factura Inicial", "Factura Final"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -107,14 +126,19 @@ public class FmrParametros extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        jTable_CAI.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_CAIMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable_CAI);
+        if (jTable_CAI.getColumnModel().getColumnCount() > 0) {
+            jTable_CAI.getColumnModel().getColumn(0).setResizable(false);
+            jTable_CAI.getColumnModel().getColumn(1).setResizable(false);
+            jTable_CAI.getColumnModel().getColumn(2).setResizable(false);
+            jTable_CAI.getColumnModel().getColumn(3).setResizable(false);
+            jTable_CAI.getColumnModel().getColumn(4).setResizable(false);
+            jTable_CAI.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
@@ -144,7 +168,6 @@ public class FmrParametros extends javax.swing.JFrame {
         jLabel3.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel3.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_Cai.setText("35BD6A-0195F4-B34BAA-8B7D13-37791A-2D");
         Txt_Cai.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_CaiKeyTyped(evt);
@@ -172,7 +195,6 @@ public class FmrParametros extends javax.swing.JFrame {
         jTextArea1.setPreferredSize(new java.awt.Dimension(164, 179));
         jScrollPane2.setViewportView(jTextArea1);
 
-        Txt_NumeroI.setText("000-007-01-00000056");
         Txt_NumeroI.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_NumeroIKeyTyped(evt);
@@ -215,15 +237,20 @@ public class FmrParametros extends javax.swing.JFrame {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(Txt_FechaFC, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(Txt_FechaIC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(Txt_FechaFC, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Txt_FechaIC, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Txt_IdCai, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(Txt_Estado)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(Txt_NumeroI, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addComponent(Txt_NumeroF, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(Txt_Cai, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addGap(55, 55, 55))
         );
         jPanel2Layout.setVerticalGroup(
@@ -238,12 +265,16 @@ public class FmrParametros extends javax.swing.JFrame {
                             .addComponent(Txt_Cai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Txt_FechaIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(Txt_FechaIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Txt_FechaFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(Txt_FechaFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_IdCai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Txt_NumeroI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -356,7 +387,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
                   
-        validacionCAI();
+        Añadir();
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
@@ -377,13 +408,13 @@ public class FmrParametros extends javax.swing.JFrame {
         char n = evt.getKeyChar();
 
         // Permitir solo números y puntos
-        if (!Character.isDigit(n) && n != KeyEvent.VK_SLASH)
+        if (!Character.isDigit(n) && n != KeyEvent.VK_MINUS && n != KeyEvent.VK_COLON && n != KeyEvent.VK_SPACE)
         {
             evt.consume();            
         }
         
         // Maximo de carácteres permitidos
-        if (Txt_FechaIC.getText().length() >= 10)
+        if (Txt_FechaIC.getText().length() >= 21)
         {
             evt.consume();     
             Toolkit.getDefaultToolkit().beep();
@@ -396,13 +427,13 @@ public class FmrParametros extends javax.swing.JFrame {
         char n = evt.getKeyChar();
 
         // Permitir solo números y puntos
-        if (!Character.isDigit(n) && n != KeyEvent.VK_SLASH)
+        if (!Character.isDigit(n) && n != KeyEvent.VK_MINUS && n != KeyEvent.VK_COLON && n != KeyEvent.VK_SPACE)
         {
             evt.consume();            
         }
-        
+               
         // Maximo de carácteres permitidos
-        if (Txt_FechaFC.getText().length() >= 10)
+        if (Txt_FechaFC.getText().length() >= 21)
         {
             evt.consume();     
             Toolkit.getDefaultToolkit().beep();
@@ -446,10 +477,104 @@ public class FmrParametros extends javax.swing.JFrame {
             Toolkit.getDefaultToolkit().beep();
         }
     }//GEN-LAST:event_Txt_NumeroFKeyTyped
-    
+
+    private void jTable_CAIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_CAIMouseClicked
+        
+        int fila = jTable_CAI.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento para ver su información.","Error!", JOptionPane.ERROR_MESSAGE);            
+        }else{
+            Btn_Añadir.setEnabled(false);            
+            Btn_Limpiar.setEnabled(true);
+            
+            String IdCai = jTable_CAI.getValueAt(fila, 0).toString();
+            String CAI = jTable_CAI.getValueAt(fila, 1).toString();
+            String FechaI = jTable_CAI.getValueAt(fila, 2).toString();
+            String FechaF = jTable_CAI.getValueAt(fila, 3).toString();
+            String FactI = jTable_CAI.getValueAt(fila, 4).toString();
+            String FactF = jTable_CAI.getValueAt(fila, 5).toString();
+            //String Estado = jTable_CAI.getValueAt(fila, 6).toString();
+        
+            Txt_IdCai.setText(IdCai);
+            Txt_Cai.setText(CAI);
+            Txt_FechaIC.setText(FechaI);
+            Txt_FechaFC.setText(FechaF);
+            Txt_NumeroI.setText(FactI);
+            Txt_NumeroF.setText(FactF);   
+            //Txt_Estado.setText(Estado);               
+        }
+        
+    }//GEN-LAST:event_jTable_CAIMouseClicked
+        
     
     //METODOS
-    private void Añadir(){}
+    private void Añadir()
+    {
+        //validacionCAI();
+        
+        if(ValidacionDeRepetidos(Txt_Cai.getText()) == true)
+        {
+            JOptionPane.showMessageDialog(this, "Este elemento ya existe");                        
+        }else{
+            objParam.setCai(Txt_Cai.getText());
+            objParam.setFechaEmision(Timestamp.valueOf(Txt_FechaIC.getText()));
+            objParam.setFechaCaducidad(Timestamp.valueOf(Txt_FechaFC.getText()));
+            objParam.setFacturaInicial(Integer.parseInt(Txt_NumeroI.getText()));
+            objParam.setFacturaFinal(Integer.parseInt(Txt_NumeroF.getText()));
+            objParam.setActivoParametros(true);
+            
+            try{
+                daoParam.edit(objParam);
+                actualizarCai();
+                Limpiar();
+                JOptionPane.showMessageDialog(this, "Se guardó correctamente");
+            }catch(Exception ex){
+                Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);                                                
+            }
+        }
+    }
+    
+    private void actualizarCai()
+    {
+        DefaultTableModel t = new DefaultTableModel();        
+        jTable_CAI.setModel(t);
+        
+        t.addColumn("ID CAI");
+        t.addColumn("CAI");
+        t.addColumn("Fecha Inicial");
+        t.addColumn("Fecha Final");
+        t.addColumn("Factura Inicial");
+        t.addColumn("Factura Final");
+        
+        List<Parametros> parametros = this.daoParam.findParametrosEntities();
+        
+        String s;
+        for(Parametros Parametros : parametros)
+        {
+            if(Parametros.isActivoParametros() == true)
+            {
+                s = "1";
+            }else{
+                s = "0";
+            }                        
+            
+            t.addRow(
+                    new Object[]{
+                        Parametros.getIdParametros(),
+                        Parametros.getCai(),
+                        Parametros.getFechaEmision(),
+                        Parametros.getFechaCaducidad(),
+                        Parametros.getFacturaInicial(),
+                        Parametros.getFacturaFinal(),                                                                        
+                        s
+                    });
+            
+            Btn_Añadir.setEnabled(true);
+            Btn_Limpiar.setEnabled(false);
+        }
+    }
     
     private void Limpiar()
     {
@@ -465,7 +590,7 @@ public class FmrParametros extends javax.swing.JFrame {
     {
         String Cai = Txt_Cai.getText();
         
-        Pattern pat = Pattern.compile("^[A-Z0-9]+(\\\\.[A-Z0-9]+)*$");
+        Pattern pat = Pattern.compile("^[A-Z,0-9]{6}[-]{1}[A-Z,0-9]{6}[-]{1}[A-Z,0-9]{6}[-]{1}[A-Z,0-9]{6}[-]{1}[A-Z,0-9]{2}$");
         Matcher mat = pat.matcher(Cai);               
         
         if(mat.matches())
@@ -476,6 +601,26 @@ public class FmrParametros extends javax.swing.JFrame {
         }
         
         
+    }
+    
+    public static boolean ValidacionDeRepetidos(String Cai)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+         EntityManager em = emf.createEntityManager();
+      
+             String select = "SELECT idParametros FROM Parametros WHERE Cai  = '"+Cai+ "'";
+   
+             Query query = em.createQuery(select);
+       
+             if(query.getResultList().size() == 0){
+             
+             return false;
+             
+             }else{
+             
+             return true;
+                
+             }        
     }
     
     /**
@@ -516,12 +661,12 @@ public class FmrParametros extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_Limpiar;
-    private javax.swing.JButton Btn_Regresar;
-    private javax.swing.JButton Btn_Regresar1;
     private javax.swing.JButton Btn_Regresar2;
     private javax.swing.JTextField Txt_Cai;
+    private javax.swing.JTextField Txt_Estado;
     private javax.swing.JTextField Txt_FechaFC;
     private javax.swing.JTextField Txt_FechaIC;
+    private javax.swing.JTextField Txt_IdCai;
     private javax.swing.JTextField Txt_NumeroF;
     private javax.swing.JTextField Txt_NumeroI;
     private javax.swing.JLabel jLabel1;
@@ -535,7 +680,7 @@ public class FmrParametros extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_CAI;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
