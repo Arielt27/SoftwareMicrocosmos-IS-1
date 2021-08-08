@@ -688,7 +688,7 @@ public class FmrArticulos extends javax.swing.JFrame {
 
     private void Tbl_ArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_ArticuloMouseClicked
 
-         int fila =  Tbl_Articulo.getSelectedRow();
+        int fila =  Tbl_Articulo.getSelectedRow();
         if(fila == -1){
         
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
@@ -719,7 +719,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         Txt_StockAct.setText(StockAct);
         Txt_StockMin.setText(StockMin);
         Txt_StockMax.setText(StockMax);
-       ComboSeccion.setSelectedItem(Seccion);
+        ComboSeccion.setSelectedItem(Seccion);
         Txt_Activo.setText(Activo);
         
         if(Activo == "Activado"){
@@ -837,11 +837,10 @@ public class FmrArticulos extends javax.swing.JFrame {
                         Articulos.getNombreArticulo(),
                         Articulos.getPrecioArticulo(),
                         Articulos.getDescripcionArticulo(),                        
-                        //GetIdTalla(Articulos.getIdTalla()),
+                        Articulos.getIdTalla(),
                         Articulos.getStock(),
                         Articulos.getStockMinimo(),
-                        Articulos.getStockMaximo(),
-                    
+                        Articulos.getStockMaximo(),                    
                         s                        
                     });                   
         }

@@ -34,7 +34,7 @@ public class FmrClientes extends javax.swing.JFrame {
     
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
     SexoJpaController daoSexo = new SexoJpaController();
-    ClientesJpaController daoClientes = new ClientesJpaController();
+    ClientesJpaController daoClientes = new ClientesJpaController();    
     
     Clientes objCliente = new Clientes();
     
@@ -1080,7 +1080,7 @@ public class FmrClientes extends javax.swing.JFrame {
         
         }
         
-        }// aqui termina activar
+        }
             
             
     
@@ -1128,8 +1128,7 @@ public class FmrClientes extends javax.swing.JFrame {
               return Integer.parseInt(query.getSingleResult().toString());
             
           }   
-          
-          
+                                      
           public static boolean ValidacionMail(String Nombre){
         
         return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
