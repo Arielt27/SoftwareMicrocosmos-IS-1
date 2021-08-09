@@ -449,7 +449,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     //BOTONES Y TABLA   
     private void Btn_CambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarPassActionPerformed
         
-        cambiarPass();
+        cambiarPass();        
         
     }//GEN-LAST:event_Btn_CambiarPassActionPerformed
 
@@ -525,8 +525,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }else{
                 Txt_Admin.setText("No");
             }
-        }
-        
+        }        
     }//GEN-LAST:event_jTable_UsuariosMouseClicked
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
@@ -591,16 +590,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
     
     private void actualizarUsuario()
     {
-        DefaultTableModel t = new DefaultTableModel();
-        jTable_Usuarios.setModel(t);
-        
-        t.addColumn("Id Usuario");
-        t.addColumn("Nombre");
-        t.addColumn("Contraseña");
-        t.addColumn("Intentos");
-        t.addColumn("Estado");
-        t.addColumn("Admin");
-        t.addColumn("Id Empleado");
+        DefaultTableModel t = (DefaultTableModel)jTable_Usuarios.getModel();
+        t.setRowCount(0);
+        jTable_Usuarios.setModel(t);                
         
         List<Usuarios> usuario = this.daoUsuarios.findUsuariosEntities();
         
@@ -625,7 +617,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         Usuarios.getIdEmpleados(),
                         s
                     });
-        }    
+        }       
     }
     
     private void estadoUsuario()

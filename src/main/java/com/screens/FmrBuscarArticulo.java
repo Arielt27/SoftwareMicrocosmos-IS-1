@@ -11,8 +11,10 @@ import com.dao.ArticuloJpaController;
 import com.dao.TallaJpaController;
 import java.awt.Image;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +29,8 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
     Articulo objArticulo = new Articulo();        
 
+    DefaultTableModel t;    
+    
     /**
      * Creates new form FmrBuscarArticulo
      */
@@ -38,11 +42,9 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         Image icon = new ImageIcon(getClass().getResource("/imagenes/barra-de-busqueda.png")).getImage();
         setIconImage(icon);  
         
-        //INICIALIZAR
-        //Txt_Campo.setVisible(false);
-        FmrVentas ventas = new FmrVentas();
-        Txt_Campo.setText(FmrVentas.campo);          
+        //INICIALIZAR        
         actualizarBusquedaArticulos();
+        listaFiltro();               
     }
 
     /**
@@ -61,7 +63,11 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Regresar = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        CBox_Filtro = new javax.swing.JComboBox<>();
         Txt_Campo = new javax.swing.JTextField();
+        Btn_Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Artículos - Microcosmos");
@@ -130,7 +136,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Tbl_Articulos);
         if (Tbl_Articulos.getColumnModel().getColumnCount() > 0) {
             Tbl_Articulos.getColumnModel().getColumn(0).setResizable(false);
-            Tbl_Articulos.getColumnModel().getColumn(0).setPreferredWidth(85);
+            Tbl_Articulos.getColumnModel().getColumn(0).setPreferredWidth(30);
             Tbl_Articulos.getColumnModel().getColumn(1).setResizable(false);
             Tbl_Articulos.getColumnModel().getColumn(1).setPreferredWidth(150);
             Tbl_Articulos.getColumnModel().getColumn(2).setResizable(false);
@@ -138,11 +144,11 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
             Tbl_Articulos.getColumnModel().getColumn(3).setResizable(false);
             Tbl_Articulos.getColumnModel().getColumn(3).setPreferredWidth(65);
             Tbl_Articulos.getColumnModel().getColumn(4).setResizable(false);
-            Tbl_Articulos.getColumnModel().getColumn(4).setPreferredWidth(180);
+            Tbl_Articulos.getColumnModel().getColumn(4).setPreferredWidth(200);
             Tbl_Articulos.getColumnModel().getColumn(5).setResizable(false);
-            Tbl_Articulos.getColumnModel().getColumn(5).setPreferredWidth(60);
+            Tbl_Articulos.getColumnModel().getColumn(5).setPreferredWidth(50);
             Tbl_Articulos.getColumnModel().getColumn(6).setResizable(false);
-            Tbl_Articulos.getColumnModel().getColumn(6).setPreferredWidth(60);
+            Tbl_Articulos.getColumnModel().getColumn(6).setPreferredWidth(40);
         }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
@@ -151,9 +157,9 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
         Btn_Añadir.setText("Añadir");
         Btn_Añadir.setFocusPainted(false);
-        Btn_Añadir.setMaximumSize(new java.awt.Dimension(100, 38));
-        Btn_Añadir.setMinimumSize(new java.awt.Dimension(100, 38));
-        Btn_Añadir.setPreferredSize(new java.awt.Dimension(100, 38));
+        Btn_Añadir.setMaximumSize(new java.awt.Dimension(100, 46));
+        Btn_Añadir.setMinimumSize(new java.awt.Dimension(100, 46));
+        Btn_Añadir.setPreferredSize(new java.awt.Dimension(100, 46));
         Btn_Añadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_AñadirActionPerformed(evt);
@@ -163,12 +169,41 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText("Regresar");
         Btn_Regresar.setFocusPainted(false);
-        Btn_Regresar.setMaximumSize(new java.awt.Dimension(100, 38));
-        Btn_Regresar.setMinimumSize(new java.awt.Dimension(100, 38));
-        Btn_Regresar.setPreferredSize(new java.awt.Dimension(100, 38));
+        Btn_Regresar.setMaximumSize(new java.awt.Dimension(100, 46));
+        Btn_Regresar.setMinimumSize(new java.awt.Dimension(100, 46));
+        Btn_Regresar.setPreferredSize(new java.awt.Dimension(100, 46));
         Btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_RegresarActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Filtra Por:");
+        jLabel14.setMaximumSize(new java.awt.Dimension(120, 20));
+        jLabel14.setMinimumSize(new java.awt.Dimension(120, 20));
+        jLabel14.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel15.setText("Buscar:");
+        jLabel15.setMaximumSize(new java.awt.Dimension(120, 20));
+        jLabel15.setMinimumSize(new java.awt.Dimension(120, 20));
+        jLabel15.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        CBox_Filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+
+        Btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Lupa.png"))); // NOI18N
+        Btn_Buscar.setFocusPainted(false);
+        Btn_Buscar.setMaximumSize(new java.awt.Dimension(55, 22));
+        Btn_Buscar.setMinimumSize(new java.awt.Dimension(55, 22));
+        Btn_Buscar.setPreferredSize(new java.awt.Dimension(55, 22));
+        Btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_BuscarActionPerformed(evt);
             }
         });
 
@@ -177,23 +212,41 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
                 .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Txt_Campo)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addComponent(Txt_Campo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addGap(30, 30, 30))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Campo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(17, 17, 17)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Campo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,9 +254,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -211,9 +262,9 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,7 +272,19 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
 
     //BOTONES Y TABLA
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
-                                                          
+                                
+        int filaSeleccionada = Tbl_Articulos.getSelectedRow();
+        
+        if(filaSeleccionada != -1)
+        {
+            String Datos[] = new String[2];
+            Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
+            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
+            
+            FmrVentas.t2.addRow(Datos);
+            t.removeRow(filaSeleccionada);            
+        }
+        
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
@@ -248,22 +311,17 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         }*/        
     }//GEN-LAST:event_Tbl_ArticulosMouseClicked
 
+    private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
+                                             
+    }//GEN-LAST:event_Btn_BuscarActionPerformed
+
     
     //MÉTODOS
-    private void actualizarBusquedaArticulos()
+    public void actualizarBusquedaArticulos()
     {
-        DefaultTableModel t = (DefaultTableModel)Tbl_Articulos.getModel();
-        t.setRowCount(0);        
-        
-        Tbl_Articulos.setModel(t);
-        
-        /*t.addColumn("ID Artículo");
-        t.addColumn("Artículo");
-        t.addColumn("Stock Min.");        
-        t.addColumn("Stock Act.");
-        t.addColumn("Descripción");
-        t.addColumn("Precio");        
-        t.addColumn("Talla");               */
+        t = (DefaultTableModel)Tbl_Articulos.getModel();
+        t.setRowCount(0);           
+        Tbl_Articulos.setModel(t);                         
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
@@ -292,7 +350,12 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         }                
     }
     
-    
+    public void listaFiltro()
+    {
+        CBox_Filtro.addItem("ID");
+        CBox_Filtro.addItem("Nombre");
+    }
+                
     
     /**
      * @param args the command line arguments
@@ -331,10 +394,14 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Buscar;
     private javax.swing.JButton Btn_Regresar;
+    private javax.swing.JComboBox<String> CBox_Filtro;
     private javax.swing.JTable Tbl_Articulos;
     private javax.swing.JTextField Txt_Campo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
