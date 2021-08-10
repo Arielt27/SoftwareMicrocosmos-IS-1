@@ -5,7 +5,18 @@
  */
 package com.screens;
 
+import com.clases.Articulo;
+import com.clases.Empleados;
+import com.clases.TipoDePago;
+import com.dao.ArticuloJpaController;
+import com.dao.EmpleadosJpaController;
+import com.dao.TipoDePagoJpaController;
 import java.awt.Image;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 
 /**
@@ -14,6 +25,15 @@ import javax.swing.ImageIcon;
  */
 public class FmrCompras extends javax.swing.JFrame {
 
+      EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+       TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();
+     ArticuloJpaController daoArticulo = new  ArticuloJpaController();
+     
+     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    Empleados objEmpleados = new Empleados();
+    TipoDePago objTipoPago = new TipoDePago();
+    Articulo objArticulo = new  Articulo();
+    
     /**
      * Creates new form Compras
      */
@@ -547,7 +567,59 @@ public class FmrCompras extends javax.swing.JFrame {
             new FmrCompras().setVisible(true);
         });
     }
+     
+    public void listaTipoPago()
+    {
+       ComboTipo.removeAllItems();
+        
+        List<TipoDePago> tipopago = this.daoTipoPago.findTipoDePagoEntities();
+        
+        ComboTipo.addItem("Seleccione");
+        
+        for(TipoDePago TipoDePago : tipopago)
+        {
+            String listaPago = TipoDePago.getNombreTipoDePago();
+           ComboTipo.addItem(listaPago);
+        }        
+    }
+        
+        public void listaArticulo()
+    {
+       ComboArticulo.removeAllItems();
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        ComboArticulo.addItem("Seleccione");
+        
+        for(Articulo Articulo : articulo)
+        {
+            String listaarticulo = Articulo.getNombreArticulo();
+            ComboArticulo.addItem(listaarticulo);
+           
+        }        
+    }
     
+    private static String getIdTipoPago(String nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT idTipoDePago FROM TipoDePago WHERE nombreTipoDePago = '"+nombre+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;                           
+    }
+     
+     private static String getIdArticulo(String nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT idArticulo FROM Articulo WHERE nombreArticulo = '"+nombre+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;                           
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
