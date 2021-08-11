@@ -15,6 +15,7 @@ public abstract class Empleados_ {
 	public static volatile SingularAttribute<Empleados, String> apellidoEmpleado;
 	public static volatile SingularAttribute<Empleados, String> correoEmpleado;
 	public static volatile SingularAttribute<Empleados, Integer> idTipoDocumento;
+	public static volatile SingularAttribute<Empleados, String> direccion;
 	public static volatile SingularAttribute<Empleados, String> documento;
 	public static volatile SingularAttribute<Empleados, Integer> idEmpleados;
 	public static volatile SingularAttribute<Empleados, String> nombreEmpleado;

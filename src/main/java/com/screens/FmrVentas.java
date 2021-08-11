@@ -7,9 +7,11 @@ package com.screens;
 
 import com.clases.Clientes;
 import com.clases.Empleados;
+import com.clases.Parametros;
 import com.clases.TipoDePago;
 import com.dao.ClientesJpaController;
 import com.dao.EmpleadosJpaController;
+import com.dao.ParametrosJpaController;
 import com.dao.TipoDePagoJpaController;
 import com.dao.VentaJpaController;
 import java.awt.Image;
@@ -27,6 +29,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,16 +41,16 @@ public class FmrVentas extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
-    ClientesJpaController daoClientes = new ClientesJpaController();
-    TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();
-    
-    
-    VentaJpaController daoVenta = new VentaJpaController();
+    ParametrosJpaController daoParametros = new ParametrosJpaController();
+    VentaJpaController daoVenta = new VentaJpaController();    
+    ClientesJpaController daoClientes = new ClientesJpaController();        
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
-    Empleados objEmpleados = new Empleados();
-    TipoDePago objTipoPago = new TipoDePago();
-    
+    TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();      
+       
     Clientes objClientes = new Clientes(); 
+    Empleados objEmpleados = new Empleados();    
+    TipoDePago objTipoPago = new TipoDePago();        
+    Parametros objParametros = new Parametros();
     
     static DefaultTableModel t2;    
 
@@ -79,7 +82,6 @@ public class FmrVentas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        Txt_IdEmpleado = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         Btn_Buscar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -95,11 +97,12 @@ public class FmrVentas extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         Btn_Retirar = new javax.swing.JButton();
         CBox_IdCliente = new javax.swing.JComboBox<>();
-        Txt_Pago = new javax.swing.JTextField();
+        Txt_Cai = new javax.swing.JTextField();
         Btn_Calcular = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         Txt_Cantidad = new javax.swing.JTextField();
         Btn_Cantidad = new javax.swing.JButton();
+        CBox_IdE = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Venta = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -146,8 +149,6 @@ public class FmrVentas extends javax.swing.JFrame {
         jLabel8.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel8.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel8.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        Txt_IdEmpleado.setEditable(false);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -223,7 +224,7 @@ public class FmrVentas extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel17.setText("T/Crédito");
+        jLabel17.setText("CAI");
         jLabel17.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel17.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel17.setPreferredSize(new java.awt.Dimension(120, 20));
@@ -237,6 +238,9 @@ public class FmrVentas extends javax.swing.JFrame {
         });
 
         CBox_IdCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+
+        Txt_Cai.setEditable(false);
+        Txt_Cai.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
 
         Btn_Calcular.setText("Calcular");
         Btn_Calcular.setFocusPainted(false);
@@ -264,6 +268,7 @@ public class FmrVentas extends javax.swing.JFrame {
         });
 
         Btn_Cantidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boton-agregar.png"))); // NOI18N
+        Btn_Cantidad.setFocusPainted(false);
         Btn_Cantidad.setMaximumSize(new java.awt.Dimension(73, 22));
         Btn_Cantidad.setMinimumSize(new java.awt.Dimension(73, 22));
         Btn_Cantidad.setPreferredSize(new java.awt.Dimension(73, 22));
@@ -272,6 +277,8 @@ public class FmrVentas extends javax.swing.JFrame {
                 Btn_CantidadActionPerformed(evt);
             }
         });
+
+        CBox_IdE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -287,23 +294,23 @@ public class FmrVentas extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Txt_IdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_FechaFact, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                    .addComponent(CBox_IdCliente, 0, 1, Short.MAX_VALUE)
-                    .addComponent(CBox_TipoPago, 0, 1, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Txt_FechaFact)
+                    .addComponent(CBox_IdCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CBox_TipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CBox_IdE, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(90, 90, 90)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Btn_Retirar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_Pago))
+                        .addComponent(Txt_Cai))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Txt_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -312,9 +319,9 @@ public class FmrVentas extends javax.swing.JFrame {
                             .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
@@ -330,45 +337,45 @@ public class FmrVentas extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_IdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Btn_Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_FechaFact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CBox_IdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Btn_Retirar)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CBox_TipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Impuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Txt_Pago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Txt_Cai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(Btn_Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CBox_IdE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_FechaFact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Txt_Impuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CBox_IdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Retirar)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CBox_TipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -558,26 +565,6 @@ public class FmrVentas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_Btn_RegresarActionPerformed
        
-    private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
-                                        
-        FmrBuscarArticulo buscarArt = new FmrBuscarArticulo();        
-        buscarArt.setVisible(true);        
-        
-    }//GEN-LAST:event_Btn_BuscarActionPerformed
-
-    private void Btn_RetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RetirarActionPerformed
-        
-        int fila = jTable_Venta.getSelectedRow();
-        
-        if(fila != -1)
-        {
-            retirarArticulo();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar el artículo que desea retirar.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }             
-        
-    }//GEN-LAST:event_Btn_RetirarActionPerformed
-
     private void Btn_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_VentaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Btn_VentaActionPerformed
@@ -602,55 +589,67 @@ public class FmrVentas extends javax.swing.JFrame {
         }                          
     }//GEN-LAST:event_jTable_VentaMouseClicked
 
-    private void CBox_TipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TipoPagoActionPerformed
-                     
-        int seleccion = CBox_TipoPago.getSelectedIndex();
-        
-        if(seleccion == 1)
-        {
-            Txt_Pago.setEditable(true);
-        }else if(seleccion == 2){
-            Txt_Pago.setEditable(false);            
-        } 
-    }//GEN-LAST:event_CBox_TipoPagoActionPerformed
-
-    private void Btn_CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CalcularActionPerformed
-        
-        int fila = jTable_Venta.getRowCount();
-        
-        if(fila == 0)
-        {
-            JOptionPane.showMessageDialog(null, "No hay artículos en la lista.","¡Error!", JOptionPane.ERROR_MESSAGE);                    
-        }else{
-            calcularValores();
-        }        
-    }//GEN-LAST:event_Btn_CalcularActionPerformed
-
     private void Btn_CantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CantidadActionPerformed
-        
-        int filas =  jTable_Venta.getRowCount();     
+
+        int filas =  jTable_Venta.getRowCount();
         int seleccion = jTable_Venta.getSelectedRow();
-        
+
         if(filas == 0 || seleccion == -1)
-        {                   
-            JOptionPane.showMessageDialog(null, "No ha seleccionado un artículo.","¡Aviso!", JOptionPane.INFORMATION_MESSAGE);        
+        {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado un artículo.","¡Aviso!", JOptionPane.INFORMATION_MESSAGE);
         }else{
             añadirCantidad();
             Btn_Calcular.setEnabled(true);
-        }        
+        }
     }//GEN-LAST:event_Btn_CantidadActionPerformed
 
     private void Txt_CantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CantidadKeyTyped
-        
+
         char l = evt.getKeyChar();
-        
+
         // Permitir solo números
-        if (!Character.isDigit(l))            
+        if (!Character.isDigit(l))
         {
-            evt.consume();            
+            evt.consume();
         }
-        
+
     }//GEN-LAST:event_Txt_CantidadKeyTyped
+
+    private void Btn_CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CalcularActionPerformed
+
+        int fila = jTable_Venta.getRowCount();
+
+        if(fila == 0)
+        {
+            JOptionPane.showMessageDialog(null, "No hay artículos en la lista.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            calcularValores();
+        }
+    }//GEN-LAST:event_Btn_CalcularActionPerformed
+
+    private void Btn_RetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RetirarActionPerformed
+
+        int fila = jTable_Venta.getSelectedRow();
+
+        if(fila != -1)
+        {
+            retirarArticulo();
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar el artículo que desea retirar.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_Btn_RetirarActionPerformed
+
+    private void CBox_TipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TipoPagoActionPerformed
+        
+    }//GEN-LAST:event_CBox_TipoPagoActionPerformed
+
+    private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
+
+        FmrBuscarArticulo buscarArt = new FmrBuscarArticulo();
+        buscarArt.setVisible(true);
+
+    }//GEN-LAST:event_Btn_BuscarActionPerformed
                 
     
     //METODOS
@@ -659,11 +658,13 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Venta.setEnabled(false);        
         Btn_Imprimir.setEnabled(false); 
         Btn_Calcular.setEnabled(false);        
-        Txt_Pago.setEditable(false);
+        Txt_Cai.setEditable(false);
         Txt_Cantidad.setText("1");
         
         listaClientes();
-        listaTipoPago();        
+        listaTipoPago();      
+        listaEmpleados();
+        consultaCAI();
         
         //OBTENER, FORMATEAR Y MOSTRAR FECHA ACTUAL
         Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
@@ -726,7 +727,36 @@ public class FmrVentas extends javax.swing.JFrame {
         String select = "SELECT idTipoDePago FROM TipoDePago WHERE nombreTipoDePago = '"+nombre+ "'";
         Query query = em.createQuery(select);
     
-        return query.getSingleResult().toString() ;                           
+        return query.getSingleResult().toString();                           
+    }
+    
+    private void listaEmpleados()
+    {
+        CBox_IdE.removeAllItems();
+        
+        List<Empleados> empleados = this.daoEmpleados.findEmpleadosEntities();
+        
+        CBox_IdE.addItem("Seleccione");
+        
+        for(Empleados Empleados : empleados)
+        {
+            int listaEmpleados = Empleados.getIdEmpleados();
+            
+            String listaE= String.valueOf(listaEmpleados);
+                        
+            CBox_IdE.addItem(listaE);
+        }
+    }
+    
+    private static String getIdEmpleado(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT idEmpleados FROM Empleados WHERE idEmpleados = '"+id+ "'";
+        Query query = em.createQuery(select);
+        
+        return query.getSingleResult().toString();          
     }
     
     private void retirarArticulo()
@@ -743,7 +773,7 @@ public class FmrVentas extends javax.swing.JFrame {
     
     private void cancelarVenta()
     {
-        Txt_Pago.setText("");
+        Txt_Cai.setText("");
         Txt_SubTotal.setText("");
         Txt_Impuesto.setText("");
         Txt_TotalVenta.setText("");
@@ -795,6 +825,19 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Imprimir.setEnabled(true);
     }   
     
+    private void consultaCAI()
+    {        
+        EntityManager em = daoParametros.getEntityManager();
+        
+        String hql = "FROM Parametros E WHERE E.IdParametros = :IdParametros AND E.ActivoParametros = 1";
+        Query query = em.createQuery(hql);
+        
+        query.setParameter("IdParametros", 1);
+        
+        Parametros id = (Parametros)query.getSingleResult();
+        
+        Txt_Cai.setText(id.getCai());
+    }
     
     
            
@@ -844,12 +887,12 @@ public class FmrVentas extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Retirar;
     private javax.swing.JButton Btn_Venta;
     private javax.swing.JComboBox<String> CBox_IdCliente;
+    private javax.swing.JComboBox<String> CBox_IdE;
     private javax.swing.JComboBox<String> CBox_TipoPago;
+    private javax.swing.JTextField Txt_Cai;
     private javax.swing.JTextField Txt_Cantidad;
     private javax.swing.JTextField Txt_FechaFact;
-    private javax.swing.JTextField Txt_IdEmpleado;
     private javax.swing.JTextField Txt_Impuesto;
-    private javax.swing.JTextField Txt_Pago;
     private javax.swing.JTextField Txt_SubTotal;
     private javax.swing.JTextField Txt_TotalVenta;
     private javax.swing.JLabel jLabel1;

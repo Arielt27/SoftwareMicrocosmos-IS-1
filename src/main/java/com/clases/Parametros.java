@@ -15,12 +15,12 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="parametros")
+@Table(name="Parametros")
 public class Parametros implements Serializable {
     
     
     @Id
-    private int idParametros;
+    private int IdParametros;
     @Column
     private String cai;
     @Column
@@ -32,15 +32,15 @@ public class Parametros implements Serializable {
     @Column
     private int facturaFinal;
     @Column
-    private boolean activoParametros;
+    private boolean ActivoParametros;
     
     
     public int getIdParametros() {
-        return idParametros;
+        return IdParametros;
     }
 
     public void setIdParametros(int idParametros) {
-        this.idParametros = idParametros;
+        this.IdParametros = idParametros;
     }
 
     public String getCai() {
@@ -84,14 +84,10 @@ public class Parametros implements Serializable {
     }
 
     public boolean isActivoParametros() {
-        return activoParametros;
+        return ActivoParametros;
     }
 
     public void setActivoParametros(boolean activoParametros) {
-        this.activoParametros = activoParametros;
-    }
-    
-    
-    
-    
+        this.ActivoParametros = activoParametros;
+    }              
 }
