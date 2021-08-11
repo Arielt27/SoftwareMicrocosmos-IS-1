@@ -29,7 +29,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
     Articulo objArticulo = new Articulo();        
 
-    DefaultTableModel t;    
+    DefaultTableModel t;      
     
     /**
      * Creates new form FmrBuscarArticulo
@@ -277,14 +277,13 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         
         if(filaSeleccionada != -1)
         {
-            String Datos[] = new String[2];
-            Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
-            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
+            String Datos[] = new String[2];            
+            Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
+            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
             
             FmrVentas.t2.addRow(Datos);
-            t.removeRow(filaSeleccionada);            
-        }
-        
+            t.removeRow(filaSeleccionada);                                                         
+        }                       
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
@@ -300,15 +299,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         if(fila == -1)
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
-        }/*else{
-            String Id = Tbl_Articulos.getValueAt(fila, 0).toString();            
-            String Nombre = Tbl_Articulos.getValueAt(fila, 1).toString();
-            String Min = Tbl_Articulos.getValueAt(fila, 2).toString();            
-            String Act = Tbl_Articulos.getValueAt(fila, 4).toString();
-            String Descripcion = Tbl_Articulos.getValueAt(fila, 5).toString();
-            String Precio = Tbl_Articulos.getValueAt(fila, 6).toString();            
-            String Talla = Tbl_Articulos.getValueAt(fila, 8).toString();                        
-        }*/        
+        }        
     }//GEN-LAST:event_Tbl_ArticulosMouseClicked
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed

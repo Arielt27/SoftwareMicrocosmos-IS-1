@@ -11,6 +11,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +34,9 @@ public class FmrParametros extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     ParametrosJpaController daoParam = new ParametrosJpaController();
-    Parametros objParam = new Parametros();        
+    Parametros objParam = new Parametros();      
+    
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Creates new form FmrParametros
@@ -490,17 +494,20 @@ public class FmrParametros extends javax.swing.JFrame {
             Btn_Limpiar.setEnabled(true);
             
             String IdCai = jTable_CAI.getValueAt(fila, 0).toString();
-            String CAI = jTable_CAI.getValueAt(fila, 1).toString();
-            String FechaI = jTable_CAI.getValueAt(fila, 2).toString();
-            String FechaF = jTable_CAI.getValueAt(fila, 3).toString();
+            String CAI = jTable_CAI.getValueAt(fila, 1).toString();                                   
+            Date FechaI = (Date) jTable_CAI.getValueAt(fila, 2);
+            Date FechaF = (Date) jTable_CAI.getValueAt(fila, 3);
             String FactI = jTable_CAI.getValueAt(fila, 4).toString();
             String FactF = jTable_CAI.getValueAt(fila, 5).toString();
-            //String Estado = jTable_CAI.getValueAt(fila, 6).toString();
-        
+            //String Estado = jTable_CAI.getValueAt(fila, 6).toString();                              
+                        
+            String fechaI= formatter.format(FechaI);
+            String fechaF = formatter.format(FechaF);
+            
             Txt_IdCai.setText(IdCai);
             Txt_Cai.setText(CAI);
-            Txt_FechaIC.setText(FechaI);
-            Txt_FechaFC.setText(FechaF);
+            Txt_FechaIC.setText(fechaI);
+            Txt_FechaFC.setText(fechaF);
             Txt_NumeroI.setText(FactI);
             Txt_NumeroF.setText(FactF);   
             //Txt_Estado.setText(Estado);               
@@ -517,13 +524,24 @@ public class FmrParametros extends javax.swing.JFrame {
         if(ValidacionDeRepetidos(Txt_Cai.getText()) == true)
         {
             JOptionPane.showMessageDialog(this, "Este elemento ya existe");                        
-        }else{
-            objParam.setCai(Txt_Cai.getText());
-            objParam.setFechaEmision(Timestamp.valueOf(Txt_FechaIC.getText()));
-            objParam.setFechaCaducidad(Timestamp.valueOf(Txt_FechaFC.getText()));
+        }else{                                  
+            
+            //Recogiendo fechas
+            String fechaIC = Txt_FechaIC.getText();
+            String fechaFC = Txt_FechaFC.getText();
+            
+            //Agregando formato a la fecha
+            String fechaI = fechaIC + " 00:00:00";
+            String fechaF = fechaFC + " 00:00:00";           
+            
+            //Añadiendo datos al objeto
+            objParam.setCai(Txt_Cai.getText());                      
+            objParam.setFechaEmision(Timestamp.valueOf(fechaI));
+            objParam.setFechaCaducidad(Timestamp.valueOf(fechaF));
             objParam.setFacturaInicial(Integer.parseInt(Txt_NumeroI.getText()));
             objParam.setFacturaFinal(Integer.parseInt(Txt_NumeroF.getText()));
             objParam.setActivoParametros(true);
+            
             
             try{
                 daoParam.edit(objParam);
