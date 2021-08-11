@@ -103,6 +103,7 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_Cantidad = new javax.swing.JTextField();
         Btn_Cantidad = new javax.swing.JButton();
         CBox_IdE = new javax.swing.JComboBox<>();
+        Txt_IdCai = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Venta = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -221,7 +222,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
         Txt_TotalVenta.setEditable(false);
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel17.setText("CAI");
@@ -285,7 +286,7 @@ public class FmrVentas extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -303,33 +304,31 @@ public class FmrVentas extends javax.swing.JFrame {
                     .addComponent(Btn_Retirar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_Cai))
+                        .addComponent(Txt_Cai, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Txt_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Txt_IdCai)))
+                .addGap(50, 50, 50)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                                    .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(Btn_Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(65, 65, 65))
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                            .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)))
+                    .addComponent(Btn_Calcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(196, 196, 196))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,7 +353,9 @@ public class FmrVentas extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_IdCai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -659,12 +660,18 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Imprimir.setEnabled(false); 
         Btn_Calcular.setEnabled(false);        
         Txt_Cai.setEditable(false);
+        Txt_IdCai.setVisible(false);
         Txt_Cantidad.setText("1");
         
         listaClientes();
         listaTipoPago();      
         listaEmpleados();
-        consultaCAI();
+        mostrarCAI();
+        
+        //OBTENER Y GUARDAR CAI EN VARIABLE Y TXT
+        int txt = consultarIDCai();        
+        String texto= Integer.toString(txt);        
+        Txt_IdCai.setText(texto);
         
         //OBTENER, FORMATEAR Y MOSTRAR FECHA ACTUAL
         Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
@@ -676,6 +683,11 @@ public class FmrVentas extends javax.swing.JFrame {
         t2 = (DefaultTableModel)jTable_Venta.getModel();
         t2.setRowCount(0);                 
         jTable_Venta.setModel(t2);                                                                                              
+    }
+    
+    private void Añadir()
+    {
+        
     }
     
     public void listaClientes()
@@ -825,7 +837,7 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Imprimir.setEnabled(true);
     }   
     
-    private void consultaCAI()
+    private void mostrarCAI()
     {        
         EntityManager em = daoParametros.getEntityManager();
         
@@ -839,7 +851,22 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_Cai.setText(id.getCai());
     }
     
-    
+    private int consultarIDCai()
+    {
+        EntityManager em = daoParametros.getEntityManager();
+        
+        String hql = "FROM Parametros E WHERE E.IdParametros = :IdParametros AND E.ActivoParametros = 1";
+        Query query = em.createQuery(hql);
+        
+        query.setParameter("IdParametros", 1);
+        
+        Parametros id = (Parametros)query.getSingleResult();                              
+        
+        int IDC = id.getIdParametros();              
+        
+        return IDC;
+    }
+      
            
     /**
      * @param args the command line arguments
@@ -892,6 +919,7 @@ public class FmrVentas extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_Cai;
     private javax.swing.JTextField Txt_Cantidad;
     private javax.swing.JTextField Txt_FechaFact;
+    private javax.swing.JTextField Txt_IdCai;
     private javax.swing.JTextField Txt_Impuesto;
     private javax.swing.JTextField Txt_SubTotal;
     private javax.swing.JTextField Txt_TotalVenta;

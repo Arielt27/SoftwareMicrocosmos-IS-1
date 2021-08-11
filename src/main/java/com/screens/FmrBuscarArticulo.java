@@ -29,7 +29,9 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
     Articulo objArticulo = new Articulo();        
 
-    DefaultTableModel t;      
+    DefaultTableModel t;    
+    
+    int busquedaID = 0;
     
     /**
      * Creates new form FmrBuscarArticulo
@@ -196,6 +198,8 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
 
         CBox_Filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
 
+        Txt_Campo.setText("1");
+
         Btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Lupa.png"))); // NOI18N
         Btn_Buscar.setFocusPainted(false);
         Btn_Buscar.setMaximumSize(new java.awt.Dimension(55, 22));
@@ -303,7 +307,11 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     }//GEN-LAST:event_Tbl_ArticulosMouseClicked
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
-                                             
+                    
+        busquedaID = Integer.parseInt(Txt_Campo.getText());
+        
+        consultarIDArt(busquedaID);
+        
     }//GEN-LAST:event_Btn_BuscarActionPerformed
 
     
@@ -319,7 +327,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         String s;
         for(Articulo Articulos : articulo)
         {
-            if(Articulos.isActivoArticulo() == true)
+            if(Articulos.isActivoArticulo())
             {
                 s = "Activado";
             }else{
@@ -347,6 +355,37 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         CBox_Filtro.addItem("Nombre");
     }
                 
+    private void consultarIDArt(int idB)
+    {                                       
+        t = (DefaultTableModel)Tbl_Articulos.getModel();
+        t.setRowCount(0);           
+        Tbl_Articulos.setModel(t);                         
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        String s = "Activado";
+        for(Articulo Articulos : articulo)
+        {
+            if(Articulos.getIdArticulo() == idB && Articulos.isActivoArticulo()){                                                       
+                
+            t.addRow(
+                    new Object[]{
+                        Articulos.getIdArticulo(),
+                        Articulos.getNombreArticulo(),
+                        Articulos.getStockMinimo(),                        
+                        Articulos.getStock(),
+                        Articulos.getDescripcionArticulo(),
+                        Articulos.getPrecioArticulo(),                             
+                        Articulos.getIdTalla(),
+                        Articulos.isActivoArticulo(),
+                        s                       
+                    });                        
+            }else{
+                JOptionPane.showMessageDialog(null, "No existe un artículo con ese ID.");      
+                break;
+            }
+        }        
+    }
     
     /**
      * @param args the command line arguments

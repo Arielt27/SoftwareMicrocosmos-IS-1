@@ -14,98 +14,98 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="articulo")
+@Table(name="Articulo")
 public class Articulo implements Serializable {
     
     @Id
-    private int idArticulo;
+    private int IdArticulo;
     @Column
-    private String nombreArticulo;
+    private String NombreArticulo;
     @Column
-    private int stockMinimo;
+    private int StockMinimo;
     @Column
-    private int stockMaximo;
+    private int StockMaximo;
     @Column
-    private int stock;
+    private int Stock;
     @Column
-    private String descripcionArticulo;
+    private String DescripcionArticulo;
     @Column
-    private double precioArticulo;
+    private double PrecioArticulo;
     @Column
-    private boolean activoArticulo;
+    private boolean ActivoArticulo;
     @Column
-    private int idTalla;
+    private int IdTalla;
 
     public int getIdArticulo() {
-        return idArticulo;
+        return IdArticulo;
     }
 
     public void setIdArticulo(int idArticulo) {
-        this.idArticulo = idArticulo;
+        this.IdArticulo = idArticulo;
     }
 
     public String getNombreArticulo() {
-        return nombreArticulo;
+        return NombreArticulo;
     }
 
     public void setNombreArticulo(String nombreArticulo) {
-        this.nombreArticulo = nombreArticulo;
+        this.NombreArticulo = nombreArticulo;
     }
 
     public int getStockMinimo() {
-        return stockMinimo;
+        return StockMinimo;
     }
 
     public void setStockMinimo(int stockMinimo) {
-        this.stockMinimo = stockMinimo;
+        this.StockMinimo = stockMinimo;
     }
 
     public int getStockMaximo() {
-        return stockMaximo;
+        return StockMaximo;
     }
 
     public void setStockMaximo(int stockMaximo) {
-        this.stockMaximo = stockMaximo;
+        this.StockMaximo = stockMaximo;
     }
 
     public int getStock() {
-        return stock;
+        return Stock;
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        this.Stock = stock;
     }
 
     public String getDescripcionArticulo() {
-        return descripcionArticulo;
+        return DescripcionArticulo;
     }
 
     public void setDescripcionArticulo(String descripcionArticulo) {
-        this.descripcionArticulo = descripcionArticulo;
+        this.DescripcionArticulo = descripcionArticulo;
     }
 
     public double getPrecioArticulo() {
-        return precioArticulo;
+        return PrecioArticulo;
     }
 
     public void setPrecioArticulo(double precioArticulo) {
-        this.precioArticulo = precioArticulo;
+        this.PrecioArticulo = precioArticulo;
     }
 
     public boolean isActivoArticulo() {
-        return activoArticulo;
+        return ActivoArticulo;
     }
 
     public void setActivoArticulo(boolean activoArticulo) {
-        this.activoArticulo = activoArticulo;
+        this.ActivoArticulo = activoArticulo;
     }
 
     public int getIdTalla() {
-        return idTalla;
+        return IdTalla;
     }
 
     public void setIdTalla(int idTalla) {
-        this.idTalla = idTalla;
+        this.IdTalla = idTalla;
     }
     
     
