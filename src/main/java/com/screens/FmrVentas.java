@@ -9,6 +9,7 @@ import com.clases.Clientes;
 import com.clases.Empleados;
 import com.clases.Parametros;
 import com.clases.TipoDePago;
+import com.clases.Venta;
 import com.dao.ClientesJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.ParametrosJpaController;
@@ -16,12 +17,15 @@ import com.dao.TipoDePagoJpaController;
 import com.dao.VentaJpaController;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
@@ -47,10 +51,11 @@ public class FmrVentas extends javax.swing.JFrame {
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();      
        
+    Venta objVenta = new Venta();
     Clientes objClientes = new Clientes(); 
     Empleados objEmpleados = new Empleados();    
     TipoDePago objTipoPago = new TipoDePago();        
-    Parametros objParametros = new Parametros();
+    Parametros objParametros = new Parametros();    
     
     static DefaultTableModel t2;    
 
@@ -567,12 +572,17 @@ public class FmrVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_RegresarActionPerformed
        
     private void Btn_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_VentaActionPerformed
-        // TODO add your handling code here:
+        
+        hacerVenta();
+        
     }//GEN-LAST:event_Btn_VentaActionPerformed
 
     private void Btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarActionPerformed
                   
         cancelarVenta();
+        Btn_Buscar.setEnabled(true);
+        Btn_Retirar.setEnabled(true);
+        Btn_Cantidad.setEnabled(true);
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
@@ -625,6 +635,9 @@ public class FmrVentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No hay artículos en la lista.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{
             calcularValores();
+            Btn_Buscar.setEnabled(false);
+            Btn_Retirar.setEnabled(false);
+            Btn_Cantidad.setEnabled(false);
         }
     }//GEN-LAST:event_Btn_CalcularActionPerformed
 
@@ -685,9 +698,41 @@ public class FmrVentas extends javax.swing.JFrame {
         jTable_Venta.setModel(t2);                                                                                              
     }
     
-    private void Añadir()
+    private void hacerVenta()
     {
-        
+        if(CBox_IdE.getSelectedItem().equals("Seleccione"))
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar su ID de Empleado.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(CBox_IdCliente.getSelectedItem().equals("Seleccione")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(CBox_TipoPago.getSelectedItem().equals("Seleccione")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un método de pago.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            //OBTENER DATOS
+            String fechaVenta = Txt_FechaFact.getText();            
+            String idEmpleado = (String) CBox_IdE.getSelectedItem();            
+            
+            
+            //Agregando formato a la fecha
+            String fechaV = fechaVenta + " 00:00:00";
+            
+            objVenta.setFechaVenta(Timestamp.valueOf(fechaV));            
+            objVenta.setImpuesto(Double.parseDouble(Txt_Impuesto.getText()));
+            objVenta.setSubTotal(Double.parseDouble(Txt_SubTotal.getText()));
+            objVenta.setTotal(Double.parseDouble(Txt_TotalVenta.getText()));
+            objVenta.setIdParametros(Integer.parseInt(Txt_IdCai.getText()));
+            objVenta.setIdEmpleados(Integer.parseInt(idEmpleado));
+            objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
+            objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));
+            
+            try{
+                daoVenta.edit(objVenta);
+                JOptionPane.showMessageDialog(this, "Venta Realizada, datos guardados correctamente.");                
+            }catch(Exception ex){
+                Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                
+            }
+        }
     }
     
     public void listaClientes()
@@ -705,15 +750,15 @@ public class FmrVentas extends javax.swing.JFrame {
         }        
     }
     
-    private static String GetNombreCliente(String nombre)
+    private static int GetIdCliente(String nombre)
     {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         EntityManager em = emf.createEntityManager();
         
-        String select = "SELECT nombreCliente FROM Clientes WHERE nombreCliente = '"+nombre+ "'";
+        String select = "SELECT idCliente FROM Clientes WHERE nombreCliente = '"+nombre+ "'";
         Query query = em.createQuery(select);
     
-        return query.getSingleResult().toString() ;            
+        return Integer.parseInt(query.getSingleResult().toString());            
     }
     
     public void listaTipoPago()
@@ -731,7 +776,7 @@ public class FmrVentas extends javax.swing.JFrame {
         }        
     }
         
-    private static String getIdTipoPago(String nombre)
+    private static int getIdTipoPago(String nombre)
     {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         EntityManager em = emf.createEntityManager();
@@ -739,7 +784,7 @@ public class FmrVentas extends javax.swing.JFrame {
         String select = "SELECT idTipoDePago FROM TipoDePago WHERE nombreTipoDePago = '"+nombre+ "'";
         Query query = em.createQuery(select);
     
-        return query.getSingleResult().toString();                           
+        return Integer.parseInt(query.getSingleResult().toString());                           
     }
     
     private void listaEmpleados()

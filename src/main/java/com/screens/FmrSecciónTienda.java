@@ -389,7 +389,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
        
         char l = evt.getKeyChar();                
         String Texto = Txt_NombreSección.getText();
-
+        
         // Primera letra mayúscula
         if (Txt_NombreSección.getText().length() == 1){
 

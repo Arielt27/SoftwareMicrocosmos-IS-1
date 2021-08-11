@@ -5,14 +5,27 @@
  */
 package com.screens;
 
+import com.clases.Articulo;
+import com.clases.Venta;
+import com.dao.VentaJpaController;
 import java.awt.Image;
+import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Ariel
  */
 public class FmrHistorialFacturas extends javax.swing.JFrame {
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    
+    VentaJpaController daoVenta = new VentaJpaController();
+    Venta objVenta = new Venta();
+    
 
     /**
      * Creates new form FmrHistorialFacturas
@@ -26,6 +39,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
+        actualizar();
     }
 
     /**
@@ -228,12 +242,24 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 "ID Factura", "Fecha", "Valor", "Estado", "Comentarios"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
 
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable_DetallesVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_DetallesVentasMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jTable_DetallesVentas);
@@ -351,6 +377,40 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_Regresar3ActionPerformed
 
+    private void jTable_DetallesVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesVentasMouseClicked
+        
+        int fila =  jTable_DetallesVentas.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
+        }  
+        
+    }//GEN-LAST:event_jTable_DetallesVentasMouseClicked
+
+    //METODOS
+    private void actualizar()
+    {
+        DefaultTableModel t = (DefaultTableModel)jTable_DetallesVentas.getModel();
+        t.setRowCount(0);           
+        jTable_DetallesVentas.setModel(t); 
+        
+        List<Venta> venta = this.daoVenta.findVentaEntities();
+        
+        String s = null;
+        for(Venta Venta : venta)
+        {                                                 
+            t.addRow(
+                    new Object[]{
+                        Venta.getIdVenta(),
+                        Venta.getFechaVenta(),
+                        Venta.getTotal(),                                                                                                                  
+                        s                       
+                    });            
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */

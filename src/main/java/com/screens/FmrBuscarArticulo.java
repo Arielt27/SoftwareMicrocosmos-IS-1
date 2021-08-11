@@ -29,9 +29,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
     Articulo objArticulo = new Articulo();        
 
-    DefaultTableModel t;    
-    
-    int busquedaID = 0;
+    DefaultTableModel t;            
     
     /**
      * Creates new form FmrBuscarArticulo
@@ -308,9 +306,12 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
                     
-        busquedaID = Integer.parseInt(Txt_Campo.getText());
+        //int busquedaID = Integer.parseInt(Txt_Campo.getText());
         
-        consultarIDArt(busquedaID);
+        String busquedaNombre = Txt_Campo.getText();
+        
+        //consultarIDArt(busquedaID);
+        consultarNombreArt(busquedaNombre);
         
     }//GEN-LAST:event_Btn_BuscarActionPerformed
 
@@ -359,17 +360,17 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     {                                       
         t = (DefaultTableModel)Tbl_Articulos.getModel();
         t.setRowCount(0);           
-        Tbl_Articulos.setModel(t);                         
+        Tbl_Articulos.setModel(t);                               
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
         String s = "Activado";
         for(Articulo Articulos : articulo)
         {
-            if(Articulos.getIdArticulo() == idB && Articulos.isActivoArticulo()){                                                       
-                
-            t.addRow(
-                    new Object[]{
+            if(Articulos.getIdArticulo() == idB && Articulos.isActivoArticulo())
+            {
+                t.addRow(
+                        new Object[]{
                         Articulos.getIdArticulo(),
                         Articulos.getNombreArticulo(),
                         Articulos.getStockMinimo(),                        
@@ -379,11 +380,51 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
                         Articulos.getIdTalla(),
                         Articulos.isActivoArticulo(),
                         s                       
-                    });                        
-            }else{
-                JOptionPane.showMessageDialog(null, "No existe un artículo con ese ID.");      
-                break;
+                        });                        
             }
+        }
+
+        int filas = Tbl_Articulos.getRowCount();               
+        
+        if(filas == 0)
+        {
+            JOptionPane.showMessageDialog(null, "No existe un artículo con ese ID.");            
+        }
+    }
+    
+    private void consultarNombreArt(String nombreAB)
+    {
+        t = (DefaultTableModel)Tbl_Articulos.getModel();
+        t.setRowCount(0);           
+        Tbl_Articulos.setModel(t);                               
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        String s = "Activado";
+        for(Articulo Articulos : articulo)
+        {
+            if(Articulos.getNombreArticulo().equals(nombreAB) && Articulos.isActivoArticulo())
+            {
+                t.addRow(
+                        new Object[]{
+                        Articulos.getIdArticulo(),
+                        Articulos.getNombreArticulo(),
+                        Articulos.getStockMinimo(),                        
+                        Articulos.getStock(),
+                        Articulos.getDescripcionArticulo(),
+                        Articulos.getPrecioArticulo(),                             
+                        Articulos.getIdTalla(),
+                        Articulos.isActivoArticulo(),
+                        s                       
+                        });                        
+            }            
+        }
+        
+        int filas = Tbl_Articulos.getRowCount();               
+        
+        if(filas == 0)
+        {
+            JOptionPane.showMessageDialog(null, "No existen artículos con ese nombre.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
         }        
     }
     
