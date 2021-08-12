@@ -169,7 +169,9 @@
                       </Group>
                       <Component id="Btn_Calcular" alignment="1" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="196" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="Txt_Fact" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -179,7 +181,10 @@
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="Btn_Calcular" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="Btn_Calcular" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="Txt_Fact" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel15" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
@@ -570,6 +575,8 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_IdCai">
+        </Component>
+        <Component class="javax.swing.JTextField" name="Txt_Fact">
         </Component>
       </SubComponents>
     </Container>

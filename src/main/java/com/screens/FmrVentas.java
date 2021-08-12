@@ -44,12 +44,12 @@ import javax.swing.table.DefaultTableModel;
 public class FmrVentas extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    
-    ParametrosJpaController daoParametros = new ParametrosJpaController();
+        
     VentaJpaController daoVenta = new VentaJpaController();    
     ClientesJpaController daoClientes = new ClientesJpaController();        
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();      
+    ParametrosJpaController daoParametros = new ParametrosJpaController();    
        
     Venta objVenta = new Venta();
     Clientes objClientes = new Clientes(); 
@@ -58,6 +58,7 @@ public class FmrVentas extends javax.swing.JFrame {
     Parametros objParametros = new Parametros();    
     
     static DefaultTableModel t2;    
+    int factura = 0;
 
     /**
      * Creates new form Ventas
@@ -71,7 +72,9 @@ public class FmrVentas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
-        Inicializar();                
+        Inicializar();        
+        Txt_Fact.setEnabled(false);        
+        facturaID();
     }        
 
     /**
@@ -109,6 +112,7 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Cantidad = new javax.swing.JButton();
         CBox_IdE = new javax.swing.JComboBox<>();
         Txt_IdCai = new javax.swing.JTextField();
+        Txt_Fact = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Venta = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -333,7 +337,9 @@ public class FmrVentas extends javax.swing.JFrame {
                             .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                             .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)))
                     .addComponent(Btn_Calcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(196, 196, 196))
+                .addGap(18, 18, 18)
+                .addComponent(Txt_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,7 +347,9 @@ public class FmrVentas extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(Btn_Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Btn_Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -717,6 +725,8 @@ public class FmrVentas extends javax.swing.JFrame {
             //Agregando formato a la fecha
             String fechaV = fechaVenta + " 00:00:00";
             
+            String Estado = "Aceptada";
+            
             objVenta.setFechaVenta(Timestamp.valueOf(fechaV));            
             objVenta.setImpuesto(Double.parseDouble(Txt_Impuesto.getText()));
             objVenta.setSubTotal(Double.parseDouble(Txt_SubTotal.getText()));
@@ -724,7 +734,7 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setIdParametros(Integer.parseInt(Txt_IdCai.getText()));
             objVenta.setIdEmpleados(Integer.parseInt(idEmpleado));
             objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
-            objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));
+            objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));            
             
             try{
                 daoVenta.edit(objVenta);
@@ -911,6 +921,22 @@ public class FmrVentas extends javax.swing.JFrame {
         
         return IDC;
     }
+    
+    private void facturaID()
+    {
+        daoVenta.findVentaEntities();        
+        
+        int numFact = daoVenta.getVentaCount();
+        
+        if(factura <= numFact)
+        {
+            factura = numFact + 1;            
+        }
+        
+        String fact = String.valueOf(factura);
+        
+        Txt_Fact.setText(fact);        
+    }
       
            
     /**
@@ -963,6 +989,7 @@ public class FmrVentas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> CBox_TipoPago;
     private javax.swing.JTextField Txt_Cai;
     private javax.swing.JTextField Txt_Cantidad;
+    private javax.swing.JTextField Txt_Fact;
     private javax.swing.JTextField Txt_FechaFact;
     private javax.swing.JTextField Txt_IdCai;
     private javax.swing.JTextField Txt_Impuesto;

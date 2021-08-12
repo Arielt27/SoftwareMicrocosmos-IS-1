@@ -10,6 +10,7 @@ import com.clases.Talla;
 import com.dao.ArticuloJpaController;
 import com.dao.TallaJpaController;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,7 +45,8 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         
         //INICIALIZAR        
         actualizarBusquedaArticulos();
-        listaFiltro();               
+        listaFiltro();              
+        Btn_Buscar.setEnabled(false);        
     }
 
     /**
@@ -195,8 +197,17 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         jLabel15.setPreferredSize(new java.awt.Dimension(120, 20));
 
         CBox_Filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+        CBox_Filtro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBox_FiltroActionPerformed(evt);
+            }
+        });
 
-        Txt_Campo.setText("1");
+        Txt_Campo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_CampoKeyTyped(evt);
+            }
+        });
 
         Btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Lupa.png"))); // NOI18N
         Btn_Buscar.setFocusPainted(false);
@@ -285,7 +296,9 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
             
             FmrVentas.t2.addRow(Datos);
             t.removeRow(filaSeleccionada);                                                         
-        }                       
+        }else if(filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);            
+        }
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
@@ -301,19 +314,37 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         if(fila == -1)
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
-        }        
+        }    
     }//GEN-LAST:event_Tbl_ArticulosMouseClicked
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
                     
-        //int busquedaID = Integer.parseInt(Txt_Campo.getText());
+        int busquedaID = Integer.parseInt(Txt_Campo.getText());
         
-        String busquedaNombre = Txt_Campo.getText();
+        //String busquedaNombre = Txt_Campo.getText();
         
-        //consultarIDArt(busquedaID);
-        consultarNombreArt(busquedaNombre);
+        consultarIDArt(busquedaID);
+        //consultarNombreArt(busquedaNombre);
         
     }//GEN-LAST:event_Btn_BuscarActionPerformed
+
+    private void Txt_CampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CampoKeyTyped
+        
+        char n = evt.getKeyChar();
+        
+        // Bloquear carácteres especiales menos espacio
+        if (!Character.isDigit(n))
+        {
+            evt.consume();            
+        }                
+        
+    }//GEN-LAST:event_Txt_CampoKeyTyped
+
+    private void CBox_FiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_FiltroActionPerformed
+                       
+        seleccionCBox();
+        
+    }//GEN-LAST:event_CBox_FiltroActionPerformed
 
     
     //MÉTODOS
@@ -347,7 +378,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
                         Articulos.isActivoArticulo(),
                         s                       
                     });            
-        }                
+        }           
     }
     
     public void listaFiltro()
@@ -364,7 +395,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
-        String s = "Activado";
+        String s = "1";
         for(Articulo Articulos : articulo)
         {
             if(Articulos.getIdArticulo() == idB && Articulos.isActivoArticulo())
@@ -426,6 +457,16 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "No existen artículos con ese nombre.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
         }        
+    }
+    
+    private void seleccionCBox()
+    {
+        Object seleccion = CBox_Filtro.getSelectedItem();
+        
+        if(!seleccion.equals("Seleccione"))
+        {
+            Btn_Buscar.setEnabled(true);            
+        }            
     }
     
     /**

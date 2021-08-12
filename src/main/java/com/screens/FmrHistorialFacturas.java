@@ -10,6 +10,8 @@ import com.clases.Venta;
 import com.dao.VentaJpaController;
 import java.awt.Image;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.ImageIcon;
@@ -26,6 +28,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     VentaJpaController daoVenta = new VentaJpaController();
     Venta objVenta = new Venta();
     
+    DefaultTableModel t;
 
     /**
      * Creates new form FmrHistorialFacturas
@@ -293,6 +296,11 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_CambiarEVentas.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_CambiarEVentas.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_CambiarEVentas.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_CambiarEVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_CambiarEVentasActionPerformed(evt);
+            }
+        });
 
         Btn_DetallesVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/DetalleFact.png"))); // NOI18N
         Btn_DetallesVentas.setText(" Ver Detalles");
@@ -388,10 +396,43 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTable_DetallesVentasMouseClicked
 
+    private void Btn_CambiarEVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarEVentasActionPerformed
+        
+        int fila = jTable_DetallesVentas.getSelectedRow();
+        
+        if(fila != -1)
+        {
+            String[] Estados = {
+                "Seleccione",
+                "Aceptada",
+                "Cancelada",                
+            };
+            
+            String opcion = (String) JOptionPane.showInputDialog(null, "Seleccione un estado de factura", "Seleccione", JOptionPane.DEFAULT_OPTION, null, Estados, Estados[0]);
+        
+            while(opcion.equals("Seleccione"))
+            {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un estado de factura.","¡Aviso!", JOptionPane.WARNING_MESSAGE); 
+                opcion = (String) JOptionPane.showInputDialog(null, "Seleccione un estado de factura", "Seleccione", JOptionPane.DEFAULT_OPTION, null, Estados, Estados[0]);
+            }
+
+            t.setValueAt(opcion, fila, 3);                        
+
+            try{
+                daoVenta.edit(objVenta);
+                actualizar();
+            }catch(Exception ex){
+                Logger.getLogger(FmrHistorialFacturas.class.getName()).log(Level.SEVERE, null, ex);                                
+            }            
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una factura para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_Btn_CambiarEVentasActionPerformed
+
     //METODOS
     private void actualizar()
-    {
-        DefaultTableModel t = (DefaultTableModel)jTable_DetallesVentas.getModel();
+    {    
+        t = (DefaultTableModel)jTable_DetallesVentas.getModel();
         t.setRowCount(0);           
         jTable_DetallesVentas.setModel(t); 
         
@@ -404,7 +445,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                     new Object[]{
                         Venta.getIdVenta(),
                         Venta.getFechaVenta(),
-                        Venta.getTotal(),                                                                                                                  
+                        Venta.getTotal(),                         
                         s                       
                     });            
         }

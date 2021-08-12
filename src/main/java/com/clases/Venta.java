@@ -36,7 +36,7 @@ public class Venta implements Serializable {
     @Column
     private int idTipoDePago;
     @Column
-    private int idCliente;
+    private int idCliente;    
 
     public int getIdVenta() {
         return idVenta;
@@ -110,9 +110,6 @@ public class Venta implements Serializable {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
-    }
-    
-    
-    
-    
+    }              
+               
 }
