@@ -389,29 +389,29 @@ public class FmrVentas extends javax.swing.JFrame {
 
         jTable_Venta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Artículo", "Precio", "Cantidad", "Total"
+                "Id Artículo", "Artículo", "Precio", "Talla", "Cantidad", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -434,13 +434,17 @@ public class FmrVentas extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable_Venta);
         if (jTable_Venta.getColumnModel().getColumnCount() > 0) {
             jTable_Venta.getColumnModel().getColumn(0).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(0).setPreferredWidth(250);
+            jTable_Venta.getColumnModel().getColumn(0).setPreferredWidth(20);
             jTable_Venta.getColumnModel().getColumn(1).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(1).setPreferredWidth(40);
+            jTable_Venta.getColumnModel().getColumn(1).setPreferredWidth(310);
             jTable_Venta.getColumnModel().getColumn(2).setResizable(false);
             jTable_Venta.getColumnModel().getColumn(2).setPreferredWidth(40);
             jTable_Venta.getColumnModel().getColumn(3).setResizable(false);
             jTable_Venta.getColumnModel().getColumn(3).setPreferredWidth(40);
+            jTable_Venta.getColumnModel().getColumn(4).setResizable(false);
+            jTable_Venta.getColumnModel().getColumn(4).setPreferredWidth(40);
+            jTable_Venta.getColumnModel().getColumn(5).setResizable(false);
+            jTable_Venta.getColumnModel().getColumn(5).setPreferredWidth(40);
         }
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -584,8 +588,8 @@ public class FmrVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
-        
-        imprimir();
+                        
+        imprimir();        
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
        
@@ -663,13 +667,12 @@ public class FmrVentas extends javax.swing.JFrame {
     private void Inicializar()
     {   
         Btn_Venta.setEnabled(false);        
-        Btn_Imprimir.setEnabled(false);                
+        //Btn_Imprimir.setEnabled(false);                
         Txt_Cai.setEditable(false);
         Txt_IdCai.setVisible(false);
         Txt_Cantidad.setText("1");
         Txt_Fact.setVisible(false);             
-        CBox_TipoPago.setEnabled(false);   
-        
+        CBox_TipoPago.setEnabled(false);           
         
         listaClientes();
         listaTipoPago();      
@@ -690,7 +693,12 @@ public class FmrVentas extends javax.swing.JFrame {
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t2 = (DefaultTableModel)jTable_Venta.getModel();
         t2.setRowCount(0);                 
-        jTable_Venta.setModel(t2);                       
+        jTable_Venta.setModel(t2);    
+        
+        /*if(jTable_Venta.getRowCount() != 0)
+        {
+            comprobarRepetidos();
+        }*/              
     }
     
     private void hacerVenta()
@@ -721,13 +729,7 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setIdParametros(Integer.parseInt(Txt_IdCai.getText()));
             objVenta.setIdEmpleados(Integer.parseInt(idEmpleado));
             objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
-            objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));            
-            
-            /*DETALLE DE VENTA            
-            objDetalleVenta.setCantidad(Integer.parseInt(Txt_Cantidad.getText()));
-            objDetalleVenta.setIdVenta(idVenta);
-            //objDetalleVenta.setIdArticulo(Txt_);
-            objDetalleVenta.setIdEstado(1);*/                      
+            objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));                                                           
                         
             try{
                 daoVenta.edit(objVenta);                                
@@ -735,6 +737,24 @@ public class FmrVentas extends javax.swing.JFrame {
             }catch(Exception ex){
                 Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                
             }                        
+            
+            //DETALLE DE VENTA            
+            for(int i = 0; i <= jTable_Venta.getRowCount(); i++)
+            {
+                objDetalleVenta.setCantidad(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,4))));
+                objDetalleVenta.setIdVenta(idVenta);
+                objDetalleVenta.setIdArticulo(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,0))));
+                objDetalleVenta.setIdEstado(1);
+                objDetalleVenta.setIdTalla(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,3))));
+                
+                
+                try{
+                    daoDetalleVenta.edit(objDetalleVenta);                                        
+                }catch(Exception ex){
+                    Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                    
+                }
+            }
+            
         }
     }
     
@@ -861,13 +881,13 @@ public class FmrVentas extends javax.swing.JFrame {
         }else{
             int fila = jTable_Venta.getSelectedRow();              
             
-            double prc = Double.parseDouble(t2.getValueAt(fila, 1).toString());            
+            double prc = Double.parseDouble(t2.getValueAt(fila, 2).toString());            
             
             double tot = prc*cant;
             
-            t2.setValueAt(cant, fila, 2);                       
+            t2.setValueAt(cant, fila, 4);                       
             
-            t2.setValueAt(tot, fila, 3);    
+            t2.setValueAt(tot, fila, 5);    
             
             Txt_Cantidad.setText("1");
         }
@@ -881,7 +901,7 @@ public class FmrVentas extends javax.swing.JFrame {
         
         for(int i = 0; i<jTable_Venta.getRowCount(); i++)
         {
-            sub = sub + Double.parseDouble(t2.getValueAt(i, 3).toString());
+            sub = sub + Double.parseDouble(t2.getValueAt(i, 5).toString());
         }
         
         imp = sub * 0.15;  
@@ -954,6 +974,28 @@ public class FmrVentas extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(null, "La tarjeta es: " + tarj + "\n El monto en tarjeta es: " + montoT + "\n El monto en efectivo es: " + montoE);
         
+    }
+    
+    private void comprobarRepetidos()
+    {                                    
+        for(int i = 0; i < jTable_Venta.getRowCount(); i++)                             
+        {
+            Object id1 = jTable_Venta.getValueAt(i, 0);           
+            
+            //JOptionPane.showMessageDialog(null, "ID1:" + id1);
+            
+            for(int j = 0; j < jTable_Venta.getRowCount(); j++)                         
+            {
+                Object id2 = jTable_Venta.getValueAt(j, 0);       
+                
+                //JOptionPane.showMessageDialog(null, "ID2:" + id2);
+                
+                if(id2 == id1)
+                {
+                    t2.removeRow(j);                    
+                }
+            }
+        }
     }
        
            

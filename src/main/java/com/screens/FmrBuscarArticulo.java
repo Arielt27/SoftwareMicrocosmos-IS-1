@@ -289,14 +289,26 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
                                 
         int filaSeleccionada = Tbl_Articulos.getSelectedRow();
         
-        if(filaSeleccionada != -1)
+        int SMin = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 2);
+        int SAct = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 3);  
+        
+        if(filaSeleccionada != -1 && SMin > SAct && SAct != 0)
+        {         
+            JOptionPane.showMessageDialog(null, "Este Artículo esta por debajo de su stock mínimo.","Aviso!", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        if(filaSeleccionada != -1 && SAct > 0)
         {
-            String Datos[] = new String[2];            
-            Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
-            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();                        
+            String Datos[] = new String[4];            
+            Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
+            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();                        
+            Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
+            Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();                                    
             
             FmrVentas.t2.addRow(Datos);
             t.removeRow(filaSeleccionada);                                                         
+        }else if(SAct == 0){
+            JOptionPane.showMessageDialog(null, "No hay unidades en existencia de esta artículo.","Error!", JOptionPane.ERROR_MESSAGE);                        
         }else if(filaSeleccionada == -1){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);            
         }
