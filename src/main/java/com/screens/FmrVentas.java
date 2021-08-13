@@ -63,6 +63,7 @@ public class FmrVentas extends javax.swing.JFrame {
     
     static DefaultTableModel t2;    
     int factura = 0;
+    int idDetalle = 0;
     public static double totalV;
 
     /**
@@ -589,7 +590,8 @@ public class FmrVentas extends javax.swing.JFrame {
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
                         
-        imprimir();        
+        //imprimir();        
+        idDetalleVenta();
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
        
@@ -741,7 +743,7 @@ public class FmrVentas extends javax.swing.JFrame {
             //DETALLE DE VENTA            
             for(int i = 0; i <= jTable_Venta.getRowCount(); i++)
             {
-                objDetalleVenta.setIdDetalleVenta(i);                
+                objDetalleVenta.setIdDetalleVenta(idDetalle);                
                 objDetalleVenta.setCantidad(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,4))));
                 objDetalleVenta.setIdVenta(idVenta);
                 objDetalleVenta.setIdArticulo(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,0))));
@@ -966,6 +968,20 @@ public class FmrVentas extends javax.swing.JFrame {
         
         Txt_Fact.setText(fact);        
     }  
+    
+    private void idDetalleVenta()
+    {
+        daoDetalleVenta.findDetalleVentaEntities();
+        
+        int idDetalleV = daoDetalleVenta.getDetalleVentaCount();
+        
+        if(idDetalle <= idDetalleV)
+        {
+            idDetalle = idDetalleV + 1;            
+        }
+        
+        JOptionPane.showMessageDialog(null, idDetalle);
+    }
     
     private void imprimir()
     {

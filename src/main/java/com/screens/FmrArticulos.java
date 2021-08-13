@@ -46,6 +46,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     Articulo objArticulo = new Articulo();
     Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
     
+    DefaultTableModel t;   
     
     /**
      * Creates new form Articulos
@@ -56,9 +57,11 @@ public class FmrArticulos extends javax.swing.JFrame {
         //Icono
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
-        listaSeccion();
+        
+        //INICIALIZAR PANTALLA
+        actualizarArticulo();        
         listaTalla();
-        Txt_Activo.setVisible(false);
+        Txt_Activo.setVisible(false);        
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
     }
@@ -92,9 +95,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         Txt_StockMax = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         ComboTalla = new javax.swing.JComboBox<>();
-        ComboSeccion = new javax.swing.JComboBox<>();
         Txt_Activo = new javax.swing.JTextField();
         Txt_PrecioArticulo = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -123,9 +124,24 @@ public class FmrArticulos extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Artículo", "Precio", "Descripción", "Talla", "Stock Actual", "Stock Mínimo", "Stock Máximo", "Sección"
+                "ID", "Artículo", "Precio", "Descripción", "Talla", "Stock", "Mínimo", "Máximo", "Estado"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tbl_Articulo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ArticuloMouseClicked(evt);
@@ -134,14 +150,23 @@ public class FmrArticulos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Tbl_Articulo);
         if (Tbl_Articulo.getColumnModel().getColumnCount() > 0) {
             Tbl_Articulo.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(0).setPreferredWidth(10);
             Tbl_Articulo.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(1).setPreferredWidth(130);
             Tbl_Articulo.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(2).setPreferredWidth(40);
             Tbl_Articulo.getColumnModel().getColumn(3).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(3).setPreferredWidth(170);
             Tbl_Articulo.getColumnModel().getColumn(4).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(4).setPreferredWidth(20);
             Tbl_Articulo.getColumnModel().getColumn(5).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(5).setPreferredWidth(30);
             Tbl_Articulo.getColumnModel().getColumn(6).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(6).setPreferredWidth(30);
             Tbl_Articulo.getColumnModel().getColumn(7).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(7).setPreferredWidth(30);
             Tbl_Articulo.getColumnModel().getColumn(8).setResizable(false);
+            Tbl_Articulo.getColumnModel().getColumn(8).setPreferredWidth(50);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -245,8 +270,6 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel9.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel9.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_StockAct.setEditable(false);
-
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -264,22 +287,12 @@ public class FmrArticulos extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel13.setText("Sección");
+        jLabel13.setText("Talla");
         jLabel13.setMaximumSize(new java.awt.Dimension(120, 20));
         jLabel13.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel13.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Talla");
-        jLabel7.setMaximumSize(new java.awt.Dimension(120, 20));
-        jLabel7.setMinimumSize(new java.awt.Dimension(120, 20));
-        jLabel7.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        ComboTalla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Talla" }));
-
-        ComboSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Sección" }));
+        ComboTalla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
 
         Txt_Activo.setMinimumSize(new java.awt.Dimension(0, 0));
         Txt_Activo.addActionListener(new java.awt.event.ActionListener() {
@@ -300,7 +313,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(250, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(249, 249, 249))
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -309,8 +322,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -326,23 +338,20 @@ public class FmrArticulos extends javax.swing.JFrame {
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(ComboTalla, 0, 150, Short.MAX_VALUE)
-                            .addComponent(Txt_DescripcionArticulo))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Txt_StockMin)
-                    .addComponent(Txt_StockAct)
-                    .addComponent(Txt_StockMax)
-                    .addComponent(ComboSeccion, 0, 150, Short.MAX_VALUE))
-                .addGap(35, 35, 35))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(Txt_StockMax, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                        .addComponent(Txt_StockMin, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Txt_StockAct, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(ComboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(85, 85, 85))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,12 +383,8 @@ public class FmrArticulos extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ComboSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ComboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(8, 8, 8))
+                        .addGap(40, 40, 40))
                     .addComponent(Txt_Activo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -587,9 +592,9 @@ public class FmrArticulos extends javax.swing.JFrame {
         }
         
         // Bloquear carácteres especiales menos espacio
-        if (!Character.isLetter(l) && l != KeyEvent.VK_SPACE && l != KeyEvent.VK_COMMA)
+        if (!Character.isLetter(l) && !Character.isDigit(l) && l != KeyEvent.VK_SPACE && l != KeyEvent.VK_COMMA)
         {
-            evt.consume();            
+            evt.consume();                        
         }
 
         // Máximo de carácteres permitidos
@@ -652,31 +657,28 @@ public class FmrArticulos extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
-                 int fila = Tbl_Articulo.getSelectedRow();
+        
+        int fila = Tbl_Articulo.getSelectedRow();
 
-        if(fila != -1){
-
-        Activar_Desactivar();
-
+        if(fila != -1)
+        {
+            Activar_Desactivar();
         }else{
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
-
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
-         int fila = Tbl_Articulo.getSelectedRow();
-        if(fila == -1){
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
-
+         
+        int fila = Tbl_Articulo.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-
             EditarArticulo();
-            LimpiarArticulo();
-            
+            LimpiarArticulo();            
         }        
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
@@ -689,10 +691,10 @@ public class FmrArticulos extends javax.swing.JFrame {
     private void Tbl_ArticuloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_ArticuloMouseClicked
 
         int fila =  Tbl_Articulo.getSelectedRow();
-        if(fila == -1){
         
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
-        
+        if(fila == -1)
+        {        
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
         }else{
         Btn_Añadir.setEnabled(false);
         Btn_Limpiar.setEnabled(true);
@@ -706,10 +708,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         String StockAct= Tbl_Articulo.getValueAt(fila, 5).toString();
         String StockMin = Tbl_Articulo.getValueAt(fila, 6).toString();
         String StockMax = Tbl_Articulo.getValueAt(fila, 7).toString();
-        String Seccion = Tbl_Articulo.getValueAt(fila, 8).toString();
-        String Activo = Tbl_Articulo.getValueAt(fila, 9).toString();
-        
-        
+        String Activo = Tbl_Articulo.getValueAt(fila, 8).toString();                
 
         Txt_IdArticulo.setText(Id);
         Txt_NombreArticulo.setText(Nombre);
@@ -718,21 +717,93 @@ public class FmrArticulos extends javax.swing.JFrame {
         ComboTalla.setSelectedItem(Talla);
         Txt_StockAct.setText(StockAct);
         Txt_StockMin.setText(StockMin);
-        Txt_StockMax.setText(StockMax);
-        ComboSeccion.setSelectedItem(Seccion);
+        Txt_StockMax.setText(StockMax);        
         Txt_Activo.setText(Activo);
         
-        if(Activo == "Activado"){
-        Btn_Activar_Desactivar.setText("Desactivar");
+        if(Activo == "Activado")
+        {
+            Btn_Activar_Desactivar.setText("Desactivar");
         }else{
+            Btn_Activar_Desactivar.setText("Activar");
+            }
         
-             Btn_Activar_Desactivar.setText("Activar");
-        
-        }
+        Txt_StockAct.setEditable(false);
         }
     }//GEN-LAST:event_Tbl_ArticuloMouseClicked
       
-    //FUNCIONES Y MÉTODOS
+    //MÉTODOS
+    private void actualizarArticulo()
+    {
+        t = (DefaultTableModel)Tbl_Articulo.getModel();
+        t.setRowCount(0);         
+        Tbl_Articulo.setModel(t);                
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        String s;
+        for(Articulo Articulos : articulo)
+        {
+            if(Articulos.isActivoArticulo() == true)
+            {
+                s = "Activado";
+            }else{
+                s = "Desactivado";
+            }            
+            
+            t.addRow(
+                    new Object[]{
+                        Articulos.getIdArticulo(),
+                        Articulos.getNombreArticulo(),
+                        Articulos.getPrecioArticulo(),
+                        Articulos.getDescripcionArticulo(), 
+                        GetNombreTalla(Articulos.getIdTalla()),                        
+                        Articulos.getStock(),
+                        Articulos.getStockMinimo(),
+                        Articulos.getStockMaximo(),                    
+                        s                        
+                    });                   
+        }
+        
+    }        
+        
+    private void LlenarArticulo()
+    {     
+        if(Txt_NombreArticulo.getText().length() < 4)
+        {       
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 4 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_PrecioArticulo.getText().length() < 2){
+            JOptionPane.showMessageDialog(null, "El nombre debe tener al menos 2 dígitos.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionArticulo.getText().length() <= 0){
+            JOptionPane.showMessageDialog(null, "Debe añadir una descripción del artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if("Seleccione".equals(String.valueOf(ComboTalla.getSelectedItem()))){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una talla para el artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockMax.getText()) <= Integer.parseInt(Txt_StockMin.getText())){
+            JOptionPane.showMessageDialog(null, "Ingrese una cantidad de stock mínimo para este artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockMin.getText()) == 0){
+            JOptionPane.showMessageDialog(null, "Ingrese una cantidad de stock máximo para este artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_StockAct.getText() == "0"){            
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+        }else{
+            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
+            objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
+            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
+            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
+            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
+            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
+            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
+            objArticulo.setActivoArticulo(true);
+        }
+        
+        try{
+            daoArticulo.create(objArticulo);
+            actualizarArticulo();
+            LimpiarArticulo();
+            JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
+        }catch (Exception ex){
+            Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void listaTalla()
     {
         ComboTalla.removeAllItems();
@@ -757,7 +828,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         return Integer.parseInt(query.getSingleResult().toString());
     }    
     
-    private static String GetNombreTipoDocumento(int id)
+    private static String GetNombreTalla(int id)
     {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         EntityManager em = emf.createEntityManager();
@@ -767,19 +838,107 @@ public class FmrArticulos extends javax.swing.JFrame {
     
         return query.getSingleResult().toString() ;  
     } 
-    
-    public void listaSeccion()
+
+    private void LimpiarArticulo()
     {
-        ComboSeccion.removeAllItems();
-        
-        List<Articulo_SeccionTienda> Secciones = this.daoSeccionT.findArticulo_SeccionTiendaEntities();
-        ComboSeccion.addItem("Seleccione");
-        
-        Secciones.stream().map((Articulo_SeccionTienda) -> Articulo_SeccionTienda.getIdSeccionTienda()).forEachOrdered((lista) -> 
-        {
-            //ComboSeccion.addItem(lista);
-        });
+        Txt_IdArticulo.setText("");
+        Txt_NombreArticulo.setText("");        
+        Txt_PrecioArticulo.setText("");
+        Txt_DescripcionArticulo.setText("");
+        ComboTalla.setSelectedIndex(0);        
+        Txt_StockAct.setText("");
+        Txt_StockAct.setEditable(true);
+        Txt_StockMin.setText("");
+        Txt_StockMax.setText("");                
+        Btn_Editar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(false);          
     }
+    
+    private void Activar_Desactivar()
+    {
+        int fila = Tbl_Articulo.getSelectedRow();
+        String a = Txt_Activo.getText().toString();
+        
+        if(a.equals("Activado"))
+        {
+            objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
+            objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
+            objArticulo.setPrecioArticulo(Double.parseDouble(Tbl_Articulo.getValueAt(fila, 2).toString()));
+            objArticulo.setDescripcionArticulo(Tbl_Articulo.getValueAt(fila, 3).toString());
+            objArticulo.setIdTalla(GetIdTalla(Tbl_Articulo.getValueAt(fila, 4).toString()));
+            objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
+            objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
+            objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));            
+            objArticulo.setActivoArticulo(false);
+          
+                 
+            try{
+                daoArticulo.edit(objArticulo);
+                actualizarArticulo();
+                Btn_Activar_Desactivar.setText("Activar");
+                JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            LimpiarArticulo();
+                      
+        }else{
+            objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
+            objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
+            objArticulo.setPrecioArticulo(Double.parseDouble(Tbl_Articulo.getValueAt(fila, 2).toString()));
+            objArticulo.setDescripcionArticulo(Tbl_Articulo.getValueAt(fila, 3).toString());
+            objArticulo.setIdTalla(GetIdTalla(Tbl_Articulo.getValueAt(fila, 4).toString()));
+            objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
+            objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
+            objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));                            
+            objArticulo.setActivoArticulo(true);
+            
+            try{
+                daoArticulo.edit(objArticulo);
+                actualizarArticulo();
+                Btn_Activar_Desactivar.setText("Desactivar");
+                JOptionPane.showMessageDialog(this, "Se activó correctamente.");
+            }catch(Exception ex){
+            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+            }                
+        LimpiarArticulo();        
+        }                               
+    }           
+        
+    private void EditarArticulo()
+    {
+        if(Txt_NombreArticulo.getText().length() < 3)
+        {
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_PrecioArticulo.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "El artículo tiene que tener un precio.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(Txt_DescripcionArticulo.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "La descripcion  debe de contener mínimo 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(String.valueOf(ComboTalla.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una talla para el artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(Txt_StockAct.getText().length() < 1){
+            JOptionPane.showMessageDialog(null, "El stock actual no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else{            
+            objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
+            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
+            objArticulo.setPrecioArticulo(Double.parseDouble(Txt_PrecioArticulo.getText()));
+            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
+            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
+            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
+            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
+            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));                                               
+            
+        try{
+            daoArticulo.edit(objArticulo);
+            actualizarArticulo();
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+        }catch(Exception ex){
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }  
+}     
     
     private static int GetIdSeccion(String Nombre)
     {
@@ -801,221 +960,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         Query query = em.createQuery(select);
     
         return query.getSingleResult().toString() ;         
-    }
-    
-    
-    private void ActualizarArticulo()
-    {
-        DefaultTableModel t = new DefaultTableModel();
-        Tbl_Articulo.setModel(t);
-        
-        t.addColumn("Id");
-        t.addColumn("Artículo");
-        t.addColumn("Precio");
-        t.addColumn("Descripción");
-        t.addColumn("Talla");
-        t.addColumn("Stock Actual");
-        t.addColumn("Stock Mínimo");
-        t.addColumn("Stock Máximo");
-        t.addColumn("Sección");
-        
-        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
-        
-        String s;
-        for(Articulo Articulos : articulo)
-        {
-            if(Articulos.isActivoArticulo() == true)
-            {
-                s = "Activado";
-            }else{
-                s = "Desactivado";
-            }            
-            
-            t.addRow(
-                    new Object[]{
-                        Articulos.getIdArticulo(),
-                        Articulos.getNombreArticulo(),
-                        Articulos.getPrecioArticulo(),
-                        Articulos.getDescripcionArticulo(),                        
-                        Articulos.getIdTalla(),
-                        Articulos.getStock(),
-                        Articulos.getStockMinimo(),
-                        Articulos.getStockMaximo(),                    
-                        s                        
-                    });                   
-        }
-        
-    }
-    
-    private void LimpiarArticulo()
-    {
-        Txt_IdArticulo.setText("");
-        Txt_NombreArticulo.setText("");        
-        Txt_PrecioArticulo.setText("");
-        Txt_DescripcionArticulo.setText("");
-        ComboTalla.setSelectedIndex(0);        
-        Txt_StockAct.setText("");
-        Txt_StockMin.setText("");
-        Txt_StockMax.setText("");
-        ComboSeccion.setSelectedIndex(0);        
-        Btn_Editar.setEnabled(false);
-        Btn_Activar_Desactivar.setEnabled(false);       
-    }
-    
-    private void LlenarArticulo()
-    {     
-        if(Txt_NombreArticulo.getText().length() < 4)
-        {       
-            JOptionPane.showMessageDialog(this, "El nombre del artículo tiene que contener al menos 4 letras.");       
-        }else if(Txt_PrecioArticulo.getText().length() < 2)
-        {
-            JOptionPane.showMessageDialog(this, "El precio debe de contener 2 dígitos.");        
-        }else if(Txt_DescripcionArticulo.getText().length() <= 0)
-        {
-            JOptionPane.showMessageDialog(this, "Debe añadir una descripción del artículo.");
-        }else if("Seleccione".equals(String.valueOf(ComboTalla.getSelectedItem())))
-        {
-            JOptionPane.showMessageDialog(this, "Debe de seleccionar una talla.");
-        }else if(Txt_StockMin.getText().length() >= 1) if(Txt_StockMax.getText().length() < 1)
-        {
-            JOptionPane.showMessageDialog(this, "Debe añadir una cantidad de stock máximo para este artículo.");
-        }/*else if("Seleccione".equals(String.valueOf(ComboSeccion.getSelectedItem())))
-        {
-            JOptionPane.showMessageDialog(this, "Debe de seleccionar una sección.");
-        }*/
-        
-        else{
-            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
-            objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
-            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
-            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
-            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
-            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
-            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
-            //objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
-            //objArtSec.setIdSeccionTienda(getIdSeccionTienda(String.valueOf(ComboSeccion.getSelectedItem())));
-        }else {
-            JOptionPane.showMessageDialog(this, "Debe añadir una cantidad de stock mínimo para este artículo.");
-        }
-        
-        try{
-            daoArticulo.create(objArticulo);
-            ActualizarArticulo();
-            LimpiarArticulo();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private void Activar_Desactivar(){
-            int fila = Tbl_Articulo.getSelectedRow();
-        
-              String a = Txt_Activo.getText().toString();
-               if(a.equals("Activado")){
-         objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
-         objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
-         objArticulo.setPrecioArticulo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 2).toString()));
-         objArticulo.setDescripcionArticulo(Tbl_Articulo.getValueAt(fila, 3).toString());
-         objArticulo.setIdTalla(GetIdTalla(Tbl_Articulo.getValueAt(fila, 4).toString()));
-         objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
-         objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
-         objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
-         objArtSec.setIdSeccionTienda(GetIdSeccion(Tbl_Articulo.getValueAt(fila, 8).toString()));
-       //  objArtSec.setIdSeccionTienda(getIdSeccionTienda(Tbl_Articulo.getValueAt(fila, 8)));
-       objArticulo.setActivoArticulo(false);
-          
-      
-       try {
-            daoArticulo.edit(objArticulo);
-             ActualizarArticulo();
-            Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         LimpiarArticulo();
-          }else{  
-         objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
-         objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
-         objArticulo.setPrecioArticulo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 2).toString()));
-         objArticulo.setDescripcionArticulo(Tbl_Articulo.getValueAt(fila, 3).toString());
-         objArticulo.setIdTalla(GetIdTalla(Tbl_Articulo.getValueAt(fila, 4).toString()));
-         objArticulo.setStock(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 5).toString()));
-         objArticulo.setStockMinimo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 6).toString()));
-         objArticulo.setStockMaximo(Integer.parseInt(Tbl_Articulo.getValueAt(fila, 7).toString()));
-         objArtSec.setIdSeccionTienda(GetIdSeccion(Tbl_Articulo.getValueAt(fila, 8).toString()));
-         
-       
-       objArticulo.setActivoArticulo(true);
-        try {
-           daoArticulo.edit(objArticulo);
-             ActualizarArticulo();
-            Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        LimpiarArticulo();
-        
-        }
-         
-               
-       
-       }
-    
-    private void EditarArticulo(){
-            
-            
-            if(Txt_NombreArticulo.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
-        
-        }else if(Txt_PrecioArticulo.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
-        
-        }else if(Txt_DescripcionArticulo.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "la descripcion  debe de contener 8 letras");
-        
-        }else if(String.valueOf(ComboTalla.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar una talla");
-        
-        }else if(Txt_StockAct.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
-        
-        }
-        
-        else if(String.valueOf(ComboSeccion.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar una seccion");
-        
-        }else{
-            
-            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
-            objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
-            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
-            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
-            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
-            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
-            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
-            //objArticulo.setIdSeccionTienda(GetIdSeccion(String.valueOf(ComboSeccion.getSelectedItem())));
-                        
-            
-        try {
-            daoArticulo.edit(objArticulo);
-            ActualizarArticulo();
-             JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
-        } catch (Exception ex) {
-             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }  
-            
-            }
-    
+    } 
     
     
     /**
@@ -1068,7 +1013,6 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Editar;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
-    private javax.swing.JComboBox<String> ComboSeccion;
     private javax.swing.JComboBox<String> ComboTalla;
     private javax.swing.JTable Tbl_Articulo;
     private javax.swing.JTextField Txt_Activo;
@@ -1089,7 +1033,6 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

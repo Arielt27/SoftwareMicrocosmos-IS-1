@@ -365,15 +365,10 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
-        String s;
+        String s = null;
         for(Articulo Articulos : articulo)
         {
-            if(Articulos.isActivoArticulo())
-            {
-                s = "Activado";
-            }else{
-                s = "Desactivado";
-            }                                 
+            if(Articulos.isActivoArticulo() == true)                                             
             
             t.addRow(
                     new Object[]{
