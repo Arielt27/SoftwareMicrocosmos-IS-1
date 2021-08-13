@@ -741,6 +741,7 @@ public class FmrVentas extends javax.swing.JFrame {
             //DETALLE DE VENTA            
             for(int i = 0; i <= jTable_Venta.getRowCount(); i++)
             {
+                objDetalleVenta.setIdDetalleVenta(i);                
                 objDetalleVenta.setCantidad(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,4))));
                 objDetalleVenta.setIdVenta(idVenta);
                 objDetalleVenta.setIdArticulo(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,0))));

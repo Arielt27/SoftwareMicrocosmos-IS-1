@@ -29,6 +29,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     Venta objVenta = new Venta();
     
     DefaultTableModel t;
+    
+    public static String idVenta;
 
     /**
      * Creates new form FmrHistorialFacturas
@@ -42,6 +44,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
+        Btn_DetallesVentas.setEnabled(false);
         actualizar();
     }
 
@@ -61,22 +64,20 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_DetallesCompras = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        Btn_Regresar2 = new javax.swing.JButton();
-        Btn_CambiarECompras = new javax.swing.JButton();
+        Btn_RegresarC = new javax.swing.JButton();
         Btn_DetallesCompras = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_DetallesVentas = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        Btn_Regresar3 = new javax.swing.JButton();
-        Btn_CambiarEVentas = new javax.swing.JButton();
+        Btn_RegresarV = new javax.swing.JButton();
         Btn_DetallesVentas = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable_DetallesVentas1 = new javax.swing.JTable();
+        jTable_DetallesAnuladas = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
-        Btn_Regresar4 = new javax.swing.JButton();
-        Btn_DetallesVentas1 = new javax.swing.JButton();
+        Btn_RegresarA = new javax.swing.JButton();
+        Btn_DetallesAnuladas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Historial de Facturas - Microcosmos");
@@ -138,6 +139,11 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_DetallesCompras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_DetallesComprasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable_DetallesCompras);
         if (jTable_DetallesCompras.getColumnModel().getColumnCount() > 0) {
             jTable_DetallesCompras.getColumnModel().getColumn(0).setResizable(false);
@@ -149,26 +155,18 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(60, 63, 65));
 
-        Btn_Regresar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
-        Btn_Regresar2.setText(" Regresar");
-        Btn_Regresar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_Regresar2.setFocusPainted(false);
-        Btn_Regresar2.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar2.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar2.setPreferredSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar2.addActionListener(new java.awt.event.ActionListener() {
+        Btn_RegresarC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_RegresarC.setText(" Regresar");
+        Btn_RegresarC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_RegresarC.setFocusPainted(false);
+        Btn_RegresarC.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarC.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarC.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_Regresar2ActionPerformed(evt);
+                Btn_RegresarCActionPerformed(evt);
             }
         });
-
-        Btn_CambiarECompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Cambiar.png"))); // NOI18N
-        Btn_CambiarECompras.setText("Cambiar Estado");
-        Btn_CambiarECompras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_CambiarECompras.setFocusPainted(false);
-        Btn_CambiarECompras.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarECompras.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarECompras.setPreferredSize(new java.awt.Dimension(120, 50));
 
         Btn_DetallesCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/DetalleFact.png"))); // NOI18N
         Btn_DetallesCompras.setText(" Ver Detalles");
@@ -177,33 +175,34 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_DetallesCompras.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_DetallesCompras.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_DetallesCompras.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesCompras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_DetallesComprasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(145, Short.MAX_VALUE)
+                .addContainerGap(235, Short.MAX_VALUE)
                 .addComponent(Btn_DetallesCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
-                .addComponent(Btn_CambiarECompras, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
-                .addComponent(Btn_Regresar2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(145, 145, 145))
+                .addGap(85, 85, 85)
+                .addComponent(Btn_RegresarC, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Btn_Regresar2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_CambiarECompras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_RegresarC, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_DetallesCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
-        Btn_Regresar2.getAccessibleContext().setAccessibleDescription("Regresa a la pantalla de configuración.");
-        Btn_CambiarECompras.getAccessibleContext().setAccessibleDescription("Cambia el estado de una factura.");
+        Btn_RegresarC.getAccessibleContext().setAccessibleDescription("Regresa a la pantalla de configuración.");
         Btn_DetallesCompras.getAccessibleContext().setAccessibleDescription("Ver factura completa.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -281,29 +280,16 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(60, 63, 65));
 
-        Btn_Regresar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
-        Btn_Regresar3.setText(" Regresar");
-        Btn_Regresar3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_Regresar3.setFocusPainted(false);
-        Btn_Regresar3.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar3.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar3.setPreferredSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar3.addActionListener(new java.awt.event.ActionListener() {
+        Btn_RegresarV.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_RegresarV.setText(" Regresar");
+        Btn_RegresarV.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_RegresarV.setFocusPainted(false);
+        Btn_RegresarV.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarV.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarV.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_Regresar3ActionPerformed(evt);
-            }
-        });
-
-        Btn_CambiarEVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Cambiar.png"))); // NOI18N
-        Btn_CambiarEVentas.setText("Cambiar Estado");
-        Btn_CambiarEVentas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_CambiarEVentas.setFocusPainted(false);
-        Btn_CambiarEVentas.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarEVentas.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarEVentas.setPreferredSize(new java.awt.Dimension(120, 50));
-        Btn_CambiarEVentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_CambiarEVentasActionPerformed(evt);
+                Btn_RegresarVActionPerformed(evt);
             }
         });
 
@@ -314,27 +300,29 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_DetallesVentas.setMaximumSize(new java.awt.Dimension(120, 50));
         Btn_DetallesVentas.setMinimumSize(new java.awt.Dimension(120, 50));
         Btn_DetallesVentas.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_DetallesVentasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(145, Short.MAX_VALUE)
+                .addContainerGap(235, Short.MAX_VALUE)
                 .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
-                .addComponent(Btn_CambiarEVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
-                .addComponent(Btn_Regresar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(145, 145, 145))
+                .addGap(85, 85, 85)
+                .addComponent(Btn_RegresarV, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Btn_Regresar3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_CambiarEVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_RegresarV, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
@@ -356,7 +344,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Ventas", jPanel3);
 
-        jTable_DetallesVentas1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_DetallesAnuladas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -399,60 +387,65 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable_DetallesVentas1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable_DetallesAnuladas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_DetallesVentas1MouseClicked(evt);
+                jTable_DetallesAnuladasMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(jTable_DetallesVentas1);
-        if (jTable_DetallesVentas1.getColumnModel().getColumnCount() > 0) {
-            jTable_DetallesVentas1.getColumnModel().getColumn(0).setResizable(false);
-            jTable_DetallesVentas1.getColumnModel().getColumn(1).setResizable(false);
-            jTable_DetallesVentas1.getColumnModel().getColumn(2).setResizable(false);
-            jTable_DetallesVentas1.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane3.setViewportView(jTable_DetallesAnuladas);
+        if (jTable_DetallesAnuladas.getColumnModel().getColumnCount() > 0) {
+            jTable_DetallesAnuladas.getColumnModel().getColumn(0).setResizable(false);
+            jTable_DetallesAnuladas.getColumnModel().getColumn(1).setResizable(false);
+            jTable_DetallesAnuladas.getColumnModel().getColumn(2).setResizable(false);
+            jTable_DetallesAnuladas.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel7.setBackground(new java.awt.Color(60, 63, 65));
 
-        Btn_Regresar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
-        Btn_Regresar4.setText(" Regresar");
-        Btn_Regresar4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_Regresar4.setFocusPainted(false);
-        Btn_Regresar4.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar4.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar4.setPreferredSize(new java.awt.Dimension(120, 50));
-        Btn_Regresar4.addActionListener(new java.awt.event.ActionListener() {
+        Btn_RegresarA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_RegresarA.setText(" Regresar");
+        Btn_RegresarA.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_RegresarA.setFocusPainted(false);
+        Btn_RegresarA.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarA.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarA.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_RegresarA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_Regresar4ActionPerformed(evt);
+                Btn_RegresarAActionPerformed(evt);
             }
         });
 
-        Btn_DetallesVentas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/DetalleFact.png"))); // NOI18N
-        Btn_DetallesVentas1.setText(" Ver Detalles");
-        Btn_DetallesVentas1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
-        Btn_DetallesVentas1.setFocusPainted(false);
-        Btn_DetallesVentas1.setMaximumSize(new java.awt.Dimension(120, 50));
-        Btn_DetallesVentas1.setMinimumSize(new java.awt.Dimension(120, 50));
-        Btn_DetallesVentas1.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesAnuladas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/DetalleFact.png"))); // NOI18N
+        Btn_DetallesAnuladas.setText(" Ver Detalles");
+        Btn_DetallesAnuladas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_DetallesAnuladas.setFocusPainted(false);
+        Btn_DetallesAnuladas.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesAnuladas.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesAnuladas.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesAnuladas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_DetallesAnuladasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(220, Short.MAX_VALUE)
-                .addComponent(Btn_DetallesVentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115)
-                .addComponent(Btn_Regresar4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(220, 220, 220))
+                .addContainerGap(235, Short.MAX_VALUE)
+                .addComponent(Btn_DetallesAnuladas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(Btn_RegresarA, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(235, 235, 235))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Btn_Regresar4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_DetallesVentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_RegresarA, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_DetallesAnuladas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -491,22 +484,25 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Btn_Regresar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar2ActionPerformed
+    //COMPRAS
+    private void jTable_DetallesComprasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesComprasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable_DetallesComprasMouseClicked
 
-        FmrConfiguraciones conf = new FmrConfiguraciones();
-        conf.setVisible(true);
-        this.dispose();
+    private void Btn_DetallesComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_DetallesComprasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_DetallesComprasActionPerformed
 
-    }//GEN-LAST:event_Btn_Regresar2ActionPerformed
-
-    private void Btn_Regresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar3ActionPerformed
+    private void Btn_RegresarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarCActionPerformed
         
         FmrConfiguraciones conf = new FmrConfiguraciones();
         conf.setVisible(true);
         this.dispose();
         
-    }//GEN-LAST:event_Btn_Regresar3ActionPerformed
+    }//GEN-LAST:event_Btn_RegresarCActionPerformed
 
+    
+    //VENTAS    
     private void jTable_DetallesVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesVentasMouseClicked
         
         int fila =  jTable_DetallesVentas.getSelectedRow();
@@ -514,51 +510,51 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         if(fila == -1)
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
-        }  
+        }else{
+            Btn_DetallesVentas.setEnabled(true);               
+            
+            String valor = jTable_DetallesVentas.getValueAt(fila, 0).toString();
+            
+            idVenta = valor;
+            
+        }
         
     }//GEN-LAST:event_jTable_DetallesVentasMouseClicked
 
-    private void Btn_CambiarEVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarEVentasActionPerformed
+    private void Btn_DetallesVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_DetallesVentasActionPerformed
+                                        
+        FmrDetalleVenta dVenta = new FmrDetalleVenta();
+        dVenta.setVisible(true);        
         
-        int fila = jTable_DetallesVentas.getSelectedRow();
+    }//GEN-LAST:event_Btn_DetallesVentasActionPerformed
+
+    private void Btn_RegresarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarVActionPerformed
         
-        if(fila != -1)
-        {
-            String[] Estados = {
-                "Seleccione",
-                "Aceptada",
-                "Cancelada",                
-            };
-            
-            String opcion = (String) JOptionPane.showInputDialog(null, "Seleccione un estado de factura", "Seleccione", JOptionPane.DEFAULT_OPTION, null, Estados, Estados[0]);
+        FmrConfiguraciones conf = new FmrConfiguraciones();
+        conf.setVisible(true);
+        this.dispose();
         
-            while(opcion.equals("Seleccione"))
-            {
-                JOptionPane.showMessageDialog(null, "Debe seleccionar un estado de factura.","¡Aviso!", JOptionPane.WARNING_MESSAGE); 
-                opcion = (String) JOptionPane.showInputDialog(null, "Seleccione un estado de factura", "Seleccione", JOptionPane.DEFAULT_OPTION, null, Estados, Estados[0]);
-            }
+    }//GEN-LAST:event_Btn_RegresarVActionPerformed
 
-            t.setValueAt(opcion, fila, 3);                        
-
-            /*try{
-                daoVenta.edit(objVenta);
-                actualizar();
-            }catch(Exception ex){
-                Logger.getLogger(FmrHistorialFacturas.class.getName()).log(Level.SEVERE, null, ex);                                
-            } */           
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una factura para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_Btn_CambiarEVentasActionPerformed
-
-    private void jTable_DetallesVentas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesVentas1MouseClicked
+    
+    //ANULADAS    
+    private void jTable_DetallesAnuladasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesAnuladasMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTable_DetallesVentas1MouseClicked
+    }//GEN-LAST:event_jTable_DetallesAnuladasMouseClicked
 
-    private void Btn_Regresar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar4ActionPerformed
+    private void Btn_DetallesAnuladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_DetallesAnuladasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Btn_Regresar4ActionPerformed
+    }//GEN-LAST:event_Btn_DetallesAnuladasActionPerformed
 
+    private void Btn_RegresarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarAActionPerformed
+        
+        FmrConfiguraciones conf = new FmrConfiguraciones();
+        conf.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_Btn_RegresarAActionPerformed
+    
+                               
     //METODOS
     private void actualizar()
     {    
@@ -619,14 +615,12 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Btn_CambiarECompras;
-    private javax.swing.JButton Btn_CambiarEVentas;
+    private javax.swing.JButton Btn_DetallesAnuladas;
     private javax.swing.JButton Btn_DetallesCompras;
     private javax.swing.JButton Btn_DetallesVentas;
-    private javax.swing.JButton Btn_DetallesVentas1;
-    private javax.swing.JButton Btn_Regresar2;
-    private javax.swing.JButton Btn_Regresar3;
-    private javax.swing.JButton Btn_Regresar4;
+    private javax.swing.JButton Btn_RegresarA;
+    private javax.swing.JButton Btn_RegresarC;
+    private javax.swing.JButton Btn_RegresarV;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -639,8 +633,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable_DetallesAnuladas;
     private javax.swing.JTable jTable_DetallesCompras;
     private javax.swing.JTable jTable_DetallesVentas;
-    private javax.swing.JTable jTable_DetallesVentas1;
     // End of variables declaration//GEN-END:variables
 }
