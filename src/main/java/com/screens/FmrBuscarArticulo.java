@@ -47,6 +47,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         actualizarBusquedaArticulos();
         listaFiltro();              
         Btn_Buscar.setEnabled(false);        
+        Txt_Campo.setEnabled(false);
     }
 
     /**
@@ -292,7 +293,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         {
             String Datos[] = new String[2];            
             Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
-            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
+            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();                        
             
             FmrVentas.t2.addRow(Datos);
             t.removeRow(filaSeleccionada);                                                         
@@ -319,12 +320,8 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
                     
-        int busquedaID = Integer.parseInt(Txt_Campo.getText());
-        
-        //String busquedaNombre = Txt_Campo.getText();
-        
-        consultarIDArt(busquedaID);
-        //consultarNombreArt(busquedaNombre);
+        int busquedaID = Integer.parseInt(Txt_Campo.getText());                        
+        consultarIDArt(busquedaID);        
         
     }//GEN-LAST:event_Btn_BuscarActionPerformed
 
@@ -463,10 +460,25 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     {
         Object seleccion = CBox_Filtro.getSelectedItem();
         
-        if(!seleccion.equals("Seleccione"))
+        if(seleccion.equals("ID"))
         {
-            Btn_Buscar.setEnabled(true);            
-        }            
+            Btn_Buscar.setEnabled(true); 
+            Txt_Campo.setEnabled(true);
+        }else if(seleccion.equals("Nombre")){
+            
+            Txt_Campo.setText("");
+            
+            String articuloBuscar = JOptionPane.showInputDialog(null, "Ingrese el nombre del articulo a buscar.", "Articulo", JOptionPane.OK_CANCEL_OPTION);            
+            
+            String busquedaNombre = articuloBuscar;
+            
+            if(busquedaNombre.equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de artículo para buscar.","Error!", JOptionPane.ERROR_MESSAGE);                
+            }else{
+                consultarNombreArt(busquedaNombre);                
+            }                                  
+        }
     }
     
     /**

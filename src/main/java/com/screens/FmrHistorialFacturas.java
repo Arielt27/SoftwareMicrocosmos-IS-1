@@ -71,6 +71,12 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_Regresar3 = new javax.swing.JButton();
         Btn_CambiarEVentas = new javax.swing.JButton();
         Btn_DetallesVentas = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable_DetallesVentas1 = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        Btn_Regresar4 = new javax.swing.JButton();
+        Btn_DetallesVentas1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Historial de Facturas - Microcosmos");
@@ -219,37 +225,37 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jTable_DetallesVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID Factura", "Fecha", "Valor", "Estado", "Comentarios"
+                "ID Factura", "Fecha", "Valor", "Id Empleado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -271,7 +277,6 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             jTable_DetallesVentas.getColumnModel().getColumn(1).setResizable(false);
             jTable_DetallesVentas.getColumnModel().getColumn(2).setResizable(false);
             jTable_DetallesVentas.getColumnModel().getColumn(3).setResizable(false);
-            jTable_DetallesVentas.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jPanel5.setBackground(new java.awt.Color(60, 63, 65));
@@ -351,6 +356,123 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Ventas", jPanel3);
 
+        jTable_DetallesVentas1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID Factura", "Fecha Anulación", "ID Empleado", "Comentarios"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable_DetallesVentas1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_DetallesVentas1MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable_DetallesVentas1);
+        if (jTable_DetallesVentas1.getColumnModel().getColumnCount() > 0) {
+            jTable_DetallesVentas1.getColumnModel().getColumn(0).setResizable(false);
+            jTable_DetallesVentas1.getColumnModel().getColumn(1).setResizable(false);
+            jTable_DetallesVentas1.getColumnModel().getColumn(2).setResizable(false);
+            jTable_DetallesVentas1.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        jPanel7.setBackground(new java.awt.Color(60, 63, 65));
+
+        Btn_Regresar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
+        Btn_Regresar4.setText(" Regresar");
+        Btn_Regresar4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Regresar4.setFocusPainted(false);
+        Btn_Regresar4.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar4.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar4.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Regresar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_Regresar4ActionPerformed(evt);
+            }
+        });
+
+        Btn_DetallesVentas1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/DetalleFact.png"))); // NOI18N
+        Btn_DetallesVentas1.setText(" Ver Detalles");
+        Btn_DetallesVentas1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_DetallesVentas1.setFocusPainted(false);
+        Btn_DetallesVentas1.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesVentas1.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_DetallesVentas1.setPreferredSize(new java.awt.Dimension(120, 50));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(220, Short.MAX_VALUE)
+                .addComponent(Btn_DetallesVentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115)
+                .addComponent(Btn_Regresar4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(220, 220, 220))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Btn_Regresar4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_DetallesVentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
+        );
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Anuladas", jPanel6);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -418,16 +540,24 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
             t.setValueAt(opcion, fila, 3);                        
 
-            try{
+            /*try{
                 daoVenta.edit(objVenta);
                 actualizar();
             }catch(Exception ex){
                 Logger.getLogger(FmrHistorialFacturas.class.getName()).log(Level.SEVERE, null, ex);                                
-            }            
+            } */           
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar una factura para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_Btn_CambiarEVentasActionPerformed
+
+    private void jTable_DetallesVentas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesVentas1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable_DetallesVentas1MouseClicked
+
+    private void Btn_Regresar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_Regresar4ActionPerformed
 
     //METODOS
     private void actualizar()
@@ -445,7 +575,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                     new Object[]{
                         Venta.getIdVenta(),
                         Venta.getFechaVenta(),
-                        Venta.getTotal(),                         
+                        Venta.getTotal(), 
+                        Venta.getIdEmpleados(),                        
                         s                       
                     });            
         }
@@ -492,18 +623,24 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     private javax.swing.JButton Btn_CambiarEVentas;
     private javax.swing.JButton Btn_DetallesCompras;
     private javax.swing.JButton Btn_DetallesVentas;
+    private javax.swing.JButton Btn_DetallesVentas1;
     private javax.swing.JButton Btn_Regresar2;
     private javax.swing.JButton Btn_Regresar3;
+    private javax.swing.JButton Btn_Regresar4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable_DetallesCompras;
     private javax.swing.JTable jTable_DetallesVentas;
+    private javax.swing.JTable jTable_DetallesVentas1;
     // End of variables declaration//GEN-END:variables
 }

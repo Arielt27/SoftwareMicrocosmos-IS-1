@@ -6,11 +6,13 @@
 package com.screens;
 
 import com.clases.Clientes;
+import com.clases.DetalleVenta;
 import com.clases.Empleados;
 import com.clases.Parametros;
 import com.clases.TipoDePago;
 import com.clases.Venta;
 import com.dao.ClientesJpaController;
+import com.dao.DetalleVentaJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.ParametrosJpaController;
 import com.dao.TipoDePagoJpaController;
@@ -45,20 +47,23 @@ public class FmrVentas extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         
-    VentaJpaController daoVenta = new VentaJpaController();    
+    VentaJpaController daoVenta = new VentaJpaController();        
     ClientesJpaController daoClientes = new ClientesJpaController();        
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();      
     ParametrosJpaController daoParametros = new ParametrosJpaController();    
+    DetalleVentaJpaController daoDetalleVenta = new DetalleVentaJpaController();
        
     Venta objVenta = new Venta();
     Clientes objClientes = new Clientes(); 
     Empleados objEmpleados = new Empleados();    
     TipoDePago objTipoPago = new TipoDePago();        
-    Parametros objParametros = new Parametros();    
+    Parametros objParametros = new Parametros();  
+    DetalleVenta objDetalleVenta = new DetalleVenta();
     
     static DefaultTableModel t2;    
     int factura = 0;
+    public static double totalV;
 
     /**
      * Creates new form Ventas
@@ -72,9 +77,8 @@ public class FmrVentas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
-        Inicializar();        
-        Txt_Fact.setEnabled(false);        
-        facturaID();
+        Inicializar();                
+        facturaID();        
     }        
 
     /**
@@ -106,7 +110,6 @@ public class FmrVentas extends javax.swing.JFrame {
         Btn_Retirar = new javax.swing.JButton();
         CBox_IdCliente = new javax.swing.JComboBox<>();
         Txt_Cai = new javax.swing.JTextField();
-        Btn_Calcular = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         Txt_Cantidad = new javax.swing.JTextField();
         Btn_Cantidad = new javax.swing.JButton();
@@ -252,17 +255,6 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_Cai.setEditable(false);
         Txt_Cai.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
 
-        Btn_Calcular.setText("Calcular");
-        Btn_Calcular.setFocusPainted(false);
-        Btn_Calcular.setMaximumSize(new java.awt.Dimension(73, 22));
-        Btn_Calcular.setMinimumSize(new java.awt.Dimension(73, 22));
-        Btn_Calcular.setPreferredSize(new java.awt.Dimension(73, 22));
-        Btn_Calcular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_CalcularActionPerformed(evt);
-            }
-        });
-
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -325,7 +317,7 @@ public class FmrVentas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Txt_IdCai)))
                 .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -335,11 +327,10 @@ public class FmrVentas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                            .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)))
-                    .addComponent(Btn_Calcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addComponent(Txt_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,13 +338,11 @@ public class FmrVentas extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Btn_Calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(39, 39, 39)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -395,7 +384,6 @@ public class FmrVentas extends javax.swing.JFrame {
 
         Btn_Buscar.getAccessibleContext().setAccessibleDescription("Abre una pantalla nueva y busca los artículos por nombre o ID.");
         Btn_Retirar.getAccessibleContext().setAccessibleDescription("Elimina el artículo seleccionado de la tabla.");
-        Btn_Calcular.getAccessibleContext().setAccessibleDescription("Calcula el subtotal, impuesto y total de la venta.");
         Btn_Cantidad.getAccessibleContext().setAccessibleName("Agregar");
         Btn_Cantidad.getAccessibleContext().setAccessibleDescription("Añade la cantidad de artículos proporcionada.");
 
@@ -446,12 +434,13 @@ public class FmrVentas extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable_Venta);
         if (jTable_Venta.getColumnModel().getColumnCount() > 0) {
             jTable_Venta.getColumnModel().getColumn(0).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(0).setPreferredWidth(280);
+            jTable_Venta.getColumnModel().getColumn(0).setPreferredWidth(250);
             jTable_Venta.getColumnModel().getColumn(1).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(1).setPreferredWidth(30);
+            jTable_Venta.getColumnModel().getColumn(1).setPreferredWidth(40);
             jTable_Venta.getColumnModel().getColumn(2).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(2).setPreferredWidth(50);
+            jTable_Venta.getColumnModel().getColumn(2).setPreferredWidth(40);
             jTable_Venta.getColumnModel().getColumn(3).setResizable(false);
+            jTable_Venta.getColumnModel().getColumn(3).setPreferredWidth(40);
         }
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -580,7 +569,7 @@ public class FmrVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_RegresarActionPerformed
        
     private void Btn_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_VentaActionPerformed
-        
+                     
         hacerVenta();
         
     }//GEN-LAST:event_Btn_VentaActionPerformed
@@ -595,7 +584,9 @@ public class FmrVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
-        // TODO add your handling code here:
+        
+        imprimir();
+        
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
        
     private void jTable_VentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_VentaMouseClicked
@@ -618,7 +609,7 @@ public class FmrVentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No ha seleccionado un artículo.","¡Aviso!", JOptionPane.INFORMATION_MESSAGE);
         }else{
             añadirCantidad();
-            Btn_Calcular.setEnabled(true);
+            calcularValores();                       
         }
     }//GEN-LAST:event_Btn_CantidadActionPerformed
 
@@ -634,21 +625,6 @@ public class FmrVentas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_Txt_CantidadKeyTyped
 
-    private void Btn_CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CalcularActionPerformed
-
-        int fila = jTable_Venta.getRowCount();
-
-        if(fila == 0)
-        {
-            JOptionPane.showMessageDialog(null, "No hay artículos en la lista.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else{
-            calcularValores();
-            Btn_Buscar.setEnabled(false);
-            Btn_Retirar.setEnabled(false);
-            Btn_Cantidad.setEnabled(false);
-        }
-    }//GEN-LAST:event_Btn_CalcularActionPerformed
-
     private void Btn_RetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RetirarActionPerformed
 
         int fila = jTable_Venta.getSelectedRow();
@@ -656,6 +632,7 @@ public class FmrVentas extends javax.swing.JFrame {
         if(fila != -1)
         {
             retirarArticulo();
+            CBox_TipoPago.setSelectedItem("Seleccione");            
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar el artículo que desea retirar.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }
@@ -663,6 +640,14 @@ public class FmrVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_RetirarActionPerformed
 
     private void CBox_TipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TipoPagoActionPerformed
+                        
+        String mixto = String.valueOf(CBox_TipoPago.getSelectedItem());
+        
+        if(mixto.equals("Mixto"))
+        {
+            FmrPagoMixto pMixto = new FmrPagoMixto();
+            pMixto.setVisible(true);            
+        }
         
     }//GEN-LAST:event_CBox_TipoPagoActionPerformed
 
@@ -678,11 +663,13 @@ public class FmrVentas extends javax.swing.JFrame {
     private void Inicializar()
     {   
         Btn_Venta.setEnabled(false);        
-        Btn_Imprimir.setEnabled(false); 
-        Btn_Calcular.setEnabled(false);        
+        Btn_Imprimir.setEnabled(false);                
         Txt_Cai.setEditable(false);
         Txt_IdCai.setVisible(false);
         Txt_Cantidad.setText("1");
+        Txt_Fact.setVisible(false);             
+        CBox_TipoPago.setEnabled(false);   
+        
         
         listaClientes();
         listaTipoPago();      
@@ -703,11 +690,11 @@ public class FmrVentas extends javax.swing.JFrame {
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t2 = (DefaultTableModel)jTable_Venta.getModel();
         t2.setRowCount(0);                 
-        jTable_Venta.setModel(t2);                                                                                              
+        jTable_Venta.setModel(t2);                       
     }
     
     private void hacerVenta()
-    {
+    {           
         if(CBox_IdE.getSelectedItem().equals("Seleccione"))
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar su ID de Empleado.","¡Error!", JOptionPane.ERROR_MESSAGE);            
@@ -715,18 +702,18 @@ public class FmrVentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente.","¡Error!", JOptionPane.ERROR_MESSAGE);            
         }else if(CBox_TipoPago.getSelectedItem().equals("Seleccione")){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un método de pago.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else{
-            
+        }else{            
             //OBTENER DATOS
+            calcularValores();
+            
             String fechaVenta = Txt_FechaFact.getText();            
-            String idEmpleado = (String) CBox_IdE.getSelectedItem();            
-            
-            
+            String idEmpleado = (String) CBox_IdE.getSelectedItem();  
+            int idVenta = Integer.parseInt(Txt_Fact.getText());
+                        
             //Agregando formato a la fecha
-            String fechaV = fechaVenta + " 00:00:00";
+            String fechaV = fechaVenta + " 00:00:00";                        
             
-            String Estado = "Aceptada";
-            
+            objVenta.setIdVenta(idVenta);
             objVenta.setFechaVenta(Timestamp.valueOf(fechaV));            
             objVenta.setImpuesto(Double.parseDouble(Txt_Impuesto.getText()));
             objVenta.setSubTotal(Double.parseDouble(Txt_SubTotal.getText()));
@@ -736,12 +723,18 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
             objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));            
             
+            /*DETALLE DE VENTA            
+            objDetalleVenta.setCantidad(Integer.parseInt(Txt_Cantidad.getText()));
+            objDetalleVenta.setIdVenta(idVenta);
+            //objDetalleVenta.setIdArticulo(Txt_);
+            objDetalleVenta.setIdEstado(1);*/                      
+                        
             try{
-                daoVenta.edit(objVenta);
+                daoVenta.edit(objVenta);                                
                 JOptionPane.showMessageDialog(this, "Venta Realizada, datos guardados correctamente.");                
             }catch(Exception ex){
                 Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                
-            }
+            }                        
         }
     }
     
@@ -783,7 +776,7 @@ public class FmrVentas extends javax.swing.JFrame {
         {
             String listaPago = TipoDePago.getNombreTipoDePago();
             CBox_TipoPago.addItem(listaPago);
-        }        
+        }                        
     }
         
     private static int getIdTipoPago(String nombre)
@@ -828,14 +821,25 @@ public class FmrVentas extends javax.swing.JFrame {
     
     private void retirarArticulo()
     {
-        int fila = jTable_Venta.getSelectedRow();
+        int fila = jTable_Venta.getSelectedRow();        
         
         if(fila != -1)
         {
-            t2.removeRow(fila);            
+            t2.removeRow(fila);  
+            
+            calcularValores();
+            
+            int filas = t2.getRowCount();                        
+            
+            if(filas == 0)
+            {
+                Btn_Venta.setEnabled(false);
+                Btn_Imprimir.setEnabled(false);
+                Btn_Buscar.setEnabled(true);                
+            }                        
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para retirarlo.","Error!", JOptionPane.ERROR_MESSAGE);
-        }
+        }                
     }      
     
     private void cancelarVenta()
@@ -884,12 +888,16 @@ public class FmrVentas extends javax.swing.JFrame {
         
         total = sub + imp;
         
+        totalV = total;
+        
         Txt_SubTotal.setText(String.valueOf(sub));        
         Txt_Impuesto.setText(String.valueOf(imp));        
         Txt_TotalVenta.setText(String.valueOf(total));
         
         Btn_Venta.setEnabled(true);
-        Btn_Imprimir.setEnabled(true);
+        CBox_TipoPago.setEnabled(true);
+        Btn_Buscar.setEnabled(false);
+        Btn_Imprimir.setEnabled(true);                
     }   
     
     private void mostrarCAI()
@@ -936,8 +944,18 @@ public class FmrVentas extends javax.swing.JFrame {
         String fact = String.valueOf(factura);
         
         Txt_Fact.setText(fact);        
+    }  
+    
+    private void imprimir()
+    {
+        String tarj = FmrPagoMixto.numTarjeta;
+        String montoT = FmrPagoMixto.canTarjeta;
+        String montoE = FmrPagoMixto.canEfectivo;
+        
+        JOptionPane.showMessageDialog(null, "La tarjeta es: " + tarj + "\n El monto en tarjeta es: " + montoT + "\n El monto en efectivo es: " + montoE);
+        
     }
-      
+       
            
     /**
      * @param args the command line arguments
@@ -977,7 +995,6 @@ public class FmrVentas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Buscar;
-    private javax.swing.JButton Btn_Calcular;
     private javax.swing.JButton Btn_Cancelar;
     private javax.swing.JButton Btn_Cantidad;
     private javax.swing.JButton Btn_Imprimir;
