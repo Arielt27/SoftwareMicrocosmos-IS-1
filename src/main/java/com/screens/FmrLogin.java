@@ -107,6 +107,7 @@ public class FmrLogin extends javax.swing.JFrame {
 
         Txt_Usuario.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         Txt_Usuario.setForeground(new java.awt.Color(153, 153, 153));
+        Txt_Usuario.setText("Ariel");
         Txt_Usuario.setToolTipText("");
         Txt_Usuario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Txt_Usuario.setMaximumSize(new java.awt.Dimension(160, 20));

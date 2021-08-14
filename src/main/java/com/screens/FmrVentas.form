@@ -542,6 +542,9 @@
         <Component class="javax.swing.JTextField" name="Txt_Fact">
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_IdEmpleado">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -555,12 +558,11 @@
         <Component class="javax.swing.JTable" name="jTable_Venta">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="13">
+              <Table columnCount="6" rowCount="13">
                 <Column editable="false" title="Id Art&#xed;culo" type="java.lang.Integer"/>
                 <Column editable="false" title="Art&#xed;culo" type="java.lang.String"/>
                 <Column editable="false" title="Precio" type="java.lang.Integer"/>
                 <Column editable="false" title="Talla" type="java.lang.Integer"/>
-                <Column editable="false" title="Stock" type="java.lang.Integer"/>
                 <Column editable="false" title="Cantidad" type="java.lang.Integer"/>
                 <Column editable="false" title="Total" type="java.lang.Double"/>
               </Table>
@@ -583,11 +585,6 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>

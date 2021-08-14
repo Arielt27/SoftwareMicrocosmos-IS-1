@@ -67,28 +67,22 @@
         <Component class="javax.swing.JTable" name="Tbl_Empleados">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="12" rowCount="7">
-                <Column editable="true" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                <Column editable="true" title="Apellido" type="java.lang.Object"/>
-                <Column editable="true" title="Tel&#xe9;fono" type="java.lang.Object"/>
-                <Column editable="true" title="Direcci&#xf3;n" type="java.lang.Object"/>
-                <Column editable="true" title="Correo" type="java.lang.Object"/>
-                <Column editable="true" title="TipoDocumento" type="java.lang.Object"/>
+              <Table columnCount="11" rowCount="7">
+                <Column editable="false" title="ID" type="java.lang.Object"/>
+                <Column editable="false" title="Nombre" type="java.lang.Object"/>
+                <Column editable="false" title="Apellido" type="java.lang.Object"/>
+                <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Object"/>
+                <Column editable="false" title="Direcci&#xf3;n" type="java.lang.Object"/>
+                <Column editable="false" title="Correo" type="java.lang.Object"/>
+                <Column editable="false" title="TipoDocumento" type="java.lang.Object"/>
                 <Column editable="false" title="Documento" type="java.lang.Object"/>
-                <Column editable="true" title="Fecha" type="java.lang.Object"/>
-                <Column editable="true" title="G&#xe9;nero" type="java.lang.Object"/>
-                <Column editable="true" title="&#xc1;rea" type="java.lang.Object"/>
-                <Column editable="false" title="Usuario" type="java.lang.Object"/>
+                <Column editable="false" title="Fecha" type="java.lang.Object"/>
+                <Column editable="false" title="G&#xe9;nero" type="java.lang.Object"/>
+                <Column editable="false" title="&#xc1;rea" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
@@ -217,7 +211,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="250" max="32767" attributes="0"/>
                   <Component id="jLabel5" min="-2" pref="299" max="-2" attributes="0"/>
                   <EmptySpace min="249" pref="249" max="-2" attributes="0"/>
               </Group>
@@ -255,7 +249,6 @@
                       <Component id="jLabel12" alignment="1" max="32767" attributes="0"/>
                       <Component id="jLabel13" alignment="0" pref="151" max="32767" attributes="0"/>
                       <Component id="jLabel14" alignment="0" pref="151" max="32767" attributes="0"/>
-                      <Component id="jLabel15" alignment="0" pref="151" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -264,7 +257,6 @@
                       <Component id="Txt_Fecha" max="32767" attributes="0"/>
                       <Component id="jComboBox2" max="32767" attributes="0"/>
                       <Component id="jComboBox3" max="32767" attributes="0"/>
-                      <Component id="Txt_Usuario" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
@@ -314,8 +306,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="Txt_Correo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Txt_Usuario" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="Txt_Activar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -662,35 +652,6 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel15">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Nombre de Usuario"/>
-            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[120, 20]"/>
-            </Property>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[120, 20]"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[120, 20]"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="Txt_Usuario">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_UsuarioKeyTyped"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Activar">
         </Component>

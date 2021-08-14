@@ -287,6 +287,8 @@ public class FmrVentas extends javax.swing.JFrame {
             }
         });
 
+        Txt_IdEmpleado.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -394,29 +396,29 @@ public class FmrVentas extends javax.swing.JFrame {
 
         jTable_Venta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Id Artículo", "Artículo", "Precio", "Talla", "Stock", "Cantidad", "Total"
+                "Id Artículo", "Artículo", "Precio", "Talla", "Cantidad", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -447,11 +449,9 @@ public class FmrVentas extends javax.swing.JFrame {
             jTable_Venta.getColumnModel().getColumn(3).setResizable(false);
             jTable_Venta.getColumnModel().getColumn(3).setPreferredWidth(40);
             jTable_Venta.getColumnModel().getColumn(4).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(4).setPreferredWidth(15);
+            jTable_Venta.getColumnModel().getColumn(4).setPreferredWidth(40);
             jTable_Venta.getColumnModel().getColumn(5).setResizable(false);
             jTable_Venta.getColumnModel().getColumn(5).setPreferredWidth(40);
-            jTable_Venta.getColumnModel().getColumn(6).setResizable(false);
-            jTable_Venta.getColumnModel().getColumn(6).setPreferredWidth(40);
         }
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -702,11 +702,7 @@ public class FmrVentas extends javax.swing.JFrame {
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t2 = (DefaultTableModel)jTable_Venta.getModel();
         t2.setRowCount(0);                 
-        jTable_Venta.setModel(t2);            
-                      
-        //TableColumnModel tcm = jTable_Venta.getColumnModel();
-        //tcm.removeColumn( tcm.getColumn(6));                                                           
-        
+        jTable_Venta.setModel(t2);                                                                 
     }
     
     private void hacerVenta()
@@ -733,7 +729,7 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setSubTotal(Double.parseDouble(Txt_SubTotal.getText()));
             objVenta.setTotal(Double.parseDouble(Txt_TotalVenta.getText()));
             objVenta.setIdParametros(Integer.parseInt(Txt_IdCai.getText()));
-            objVenta.setIdEmpleados(Integer.parseInt(idEmpleado));
+            objVenta.setIdEmpleados(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getIdEmpleados());
             objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
             objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));                                                           
                         
@@ -867,26 +863,18 @@ public class FmrVentas extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "La cantidad debe ser 1 o mas", "¡Error!", JOptionPane.ERROR_MESSAGE);            
         }else{
-            int fila = jTable_Venta.getSelectedRow();              
+            int fila = jTable_Venta.getSelectedRow();                                      
+                            
+            double prc = Double.parseDouble(t2.getValueAt(fila, 2).toString());            
             
-            int stock = Integer.parseInt(jTable_Venta.getValueAt(fila, 4).toString());            
-            
-            if(cant > stock)
-            {
-                JOptionPane.showMessageDialog(null, "La cantidad no puede ser mayor que el stock actual.", "¡Error!", JOptionPane.ERROR_MESSAGE);            
-            }else{
-                
-                double prc = Double.parseDouble(t2.getValueAt(fila, 2).toString());            
-            
-                double tot = prc*cant;
+            double tot = prc*cant;
              
-                t2.setValueAt(cant, fila, 4);                       
+            t2.setValueAt(cant, fila, 4);                       
             
-                t2.setValueAt(tot, fila, 5);    
+            t2.setValueAt(tot, fila, 5);    
             
-                Txt_Cantidad.setText("1");
-            }
-        }
+            Txt_Cantidad.setText("1");            
+        }   
     }        
     
     private void calcularValores()

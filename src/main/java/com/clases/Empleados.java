@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Empleados implements Serializable {
     
     @Id
-    private int idEmpleados;
+    private int idEmpleados;    
     @Column
     private String nombreEmpleado;
     @Column
@@ -147,4 +147,11 @@ public class Empleados implements Serializable {
     public void setusuario(String Usuario) {
         this.usuario = Usuario;
     }*/
+
+    @Override
+    public String toString(){
+        return idEmpleados + "." + nombreEmpleado;
+    }   
+    
+    
 }

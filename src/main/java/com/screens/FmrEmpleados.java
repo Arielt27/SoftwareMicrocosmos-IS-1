@@ -92,8 +92,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel15 = new javax.swing.JLabel();
-        Txt_Usuario = new javax.swing.JTextField();
         Txt_Activar = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
@@ -111,20 +109,20 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
         Tbl_Empleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Fecha", "Género", "Área", "Usuario"
+                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Fecha", "Género", "Área"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, false, true, true, true, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -149,7 +147,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             Tbl_Empleados.getColumnModel().getColumn(8).setResizable(false);
             Tbl_Empleados.getColumnModel().getColumn(9).setResizable(false);
             Tbl_Empleados.getColumnModel().getColumn(10).setResizable(false);
-            Tbl_Empleados.getColumnModel().getColumn(11).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -323,27 +320,12 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel15.setText("Nombre de Usuario");
-        jLabel15.setMaximumSize(new java.awt.Dimension(120, 20));
-        jLabel15.setMinimumSize(new java.awt.Dimension(120, 20));
-        jLabel15.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        Txt_Usuario.setEditable(false);
-        Txt_Usuario.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                Txt_UsuarioKeyTyped(evt);
-            }
-        });
-
         javax.swing.GroupLayout Txt_ActivoLayout = new javax.swing.GroupLayout(Txt_Activo);
         Txt_Activo.setLayout(Txt_ActivoLayout);
         Txt_ActivoLayout.setHorizontalGroup(
             Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Txt_ActivoLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 250, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(249, 249, 249))
             .addGroup(Txt_ActivoLayout.createSequentialGroup()
@@ -374,16 +356,14 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBox1, 0, 150, Short.MAX_VALUE)
                     .addComponent(Txt_Documento)
                     .addComponent(Txt_Fecha)
                     .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Txt_Usuario))
+                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(55, 55, 55))
         );
         Txt_ActivoLayout.setVerticalGroup(
@@ -425,8 +405,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_Correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8))
         );
@@ -760,30 +738,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                     
         }
     }//GEN-LAST:event_Txt_FechaKeyTyped
-
-    private void Txt_UsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_UsuarioKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        String Texto = Txt_Usuario.getText();
-        
-         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
-        
-            evt.consume();
-        
-        }
-        
-          if (Txt_Usuario.getText().length() >= 20){
-        
-            evt.consume();
-        
-        }
-        
-        if((evt.getKeyChar() == 22)){
-        
-            Txt_Usuario.setText(Texto.substring(0, 20));
-                    
-        }
-    }//GEN-LAST:event_Txt_UsuarioKeyTyped
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
     //LlenarEmpleado();
@@ -1301,7 +1255,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     private javax.swing.JTextField Txt_IdEmpleados;
     private javax.swing.JTextField Txt_NombreEmpleado;
     private javax.swing.JTextField Txt_Telefono;
-    private javax.swing.JTextField Txt_Usuario;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -1311,7 +1264,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
