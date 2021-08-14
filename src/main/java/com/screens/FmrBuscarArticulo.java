@@ -299,11 +299,13 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         
         if(filaSeleccionada != -1 && SAct > 0)
         {
-            String Datos[] = new String[4];            
+            String Datos[] = new String[5];            
             Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
             Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();                        
             Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
             Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();                                    
+            Datos[4] = Tbl_Articulos.getValueAt(filaSeleccionada, 3).toString();
+            
             
             FmrVentas.t2.addRow(Datos);
             t.removeRow(filaSeleccionada);                                                         

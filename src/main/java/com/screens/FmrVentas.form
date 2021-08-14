@@ -131,7 +131,7 @@
                       <Component id="Txt_FechaFact" alignment="0" max="32767" attributes="0"/>
                       <Component id="CBox_IdCliente" alignment="0" max="32767" attributes="0"/>
                       <Component id="CBox_TipoPago" max="32767" attributes="0"/>
-                      <Component id="CBox_IdE" max="-2" attributes="0"/>
+                      <Component id="Txt_IdEmpleado" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -209,7 +209,7 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel8" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                                  <Component id="CBox_IdE" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="Txt_IdEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -537,21 +537,11 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_CantidadActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="CBox_IdE">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Seleccione"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JTextField" name="Txt_IdCai">
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Fact">
+        </Component>
+        <Component class="javax.swing.JTextField" name="Txt_IdEmpleado">
         </Component>
       </SubComponents>
     </Container>
@@ -565,11 +555,12 @@
         <Component class="javax.swing.JTable" name="jTable_Venta">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="13">
+              <Table columnCount="7" rowCount="13">
                 <Column editable="false" title="Id Art&#xed;culo" type="java.lang.Integer"/>
                 <Column editable="false" title="Art&#xed;culo" type="java.lang.String"/>
                 <Column editable="false" title="Precio" type="java.lang.Integer"/>
                 <Column editable="false" title="Talla" type="java.lang.Integer"/>
+                <Column editable="false" title="Stock" type="java.lang.Integer"/>
                 <Column editable="false" title="Cantidad" type="java.lang.Integer"/>
                 <Column editable="false" title="Total" type="java.lang.Double"/>
               </Table>
@@ -592,6 +583,11 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="15" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
