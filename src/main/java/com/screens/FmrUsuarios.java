@@ -495,7 +495,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         if(fila == -1)
         {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");                    
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.","¡Aviso!", JOptionPane.WARNING_MESSAGE);            
         }else{
             Btn_CambiarPass.setEnabled(true);
             Btn_Activar.setEnabled(true);  

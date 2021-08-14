@@ -15,6 +15,9 @@ import com.dao.EmpleadosJpaController;
 import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,28 +34,37 @@ import javax.swing.table.DefaultTableModel;
  * @author david
  */
 public class FmrEmpleados extends javax.swing.JFrame {
-EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
-    TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
-    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
-    AreaLaboralJpaController daoArea = new AreaLaboralJpaController();
-    SexoJpaController daoSexo = new SexoJpaController();
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+                    
     Empleados objEmpleados = new Empleados();
+    SexoJpaController daoSexo = new SexoJpaController();
+    AreaLaboralJpaController daoArea = new AreaLaboralJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+    
+    DefaultTableModel t;
+    
     /**
      * Creates new form Empleados
      */
     public FmrEmpleados() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        //ÍCONO
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
-        //listaTipoDocumento();
-        //listaSexo();
-        //listaAreaLaboral();
+        
+        //INICIALIZAR
+        actualizarEmpleados();
+        listaTipoDocumento();
+        listaGenero();
+        listaArea();
         Txt_Activar.setVisible(false);
         Btn_Editar.setEnabled(false);
-        Btn_Activar_Desactivar.setEnabled(false);
-        
+        Btn_Limpiar.setEnabled(true);
+        Btn_Activar_Desactivar.setEnabled(false);        
     }
 
     /**
@@ -83,15 +95,15 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel8 = new javax.swing.JLabel();
         Txt_Correo = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        CBox_TipoDoc = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         Txt_Documento = new javax.swing.JTextField();
         Txt_Fecha = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        CBox_Genero = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        CBox_Area = new javax.swing.JComboBox<>();
         Txt_Activar = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
@@ -118,17 +130,25 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                 {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Fecha", "Género", "Área"
+                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Fecha", "Género", "Estado"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        Tbl_Empleados.getTableHeader().setReorderingAllowed(false);
         Tbl_Empleados.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_EmpleadosMouseClicked(evt);
@@ -269,7 +289,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel9.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel9.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBox_TipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -308,7 +328,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel13.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel13.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBox_Genero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
@@ -318,7 +338,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         jLabel14.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel14.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBox_Area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout Txt_ActivoLayout = new javax.swing.GroupLayout(Txt_Activo);
         Txt_Activo.setLayout(Txt_ActivoLayout);
@@ -359,11 +379,11 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, 0, 150, Short.MAX_VALUE)
+                    .addComponent(CBox_TipoDoc, 0, 150, Short.MAX_VALUE)
                     .addComponent(Txt_Documento)
                     .addComponent(Txt_Fecha)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(CBox_Genero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CBox_Area, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(55, 55, 55))
         );
         Txt_ActivoLayout.setVerticalGroup(
@@ -376,7 +396,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_IdEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CBox_TipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Txt_NombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -394,13 +414,13 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_Telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CBox_Genero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_Direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CBox_Area, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -493,13 +513,13 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(50, 50, 50)
                 .addComponent(Btn_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
+                .addGap(40, 40, 40)
                 .addComponent(Btn_Activar_Desactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -514,12 +534,12 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Btn_Activar_Desactivar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Limpiar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Regresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Btn_Añadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Btn_Editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Btn_Activar_Desactivar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Btn_Editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Btn_Limpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Regresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -555,18 +575,16 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         char c = evt.getKeyChar();
         String Texto = Txt_NombreEmpleado.getText();
 
-        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-
+        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
+        {
             evt.consume();
-
         }
 
-        if (Txt_NombreEmpleado.getText().length() == 1){
-
+        if (Txt_NombreEmpleado.getText().length() == 1)
+        {            
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
             Txt_NombreEmpleado.setText(Texto);
-
         }
     }//GEN-LAST:event_Txt_NombreEmpleadoKeyTyped
 
@@ -575,247 +593,429 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         FmrMenú M = new FmrMenú();
         M.setVisible(true);
         this.dispose();
+        
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
     private void Txt_ApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_ApellidoKeyTyped
 
- 
-                char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         String Texto = Txt_Apellido.getText();
 
-        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-
+        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
+        {            
             evt.consume();
-
         }
               
-        if (Txt_Apellido.getText().length() >= 20){
-        
-        evt.consume();
-        
+        if (Txt_Apellido.getText().length() >= 20)
+        {
+            evt.consume();        
         }
     
-         if((evt.getKeyChar() == 22)){
-        
-            Txt_Apellido.setText(Texto.substring(0, 20));
-                    
+        if((evt.getKeyChar() == 22))
+        {
+            Txt_Apellido.setText(Texto.substring(0, 20));                    
         }
           
-        if (Txt_Apellido.getText().length() == 1){
-
+        if (Txt_Apellido.getText().length() == 1)
+        {          
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
             Txt_Apellido.setText(Texto);
-
         }
-                // TODO add your handling code here:
+                
     }//GEN-LAST:event_Txt_ApellidoKeyTyped
 
     private void Txt_TelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_TelefonoKeyTyped
-
-        // TODO add your handling code here:
-          char c = evt.getKeyChar();
+        
+        char c = evt.getKeyChar();
         String Texto = Txt_Telefono.getText();
        
-        if(c < '0' || c > '9') {
+        if(c < '0' || c > '9') 
+        {                                
+            evt.consume();                    
+        }
         
-            //consume no valida los datos
+        if(Txt_Telefono.getText().length() == 0 && (c == '0' || c == '4' || c == '5' || c == '6' || c == '1') )
+        {
             evt.consume();
-             
-        
+            JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2, 3, 7, 8 ó 9");        
+        }
+                
+        if (Txt_Telefono.getText().length() >= 8)
+        {
+            evt.consume();        
         }
         
-        if (Txt_Telefono.getText().length() == 0 && (c == '0' || c == '4' || c == '5' || c == '6' || c == '1') ){
-       
-        evt.consume();
-        JOptionPane.showMessageDialog(this, "El número de teléfono debe de comenzar con 2, 3, 7, 8 ó 9");
-        
-        }
-        
-        
-        if (Txt_Telefono.getText().length() >= 8){
-        
-        evt.consume();
-        
-        }
-        
-        if((evt.getKeyChar() == 22)){
-        
-            Txt_Telefono.setText(Texto.substring(0, 8));
-                    
+        if((evt.getKeyChar() == 22))
+        {
+            Txt_Telefono.setText(Texto.substring(0, 8));                    
         }
     }//GEN-LAST:event_Txt_TelefonoKeyTyped
 
     private void Txt_DireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DireccionKeyTyped
 
-
- char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         String Texto = Txt_Direccion.getText();
         
-          if (Txt_Direccion.getText().length() >= 125){
-        
-        evt.consume();
-        
+        if (Txt_Direccion.getText().length() >= 125)
+        {
+            evt.consume();                        
         }
         
-        if((evt.getKeyChar() == 22)){
-        
-            Txt_Direccion.setText(Texto.substring(0, 125));
-                    
-        }        // TODO add your handling code here:
+        if((evt.getKeyChar() == 22))
+        {
+            Txt_Direccion.setText(Texto.substring(0, 125));                    
+        }
     }//GEN-LAST:event_Txt_DireccionKeyTyped
 
     private void Txt_CorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CorreoKeyTyped
-
-        // TODO add your handling code here:
-        
+                
         char c = evt.getKeyChar();
         String Texto = Txt_Correo.getText();
         
-          if (Txt_Correo.getText().length() >= 45){
-        
-        evt.consume();
-        
+        if (Txt_Correo.getText().length() >= 45)
+        {
+            evt.consume();                                    
         }
         
-        if((evt.getKeyChar() == 22)){
-         Txt_Correo.setText(Texto.substring(0, 45));
-        }
-        
+        if((evt.getKeyChar() == 22))
+        {
+            Txt_Correo.setText(Texto.substring(0, 45));
+        }        
            
     }//GEN-LAST:event_Txt_CorreoKeyTyped
           
     private void Txt_DocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DocumentoKeyTyped
-         char c = evt.getKeyChar();
+         
+        char c = evt.getKeyChar();
         String Texto = Txt_Documento.getText();
         
-         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
-        
-            evt.consume();
-        
+        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9'))
+        {
+            evt.consume();                        
         }
         
-          if (Txt_Documento.getText().length() >= 20){
-        
-            evt.consume();
-        
+        if (Txt_Documento.getText().length() >= 20)
+        {
+            evt.consume();                          
         }
         
-        if((evt.getKeyChar() == 22)){
-        
-            Txt_Documento.setText(Texto.substring(0, 20));
-                    
+        if((evt.getKeyChar() == 22))
+        {
+            Txt_Documento.setText(Texto.substring(0, 20));                    
         }
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_Txt_DocumentoKeyTyped
 
     private void Txt_FechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_FechaKeyTyped
-
-        // TODO add your handling code here:
-          char c = evt.getKeyChar();
+        
+        char c = evt.getKeyChar();
         String Texto = Txt_Fecha.getText();
        
-        if(c < '0' || c > '9') {
-        
-            //consume no valida los datos
+        if(c < '0' || c > '9') 
+        {
             evt.consume();
-             
-        
+        }
+                               
+        if (Txt_Fecha.getText().length() >= 9)
+        {
+            evt.consume();        
         }
         
-        
-        
-        
-        if (Txt_Fecha.getText().length() >= 9){
-        
-        evt.consume();
-        
-        }
-        
-        if((evt.getKeyChar() == 22)){
-        
+        if((evt.getKeyChar() == 22))
+        {
             Txt_Telefono.setText(Texto.substring(0, 8));
                     
         }
     }//GEN-LAST:event_Txt_FechaKeyTyped
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
-    //LlenarEmpleado();
+    
        
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
-     //LimpiarEmpleado();
-     //EditarEmpleado();
-        // TODO add your handling code here:
+     
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
-       /*int fila = Tbl_Empleados.getSelectedRow();
-
-        if(fila != -1){
-
-            Activar_Desactivar();
-
-        }else{
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
-
-        }*/
-        // TODO add your handling code here:
+       
+        Activar_Desactivar();
+        
     }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
-         //LimpiarEmpleado();
-       
+         
+       limpiarEmpleado();
+        
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Tbl_EmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_EmpleadosMouseClicked
-        
-       /* int fila =  Tbl_Empleados.getSelectedRow();
-        if(fila == -1){
-        
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
-        
-        }else{
-        Btn_Editar.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(true);
-        String Id = Tbl_Empleados.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_Empleados.getValueAt(fila, 1).toString();
-        String Apellido =Tbl_Empleados.getValueAt(fila, 1).toString();
-        String Telefono = Tbl_Empleados.getValueAt(fila, 3).toString();
-        String Direccion = Tbl_Empleados.getValueAt(fila, 4).toString();
-        String Correo = Tbl_Empleados.getValueAt(fila, 5).toString();
-        String TipoDocumento = Tbl_Empleados.getValueAt(fila, 6).toString();
-        String Documento = Tbl_Empleados.getValueAt(fila, 7).toString();
-        String Sexo = Tbl_Empleados.getValueAt(fila, 9).toString();
-        String Fecha = Tbl_Empleados.getValueAt(fila, 8).toString();
-        String Area = Tbl_Empleados.getValueAt(fila, 10).toString();
-        String Usuario = Tbl_Empleados.getValueAt(fila, 11).toString();
-        String Activo = Tbl_Empleados.getValueAt(fila, 12).toString();
 
-          Txt_IdEmpleados.setText(Id);
-        Txt_NombreEmpleado.setText(Nombre);
-        Txt_Apellido.setText(Apellido);
-        Txt_Telefono.setText(Telefono);
-        jComboBox2.setSelectedItem(Sexo);
-        Txt_Direccion.setText(Direccion);
-        Txt_Correo.setText(Correo);
-        jComboBox1.setSelectedItem(TipoDocumento);
-        Txt_Documento.setText(Documento);
-        jComboBox3.setSelectedItem(Area);
-        Txt_Activar.setText(Activo);
-        if(Activo == "Activado"){
-        Btn_Activar_Desactivar.setText("Desactivar");
+        int fila = Tbl_Empleados.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                        
         }else{
-        
-             Btn_Activar_Desactivar.setText("Activar");
-        
-        }
+            Btn_Añadir.setEnabled(false);
+            Btn_Editar.setEnabled(true);    
+            Btn_Activar_Desactivar.setEnabled(true);
+            Btn_Limpiar.setEnabled(true);
+            
+            String IdE = Tbl_Empleados.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_Empleados.getValueAt(fila, 1).toString();
+            String Apellido = Tbl_Empleados.getValueAt(fila, 2).toString();
+            String Telefono = Tbl_Empleados.getValueAt(fila, 3).toString();
+            String Direccion = Tbl_Empleados.getValueAt(fila, 4).toString();
+            String Correo = Tbl_Empleados.getValueAt(fila, 5).toString();
+            String TipoDocumento = Tbl_Empleados.getValueAt(fila, 6).toString();
+            String Documento = Tbl_Empleados.getValueAt(fila, 7).toString();
+            Date FechaNac = (Date) Tbl_Empleados.getValueAt(fila, 8);
+            String Genero = Tbl_Empleados.getValueAt(fila, 9).toString();
+            String Estado = Tbl_Empleados.getValueAt(fila, 10).toString();
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaTexto = formatter.format(FechaNac);
+            
+            Txt_IdEmpleados.setText(IdE);            
+            Txt_NombreEmpleado.setText(Nombre);       
+            Txt_Apellido.setText(Apellido);           
+            Txt_Telefono.setText(Telefono);         
+            Txt_Direccion.setText(Direccion);        
+            Txt_Correo.setText(Correo);         
+            CBox_TipoDoc.setSelectedItem(TipoDocumento);
+            Txt_Documento.setText(Documento);
+            Txt_Fecha.setText(fechaTexto);         
+            CBox_Genero.setSelectedItem(Genero);            
+            Txt_Activar.setText(Estado);
+            
+            if(Estado == "Activado")
+            {
+                Btn_Activar_Desactivar.setText("Desactivar");
+            }else{
+                Btn_Activar_Desactivar.setText("Activar");                      
+            }      
+        }        
     }//GEN-LAST:event_Tbl_EmpleadosMouseClicked
-    */
-        }
+            
     
+    //METODOS
+    private void actualizarEmpleados()
+    {
+        t = (DefaultTableModel)Tbl_Empleados.getModel();
+        t.setRowCount(0);           
+        Tbl_Empleados.setModel(t);                                         
+        
+        List<Empleados> empleados = this.daoEmpleados.findEmpleadosEntities();
+        
+        String s = null;
+        for(Empleados Empleados : empleados)
+        {
+            if(Empleados.isActivoEmpleado() == true) 
+            {
+                s = "Activado";                
+            }else{
+                s = "Desactivado";
+            }
+            
+                t.addRow(
+                    new Object[]{
+                        Empleados.getIdEmpleados(),
+                        Empleados.getNombreEmpleado(),
+                        Empleados.getApellidoEmpleado(),
+                        Empleados.getTelefonoEmpleado(),                        
+                        Empleados.getDireccion(),
+                        Empleados.getCorreoEmpleado(),
+                        GetNombreTipoDocumento(Empleados.getIdTipoDocumento()),
+                        Empleados.getDocumento(),
+                        Empleados.getFechaDeNacimiento(),
+                        GetNombreSexo(Empleados.getIdSexo()),
+                        s                       
+                    });                                         
+        }
+    }
+    
+    public void listaTipoDocumento()
+    {
+        CBox_TipoDoc.removeAllItems();
+        
+        List<TipoDocumento> tipoDocumento = this.daoTipoDocumento.findTipoDocumentoEntities();
+  
+        CBox_TipoDoc.addItem("Seleccione");
+      
+        for(TipoDocumento TipoDocumento : tipoDocumento)
+        {
+            String lista = TipoDocumento.getNombreTipoDocumento();
+            CBox_TipoDoc.addItem(lista);                                
+        };            
+    }
+    
+    private static String GetNombreTipoDocumento(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT nombreTipoDocumento FROM TipoDocumento WHERE idTipoDocumento = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;            
+    }         
+   
+    private static int GetIdTipoDocumento(String Nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT idTipoDocumento FROM TipoDocumento WHERE nombreTipoDocumento = '"+ Nombre+ "'";
+        Query query = em.createQuery(select);
+    
+        return Integer.parseInt(query.getSingleResult().toString());           
+    }  
+    
+    public void listaGenero()
+    {
+        CBox_Genero.removeAllItems();
+  
+        List<Sexo> sexo = this.daoSexo.findSexoEntities();
+  
+        CBox_Genero.addItem("Seleccione");
+      
+        for(Sexo Sexo : sexo)
+        {
+            String lista = Sexo.getNombreSexo();
+            CBox_Genero.addItem(lista);                                           
+        };            
+    }      
+    
+    private static String GetNombreSexo(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT nombreSexo FROM Sexo WHERE idSexo = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;           
+    }   
+          
+    private static int GetIdSexo(String Nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT idSexo FROM Sexo WHERE nombreSexo  = '"+ Nombre + "'";
+        Query query = em.createQuery(select);
+    
+        return Integer.parseInt(query.getSingleResult().toString());                  
+    } 
+    
+    public void listaArea()
+    {
+        CBox_Area.removeAllItems();
+        
+        List<AreaLaboral> area = this.daoArea.findAreaLaboralEntities();
+        
+        CBox_Area.addItem("Seleccione");
+        
+        for(AreaLaboral AreaLaboral : area)
+        {
+            String lista = AreaLaboral.getNombreAreaLaboral();
+            CBox_Area.addItem(lista);
+        }            
+    }
+    
+    private void limpiarEmpleado()
+    {
+        Btn_Añadir.setEnabled(true);
+        Btn_Editar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);
+        Txt_IdEmpleados.setText("");
+        Txt_NombreEmpleado.setText("");
+        Txt_Apellido.setText("");
+        Txt_Telefono.setText("");
+        Txt_Direccion.setText("");
+        Txt_Correo.setText("");
+        CBox_TipoDoc.setSelectedIndex(0);                
+        Txt_Documento.setText("");
+        Txt_Fecha.setText("");
+        CBox_Genero.setSelectedIndex(0);        
+        CBox_Area.setSelectedIndex(0);                        
+    }
+    
+    private void Activar_Desactivar()
+    {
+        int fila = Tbl_Empleados.getSelectedRow();        
+        String a = Txt_Activar.getText().toString();   
+        
+        String fecha = Txt_Fecha.getText();
+        String fechaEnviar = fecha + " 00:00:00";
+                                       
+        if(a.equals("Activado"))
+        {
+            objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));
+            objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
+            objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
+            objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
+            objEmpleados.setDireccion(Txt_Direccion.getText());
+            objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
+            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
+            objEmpleados.setDocumento(Txt_Documento.getText());                                    
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fechaEnviar));
+            objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));            
+            objEmpleados.setActivoEmpleado(false);
+                
+        try{
+            daoEmpleados.edit(objEmpleados);
+            actualizarEmpleados();
+            Btn_Activar_Desactivar.setText("Activar");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
+        }catch (Exception ex){
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }                
+        limpiarEmpleado();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);        
+        }else{                   
+            objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));
+            objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
+            objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
+            objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
+            objEmpleados.setDireccion(Txt_Direccion.getText());
+            objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
+            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
+            objEmpleados.setDocumento(Txt_Documento.getText());
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fechaEnviar));
+            objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));            
+            objEmpleados.setActivoEmpleado(true);
+        
+        try{
+            daoEmpleados.edit(objEmpleados);
+            actualizarEmpleados();
+            Btn_Activar_Desactivar.setText("Desactivar");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
+        }catch (Exception ex){
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        limpiarEmpleado();
+        Btn_Limpiar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);        
+        }        
+    }
+      
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+      
+        String select = "SELECT idEmpleado FROM Empleados WHERE nombreEmpleado = '"+Nombre+ "'";
+   
+        Query query = em.createQuery(select);
+      
+        if(query.getResultList().size() == 0)
+        {
+            return false;
+             
+        }else{
+            return true;                
+        }             
+    }
     
     /**
      * @param args the command line arguments
@@ -857,386 +1057,7 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
                 new FmrEmpleados().setVisible(true);
             }
         });
-    }
-
-   
-     /*public void listaTipoDocumento(){
-  
-         jComboBox1.removeAllItems();
-  
-         List<TipoDocumento> tipoDocumento = this.daoTipoDocumento.findTipoDocumentoEntities();
-  
-             jComboBox1.addItem("Seleccione");
-      
-         for(TipoDocumento TipoDocumento : tipoDocumento){
-             
-             String lista = TipoDocumento.getNombreTipoDocumento();
-             jComboBox1.addItem(lista);
-                                
-                    }
-  }  
-       public void listaSexo(){
-  
-         jComboBox2.removeAllItems();
-  
-         List<Sexo> sexo = this.daoSexo.findSexoEntities();
-  
-         jComboBox2.addItem("Seleccione");
-      
-         for(Sexo Sexo : sexo){
-             
-             String lista = Sexo.getNombreSexo();
-             jComboBox2.addItem(lista);
-                                
-                    };
-  }  
-        public void listaAreaLaboral(){
-  
-         jComboBox3.removeAllItems();
-  
-         List<AreaLaboral> arealaboral = this.daoArea.findAreaLaboralEntities();
-  
-             jComboBox3.addItem("Seleccione");
-      
-         for(AreaLaboral AreaLaboral : arealaboral){
-             
-             String lista = AreaLaboral.getNombreAreaLaboral();
-             jComboBox3.addItem(lista);
-                                
-                    }
-  }  
-        
-        private static String GetNombreTipoDocumento(int id){
-        
-              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-              EntityManager em = emf.createEntityManager();
-              String select = "SELECT nombreTipoDocumento FROM TipoDocumento WHERE idTipoDocumento = '"+ id+ "'";
-              Query query = em.createQuery(select);
-    
-              return query.getSingleResult().toString() ;
-            
-          }         
-   
-          private static int GetIdTipoDocumento(String Nombre){
-        
-              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-              EntityManager em = emf.createEntityManager();
-              String select = "SELECT idTipoDocumento FROM TipoDocumento WHERE nombreTipoDocumento = '"+ Nombre+ "'";
-              Query query = em.createQuery(select);
-    
-              return Integer.parseInt(query.getSingleResult().toString());
-            
-          }   
-          
-          public static boolean ValidacionMail(String Nombre){
-        
-        return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
-        
-        
-        }
-          
-        public static boolean ValidacionDNI(String DNI){
-        
-        return DNI.matches("^[0-1]{1}[0-9]{12}$");
-                
-        }
-       
-       public static boolean ValidacionRTN(String RTN){
-        
-        return RTN.matches("^[0-1]{1}[0-9]{13}$");
-                
-        } private static String GetNombreSexo(int id){
-        
-              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-              EntityManager em = emf.createEntityManager();
-              String select = "SELECT nombreSexo FROM Sexo WHERE idSexo = '"+ id+ "'";
-              Query query = em.createQuery(select);
-    
-              return query.getSingleResult().toString() ;
-            
-          }   
-          
-          private static int GetIdSexo(String Nombre){
-        
-              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-              EntityManager em = emf.createEntityManager();
-              String select = "SELECT idSexo FROM Sexo WHERE nombreSexo  = '"+ Nombre + "'";
-              Query query = em.createQuery(select);
-    
-              return Integer.parseInt(query.getSingleResult().toString());
-            
-          }   
-       
-             private static String GetNombreAreaLaboral(int id){
-        
-              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-              EntityManager em = emf.createEntityManager();
-              String select = "SELECT nombreAreaLaboral FROM AreaLaboral WHERE idAreaLaboral= '"+ id+ "'";
-              Query query = em.createQuery(select);
-    
-              return query.getSingleResult().toString() ;
-            
-          }         
-   
-          private static int GetIdAreaLaboral(String Nombre){
-        
-              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-              EntityManager em = emf.createEntityManager();
-              String select = "SELECT idAreaLaboral FROM AreaLaboral WHERE nombreAreaLaboral = '"+ Nombre+ "'";
-              Query query = em.createQuery(select);
-    
-              return Integer.parseInt(query.getSingleResult().toString());
-            
-          }   
-       private void ActualizarEmpleados(){
-       
-            DefaultTableModel t = new DefaultTableModel();
-            
-            Tbl_Empleados.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Apellido");
-            t.addColumn("Teléfono");
-            t.addColumn("Direccion");
-            t.addColumn("Correo");
-            t.addColumn("Dirección");
-            t.addColumn("Tipo Documento");
-            t.addColumn("Documento");
-            t.addColumn("Fecha");
-            t.addColumn("Genero");
-            t.addColumn("Area");
-            t.addColumn("Usuario");
-        
-            List<Empleados> empleados = this.daoEmpleados.findEmpleadosEntities();
-        
-            String s;
-            for(Empleados Empleados : empleados){
-                
-                if(Empleados.isActivoEmpleado()== true){
-                s = "Activado";
-                }else{
-                s = "Desactivado";
-                }
-                t.addRow(
-                    new Object[]{
-                        Empleados.getIdEmpleados(),
-                        Empleados.getApellidoEmpleado(),
-                        Empleados.getNombreEmpleado(),
-                        Empleados.getTelefonoEmpleado(),
-                        Empleados.getDireccion(),
-                        GetNombreTipoDocumento(Empleados.getIdEmpleados()),
-                        Empleados.getDocumento(),
-                        Empleados.getFechaDeNacimiento(),
-                        GetNombreSexo(Empleados.getIdSexo()),
-                        //GetNombreAreaLaboral(Empleados.getidareaLaboral()),
-                        Empleados.getusuario(),
-                        s
-                    });
-            }   
-       }
-       
-        private void LlenarEmpleado(){
-        
-        if(Txt_NombreEmpleado.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
-        
-        }else if(Txt_Apellido.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
-        
-        }else if(Txt_Telefono.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
-        
-        }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un sexo");
-        
-        }else if(Txt_Direccion.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
-        
-        }else if(ValidacionMail(Txt_Correo.getText())== false){
-        
-        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
-        
-        }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
-        
-        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
-        
-        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
-        
-        }
-        else{
-            objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
-            objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
-            objEmpleados.setTelefonoEmpleado(Integer.parseInt (Txt_Telefono.getText()));
-            objEmpleados.setDireccion(Txt_Direccion.getText());
-            objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
-            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(jComboBox1.getSelectedItem())));
-            objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
-            objEmpleados.setActivoEmpleado(true);
-            //objEmpleados.setidareaLaboral(GetIdAreaLaboral(String.valueOf(jComboBox3.getSelectedItem())));
-            objEmpleados.setusuario(Txt_Usuario.getText());
-            
-            //objEmpleados.setAreaLaboral;
-            
-        try {
-            daoEmpleados.create(objEmpleados);
-            ActualizarEmpleados();
-            LimpiarEmpleado();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }   
-       } 
-        
-         private void LimpiarEmpleado(){
-        Btn_Editar.setEnabled(false);
-        Btn_Activar_Desactivar.setEnabled(false);
-        Txt_IdEmpleados.setText("");
-        Txt_NombreEmpleado.setText("");
-        Txt_Apellido.setText("");
-        Txt_Telefono.setText("");
-        jComboBox2.setSelectedIndex(0);
-        Txt_Direccion.setText("");
-        Txt_Correo.setText("");
-        jComboBox1.setSelectedIndex(0);
-        Txt_Documento.setText("");
-        jComboBox3.setSelectedIndex(0);
-       }
-          private void Activar_Desactivar(){
-        
-        int fila = Tbl_Empleados.getSelectedRow();
-        String a = 
-         Txt_Activar.getText().toString();
-        
-       
-        if(a.equals("Activado")){
-            
-            objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));
-            objEmpleados.setNombreEmpleado(Tbl_Empleados.getValueAt(fila, 1).toString());
-            objEmpleados.setApellidoEmpleado(Tbl_Empleados.getValueAt(fila, 2).toString());
-            objEmpleados.setTelefonoEmpleado(Integer.parseInt(Tbl_Empleados.getValueAt(fila, 3).toString()));
-            objEmpleados.setDireccion(Tbl_Empleados.getValueAt(fila, 4).toString());
-            objEmpleados.setCorreoEmpleado(Tbl_Empleados.getValueAt(fila, 5).toString());
-            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Empleados.getValueAt(fila, 6).toString()));
-            objEmpleados.setDocumento(Tbl_Empleados.getValueAt(fila, 7).toString());
-            objEmpleados.setIdSexo(GetIdSexo(Tbl_Empleados.getValueAt(fila, 9).toString()));
-            //objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
-            objEmpleados.setusuario(Tbl_Empleados.getValueAt(fila, 11).toString());
-            objEmpleados.setActivoEmpleado(false);
-            
-            
-        
-        
-        try {
-            daoEmpleados.edit(objEmpleados);
-            ActualizarEmpleados();
-            Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        LimpiarEmpleado();
-        
-        }else{
-        
-            objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));
-            objEmpleados.setNombreEmpleado(Tbl_Empleados.getValueAt(fila, 1).toString());
-            objEmpleados.setApellidoEmpleado(Tbl_Empleados.getValueAt(fila, 2).toString());
-            objEmpleados.setTelefonoEmpleado(Integer.parseInt(Tbl_Empleados.getValueAt(fila, 3).toString()));
-            objEmpleados.setDireccion(Tbl_Empleados.getValueAt(fila, 4).toString());
-            objEmpleados.setCorreoEmpleado(Tbl_Empleados.getValueAt(fila, 5).toString());
-            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(Tbl_Empleados.getValueAt(fila, 6).toString()));
-            objEmpleados.setDocumento(Tbl_Empleados.getValueAt(fila, 7).toString());
-            //objEmpleados.setFechaDeNacimiento(Integer.parseInt(Tbl_Empleados.getValueAt(fila, 7).toString())));
-            objEmpleados.setIdSexo(GetIdSexo(Tbl_Empleados.getValueAt(fila, 9).toString()));
-            //objEmpleados.setidareaLaboral(GetIdAreaLaboral(Tbl_Empleados.getValueAt(fila, 10).toString()));
-            objEmpleados.setusuario(Tbl_Empleados.getValueAt(fila, 11).toString());
-            objEmpleados.setActivoEmpleado(true);
-            
-        try {
-            daoEmpleados.edit(objEmpleados);
-            ActualizarEmpleados();
-            Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        LimpiarEmpleado();
-        
-        }
-        
-        }
-          private void EditarEmpleado(){
-            
-            
-            if(Txt_NombreEmpleado.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
-        
-        }else if(Txt_Apellido.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
-        
-        }else if(Txt_Telefono.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
-        
-        }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un sexo");
-        
-        }else if(Txt_Direccion.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
-        
-        }else if(ValidacionMail(Txt_Correo.getText())== false){
-        
-        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
-        
-        }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
-        
-        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
-        
-        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
-        
-        }else{
-             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
-            objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
-            objEmpleados.setTelefonoEmpleado(Integer.parseInt (Txt_Telefono.getText()));
-            objEmpleados.setDireccion(Txt_Direccion.getText());
-            objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
-            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(jComboBox1.getSelectedItem())));
-            objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
-            
-            
-                        
-            
-        try {
-            daoEmpleados.edit(objEmpleados);
-            ActualizarEmpleados();
-             JOptionPane.showMessageDialog(this, "se actualizó correctamente");
-        } catch (Exception ex) {
-             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }  
-            
-            }*/
-            
-            
+    }                               
          
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar_Desactivar;
@@ -1244,6 +1065,9 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     private javax.swing.JButton Btn_Editar;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
+    private javax.swing.JComboBox<String> CBox_Area;
+    private javax.swing.JComboBox<String> CBox_Genero;
+    private javax.swing.JComboBox<String> CBox_TipoDoc;
     private javax.swing.JTable Tbl_Empleados;
     private javax.swing.JTextField Txt_Activar;
     private javax.swing.JPanel Txt_Activo;
@@ -1255,9 +1079,6 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     private javax.swing.JTextField Txt_IdEmpleados;
     private javax.swing.JTextField Txt_NombreEmpleado;
     private javax.swing.JTextField Txt_Telefono;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

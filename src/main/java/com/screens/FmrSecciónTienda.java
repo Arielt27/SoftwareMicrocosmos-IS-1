@@ -387,7 +387,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
     private void Txt_NombreSecciónKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreSecciónKeyTyped
        
-        char l = evt.getKeyChar();                
+        char l = evt.getKeyChar();                        
         String Texto = Txt_NombreSección.getText();
         
         // Primera letra mayúscula

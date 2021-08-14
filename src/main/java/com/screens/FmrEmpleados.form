@@ -68,17 +68,17 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="11" rowCount="7">
-                <Column editable="false" title="ID" type="java.lang.Object"/>
-                <Column editable="false" title="Nombre" type="java.lang.Object"/>
-                <Column editable="false" title="Apellido" type="java.lang.Object"/>
-                <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Object"/>
-                <Column editable="false" title="Direcci&#xf3;n" type="java.lang.Object"/>
-                <Column editable="false" title="Correo" type="java.lang.Object"/>
-                <Column editable="false" title="TipoDocumento" type="java.lang.Object"/>
-                <Column editable="false" title="Documento" type="java.lang.Object"/>
-                <Column editable="false" title="Fecha" type="java.lang.Object"/>
-                <Column editable="false" title="G&#xe9;nero" type="java.lang.Object"/>
-                <Column editable="false" title="&#xc1;rea" type="java.lang.Object"/>
+                <Column editable="false" title="ID" type="java.lang.Integer"/>
+                <Column editable="false" title="Nombre" type="java.lang.String"/>
+                <Column editable="false" title="Apellido" type="java.lang.String"/>
+                <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Integer"/>
+                <Column editable="false" title="Direcci&#xf3;n" type="java.lang.String"/>
+                <Column editable="false" title="Correo" type="java.lang.String"/>
+                <Column editable="false" title="TipoDocumento" type="java.lang.String"/>
+                <Column editable="false" title="Documento" type="java.lang.String"/>
+                <Column editable="false" title="Fecha" type="java.lang.Integer"/>
+                <Column editable="false" title="G&#xe9;nero" type="java.lang.String"/>
+                <Column editable="false" title="Estado" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -141,7 +141,7 @@
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
@@ -252,11 +252,11 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jComboBox1" pref="150" max="32767" attributes="0"/>
+                      <Component id="CBox_TipoDoc" pref="150" max="32767" attributes="0"/>
                       <Component id="Txt_Documento" max="32767" attributes="0"/>
                       <Component id="Txt_Fecha" max="32767" attributes="0"/>
-                      <Component id="jComboBox2" max="32767" attributes="0"/>
-                      <Component id="jComboBox3" max="32767" attributes="0"/>
+                      <Component id="CBox_Genero" max="32767" attributes="0"/>
+                      <Component id="CBox_Area" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
@@ -272,7 +272,7 @@
                       <Component id="jLabel2" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="Txt_IdEmpleados" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CBox_TipoDoc" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -293,14 +293,14 @@
                       <Component id="jLabel6" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="Txt_Telefono" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CBox_Genero" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel7" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="Txt_Direccion" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="CBox_Area" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -509,7 +509,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="CBox_TipoDoc">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -602,7 +602,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox2">
+        <Component class="javax.swing.JComboBox" name="CBox_Genero">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -638,7 +638,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox3">
+        <Component class="javax.swing.JComboBox" name="CBox_Area">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -676,13 +676,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="Btn_Añadir" min="-2" pref="120" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="Btn_Editar" min="-2" pref="120" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="Btn_Activar_Desactivar" min="-2" pref="120" max="-2" attributes="0"/>
-                  <EmptySpace pref="44" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="Btn_Limpiar" min="-2" pref="120" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="Btn_Regresar" min="-2" pref="120" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -700,13 +700,13 @@
                   <Component id="jLabel11" min="-2" pref="25" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="Btn_Activar_Desactivar" alignment="1" max="-2" attributes="0"/>
-                      <Component id="Btn_Limpiar" alignment="1" max="-2" attributes="0"/>
-                      <Component id="Btn_Regresar" alignment="1" max="-2" attributes="0"/>
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                          <Component id="Btn_Añadir" alignment="3" max="-2" attributes="0"/>
+                          <Component id="Btn_Activar_Desactivar" alignment="3" max="-2" attributes="0"/>
                           <Component id="Btn_Editar" alignment="3" max="-2" attributes="0"/>
+                          <Component id="Btn_Limpiar" alignment="3" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="Btn_Regresar" alignment="1" max="-2" attributes="0"/>
+                      <Component id="Btn_Añadir" alignment="1" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="26" max="32767" attributes="0"/>
               </Group>
