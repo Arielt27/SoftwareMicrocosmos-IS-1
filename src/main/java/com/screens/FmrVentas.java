@@ -990,7 +990,7 @@ public class FmrVentas extends javax.swing.JFrame {
         
     }
     
-    private void comprobarRepetidos()
+    /*private void comprobarRepetidos()
     {                                    
         for(int i = 0; i < jTable_Venta.getRowCount(); i++)                             
         {
@@ -1010,7 +1010,7 @@ public class FmrVentas extends javax.swing.JFrame {
                 }
             }
         }
-    }
+    }*/
        
            
     /**
