@@ -5,6 +5,7 @@
  */
 package com.screens;
 
+import com.clases.Articulo;
 import com.clases.Clientes;
 import com.clases.DetalleVenta;
 import com.clases.Empleados;
@@ -13,6 +14,7 @@ import com.clases.SingletonUser;
 import com.clases.TipoDePago;
 import com.clases.Usuarios;
 import com.clases.Venta;
+import com.dao.ArticuloJpaController;
 import com.dao.ClientesJpaController;
 import com.dao.DetalleVentaJpaController;
 import com.dao.EmpleadosJpaController;
@@ -50,19 +52,21 @@ public class FmrVentas extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         
-    VentaJpaController daoVenta = new VentaJpaController();        
+    VentaJpaController daoVenta = new VentaJpaController();            
     ClientesJpaController daoClientes = new ClientesJpaController();        
+    ArticuloJpaController daoArticulo = new ArticuloJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();      
     ParametrosJpaController daoParametros = new ParametrosJpaController();    
     DetalleVentaJpaController daoDetalleVenta = new DetalleVentaJpaController();
-       
+           
     Venta objVenta = new Venta();
     Clientes objClientes = new Clientes(); 
+    Articulo objArticulo = new Articulo();
     Empleados objEmpleados = new Empleados();    
     TipoDePago objTipoPago = new TipoDePago();        
     Parametros objParametros = new Parametros();  
-    DetalleVenta objDetalleVenta = new DetalleVenta();
+    DetalleVenta objDetalleVenta = new DetalleVenta();    
     
     private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
@@ -682,11 +686,12 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_Fact.setVisible(false);             
         CBox_TipoPago.setEnabled(false);   
 
-        Txt_IdEmpleado.setText(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado());
-        
         listaClientes();
         listaTipoPago();              
         mostrarCAI();
+        
+        //OBTENER ID Y NOMBRE DE EMPLEADO Y MOSTRARLO
+        Txt_IdEmpleado.setText(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado());              
         
         //OBTENER Y GUARDAR CAI EN VARIABLE Y TXT
         int txt = consultarIDCai();        
@@ -702,7 +707,8 @@ public class FmrVentas extends javax.swing.JFrame {
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t2 = (DefaultTableModel)jTable_Venta.getModel();
         t2.setRowCount(0);                 
-        jTable_Venta.setModel(t2);                                                                 
+        jTable_Venta.setModel(t2);           
+        
     }
     
     private void hacerVenta()
@@ -863,17 +869,27 @@ public class FmrVentas extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "La cantidad debe ser 1 o mas", "¡Error!", JOptionPane.ERROR_MESSAGE);            
         }else{
-            int fila = jTable_Venta.getSelectedRow();                                      
-                            
-            double prc = Double.parseDouble(t2.getValueAt(fila, 2).toString());            
+            int fila = jTable_Venta.getSelectedRow();                                                              
             
-            double tot = prc*cant;
-             
-            t2.setValueAt(cant, fila, 4);                       
+            Object columna = jTable_Venta.getValueAt(fila, 0);                       
             
-            t2.setValueAt(tot, fila, 5);    
+            int id = Integer.parseInt((String) columna);
             
-            Txt_Cantidad.setText("1");            
+            Articulo s = this.daoArticulo.findArticulo(id);                        
+            
+            int stock = s.getStock();
+            
+            if(stock < cant)
+            {
+                JOptionPane.showMessageDialog(null, "No tenemos la cantidad deseada en existencia.\n"
+                                                    + "La cantidad de stock para este artículo es: " + stock, "¡Error!", JOptionPane.ERROR_MESSAGE);
+            }else{                                
+                double prc = Double.parseDouble(t2.getValueAt(fila, 2).toString());            
+                double tot = prc*cant;            
+                t2.setValueAt(cant, fila, 4);                                   
+                t2.setValueAt(tot, fila, 5);                
+                Txt_Cantidad.setText("1");                            
+            }
         }   
     }        
     
