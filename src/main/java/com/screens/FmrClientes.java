@@ -945,7 +945,7 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.create(objCliente);
             ActualizarCliente();
             LimpiarCliente();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+            JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }

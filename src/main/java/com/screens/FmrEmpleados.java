@@ -731,6 +731,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
     
+        añadirEmpleado();
        
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
@@ -998,6 +999,53 @@ public class FmrEmpleados extends javax.swing.JFrame {
         Btn_Añadir.setEnabled(true);        
         }        
     }
+    
+    private void añadirEmpleado()
+    {
+        if(Txt_NombreEmpleado.getText().length() < 3)
+        {
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+        }else if(Txt_Apellido.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                        
+        }else if(Txt_Telefono.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 carácteres.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                        
+        }else if(Txt_Direccion.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una dirección con al menos 8 carácteres.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                            
+        }else if(ValidacionMail(Txt_Correo.getText())== false){
+            JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+        }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+        }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
+            JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+        }else if(Txt_Fecha.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "Formato de fecha inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                            
+        }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+        }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+        }else{
+            
+            objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
+            objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
+            objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
+            objEmpleados.setDireccion(Txt_Direccion.getText());
+            objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
+            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
+            objEmpleados.setDocumento(Txt_Documento.getText());
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(Txt_Fecha.getText()));
+            objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
+            objEmpleados.setActivoEmpleado(true);
+            
+            try{
+                daoEmpleados.edit(objEmpleados);
+                actualizarEmpleados();
+                limpiarEmpleado();
+                JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);                
+            }            
+        }
+    }
       
     public static boolean ValidacionDeRepetidos(String Nombre)
     {
@@ -1015,6 +1063,21 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else{
             return true;                
         }             
+    }
+    
+    public static boolean ValidacionMail(String Nombre)
+    {                
+        return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");               
+    }
+    
+    public static boolean ValidacionDNI(String DNI)
+    {
+        return DNI.matches("^[0-1]{1}[0-9]{12}$");                
+    }
+    
+    public static boolean ValidacionRTN(String RTN)
+    {                
+        return RTN.matches("^[0-1]{1}[0-9]{13}$");                
     }
     
     /**
