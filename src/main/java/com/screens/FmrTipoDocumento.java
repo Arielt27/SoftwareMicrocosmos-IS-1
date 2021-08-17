@@ -314,19 +314,19 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
 
         Tbl_TipoDocumento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID Documento", "Tipo Documento", "Descripción"
+                "ID Documento", "Tipo Documento", "Descripción", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -344,6 +344,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             Tbl_TipoDocumento.getColumnModel().getColumn(0).setResizable(false);
             Tbl_TipoDocumento.getColumnModel().getColumn(1).setResizable(false);
             Tbl_TipoDocumento.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_TipoDocumento.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

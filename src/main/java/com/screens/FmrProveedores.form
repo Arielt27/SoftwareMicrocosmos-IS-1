@@ -63,14 +63,15 @@
         <Component class="javax.swing.JTable" name="Tbl_Proveedores">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="7">
-                <Column editable="false" title="ID" type="java.lang.Object"/>
-                <Column editable="false" title="Proveedor" type="java.lang.Object"/>
-                <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Object"/>
-                <Column editable="false" title="Correo" type="java.lang.Object"/>
-                <Column editable="false" title="Direcci&#xf3;n" type="java.lang.Object"/>
-                <Column editable="false" title="Tipo Documento" type="java.lang.Object"/>
-                <Column editable="false" title="Documento" type="java.lang.Object"/>
+              <Table columnCount="8" rowCount="8">
+                <Column editable="false" title="ID" type="java.lang.Integer"/>
+                <Column editable="false" title="Proveedor" type="java.lang.String"/>
+                <Column editable="false" title="Tel&#xe9;fono" type="java.lang.Integer"/>
+                <Column editable="false" title="Correo" type="java.lang.String"/>
+                <Column editable="false" title="Direcci&#xf3;n" type="java.lang.String"/>
+                <Column editable="false" title="Tipo Documento" type="java.lang.String"/>
+                <Column editable="false" title="Documento" type="java.lang.String"/>
+                <Column editable="false" title="Estado" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -110,10 +111,15 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
           <Events>
@@ -345,7 +351,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_NombreProveedor">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Txt_NombreProveedorActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_NombreProveedorKeyTyped"/>
           </Events>
         </Component>
@@ -372,7 +377,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_TelefonoProveedor">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Txt_TelefonoProveedorActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_TelefonoProveedorKeyTyped"/>
           </Events>
         </Component>

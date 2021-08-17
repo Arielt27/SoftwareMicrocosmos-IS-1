@@ -463,7 +463,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     //BOTONES Y TABLA   
     private void Btn_CambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarPassActionPerformed
         
-        cambiarPass();        
+        cambiarPass();           
         
     }//GEN-LAST:event_Btn_CambiarPassActionPerformed
 
@@ -475,7 +475,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         {
             estadoUsuario();            
         }else{
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Tabla");
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para realizar esta acción.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
         }             
                        
     }//GEN-LAST:event_Btn_ActivarActionPerformed
@@ -620,7 +620,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
              }             
          }else{
              JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos un número, una letra mayúscula y minúscula, un carácter especial y mínimo 8 dígitos.","Formato de contraseña incorrecto", JOptionPane.ERROR_MESSAGE);             
-         }                  
+         }              
     }
     
     private void actualizarUsuario()
@@ -726,7 +726,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             try{
                 daoUsuarios.edit(objUsuario);
                 actualizarUsuario();
-                JOptionPane.showMessageDialog(this, "El usuario ya no es Administrador.");
+                JOptionPane.showMessageDialog(this, "El usuario ya no es Administrador.");                
             }catch(Exception ex){
                 Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);                                            
             }                                  

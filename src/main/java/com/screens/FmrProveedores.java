@@ -93,26 +93,35 @@ public class FmrProveedores extends javax.swing.JFrame {
 
         Tbl_Proveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Proveedor", "Teléfono", "Correo", "Dirección", "Tipo Documento", "Documento"
+                "ID", "Proveedor", "Teléfono", "Correo", "Dirección", "Tipo Documento", "Documento", "Estado"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        Tbl_Proveedores.getTableHeader().setReorderingAllowed(false);
         Tbl_Proveedores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ProveedoresMouseClicked(evt);
@@ -127,6 +136,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             Tbl_Proveedores.getColumnModel().getColumn(4).setResizable(false);
             Tbl_Proveedores.getColumnModel().getColumn(5).setResizable(false);
             Tbl_Proveedores.getColumnModel().getColumn(6).setResizable(false);
+            Tbl_Proveedores.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -181,11 +191,6 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel3.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel3.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_NombreProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Txt_NombreProveedorActionPerformed(evt);
-            }
-        });
         Txt_NombreProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_NombreProveedorKeyTyped(evt);
@@ -200,11 +205,6 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel4.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel4.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        Txt_TelefonoProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Txt_TelefonoProveedorActionPerformed(evt);
-            }
-        });
         Txt_TelefonoProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_TelefonoProveedorKeyTyped(evt);
@@ -511,10 +511,6 @@ public class FmrProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Txt_NombreProveedorKeyTyped
 
-    private void Txt_NombreProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_NombreProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Txt_NombreProveedorActionPerformed
-
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
         
         FmrMenú M = new FmrMenú();
@@ -541,8 +537,8 @@ public class FmrProveedores extends javax.swing.JFrame {
             Activar_Desactivar();
 
         }else{
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Fila");
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar el elemento a Activar o Desactivar en la Fila","!Aviso¡", JOptionPane.WARNING_MESSAGE);
 
         }
         
@@ -552,14 +548,16 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         int fila =  Tbl_Proveedores.getSelectedRow();
         if(fila == -1){
-        
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
+                    
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila.","!Aviso¡", JOptionPane.WARNING_MESSAGE);
+            
         
         }else{
         Btn_Añadir.setEnabled(false);
         Btn_Limpiar.setEnabled(true);
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
+        
         String Id = Tbl_Proveedores.getValueAt(fila, 0).toString();
         String Nombre = Tbl_Proveedores.getValueAt(fila, 1).toString();
         String Telefono = Tbl_Proveedores.getValueAt(fila, 2).toString();
@@ -567,9 +565,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         String Direccion = Tbl_Proveedores.getValueAt(fila, 4).toString();
         String TipoDocumento = Tbl_Proveedores.getValueAt(fila, 5).toString();
         String Documento = Tbl_Proveedores.getValueAt(fila, 6).toString();
-        String Activo = Tbl_Proveedores.getValueAt(fila, 7).toString();
-        
-        
+        String Activo = Tbl_Proveedores.getValueAt(fila, 7).toString();               
 
         Txt_IdProveedor.setText(Id);
         Txt_NombreProveedor.setText(Nombre);
@@ -595,8 +591,8 @@ public class FmrProveedores extends javax.swing.JFrame {
        
         int fila = Tbl_Proveedores.getSelectedRow();
         if(fila == -1){
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
+            
+            JOptionPane.showMessageDialog(null, "Debe seleccionar el elemento a actualizar en la fila.","!Aviso¡", JOptionPane.WARNING_MESSAGE);
 
         }else{
 
@@ -717,10 +713,6 @@ public class FmrProveedores extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Txt_DocumentoProveedorKeyTyped
 
-    private void Txt_TelefonoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_TelefonoProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Txt_TelefonoProveedorActionPerformed
-
     
     
     
@@ -764,7 +756,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -772,7 +764,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         
         LimpiarProveedor();
         Btn_Limpiar.setEnabled(false);
-        Btn_Añadir.setEnabled(true);
+        Btn_Añadir.setEnabled(true);        
         
         }else{
         
@@ -789,7 +781,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -805,16 +797,9 @@ public class FmrProveedores extends javax.swing.JFrame {
     
         private void ActualizarProveedor(){
        
-            DefaultTableModel t = new DefaultTableModel();
-            Tbl_Proveedores.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Proveedor");
-            t.addColumn("Teléfono");
-            t.addColumn("Correo");
-            t.addColumn("Dirección");
-            t.addColumn("Tipo Documento");
-            t.addColumn("Documento");
-            t.addColumn("Estado");
+            DefaultTableModel t = (DefaultTableModel)Tbl_Proveedores.getModel();
+            t.setRowCount(0);        
+            Tbl_Proveedores.setModel(t);            
         
             List<Proveedores> proveedores = this.daoProveedores.findProveedoresEntities();
         
@@ -843,31 +828,38 @@ public class FmrProveedores extends javax.swing.JFrame {
         private void LlenarProveedor(){
         
         if(Txt_NombreProveedor.getText().length() < 3){
+                
+        JOptionPane.showMessageDialog(null, "El nombre del proveedor tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "El Proveedor tiene que contener al menos 3 letras");
+        }else if(ValidacionTresLetras(Txt_NombreProveedor.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
+        }else if(Txt_TelefonoProveedor.getText().length() < 8){        
         
-        }else if(Txt_TelefonoProveedor.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+        JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 dígitos.","!Error¡", JOptionPane.ERROR_MESSAGE);                
         
         }else if(ValidacionMail(Txt_CorreoProveedor.getText())== false){
+                
+        JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);                        
         
-        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
-        
+        }else if(ValidacionTresLetras(Txt_DireccionProveedor.getText()) == true){
+            
+            JOptionPane.showMessageDialog(this, "La dirección no puede tener caracteres repetidos consecutivos.", "!Error¡", JOptionPane.ERROR_MESSAGE);            
+            
         }else if(Txt_DireccionProveedor.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
+                
+        JOptionPane.showMessageDialog(null, "La Dirección debe de contener mínimo 8 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);                
         
         }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
+                
+        JOptionPane.showMessageDialog(null, "Debe de seleccionar un Tipo de documento.","!Error¡", JOptionPane.ERROR_MESSAGE);                
         
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+        }else if((String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoProveedor.getText())== false)){
+                
+        JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);                
         
-        }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoProveedor.getText())== false)){
-        
-        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
-        
-        }
-        else{
+        }else{
             
             objProveedores.setNombreProveedor(Txt_NombreProveedor.getText());
             objProveedores.setTelefonoProveedor(Integer.parseInt(Txt_TelefonoProveedor.getText()));
@@ -882,7 +874,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             daoProveedores.create(objProveedores);
             ActualizarProveedor();
             LimpiarProveedor();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -894,34 +886,42 @@ public class FmrProveedores extends javax.swing.JFrame {
             
             
         if(Txt_NombreProveedor.getText().length() < 3){
+                
+        JOptionPane.showMessageDialog(null, "El nombre del proveedor tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "El Proveedor tiene que contener al menos 3 letras");
-        
+        }else if(ValidacionTresLetras(Txt_NombreProveedor.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
         }else if(ValidacionDeRepetidos(Txt_NombreProveedor.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+                
+        JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         Btn_Añadir.setEnabled(true);
         Btn_Limpiar.setEnabled(false);
         
         }else if(Txt_TelefonoProveedor.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+                
+        JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 números.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(ValidacionMail(Txt_CorreoProveedor.getText())== false){
-        
-        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+                
+        JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(Txt_DireccionProveedor.getText().length() < 8){
+                
+        JOptionPane.showMessageDialog(null, "La Dirección debe de contener mínimo 8 letras","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
-        
+        }else if(ValidacionTresLetras(Txt_DireccionProveedor.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "La dirección no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
         }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+                
+        JOptionPane.showMessageDialog(null, "Debe de seleccionar un Tipo de documento","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoProveedor.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoProveedor.getText())== false)){
-        
-        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
+                
+        JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else{
                 
@@ -937,7 +937,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         try {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
-             JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
+             JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
         } catch (Exception ex) {
              Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1020,6 +1020,25 @@ public class FmrProveedores extends javax.swing.JFrame {
                 
              }
              
+        }
+       
+       private static boolean ValidacionTresLetras(String Nombre)
+       {                  
+           if(Nombre.length() >= 3)
+           {
+               String Letra1 = Nombre.substring(0, 1);
+               String Letra2 = Nombre.substring(1, 2);
+               String Letra3 = Nombre.substring(2, 3);
+               
+               if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3))
+               {
+                   return true;
+               }else{
+                   return false;              
+               }
+            }else{
+               return false;        
+            }              
         }
     
     /**
