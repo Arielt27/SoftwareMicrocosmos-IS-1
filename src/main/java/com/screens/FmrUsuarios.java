@@ -307,20 +307,20 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         jTable_Usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID Usuario", "Nombre", "Contraseña", "Número de Intentos", "Estado", "Admin", "ID Empleado"
+                "ID Usuario", "Nombre", "Número de Intentos", "Estado", "Admin", "ID Empleado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -341,7 +341,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
             jTable_Usuarios.getColumnModel().getColumn(3).setResizable(false);
             jTable_Usuarios.getColumnModel().getColumn(4).setResizable(false);
             jTable_Usuarios.getColumnModel().getColumn(5).setResizable(false);
-            jTable_Usuarios.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jPanel4.setBackground(new java.awt.Color(60, 63, 65));
@@ -503,22 +502,20 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Btn_AñadirUser.setEnabled(false);
             
             String IdU = jTable_Usuarios.getValueAt(fila, 0).toString();
-            String Nombre = jTable_Usuarios.getValueAt(fila, 1).toString();
-            String Contraseña = jTable_Usuarios.getValueAt(fila, 2).toString();
-            String Intentos = jTable_Usuarios.getValueAt(fila, 3).toString();
-            String Estado = jTable_Usuarios.getValueAt(fila, 4).toString();
-            String Admin = jTable_Usuarios.getValueAt(fila, 5).toString();
-            String IdE = jTable_Usuarios.getValueAt(fila, 6).toString();
+            String Nombre = jTable_Usuarios.getValueAt(fila, 1).toString();            
+            String Intentos = jTable_Usuarios.getValueAt(fila, 2).toString();
+            String Estado = jTable_Usuarios.getValueAt(fila, 3).toString();
+            String Admin = jTable_Usuarios.getValueAt(fila, 4).toString();
+            String IdE = jTable_Usuarios.getValueAt(fila, 5).toString();
             
             Txt_IdUsuario.setText(IdU);
-            Txt_UserName.setText(Nombre);
-            Txt_Contraseña.setText(Contraseña);
+            Txt_UserName.setText(Nombre);            
             Txt_Intentos.setText(Intentos);
             Txt_Estado.setText(Estado); 
             Txt_Admin.setText(Admin);
             Txt_IdEmpleado.setText(IdE);                       
             
-            if(Estado == "true")
+            if(Estado == "Activado")
             {
                 Btn_Activar.setText("Desactivar Usuario");
                 Btn_Admin.setEnabled(true);
@@ -579,6 +576,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     {
         String contra = Txt_Contraseña.getText();
         String pass2 = Txt_Confirmar.getText();
+        boolean status = true;
         
          Pattern pass = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");        
          Matcher mat = pass.matcher(Txt_Contraseña.getText());
@@ -594,8 +592,21 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  objUsuario.setNombreUsuario(Txt_UserName.getText());
                  objUsuario.setContraseña(Txt_Contraseña.getText());
                  objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));
-                 objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
-                 //objUsuario.setActivoUsuario(Boolean.parseBoolean(Txt_Estado.getText()));
+                 objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));                 
+                 
+                 //OBTENIENDO EL ESTADO DEL USUARIO EN STRING Y PASANDOLO A BOOLEAN
+                 String estado = Txt_Estado.getText();
+                 
+                 if(estado.equals("Activado"))
+                 {
+                     status = true;  
+                     JOptionPane.showMessageDialog(null,"Activo");
+                 }else if(estado.equals("Desactivado")){
+                     status = false;
+                     JOptionPane.showMessageDialog(null,"No Activo");
+                 }
+                 
+                 objUsuario.setActivoUsuario(status);
                  
                  try{
                      daoUsuarios.edit(objUsuario);
@@ -628,15 +639,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 s = "Activado";                
             }else{
                 s = "Desactivado";
-            }
+            }                                 
             
             t.addRow(
                     new Object[]{
                         Usuarios.getIdUsuario(),
-                        Usuarios.getNombreUsuario(),
-                        Usuarios.getContraseña(),
+                        Usuarios.getNombreUsuario(),                        
                         Usuarios.getNumeroDeIntentos(),
-                        Usuarios.isActivoUsuario(),
+                        s,
                         Usuarios.isAdmin(),
                         Usuarios.getIdEmpleados(),
                         s
@@ -650,7 +660,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         String estado = Txt_Estado.getText();
         
-        if(estado.equals("Activo"))
+        if(estado.equals("Activado"))
         {            
             objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
             objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
@@ -664,7 +674,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 daoUsuarios.edit(objUsuario);
                 actualizarUsuario();
                 Btn_Activar.setText("Activar Usuario");
-                JOptionPane.showMessageDialog(this, "Se desactivó correctamente");            
+                JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");            
             }catch(Exception ex){
                 Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);            
             }
@@ -686,7 +696,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 daoUsuarios.edit(objUsuario);
                 actualizarUsuario();
                 Btn_Activar.setText("Desactivar Usuario");
-                JOptionPane.showMessageDialog(this, "Se activó correctamente");            
+                JOptionPane.showMessageDialog(this, "Se activó correctamente.");            
             }catch(Exception ex){
                 Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);            
             }

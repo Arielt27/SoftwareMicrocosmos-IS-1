@@ -1080,6 +1080,16 @@ public class FmrEmpleados extends javax.swing.JFrame {
         return RTN.matches("^[0-1]{1}[0-9]{13}$");                
     }
     
+    /*private static boolean validacionLetrasRepetidas(String Campo)
+    {
+        int campo = Campo.length();
+        
+        for(int i = 0; i < campo; i++)
+        {
+                        
+        }
+    }*/
+    
     /**
      * @param args the command line arguments
      */
