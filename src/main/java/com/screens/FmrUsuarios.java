@@ -469,7 +469,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
                
-        int fila = jTable_Usuarios.getSelectedRow();
+        int fila = jTable_Usuarios.getSelectedRow();        
         
         if(fila != -1)
         {

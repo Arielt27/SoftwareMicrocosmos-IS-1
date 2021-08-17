@@ -100,26 +100,27 @@ public class FmrClientes extends javax.swing.JFrame {
 
         Tbl_Clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento"
+                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Género", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        Tbl_Clientes.getTableHeader().setReorderingAllowed(false);
         Tbl_Clientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ClientesMouseClicked(evt);
@@ -135,6 +136,8 @@ public class FmrClientes extends javax.swing.JFrame {
             Tbl_Clientes.getColumnModel().getColumn(5).setResizable(false);
             Tbl_Clientes.getColumnModel().getColumn(6).setResizable(false);
             Tbl_Clientes.getColumnModel().getColumn(7).setResizable(false);
+            Tbl_Clientes.getColumnModel().getColumn(8).setResizable(false);
+            Tbl_Clientes.getColumnModel().getColumn(9).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -627,16 +630,15 @@ public class FmrClientes extends javax.swing.JFrame {
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
  
-         int fila = Tbl_Clientes.getSelectedRow();
+        int fila = Tbl_Clientes.getSelectedRow();
 
-        if(fila != -1){
-
+        if(fila != -1 && fila != 0)
+        {
             Activar_Desactivar();
-
-        }else{
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a Activar o Desactivar en la Tabla");
-
+        }else if(fila == 0){            
+            JOptionPane.showMessageDialog(null, "No puede desactivar el elemento Consumidor Final.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
+            LimpiarCliente();
+            Btn_Añadir.setEnabled(true);
         }
         
     }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
@@ -644,14 +646,15 @@ public class FmrClientes extends javax.swing.JFrame {
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
          
         int fila = Tbl_Clientes.getSelectedRow();
-        if(fila == -1){
-
-            JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
-
-        }else{
-
-            EditarCliente();
+        
+        if(fila == 0)
+        {
+            JOptionPane.showMessageDialog(null, "No puede editar el elemento Consumidor Final.","!Error¡", JOptionPane.ERROR_MESSAGE);
             LimpiarCliente();
+            Btn_Añadir.setEnabled(true);
+        }else {                     
+            EditarCliente();
+            LimpiarCliente();  
             
         }        
         
@@ -797,10 +800,11 @@ public class FmrClientes extends javax.swing.JFrame {
                     
         }
     }//GEN-LAST:event_Txt_DocumentoClienteKeyTyped
-
     
+
     private void LimpiarCliente(){
         Btn_Editar.setEnabled(false);
+        Btn_Añadir.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(false);
         Txt_IdCliente.setText("");
         Txt_NombreCliente.setText("");
@@ -810,12 +814,11 @@ public class FmrClientes extends javax.swing.JFrame {
         Txt_DireccionCliente.setText("");
         Txt_CorreoCliente.setText("");
         jComboBox1.setSelectedIndex(0);
-        Txt_DocumentoCliente.setText("");
+        Txt_DocumentoCliente.setText("");        
         
        }
-    
-    
-      public void listaTipoDocumento(){
+        
+    public void listaTipoDocumento(){
   
       jComboBox1.removeAllItems();
   
@@ -831,7 +834,7 @@ public class FmrClientes extends javax.swing.JFrame {
                     };
     }  
     
-       public void listaSexo(){
+    public void listaSexo(){
   
          jComboBox2.removeAllItems();
   
@@ -846,29 +849,19 @@ public class FmrClientes extends javax.swing.JFrame {
                                 
                     };
   }  
-    
-            
-            private void ActualizarCliente(){
-       
-            DefaultTableModel t = new DefaultTableModel();
-            Tbl_Clientes.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Apellido");
-            t.addColumn("Telefono");
-            t.addColumn("Dirección");
-            t.addColumn("Correo");
-            t.addColumn("Tipo Documento");
-            t.addColumn("Documento");
-            t.addColumn("Sexo");
-            t.addColumn("Estado");
-        
-            List<Clientes> clientes = this.daoClientes.findClientesEntities();
-        
-            String s;
-            for(Clientes Clientes : clientes){
                 
-                if(Clientes.isActivoCliente() == true){
+    private void ActualizarCliente(){
+        
+        DefaultTableModel t = (DefaultTableModel)Tbl_Clientes.getModel();
+        t.setRowCount(0);
+        Tbl_Clientes.setModel(t);            
+        
+        List<Clientes> clientes = this.daoClientes.findClientesEntities();
+        
+        String s;
+        for(Clientes Clientes : clientes){
+                
+            if(Clientes.isActivoCliente() == true){
                 s = "Activado";
                 }else{
                 s = "Desactivado";
@@ -886,45 +879,54 @@ public class FmrClientes extends javax.swing.JFrame {
                         GetNombreSexo(Clientes.getIdSexo()),
                         s
                     });
-            }
-       
-       
-       }
+        }            
+    }
+                              
+    private void LlenarCliente(){
+        
+        if(Txt_NombreCliente.getText().length() < 3){        
+        
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras","!Error¡", JOptionPane.ERROR_MESSAGE);        
+        
+        }else if(ValidacionTresLetras(Txt_NombreCliente.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
             
-                  
-       private void LlenarCliente(){
-        
-        if(Txt_NombreCliente.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
-        
         }else if(Txt_ApellidoCliente.getText().length() < 3){
+                
+            JOptionPane.showMessageDialog(null, "El apellido tiene que contener al menos 2 letras","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
-        
+        }else if(ValidacionTresLetras(Txt_ApellidoCliente.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "El apellido no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
         }else if(Txt_TelefonoCliente.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+                
+            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 números.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un sexo");
+                
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(Txt_DireccionCliente.getText().length() < 8){
+                
+            JOptionPane.showMessageDialog(null, "La dirección debe contener mínimo 8 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
-        
+        }else if(ValidacionTresLetras(Txt_DireccionCliente.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "La dirección no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
         }else if(ValidacionMail(Txt_CorreoCliente.getText())== false){
-        
-        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+                
+            JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+                
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoCliente.getText())== false)){
-        
-        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
+                
+            JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }
         else{
@@ -945,53 +947,61 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.create(objCliente);
             ActualizarCliente();
             LimpiarCliente();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
        }   
-       } 
+    } 
             
-            private void EditarCliente(){
+    private void EditarCliente()
+    {
+        
+        boolean status = true;           
             
+        if(Txt_NombreCliente.getText().length() < 3){            
             
-            if(Txt_NombreCliente.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letras");
+        }else if(ValidacionTresLetras(Txt_NombreCliente.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
+        }else if(Txt_ApellidoCliente.getText().length() < 3){        
+            
+            JOptionPane.showMessageDialog(null, "El apellido tiene que contener al menos 2 letras","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        }else if(ValidacionDeRepetidos(Txt_NombreCliente.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
-        }else if(Txt_ApellidoCliente.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 2 letras");
-        
+        }else if(ValidacionTresLetras(Txt_ApellidoCliente.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "El apellido no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
         }else if(Txt_TelefonoCliente.getText().length() < 8){
-        
-        JOptionPane.showMessageDialog(this, "El Teléfono debe de contener 8 números");
+                    
+            JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 números.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un sexo");
+                    
+            JOptionPane.showMessageDialog(null, "Debe de seleccionar un género.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(Txt_DireccionCliente.getText().length() < 8){
+                    
+            JOptionPane.showMessageDialog(null, "La Dirección debe de contener mínimo 8 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        JOptionPane.showMessageDialog(this, "La Dirección debe de contener mínimo 8 letras");
-        
+        }else if(ValidacionTresLetras(Txt_DireccionCliente.getText()) == true){
+                        
+            JOptionPane.showMessageDialog(null, "La dirección no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            
         }else if(ValidacionMail(Txt_CorreoCliente.getText())== false){
-        
-        JOptionPane.showMessageDialog(this, "Formato de E-mail inválido");
+                    
+            JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
-        
-        JOptionPane.showMessageDialog(this, "Debe de seleccionar un Tipo de documento");
+                    
+            JOptionPane.showMessageDialog(null, "Debe de seleccionar un Tipo de documento.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if( (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_DocumentoCliente.getText()) == false ) || (String.valueOf(jComboBox1.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_DocumentoCliente.getText())== false)){
-        
-        JOptionPane.showMessageDialog(this, "El formato del documento es inválido");
+                   
+            JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else{
             
@@ -1004,21 +1014,28 @@ public class FmrClientes extends javax.swing.JFrame {
             objCliente.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(jComboBox1.getSelectedItem())));
             objCliente.setDocumento(Txt_DocumentoCliente.getText());
             objCliente.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
-                        
+            
+            if(Txt_Activo.getText().equals("Activado"))
+            {
+                status = true;                
+            }else{
+                status = false;                
+            }
+            
+            objCliente.setActivoCliente(status);                 
             
         try {
             daoClientes.edit(objCliente);
             ActualizarCliente();
-             JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+             JOptionPane.showMessageDialog(this, "Datos actualizados correctamente.");
         } catch (Exception ex) {
              Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
        }  
             
-            }
+            }            
             
-            
-      private void Activar_Desactivar(){
+    private void Activar_Desactivar(){
         
         int fila = Tbl_Clientes.getSelectedRow();
         
@@ -1042,7 +1059,7 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.edit(objCliente);
             ActualizarCliente();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1069,7 +1086,7 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.edit(objCliente);
             ActualizarCliente();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1080,11 +1097,9 @@ public class FmrClientes extends javax.swing.JFrame {
         
         }
         
-        }
-            
-            
+        }                       
     
-          private static String GetNombreTipoDocumento(int id){
+    private static String GetNombreTipoDocumento(int id){
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1095,7 +1110,7 @@ public class FmrClientes extends javax.swing.JFrame {
             
           }         
    
-          private static int GetIdTipoDocumento(String Nombre){
+    private static int GetIdTipoDocumento(String Nombre){
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1104,10 +1119,9 @@ public class FmrClientes extends javax.swing.JFrame {
     
               return Integer.parseInt(query.getSingleResult().toString());
             
-          }   
+          }             
           
-          
-          private static String GetNombreSexo(int id){
+    private static String GetNombreSexo(int id){
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1118,7 +1132,7 @@ public class FmrClientes extends javax.swing.JFrame {
             
           }   
           
-          private static int GetIdSexo(String Nombre){
+    private static int GetIdSexo(String Nombre){
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1128,27 +1142,27 @@ public class FmrClientes extends javax.swing.JFrame {
               return Integer.parseInt(query.getSingleResult().toString());
             
           }   
-                                      
-          public static boolean ValidacionMail(String Nombre){
+                                     
+    public static boolean ValidacionMail(String Nombre){
         
         return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
         
         
         }
           
-        public static boolean ValidacionDNI(String DNI){
+    public static boolean ValidacionDNI(String DNI){
         
         return DNI.matches("^[0-1]{1}[0-9]{12}$");
                 
         }
        
-       public static boolean ValidacionRTN(String RTN){
+    public static boolean ValidacionRTN(String RTN){
         
         return RTN.matches("^[0-1]{1}[0-9]{13}$");
                 
         }
        
-       public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Nombre){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -1168,8 +1182,26 @@ public class FmrClientes extends javax.swing.JFrame {
              }
              
         }
-          
-          
+     
+    private static boolean ValidacionTresLetras(String Nombre)
+    {
+        if(Nombre.length() >= 2)
+        {
+            String Letra1 = Nombre.substring(0, 1);
+            String Letra2 = Nombre.substring(1, 2);
+            String Letra3 = Nombre.substring(2, 3);        
+        
+            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3))
+            {
+                return true;         
+            }else{
+                return false;              
+            }
+        }else{
+            return false;        
+        }              
+    }
+    
     /**
      * @param args the command line arguments
      */
