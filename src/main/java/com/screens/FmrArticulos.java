@@ -531,6 +531,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     //VALIDACIONES CAMPOS
     private void Txt_NombreArticuloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreArticuloKeyTyped
 
+        
         char l = evt.getKeyChar();
         String Texto = Txt_NombreArticulo.getText();
         

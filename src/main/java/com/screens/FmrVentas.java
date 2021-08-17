@@ -292,6 +292,11 @@ public class FmrVentas extends javax.swing.JFrame {
         });
 
         Txt_IdEmpleado.setEditable(false);
+        Txt_IdEmpleado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_IdEmpleadoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -673,6 +678,11 @@ public class FmrVentas extends javax.swing.JFrame {
         buscarArt.setVisible(true);
 
     }//GEN-LAST:event_Btn_BuscarActionPerformed
+
+    private void Txt_IdEmpleadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_IdEmpleadoKeyTyped
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_IdEmpleadoKeyTyped
                 
     
     //METODOS
