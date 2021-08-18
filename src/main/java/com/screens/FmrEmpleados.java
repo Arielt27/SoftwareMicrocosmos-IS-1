@@ -345,6 +345,11 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         CBox_Area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        Txt_Fecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Txt_FechaActionPerformed(evt);
+            }
+        });
         Txt_Fecha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 Txt_FechaKeyTyped(evt);
@@ -809,6 +814,11 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_Txt_FechaKeyTyped
+
+    private void Txt_FechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_FechaActionPerformed
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_FechaActionPerformed
             
     
     //METODOS

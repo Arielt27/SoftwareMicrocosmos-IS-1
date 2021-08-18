@@ -647,6 +647,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Fecha">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Txt_FechaActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_FechaKeyTyped"/>
           </Events>
         </Component>
