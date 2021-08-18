@@ -716,20 +716,23 @@ public class FmrProveedores extends javax.swing.JFrame {
     
     
     
-       public void listaTipoDocumento(){
+    public void listaTipoDocumento()
+    {
+        jComboBox1.removeAllItems();
   
-         jComboBox1.removeAllItems();
+        List<TipoDocumento> tipoDocumento = this.daoTipoDocumento.findTipoDocumentoEntities();
   
-         List<TipoDocumento> tipoDocumento = this.daoTipoDocumento.findTipoDocumentoEntities();
-  
-             jComboBox1.addItem("Seleccione");
+            jComboBox1.addItem("Seleccione");
       
-         for(TipoDocumento TipoDocumento : tipoDocumento){
-             
-             String lista = TipoDocumento.getNombreTipoDocumento();
-             jComboBox1.addItem(lista);
+        for(TipoDocumento TipoDocumento : tipoDocumento)
+        {             
+            String lista = TipoDocumento.getNombreTipoDocumento();
+            if(TipoDocumento.isActivoTipoDocumento() == true)
+            {
+                jComboBox1.addItem(lista);
+            }
                                 
-                    }
+        }
   }  
        
        private void Activar_Desactivar(){

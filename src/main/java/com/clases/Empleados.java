@@ -6,6 +6,7 @@
 package com.clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Empleados implements Serializable {
     @Column
     private String correoEmpleado;
     @Column
-    private java.sql.Timestamp fechaDeNacimiento;
+    private Timestamp fechaDeNacimiento;
     @Column
     private boolean activoEmpleado;
     @Column
@@ -91,7 +92,6 @@ public class Empleados implements Serializable {
     public void setFechaDeNacimiento(Timestamp fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
-
 
 
     public boolean isActivoEmpleado() {

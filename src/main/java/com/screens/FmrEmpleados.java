@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -102,12 +103,12 @@ public class FmrEmpleados extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         Txt_Documento = new javax.swing.JTextField();
-        Txt_Fecha = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
         CBox_Genero = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         CBox_Area = new javax.swing.JComboBox<>();
         Txt_Activar = new javax.swing.JTextField();
+        Txt_Fecha = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -160,16 +161,24 @@ public class FmrEmpleados extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Tbl_Empleados);
         if (Tbl_Empleados.getColumnModel().getColumnCount() > 0) {
             Tbl_Empleados.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(0).setPreferredWidth(25);
             Tbl_Empleados.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(1).setPreferredWidth(60);
             Tbl_Empleados.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(2).setPreferredWidth(60);
             Tbl_Empleados.getColumnModel().getColumn(3).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(3).setPreferredWidth(60);
             Tbl_Empleados.getColumnModel().getColumn(4).setResizable(false);
             Tbl_Empleados.getColumnModel().getColumn(5).setResizable(false);
             Tbl_Empleados.getColumnModel().getColumn(6).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(6).setPreferredWidth(60);
             Tbl_Empleados.getColumnModel().getColumn(7).setResizable(false);
             Tbl_Empleados.getColumnModel().getColumn(8).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(8).setPreferredWidth(60);
             Tbl_Empleados.getColumnModel().getColumn(9).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(9).setPreferredWidth(55);
             Tbl_Empleados.getColumnModel().getColumn(10).setResizable(false);
+            Tbl_Empleados.getColumnModel().getColumn(10).setPreferredWidth(60);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -316,13 +325,6 @@ public class FmrEmpleados extends javax.swing.JFrame {
             }
         });
 
-        Txt_Fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("DD/MM/YYYY"))));
-        Txt_Fecha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                Txt_FechaKeyTyped(evt);
-            }
-        });
-
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -342,6 +344,12 @@ public class FmrEmpleados extends javax.swing.JFrame {
         jLabel14.setPreferredSize(new java.awt.Dimension(120, 20));
 
         CBox_Area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Txt_Fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_FechaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout Txt_ActivoLayout = new javax.swing.GroupLayout(Txt_Activo);
         Txt_Activo.setLayout(Txt_ActivoLayout);
@@ -384,9 +392,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(CBox_TipoDoc, 0, 150, Short.MAX_VALUE)
                     .addComponent(Txt_Documento)
-                    .addComponent(Txt_Fecha)
                     .addComponent(CBox_Genero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Area, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(CBox_Area, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Txt_Fecha))
                 .addGap(55, 55, 55))
         );
         Txt_ActivoLayout.setVerticalGroup(
@@ -710,24 +718,6 @@ public class FmrEmpleados extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Txt_DocumentoKeyTyped
 
-    private void Txt_FechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_FechaKeyTyped
-        
-        char n = evt.getKeyChar();
-
-        // Permitir solo números y puntos
-        if (!Character.isDigit(n) && n != KeyEvent.VK_MINUS)
-        {
-            evt.consume();            
-        }
-        
-        // Maximo de carácteres permitidos
-        if (Txt_Fecha.getText().length() >= 21)
-        {
-            evt.consume();     
-            Toolkit.getDefaultToolkit().beep();
-        }
-    }//GEN-LAST:event_Txt_FechaKeyTyped
-
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
     
         añadirEmpleado();
@@ -736,6 +726,8 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
      
+     editarEmpleado();   
+        
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
@@ -798,6 +790,25 @@ public class FmrEmpleados extends javax.swing.JFrame {
             }      
         }        
     }//GEN-LAST:event_Tbl_EmpleadosMouseClicked
+
+    private void Txt_FechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_FechaKeyTyped
+        
+        char n = evt.getKeyChar();
+
+        // Permitir solo números y puntos
+        if (!Character.isDigit(n) && n != KeyEvent.VK_MINUS)
+        {
+            evt.consume();            
+        }
+        
+        // Maximo de carácteres permitidos
+        if (Txt_Fecha.getText().length() >= 21)
+        {
+            evt.consume();     
+            Toolkit.getDefaultToolkit().beep();
+        }
+        
+    }//GEN-LAST:event_Txt_FechaKeyTyped
             
     
     //METODOS
@@ -847,7 +858,10 @@ public class FmrEmpleados extends javax.swing.JFrame {
         for(TipoDocumento TipoDocumento : tipoDocumento)
         {
             String lista = TipoDocumento.getNombreTipoDocumento();
-            CBox_TipoDoc.addItem(lista);                                
+            if(TipoDocumento.isActivoTipoDocumento() == true)
+            {
+                CBox_TipoDoc.addItem(lista);                                
+            }
         };            
     }
     
@@ -1000,36 +1014,39 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
     
     private void añadirEmpleado()
-    {    
-        //Recogiendo fechas
-        String fechaTxt = Txt_Fecha.getText();
-                    
-        //Agregando formato a la fecha
-        String fecha = fechaTxt + " 00:00:00";        
-        
+    {                   
         if(Txt_NombreEmpleado.getText().length() < 3)
         {
-            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(ValidacionDeRepetidos(Txt_NombreEmpleado.getText())){
+            JOptionPane.showMessageDialog(null, "El elemento ya existe.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                            
+        }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())){
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                        
         }else if(Txt_Apellido.getText().length() < 3){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                        
+            JOptionPane.showMessageDialog(null, "El apellido debe contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+        }else if(ValidacionTresLetras(Txt_Apellido.getText())){
+            JOptionPane.showMessageDialog(null, "El apellido no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                    
         }else if(Txt_Telefono.getText().length() < 8){
-            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 carácteres.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                        
+            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
         }else if(Txt_Direccion.getText().length() < 8){
-            JOptionPane.showMessageDialog(null, "Debe ingresar una dirección con al menos 8 carácteres.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                            
+            JOptionPane.showMessageDialog(null, "Debe ingresar una dirección con al menos 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                            
+        }else if(ValidacionTresLetras(Txt_Direccion.getText())){
+            JOptionPane.showMessageDialog(null, "La dirección no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                                
         }else if(ValidacionMail(Txt_Correo.getText())== false){
-            JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+            JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
-            JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
-        }else /*if(validacionFecha(Txt_Fecha.getText()){
-            JOptionPane.showMessageDialog(null, "Formato de fecha inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                            
-        }else */if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+            JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else{
-            //2021-06-27
+            
+            String fechaTxt = Txt_Fecha.getText();
+            String fecha = fechaTxt + " 00:00:00";                       
+            
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
             objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
             objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
@@ -1037,7 +1054,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
             objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));            
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));                             
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
             objEmpleados.setActivoEmpleado(true);
             
@@ -1048,8 +1065,72 @@ public class FmrEmpleados extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
             }catch(Exception ex){
                 Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);                
-            }            
+            }
         }
+    }
+    
+    private void editarEmpleado()
+    {                
+        if(Txt_NombreEmpleado.getText().length() < 3)
+        {
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())){
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                        
+        }else if(Txt_Apellido.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "El apellido debe contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+        }else if(ValidacionTresLetras(Txt_Apellido.getText())){
+            JOptionPane.showMessageDialog(null, "El apellido no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                    
+        }else if(Txt_Telefono.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+        }else if(Txt_Direccion.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una dirección con al menos 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                            
+        }else if(ValidacionTresLetras(Txt_Direccion.getText())){
+            JOptionPane.showMessageDialog(null, "La dirección no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                                
+        }else if(ValidacionMail(Txt_Correo.getText())== false){
+            JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
+            JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else{
+            
+            String fechaTxt = Txt_Fecha.getText();
+            String fecha = fechaTxt + " 00:00:00";                       
+            
+            objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));            
+            objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
+            objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
+            objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
+            objEmpleados.setDireccion(Txt_Direccion.getText());
+            objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
+            objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
+            objEmpleados.setDocumento(Txt_Documento.getText());
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));                             
+            objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
+            
+            String estado = Txt_Activar.toString();                 
+            boolean status = true;
+            
+            if(estado.equals("Activado"))
+            {
+                status = true;                       
+            }else{
+                status = false;                     
+            }
+            objEmpleados.setActivoEmpleado(status);            
+                                    
+            try{
+                daoEmpleados.edit(objEmpleados);
+                actualizarEmpleados();
+                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);                
+            }            
+        }        
     }
       
     public static boolean ValidacionDeRepetidos(String Nombre)
@@ -1057,7 +1138,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         EntityManager em = emf.createEntityManager();
       
-        String select = "SELECT idEmpleado FROM Empleados WHERE nombreEmpleado = '"+Nombre+ "'";
+        String select = "SELECT idEmpleados FROM Empleados WHERE nombreEmpleado = '"+Nombre+ "'";
    
         Query query = em.createQuery(select);
       
@@ -1104,7 +1185,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }              
     }
     
-    public static boolean validacionFecha(String text) 
+    /*public static boolean validacionFecha(String text) 
     {
         if (text == null || !text.matches("\\d{4}-[01]\\d-[0-3]\\d"))
         {
@@ -1120,7 +1201,8 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }catch(ParseException ex){
             return false;
         }
-    }
+    }*/
+        
     
     /**
      * @param args the command line arguments
@@ -1180,7 +1262,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_Correo;
     private javax.swing.JTextField Txt_Direccion;
     private javax.swing.JTextField Txt_Documento;
-    private javax.swing.JFormattedTextField Txt_Fecha;
+    private javax.swing.JTextField Txt_Fecha;
     private javax.swing.JTextField Txt_IdEmpleados;
     private javax.swing.JTextField Txt_NombreEmpleado;
     private javax.swing.JTextField Txt_Telefono;

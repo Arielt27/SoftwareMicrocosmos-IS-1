@@ -240,7 +240,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     //BOTONES Y CAMPOS
     private void Btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarActionPerformed
                 
-        this.dispose();        
+        this.dispose();              
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
@@ -273,7 +273,10 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
         for(Empleados Empleados : empleados)
         {
             String lista = Empleados.toString();
-            CBox_IdEmpleado.addItem(lista);                                    
+            if(Empleados.isActivoEmpleado() == true){
+                CBox_IdEmpleado.addItem(lista);                                                    
+            }
+            
         }        
     }
     

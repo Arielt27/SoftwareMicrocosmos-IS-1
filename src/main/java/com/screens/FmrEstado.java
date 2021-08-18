@@ -395,7 +395,7 @@ Estado objEstado = new Estado();
 
         }
 
-        if (Txt_NombreEstado.getText().length() == 1){
+        if (Txt_NombreEstado.getText().length() == 1){            
 
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
@@ -443,14 +443,14 @@ Estado objEstado = new Estado();
     }//GEN-LAST:event_Btn_ActualizarActionPerformed
 
     private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
-         int fila = Tbl_Estado.getSelectedRow();
-        if(fila == -1){
-
+         
+        int fila = Tbl_Estado.getSelectedRow();
+        
+        if(fila == -1)
+        {            
             JOptionPane.showMessageDialog(this, "Debe seleccionar el elemento a actualizar en la Fila");
-
         }else{
-
-            EditarEstado();
+            Activar_Desactivar();
             LimpiarEstado();
         }
         

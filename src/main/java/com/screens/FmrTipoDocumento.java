@@ -656,7 +656,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         try {
             daoTipoDocumento.edit(objTipoDocumento);
             ActualizarTipoDocumento();
-            JOptionPane.showMessageDialog(this, "se actualizó correctamente");
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -692,7 +692,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             daoTipoDocumento.edit(objTipoDocumento);
             ActualizarTipoDocumento();
             Btn_Activar_Desactivar.setText("Activar");
-        JOptionPane.showMessageDialog(this, "se desactivó correctamente");
+        JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoDocumento.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -713,7 +713,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             daoTipoDocumento.edit(objTipoDocumento);
              ActualizarTipoDocumento();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoDocumento.class.getName()).log(Level.SEVERE, null, ex);
         }
