@@ -205,20 +205,20 @@ public class FmrTalla extends javax.swing.JFrame {
 
         Tbl_Talla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre de Talla", "Descripción"
+                "ID", "Nombre de Talla", "Descripción", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -233,6 +233,12 @@ public class FmrTalla extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(Tbl_Talla);
+        if (Tbl_Talla.getColumnModel().getColumnCount() > 0) {
+            Tbl_Talla.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Talla.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Talla.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Talla.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
         jPanel3.setMaximumSize(new java.awt.Dimension(800, 130));
@@ -573,6 +579,7 @@ public class FmrTalla extends javax.swing.JFrame {
     private void LimpiarTalla(){
        Btn_Editar.setEnabled(false);
        Btn_Activar_Desactivar.setEnabled(false);
+       Btn_Añadir.setEnabled(true);
        Txt_IdTalla.setText("");
        Txt_NombreTalla.setText("");
        Txt_DescripcionTalla.setText("");
@@ -580,12 +587,9 @@ public class FmrTalla extends javax.swing.JFrame {
        
     private void ActualizarTalla(){
        
-            DefaultTableModel t = new DefaultTableModel();
-            Tbl_Talla.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Descripción");
-            t.addColumn("Estado");
+            DefaultTableModel t = (DefaultTableModel)Tbl_Talla.getModel();
+            t.setRowCount(0);  
+            Tbl_Talla.setModel(t);            
         
             List<Talla> talla = this.daoTalla.findTallaEntities();
         
@@ -609,77 +613,61 @@ public class FmrTalla extends javax.swing.JFrame {
        
        }
        
-    private void LlenarTalla(){
-        
-        if(Txt_NombreTalla.getText().length() < 1){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_NombreTalla.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        
-        }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionTalla.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
-        }
-        else{
-       objTalla.setNombreTalla(Txt_NombreTalla.getText());
-       objTalla.setDescripcionTalla(Txt_DescripcionTalla.getText());
-       objTalla.setActivoTalla(true);
-        
-        try {
-            daoTalla.create(objTalla);
-            ActualizarTalla();
-            LimpiarTalla();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }   
-       }
-    
-    private void EditarTalla(){
-                  
-           
-        if(Txt_NombreTalla.getText().length() < 1){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_NombreTalla.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
-        }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionTalla.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
+    private void LlenarTalla()
+    {
+        if(Txt_NombreTalla.getText().length() < 1)
+        {            
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos una letra.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionDeRepetidos(Txt_NombreTalla.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){                            
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionTalla.getText().length() < 3){                    
+            JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionTalla.getText()) == true){                            
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
         }else{
-       objTalla.setIdTalla(Integer.parseInt(Txt_IdTalla.getText()));
-       objTalla.setNombreTalla(Txt_NombreTalla.getText());
-       objTalla.setDescripcionTalla(Txt_DescripcionTalla.getText());
+            objTalla.setNombreTalla(Txt_NombreTalla.getText());
+            objTalla.setDescripcionTalla(Txt_DescripcionTalla.getText());
+            objTalla.setActivoTalla(true);
+        
+            try{
+                daoTalla.create(objTalla);
+                ActualizarTalla();
+                LimpiarTalla();
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
+    }
+    
+    private void EditarTalla()
+    {
+        if(Txt_NombreTalla.getText().length() < 1)
+        {            
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos una letra.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreTalla.getText()) == true){                            
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionTalla.getText().length() < 3){                    
+            JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionTalla.getText()) == true){                            
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            objTalla.setIdTalla(Integer.parseInt(Txt_IdTalla.getText()));
+            objTalla.setNombreTalla(Txt_NombreTalla.getText());
+            objTalla.setDescripcionTalla(Txt_DescripcionTalla.getText());       
        
-       
-        try {
+        try{
             daoTalla.edit(objTalla);
             ActualizarTalla();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
-        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+        }catch(Exception ex){
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        }
-       }      
+    }      
        
     private void Activar_Desactivar(){
         
@@ -699,7 +687,7 @@ public class FmrTalla extends javax.swing.JFrame {
             daoTalla.edit(objTalla);
             ActualizarTalla();
             Btn_Activar_Desactivar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -720,7 +708,7 @@ public class FmrTalla extends javax.swing.JFrame {
             daoTalla.edit(objTalla);
             ActualizarTalla();
             Btn_Activar_Desactivar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }

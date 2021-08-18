@@ -324,21 +324,30 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
 
         Tbl_AreaLaboral.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Área Laboral", "Descripción"
+                "ID", "Área Laboral", "Descripción", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Tbl_AreaLaboral.setMaximumSize(new java.awt.Dimension(800, 140));
         Tbl_AreaLaboral.setMinimumSize(new java.awt.Dimension(800, 140));
         Tbl_AreaLaboral.setPreferredSize(new java.awt.Dimension(800, 140));
+        Tbl_AreaLaboral.getTableHeader().setReorderingAllowed(false);
         Tbl_AreaLaboral.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_AreaLaboralMouseClicked(evt);
@@ -349,6 +358,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             Tbl_AreaLaboral.getColumnModel().getColumn(0).setResizable(false);
             Tbl_AreaLaboral.getColumnModel().getColumn(1).setResizable(false);
             Tbl_AreaLaboral.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_AreaLaboral.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -529,156 +539,140 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
     private void LimpiarAreaLaboral(){
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
-    
+       Btn_Añadir.setEnabled(true);       
        Txt_IdÁreaLaboral.setText("");
        Txt_ÁreaLaboral.setText("");
        Txt_DescripciónÁreaLaboral.setText("");
        }
 
- private void ActualizarAreaLaboral(){
-          DefaultTableModel t = new DefaultTableModel();
-            Tbl_AreaLaboral.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Descripción");
-            t.addColumn("Estado");
-                        
-            List<AreaLaboral> arealaboral = this.daoAreaLaboral.findAreaLaboralEntities();
-               String s;
-                   for(AreaLaboral AreaLaboral : arealaboral){
-                
-                if(AreaLaboral.isActivoAreaLaboral() == true){
+    private void ActualizarAreaLaboral()
+    {
+        DefaultTableModel t = (DefaultTableModel)Tbl_AreaLaboral.getModel();
+        t.setRowCount(0);
+        Tbl_AreaLaboral.setModel(t);
+                              
+        List<AreaLaboral> arealaboral = this.daoAreaLaboral.findAreaLaboralEntities();
+        String s;
+        for(AreaLaboral AreaLaboral : arealaboral)
+        {
+            if(AreaLaboral.isActivoAreaLaboral() == true)
+            {
                 s = "Activado";
-                }else{
+            }else{
                 s = "Desactivado";
-                }
-                t.addRow(
+            }
+
+            t.addRow(
                     new Object[]{
                         AreaLaboral.getIdAreaLaboral(),
                         AreaLaboral.getNombreAreaLaboral(),
-                        AreaLaboral.getDescripcionAreaLaboral(),
-                        
-                       
+                        AreaLaboral.getDescripcionAreaLaboral(),                                               
                         s
                     });
+        }
+    }
+    
+    private void Activar_Desactivar()
+    {
+        int fila = Tbl_AreaLaboral.getSelectedRow();
+        
+        String a = Txt_Activo.getText().toString();
+        if(a.equals("Activado"))
+        {
+            objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
+            objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
+            objAreaLaboral.setDescripcionAreaLaboral(Tbl_AreaLaboral.getValueAt(fila, 2).toString());
+            objAreaLaboral.setActivoAreaLaboral(false);         
+            
+            try{
+                daoAreaLaboral.edit(objAreaLaboral);
+                ActualizarAreaLaboral();
+                Btn_Activar.setText("Activar");
+                JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-      }
- 
- private void Activar_Desactivar(){
-            int fila = Tbl_AreaLaboral.getSelectedRow();
+            
+            LimpiarAreaLaboral();
+            Btn_Limpiar.setEnabled(false);
+            Btn_Añadir.setEnabled(true);
+        }else{  
+            objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
+            objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
+            objAreaLaboral.setDescripcionAreaLaboral(Tbl_AreaLaboral.getValueAt(fila, 2).toString());
+            objAreaLaboral.setActivoAreaLaboral(true); 
         
-              String a = Txt_Activo.getText().toString();
-               if(a.equals("Activado")){
-                   
-        objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
-        objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
-        objAreaLaboral.setDescripcionAreaLaboral(Tbl_AreaLaboral.getValueAt(fila, 2).toString());
-        objAreaLaboral.setActivoAreaLaboral(false);         
-      
-       try {
-            daoAreaLaboral.edit(objAreaLaboral);
-             ActualizarAreaLaboral();
-            Btn_Activar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "se desactivó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         LimpiarAreaLaboral();
-         Btn_Limpiar.setEnabled(false);
-        Btn_Añadir.setEnabled(true);
-          }else{  
-         objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
-        objAreaLaboral.setNombreAreaLaboral( Tbl_AreaLaboral.getValueAt(fila, 1).toString());
-        objAreaLaboral.setDescripcionAreaLaboral(Tbl_AreaLaboral.getValueAt(fila, 2).toString());
-        objAreaLaboral.setActivoAreaLaboral(true); 
-        try {
-           daoAreaLaboral.edit(objAreaLaboral);
-             ActualizarAreaLaboral();
-            Btn_Activar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "se activó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        LimpiarAreaLaboral();
-        Btn_Limpiar.setEnabled(false);
-        Btn_Añadir.setEnabled(true);
-        
-        }
+            try{
+                daoAreaLaboral.edit(objAreaLaboral);
+                ActualizarAreaLaboral();
+                Btn_Activar.setText("Desactivar");
+                JOptionPane.showMessageDialog(this, "Se activó correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+            }
          
-               
+            LimpiarAreaLaboral();
+            Btn_Limpiar.setEnabled(false);
+            Btn_Añadir.setEnabled(true);        
+        }                               
+    }
+    
+    private void EditarAreaLaboral()
+    {
+        if(Txt_ÁreaLaboral.getText().length() < 5)
+       {           
+           JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 5 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){                          
+           JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripciónÁreaLaboral.getText().length() < 3){                   
+           JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripciónÁreaLaboral.getText()) == true){                          
+           JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else{
+            objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
+            objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
+            objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());        
        
-       }
-       private void EditarAreaLaboral(){
-                  
-           
-        if(Txt_ÁreaLaboral.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_ÁreaLaboral.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
-        }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripciónÁreaLaboral.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
+            try {
+                daoAreaLaboral.edit(objAreaLaboral);
+                ActualizarAreaLaboral();
+                JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
-        else{
-        objAreaLaboral.setIdAreaLaboral(Integer.parseInt(Txt_IdÁreaLaboral.getText()));
-        objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
-        objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
+    }
+    
+    private void LlenarAreaLaboral()
+    {        
+       if(Txt_ÁreaLaboral.getText().length() < 5)
+       {           
+           JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 5 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionDeRepetidos(Txt_ÁreaLaboral.getText()) == true){        
+           JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);           
+        }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){                          
+           JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripciónÁreaLaboral.getText().length() < 3){                   
+           JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripciónÁreaLaboral.getText()) == true){                          
+           JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
+            objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
+            objAreaLaboral.setActivoAreaLaboral(true);            
         
-       
-        try {
-           daoAreaLaboral.edit(objAreaLaboral);
-              ActualizarAreaLaboral();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
-        } catch (Exception ex) {
+            try{
+                daoAreaLaboral.edit(objAreaLaboral);
+                ActualizarAreaLaboral();
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+        }catch(Exception ex){
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }
-       }
-          private void LlenarAreaLaboral(){
-        
-       if(Txt_ÁreaLaboral.getText().length() < 5){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 5 letra");
-        
-        }else if(ValidacionTresLetras(Txt_ÁreaLaboral.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripciónÁreaLaboral.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
-        }
-       else{
-       
-         objAreaLaboral.setNombreAreaLaboral(Txt_ÁreaLaboral.getText());
-         objAreaLaboral.setDescripcionAreaLaboral(Txt_DescripciónÁreaLaboral.getText());
-         objAreaLaboral.setActivoAreaLaboral(true);
-        
-        try {
-            daoAreaLaboral.edit(objAreaLaboral);
-              ActualizarAreaLaboral();
-            JOptionPane.showMessageDialog(this, "se guardó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }   
-       }     
+            }
+        }   
+    }     
           
-      private static boolean ValidacionTresLetras(String Nombre){
+    private static boolean ValidacionTresLetras(String Nombre){
         
             
         if(Nombre.length() >= 3){
@@ -702,11 +696,10 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
         
         }
               
-        }
+        }      
       
-      
-      public static boolean ValidacionDeRepetidos(String Nombre)
-      {
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
 
           EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
           EntityManager em = emf.createEntityManager();
@@ -721,9 +714,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
           }else{
               return true;                
           }             
-      }
-    
-    
+      }      
     
     
     /**

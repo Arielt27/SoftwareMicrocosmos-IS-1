@@ -84,26 +84,27 @@ Estado objEstado = new Estado();
 
         Tbl_Estado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Estado", "Descripción"
+                "ID", "Estado", "Descripción", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        Tbl_Estado.getTableHeader().setReorderingAllowed(false);
         Tbl_Estado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_EstadoMouseClicked(evt);
@@ -114,6 +115,7 @@ Estado objEstado = new Estado();
             Tbl_Estado.getColumnModel().getColumn(0).setResizable(false);
             Tbl_Estado.getColumnModel().getColumn(1).setResizable(false);
             Tbl_Estado.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Estado.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -530,40 +532,41 @@ Estado objEstado = new Estado();
     private void LimpiarEstado(){
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
-    
+       Btn_Añadir.setEnabled(true);
        Txt_IdEstado.setText("");
        Txt_NombreEstado.setText("");
        Txt_DescripcionEstado.setText("");
        }
-      private void ActualizarEstado(){
-          DefaultTableModel t = new DefaultTableModel();
-            Tbl_Estado.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Descripción");
-            t.addColumn("Estado");
+    
+    private void ActualizarEstado()
+    {
+        DefaultTableModel t = (DefaultTableModel)Tbl_Estado.getModel();
+        t.setRowCount(0);
+        Tbl_Estado.setModel(t);
+        
                         
-            List<Estado> estado = this.daoEstado.findEstadoEntities();
-               String s;
-                   for(Estado Estado : estado){
-                
-                if(Estado.isActivoEstado() == true){
+        List<Estado> estado = this.daoEstado.findEstadoEntities();
+        String s;
+        for(Estado Estado : estado)
+        {
+            if(Estado.isActivoEstado() == true)
+            {
                 s = "Activado";
-                }else{
+            }else{
                 s = "Desactivado";
-                }
-                t.addRow(
+            }
+            
+            t.addRow(
                     new Object[]{
                         Estado.getIdEstado(),
                         Estado.getNombreEstado(),
                         Estado.getDescripcionEstado(),
                         s
                     });
-            }
-
+        }
       }
-      
-       private void Activar_Desactivar(){
+          
+    private void Activar_Desactivar(){
             int fila = Tbl_Estado.getSelectedRow();
         
               String a = Txt_Activo.getText().toString();
@@ -576,7 +579,7 @@ Estado objEstado = new Estado();
             daoEstado.edit(objEstado);
              ActualizarEstado();
             Btn_Activar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -592,7 +595,7 @@ Estado objEstado = new Estado();
             daoEstado.edit(objEstado);
              ActualizarEstado();
             Btn_Activar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -606,80 +609,65 @@ Estado objEstado = new Estado();
                
        
        }
-        private void EditarEstado(){
-                  
+
+    private void EditarEstado()
+    {
+        if(Txt_NombreEstado.getText().length() < 3)
+        {                   
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreEstado.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionEstado.getText().length() < 3){                    
+            JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionEstado.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else{
+         
+            objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
+            objEstado.setNombreEstado(Txt_NombreEstado.getText());
+            objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
+       
+            try{
+                daoEstado.edit(objEstado);
+                ActualizarEstado();
+                JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+              
+    private void LlenarEstado()
+    {
+        if(Txt_NombreEstado.getText().length() < 3)
+        {                   
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionDeRepetidos(Txt_NombreEstado.getText()) == true){        
+           JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);           
+        }else if(ValidacionTresLetras(Txt_NombreEstado.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionEstado.getText().length() < 3){                    
+            JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionEstado.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            objEstado.setNombreEstado(Txt_NombreEstado.getText());
+            objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
+            objEstado.setActivoEstado(true);
+        
+            try{
+                daoEstado.edit(objEstado);
+                ActualizarEstado();
+                LimpiarEstado();
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+            }catch(Exception ex){
+                Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);        
+            }
+        }   
+    }  
            
-        if(Txt_NombreEstado.getText().length() < 5){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 5 letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_NombreEstado.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        
-        }else if(ValidacionTresLetras(Txt_NombreEstado.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionEstado.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
-        }
-        else{
-         objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
-         objEstado.setNombreEstado(Txt_NombreEstado.getText());
-         objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
-       
-        try {
-            daoEstado.edit(objEstado);
-             ActualizarEstado();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }
-       }
-           
-           private void LlenarEstado(){
-        
-       if(Txt_NombreEstado.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 3 letra");
-        
-        }else if(ValidacionTresLetras(Txt_NombreEstado.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionEstado.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
-        }else if(ValidacionDeRepetidos(Txt_NombreEstado.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
-        }
-       else{
-       
-         objEstado.setNombreEstado(Txt_NombreEstado.getText());
-         objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
-         objEstado.setActivoEstado(true);
-        
-        try {
-            daoEstado.edit(objEstado);
-             ActualizarEstado();
-             LimpiarEstado();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
-        } catch (Exception ex) {
-            Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }   
-       }  
-       
-           public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Nombre){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -698,9 +686,9 @@ Estado objEstado = new Estado();
                 
              }
              
-        }
-        
-        private static boolean ValidacionTresLetras(String Nombre){
+        }        
+    
+    private static boolean ValidacionTresLetras(String Nombre){
         
             
         if(Nombre.length() >= 3){

@@ -112,24 +112,25 @@ public class FmrParametros extends javax.swing.JFrame {
 
         jTable_CAI.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID CAI", "CAI", "Fecha Inicial", "Fecha Final", "Factura Inicial", "Factura Final"
+                "ID CAI", "CAI", "Fecha Inicial", "Fecha Final", "Factura Inicial", "Factura Final", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable_CAI.getTableHeader().setReorderingAllowed(false);
         jTable_CAI.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_CAIMouseClicked(evt);
@@ -142,7 +143,7 @@ public class FmrParametros extends javax.swing.JFrame {
             jTable_CAI.getColumnModel().getColumn(2).setResizable(false);
             jTable_CAI.getColumnModel().getColumn(3).setResizable(false);
             jTable_CAI.getColumnModel().getColumn(4).setResizable(false);
-            jTable_CAI.getColumnModel().getColumn(5).setResizable(false);
+            jTable_CAI.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
@@ -499,7 +500,7 @@ public class FmrParametros extends javax.swing.JFrame {
             Date FechaF = (Date) jTable_CAI.getValueAt(fila, 3);
             String FactI = jTable_CAI.getValueAt(fila, 4).toString();
             String FactF = jTable_CAI.getValueAt(fila, 5).toString();
-            //String Estado = jTable_CAI.getValueAt(fila, 6).toString();                              
+            String Estado = jTable_CAI.getValueAt(fila, 6).toString();                              
                         
             String fechaI= formatter.format(FechaI);
             String fechaF = formatter.format(FechaF);
@@ -510,7 +511,7 @@ public class FmrParametros extends javax.swing.JFrame {
             Txt_FechaFC.setText(fechaF);
             Txt_NumeroI.setText(FactI);
             Txt_NumeroF.setText(FactF);   
-            //Txt_Estado.setText(Estado);               
+            Txt_Estado.setText(Estado);               
         }
         
     }//GEN-LAST:event_jTable_CAIMouseClicked
@@ -523,7 +524,7 @@ public class FmrParametros extends javax.swing.JFrame {
         
         if(ValidacionDeRepetidos(Txt_Cai.getText()) == true)
         {
-            JOptionPane.showMessageDialog(this, "Este elemento ya existe");                        
+            JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);
         }else{                                  
             
             //Recogiendo fechas
@@ -556,16 +557,10 @@ public class FmrParametros extends javax.swing.JFrame {
     
     private void actualizarCai()
     {
-        DefaultTableModel t = new DefaultTableModel();        
+        DefaultTableModel t = (DefaultTableModel)jTable_CAI.getModel();
+        t.setRowCount(0);        
         jTable_CAI.setModel(t);
-        
-        t.addColumn("ID CAI");
-        t.addColumn("CAI");
-        t.addColumn("Fecha Inicial");
-        t.addColumn("Fecha Final");
-        t.addColumn("Factura Inicial");
-        t.addColumn("Factura Final");
-        
+                        
         List<Parametros> parametros = this.daoParam.findParametrosEntities();
         
         String s;
@@ -573,9 +568,9 @@ public class FmrParametros extends javax.swing.JFrame {
         {
             if(Parametros.isActivoParametros() == true)
             {
-                s = "1";
+                s = "Activo";
             }else{
-                s = "0";
+                s = "No activo";
             }                        
             
             t.addRow(
@@ -585,7 +580,8 @@ public class FmrParametros extends javax.swing.JFrame {
                         Parametros.getFechaEmision(),
                         Parametros.getFechaCaducidad(),
                         Parametros.getFacturaInicial(),
-                        Parametros.getFacturaFinal(),                                                                        
+                        Parametros.getFacturaFinal(),
+                        s,
                         s
                     });
             
