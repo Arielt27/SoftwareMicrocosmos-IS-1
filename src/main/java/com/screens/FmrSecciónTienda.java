@@ -88,32 +88,39 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         JTable_Sección.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Sección en Tienda", "Descripción"
+                "ID", "Sección en Tienda", "Descripción", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        JTable_Sección.getTableHeader().setReorderingAllowed(false);
         JTable_Sección.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JTable_SecciónMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(JTable_Sección);
+        if (JTable_Sección.getColumnModel().getColumnCount() > 0) {
+            JTable_Sección.getColumnModel().getColumn(0).setResizable(false);
+            JTable_Sección.getColumnModel().getColumn(1).setResizable(false);
+            JTable_Sección.getColumnModel().getColumn(2).setResizable(false);
+            JTable_Sección.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
         jPanel1.setMaximumSize(new java.awt.Dimension(800, 100));
@@ -388,7 +395,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     private void Txt_NombreSecciónKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreSecciónKeyTyped
        
         char l = evt.getKeyChar();                        
-        String Texto = Txt_NombreSección.getText();
+        String Texto = Txt_NombreSección.getText();        
         
         // Primera letra mayúscula
         if (Txt_NombreSección.getText().length() == 1){
@@ -534,63 +541,50 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     //FUNCIONES 
     private void LlenarSeccion()
     {
-        if(Txt_NombreSección.getText().length() < 1){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_NombreSección.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        
-        }else if(ValidacionTresLetras(Txt_NombreSección.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionSecciónTienda.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
+        if(Txt_NombreSección.getText().length() < 4)
+        {            
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 4 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionDeRepetidos(Txt_NombreSección.getText()) == true){                       
+            JOptionPane.showMessageDialog(null, "Este elemento ya existe.","Error", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreSección.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas","Error", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionSecciónTienda.getText().length() < 8){                    
+            JOptionPane.showMessageDialog(null, "La descripción debe contener al menos 8 letras.","Error", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionSecciónTienda.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas","Error", JOptionPane.ERROR_MESSAGE);
         }else{
+            
             objSeccionTienda.setNombreSeccionTienda(Txt_NombreSección.getText());
             objSeccionTienda.setDescripcionSeccionTienda(Txt_DescripcionSecciónTienda.getText());
             objSeccionTienda.setActivoSeccionTienda(true);
             
-            try {
-            daoSeccionTienda.create(objSeccionTienda);
-            ActualizarSeccion();
-            LimpiarSeccion();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
+            try{
+                daoSeccionTienda.create(objSeccionTienda);
+                ActualizarSeccion();
+                LimpiarSeccion();
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
         }      
     }
     
     private void EditarSeccion()
     {
-        if(Txt_NombreSección.getText().length() < 1){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos una letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_NombreSección.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
-        }else if(ValidacionTresLetras(Txt_NombreSección.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionSecciónTienda.getText().length() < 3){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
-        
+        if(Txt_NombreSección.getText().length() < 4)
+        {            
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 4 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreSección.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas","Error", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionSecciónTienda.getText().length() < 8){                    
+            JOptionPane.showMessageDialog(null, "La descripción debe contener al menos 8 letras.","Error", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionSecciónTienda.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas","Error", JOptionPane.ERROR_MESSAGE);
         }else{
-       objSeccionTienda.setIdSeccionTienda(Integer.parseInt(Txt_IdSección.getText()));
-       objSeccionTienda.setNombreSeccionTienda(Txt_NombreSección.getText());
-       objSeccionTienda.setDescripcionSeccionTienda(Txt_DescripcionSecciónTienda.getText());
-       
+            
+            objSeccionTienda.setIdSeccionTienda(Integer.parseInt(Txt_IdSección.getText()));
+            objSeccionTienda.setNombreSeccionTienda(Txt_NombreSección.getText());
+            objSeccionTienda.setDescripcionSeccionTienda(Txt_DescripcionSecciónTienda.getText());       
        
        try{
            daoSeccionTienda.edit(objSeccionTienda);
@@ -598,19 +592,15 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
         }catch(Exception ex){
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
         }        
     }
     
     private void ActualizarSeccion()
     {
-        DefaultTableModel t = new DefaultTableModel();
-        
-        JTable_Sección.setModel(t);
-        t.addColumn("Id");
-        t.addColumn("Nombre");
-        t.addColumn("Descripción");
-        t.addColumn("Estado");
+        DefaultTableModel t = (DefaultTableModel)JTable_Sección.getModel();
+        t.setRowCount(0);              
+        JTable_Sección.setModel(t);        
         
         List<SeccionTienda> seccion = this.daoSeccionTienda.findSeccionTiendaEntities();
         
@@ -643,7 +633,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         Btn_Activar.setEnabled(false);
         Txt_IdSección.setText("");
         Txt_NombreSección.setText("");
-        Txt_DescripcionSecciónTienda.setText("");                
+        Txt_DescripcionSecciónTienda.setText("");  
+        Btn_Añadir.setEnabled(true);
     }
     
     private void Activar_Desactivar()
@@ -664,7 +655,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
             daoSeccionTienda.edit(objSeccionTienda);
             ActualizarSeccion();
             Btn_Activar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -685,7 +676,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
             daoSeccionTienda.edit(objSeccionTienda);
             ActualizarSeccion();
             Btn_Activar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
         }
