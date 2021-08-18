@@ -835,6 +835,10 @@ public class FmrProveedores extends javax.swing.JFrame {
                         
             JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
             
+        }else if(ValidacionDeRepetidos(Txt_NombreProveedor.getText()) == true){
+                
+        JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);                
+        
         }else if(Txt_TelefonoProveedor.getText().length() < 8){        
         
         JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 dígitos.","!Error¡", JOptionPane.ERROR_MESSAGE);                
@@ -893,12 +897,6 @@ public class FmrProveedores extends javax.swing.JFrame {
                         
             JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
             
-        }else if(ValidacionDeRepetidos(Txt_NombreProveedor.getText()) == true){
-                
-        JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);        
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
         }else if(Txt_TelefonoProveedor.getText().length() < 8){
                 
         JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 números.","!Error¡", JOptionPane.ERROR_MESSAGE);        

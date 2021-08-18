@@ -928,8 +928,11 @@ public class FmrClientes extends javax.swing.JFrame {
                 
             JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
-        }
-        else{
+        }else if(ValidacionDeRepetidos(Txt_DocumentoCliente.getText()) == true){
+            
+            JOptionPane.showMessageDialog(null, "Este cliente ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);                         
+            
+        }else{
             
             
             objCliente.setNombreCliente(Txt_NombreCliente.getText());
@@ -1162,12 +1165,12 @@ public class FmrClientes extends javax.swing.JFrame {
                 
         }
        
-    public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Documento){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
       
-             String select = "SELECT idCliente FROM Clientes WHERE nombreCliente  = '"+Nombre+ "'";
+             String select = "SELECT idCliente FROM Clientes WHERE documento  = '"+Documento+ "'";
    
              Query query = em.createQuery(select);
        

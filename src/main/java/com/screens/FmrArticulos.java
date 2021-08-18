@@ -772,18 +772,26 @@ public class FmrArticulos extends javax.swing.JFrame {
         if(Txt_NombreArticulo.getText().length() < 4)
         {       
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 4 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreArticulo.getText()) == true){                        
+            JOptionPane.showMessageDialog(null, "El nombre del artículo no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
         }else if(Txt_PrecioArticulo.getText().length() < 2){
-            JOptionPane.showMessageDialog(null, "El nombre debe tener al menos 2 dígitos.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Txt_DescripcionArticulo.getText().length() <= 0){
-            JOptionPane.showMessageDialog(null, "Debe añadir una descripción del artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe añadir un precio al artículo y debe ser de 2 dígitos mínimo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionArticulo.getText().length() <= 8){
+            JOptionPane.showMessageDialog(null, "La descripción del artículo debe contener mínimo 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionArticulo.getText()) == true){                        
+            JOptionPane.showMessageDialog(null, "La descripcion no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
         }else if("Seleccione".equals(String.valueOf(ComboTalla.getSelectedItem()))){
             JOptionPane.showMessageDialog(null, "Debe seleccionar una talla para el artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockMax.getText()) == 0){
+            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);            
         }else if(Integer.parseInt(Txt_StockMax.getText()) <= Integer.parseInt(Txt_StockMin.getText())){
-            JOptionPane.showMessageDialog(null, "Ingrese una cantidad de stock mínimo para este artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser menor o igual que el stock mínimo.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else if(Integer.parseInt(Txt_StockMin.getText()) == 0){
-            JOptionPane.showMessageDialog(null, "Ingrese una cantidad de stock máximo para este artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingrese una cantidad de stock mínimo para este artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else if(Txt_StockAct.getText() == "0"){            
-            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+            JOptionPane.showMessageDialog(null, "El artículo debe tener una cantidad de stock actual mayor que 0.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+        }else if(ValidacionDeRepetidos(Txt_NombreArticulo.getText()) == true){            
+            JOptionPane.showMessageDialog(null, "Este artículo ya está registrado anteriormente.","!Error¡", JOptionPane.ERROR_MESSAGE);                                        
         }else{
             objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
             objArticulo.setPrecioArticulo(Integer.parseInt(Txt_PrecioArticulo.getText()));
@@ -799,7 +807,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             daoArticulo.create(objArticulo);
             actualizarArticulo();
             LimpiarArticulo();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
         }catch (Exception ex){
             Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -858,10 +866,9 @@ public class FmrArticulos extends javax.swing.JFrame {
     
     private void Activar_Desactivar()
     {
-        int fila = Tbl_Articulo.getSelectedRow();
-        String a = Txt_Activo.getText().toString();
+        int fila = Tbl_Articulo.getSelectedRow();        
         
-        if(a.equals("Activado"))
+        if(Txt_Activo.getText().equals("Activado"))
         {
             objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
             objArticulo.setNombreArticulo(Tbl_Articulo.getValueAt(fila, 1).toString());
@@ -910,17 +917,23 @@ public class FmrArticulos extends javax.swing.JFrame {
         
     private void EditarArticulo()
     {
+        boolean status = true;
+        
         if(Txt_NombreArticulo.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Txt_PrecioArticulo.getText().length() < 3){
-            JOptionPane.showMessageDialog(null, "El artículo tiene que tener un precio.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(ValidacionTresLetras(Txt_NombreArticulo.getText()) == true){                        
+            JOptionPane.showMessageDialog(null, "El nombre del artículo no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
+        }else if(Txt_PrecioArticulo.getText().length() < 2){
+            JOptionPane.showMessageDialog(null, "El artículo debe tener un precio de 2 dígitos.","¡Error!", JOptionPane.ERROR_MESSAGE);            
         }else if(Txt_DescripcionArticulo.getText().length() < 8){
             JOptionPane.showMessageDialog(null, "La descripcion  debe de contener mínimo 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(ValidacionTresLetras(Txt_DescripcionArticulo.getText()) == true){                        
+            JOptionPane.showMessageDialog(null, "La descripción no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
         }else if(String.valueOf(ComboTalla.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar una talla para el artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);            
-        }else if(Txt_StockAct.getText().length() < 1){
-            JOptionPane.showMessageDialog(null, "El stock actual no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(Integer.parseInt(Txt_StockMax.getText()) <= Integer.parseInt(Txt_StockMin.getText())){
+            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser menor o igual que el stock mínimo.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{            
             objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
             objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
@@ -930,6 +943,15 @@ public class FmrArticulos extends javax.swing.JFrame {
             objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
             objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
             objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));                                               
+            
+            if(Txt_Activo.getText().equals("Activado"))
+            {
+                status = true;                                
+            }else{
+                status = false;
+            }
+            
+            objArticulo.setActivoArticulo(status);            
             
         try{
             daoArticulo.edit(objArticulo);
@@ -963,6 +985,41 @@ public class FmrArticulos extends javax.swing.JFrame {
         return query.getSingleResult().toString() ;         
     } 
     
+    private static boolean ValidacionTresLetras(String Nombre)
+    {
+        if(Nombre.length() >= 3)
+        {
+            String Letra1 = Nombre.substring(0, 1);
+            String Letra2 = Nombre.substring(1, 2);
+            String Letra3 = Nombre.substring(2, 3);
+               
+            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3))
+            {
+                return true;
+            }else{
+                return false;              
+            }
+        }else{
+            return false;        
+        }              
+    }
+    
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+      
+        String select = "SELECT IdArticulo FROM Articulo WHERE NombreArticulo  = '"+Nombre+ "'";
+   
+        Query query = em.createQuery(select);
+       
+        if(query.getResultList().size() == 0)
+        {                         
+            return false;           
+        }else{             
+            return true;                
+        }            
+    }
     
     /**
      * 
