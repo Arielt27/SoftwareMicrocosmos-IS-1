@@ -547,7 +547,7 @@ public class FmrParametros extends javax.swing.JFrame {
                 daoParam.edit(objParam);
                 actualizarCai();
                 Limpiar();
-                JOptionPane.showMessageDialog(this, "Se guardó correctamente");
+                JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
             }catch(Exception ex){
                 Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);                                                
             }

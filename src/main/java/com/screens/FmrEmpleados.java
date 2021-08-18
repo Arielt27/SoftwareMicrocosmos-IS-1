@@ -15,7 +15,10 @@ import com.dao.EmpleadosJpaController;
 import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -709,23 +712,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
     private void Txt_FechaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_FechaKeyTyped
         
-        char c = evt.getKeyChar();
-        String Texto = Txt_Fecha.getText();
-       
-        if(c < '0' || c > '9') 
+        char n = evt.getKeyChar();
+
+        // Permitir solo números y puntos
+        if (!Character.isDigit(n) && n != KeyEvent.VK_MINUS)
         {
-            evt.consume();
-        }
-                               
-        if (Txt_Fecha.getText().length() >= 9)
-        {
-            evt.consume();        
+            evt.consume();            
         }
         
-        if((evt.getKeyChar() == 22))
+        // Maximo de carácteres permitidos
+        if (Txt_Fecha.getText().length() >= 21)
         {
-            Txt_Telefono.setText(Texto.substring(0, 8));
-                    
+            evt.consume();     
+            Toolkit.getDefaultToolkit().beep();
         }
     }//GEN-LAST:event_Txt_FechaKeyTyped
 
@@ -1001,7 +1000,13 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
     
     private void añadirEmpleado()
-    {
+    {    
+        //Recogiendo fechas
+        String fechaTxt = Txt_Fecha.getText();
+                    
+        //Agregando formato a la fecha
+        String fecha = fechaTxt + " 00:00:00";        
+        
         if(Txt_NombreEmpleado.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
@@ -1017,14 +1022,14 @@ public class FmrEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
         }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
             JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
-        }else if(Txt_Fecha.getText().length() < 8){
+        }else /*if(validacionFecha(Txt_Fecha.getText()){
             JOptionPane.showMessageDialog(null, "Formato de fecha inválido.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                            
-        }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
+        }else */if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                                                
         }else{
-            
+            //2021-06-27
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
             objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
             objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
@@ -1032,7 +1037,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
             objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(Txt_Fecha.getText()));
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));            
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
             objEmpleados.setActivoEmpleado(true);
             
@@ -1040,7 +1045,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
                 daoEmpleados.edit(objEmpleados);
                 actualizarEmpleados();
                 limpiarEmpleado();
-                JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
             }catch(Exception ex){
                 Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);                
             }            
@@ -1080,15 +1085,42 @@ public class FmrEmpleados extends javax.swing.JFrame {
         return RTN.matches("^[0-1]{1}[0-9]{13}$");                
     }
     
-    /*private static boolean validacionLetrasRepetidas(String Campo)
+    private static boolean ValidacionTresLetras(String Nombre)
     {
-        int campo = Campo.length();
-        
-        for(int i = 0; i < campo; i++)
+        if(Nombre.length() >= 2)
         {
-                        
+            String Letra1 = Nombre.substring(0, 1);
+            String Letra2 = Nombre.substring(1, 2);
+            String Letra3 = Nombre.substring(2, 3);        
+        
+            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3))
+            {
+                return true;         
+            }else{
+                return false;              
+            }
+        }else{
+            return false;        
+        }              
+    }
+    
+    public static boolean validacionFecha(String text) 
+    {
+        if (text == null || !text.matches("\\d{4}-[01]\\d-[0-3]\\d"))
+        {
+            return false;
         }
-    }*/
+        
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setLenient(false);
+        
+        try{
+            df.parse(text);
+            return true;
+        }catch(ParseException ex){
+            return false;
+        }
+    }
     
     /**
      * @param args the command line arguments

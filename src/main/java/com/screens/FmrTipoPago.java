@@ -83,18 +83,27 @@ TipoDePago objTipoDePago = new TipoDePago();
 
         Tbl_TipoPago.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Tipo de Pago", "Descripción"
+                "ID", "Tipo de Pago", "Descripción", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Tbl_TipoPago.getTableHeader().setReorderingAllowed(false);
         Tbl_TipoPago.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_TipoPagoMouseClicked(evt);
@@ -105,6 +114,7 @@ TipoDePago objTipoDePago = new TipoDePago();
             Tbl_TipoPago.getColumnModel().getColumn(0).setResizable(false);
             Tbl_TipoPago.getColumnModel().getColumn(1).setResizable(false);
             Tbl_TipoPago.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_TipoPago.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -559,15 +569,13 @@ TipoDePago objTipoDePago = new TipoDePago();
        Txt_TipoPago.setText("");
        Txt_DescripcionTipoPago.setText("");
        }
-       private void ActualizarTipoPago(){
+
+    private void ActualizarTipoPago(){
        
-            DefaultTableModel t = new DefaultTableModel();
+            DefaultTableModel t = (DefaultTableModel)Tbl_TipoPago.getModel();
+            t.setRowCount(0);  
             Tbl_TipoPago.setModel(t);
-            t.addColumn("Id");
-            t.addColumn("Nombre");
-            t.addColumn("Descripción");
-            t.addColumn("Estado");
-        
+                    
             List<TipoDePago> tipoPago = this.daoTipoDePago.findTipoDePagoEntities();
         
             String s;
@@ -589,7 +597,8 @@ TipoDePago objTipoDePago = new TipoDePago();
        
        
        }
-        private void Activar_Desactivar(){
+
+    private void Activar_Desactivar(){
         
         int fila = Tbl_TipoPago.getSelectedRow();
         
@@ -608,7 +617,7 @@ TipoDePago objTipoDePago = new TipoDePago();
             daoTipoDePago.edit(objTipoDePago);
              ActualizarTipoPago();
             Btn_Activar.setText("Activar");
-            JOptionPane.showMessageDialog(this, "Se desactivó correctamente");
+            JOptionPane.showMessageDialog(this, "Se desactivó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -627,7 +636,7 @@ TipoDePago objTipoDePago = new TipoDePago();
             daoTipoDePago.edit(objTipoDePago);
              ActualizarTipoPago();
             Btn_Activar.setText("Desactivar");
-            JOptionPane.showMessageDialog(this, "Se activó correctamente");
+            JOptionPane.showMessageDialog(this, "Se activó correctamente.");
         } catch (Exception ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -639,79 +648,68 @@ TipoDePago objTipoDePago = new TipoDePago();
         }
         
         }
-         private void EditarTipoPago(){
-                  
-           
-        if(Txt_TipoPago.getText().length() < 4){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 4 letras");
-        
-        }else if(ValidacionDeRepetidos(Txt_TipoPago.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        Btn_Añadir.setEnabled(true);
-        Btn_Limpiar.setEnabled(false);
-        
-        }else if(ValidacionTresLetras(Txt_TipoPago.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionTipoPago.getText().length() < 5){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 5 letras");
-        
-        }
-        
-        else{
-        objTipoDePago.setIdTipoDePago(Integer.parseInt(Txt_IdTipoPago.getText()));
-        objTipoDePago.setNombreTipoDePago(Txt_TipoPago.getText());
-        objTipoDePago.setDescripcionTipoDePago(Txt_DescripcionTipoPago.getText());
+
+    private void EditarTipoPago()
+    {
+        if(Txt_TipoPago.getText().length() < 4)
+        {                                  
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 4 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_TipoPago.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionDeRepetidos(Txt_TipoPago.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "Este elemento ya existe.","¡Aviso!", JOptionPane.ERROR_MESSAGE);
+            Btn_Añadir.setEnabled(true);
+            Btn_Limpiar.setEnabled(false);        
+        }else if(Txt_DescripcionTipoPago.getText().length() < 5){                    
+            JOptionPane.showMessageDialog(null, "La descripción tienen que contener al menos 5 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionTipoPago.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            objTipoDePago.setIdTipoDePago(Integer.parseInt(Txt_IdTipoPago.getText()));
+            objTipoDePago.setNombreTipoDePago(Txt_TipoPago.getText());
+            objTipoDePago.setDescripcionTipoDePago(Txt_DescripcionTipoPago.getText());
        
-        try {
+        try{
             daoTipoDePago.edit(objTipoDePago);
             ActualizarTipoPago();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
-        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+        }catch(Exception ex){
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        }
-       }
+    }
                
-        private void LlenarTipoPago(){
+    private void LlenarTipoPago()
+    {               
+       if(Txt_TipoPago.getText().length() < 4)
+       {           
+           JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 4 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionDeRepetidos(Txt_TipoPago.getText()) == true){                      
+           JOptionPane.showMessageDialog(null, "Este elemento ya existe.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_TipoPago.getText()) == true){                   
+           JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_DescripcionTipoPago.getText().length() < 5){                         
+           JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 5 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_DescripcionTipoPago.getText()) == true){                    
+            JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            
+            objTipoDePago.setNombreTipoDePago(Txt_TipoPago.getText());
+            objTipoDePago.setDescripcionTipoDePago(Txt_DescripcionTipoPago.getText());
+            objTipoDePago.setActivoTipoDePago(true);
         
-       if(Txt_TipoPago.getText().length() < 4){
-        
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener al menos 4 letra");
-        
-        }else if(ValidacionDeRepetidos(Txt_TipoPago.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
-        
-        }else if(ValidacionTresLetras(Txt_TipoPago.getText()) == true){
-        
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
-        
-        }else if(Txt_DescripcionTipoPago.getText().length() < 5){
-        
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 5 letras");
-        
-        }
-       
-       else{
-       objTipoDePago.setNombreTipoDePago(Txt_TipoPago.getText());
-       objTipoDePago.setDescripcionTipoDePago(Txt_DescripcionTipoPago.getText());
-       objTipoDePago.setActivoTipoDePago(true);
-        
-        try {
+        try{
             daoTipoDePago.create(objTipoDePago);
             ActualizarTipoPago();
-            JOptionPane.showMessageDialog(this, "Se guardó correctamente");
-        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+        }catch(Exception ex){
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       }   
-       }    
-        public static boolean ValidacionDeRepetidos(String Nombre){
+            }
+        }   
+    }    
+
+    public static boolean ValidacionDeRepetidos(String Nombre){
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -732,7 +730,7 @@ TipoDePago objTipoDePago = new TipoDePago();
              
         }
         
-        private static boolean ValidacionTresLetras(String Nombre){
+    private static boolean ValidacionTresLetras(String Nombre){
         
             
         if(Nombre.length() >= 3){
