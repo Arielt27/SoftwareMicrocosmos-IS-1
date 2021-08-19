@@ -265,6 +265,11 @@ public class FmrVentas extends javax.swing.JFrame {
         });
 
         CBox_IdCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+        CBox_IdCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBox_IdClienteActionPerformed(evt);
+            }
+        });
 
         Txt_Cai.setEditable(false);
         Txt_Cai.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
@@ -686,6 +691,10 @@ public class FmrVentas extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_IdEmpleadoKeyTyped
+
+    private void CBox_IdClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_IdClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CBox_IdClienteActionPerformed
                 
     
     //METODOS
