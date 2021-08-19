@@ -12,8 +12,10 @@ import com.dao.DetalleVentaJpaController;
 import com.dao.facturasanuladasJpaController;
 import java.awt.Image;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
@@ -104,12 +106,19 @@ public class FmrDetalleAnuladas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_DetalleAnuladas.getTableHeader().setReorderingAllowed(false);
         jTable_DetalleAnuladas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_DetalleAnuladasMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable_DetalleAnuladas);
+        if (jTable_DetalleAnuladas.getColumnModel().getColumnCount() > 0) {
+            jTable_DetalleAnuladas.getColumnModel().getColumn(0).setResizable(false);
+            jTable_DetalleAnuladas.getColumnModel().getColumn(1).setResizable(false);
+            jTable_DetalleAnuladas.getColumnModel().getColumn(2).setResizable(false);
+            jTable_DetalleAnuladas.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
 
@@ -187,7 +196,7 @@ public class FmrDetalleAnuladas extends javax.swing.JFrame {
 
     private void Btn_Regresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar3ActionPerformed
 
-        this.dispose();
+        this.dispose();        
         
     }//GEN-LAST:event_Btn_Regresar3ActionPerformed
 
@@ -214,16 +223,34 @@ public class FmrDetalleAnuladas extends javax.swing.JFrame {
                 t.addRow(
                     new Object[]{
                         DetalleVenta.getIdVenta(), 
-                        DetalleVenta.getIdArticulo(),
+                        GetNombreArticulo(DetalleVenta.getIdArticulo()),
                         DetalleVenta.getCantidad(),
-                        DetalleVenta.getIdTalla(),                                                
+                        GetNombreTalla(DetalleVenta.getIdTalla()),                                                
                         s                       
                     });                
             }
         }        
     }
-
     
+    private static String GetNombreArticulo(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT NombreArticulo FROM Articulo WHERE IdArticulo = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;            
+    }         
+    
+    private static String GetNombreTalla(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT nombreTalla FROM Talla WHERE idTalla = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;            
+    }    
     
     /**
      * @param args the command line arguments

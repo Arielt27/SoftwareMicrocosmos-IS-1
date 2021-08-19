@@ -18,8 +18,8 @@ import javax.swing.JOptionPane;
 public class FmrPagoMixto extends javax.swing.JFrame {      
     
     public static String numTarjeta;
-    public static String canTarjeta;
-    public static String canEfectivo;
+    public static double canTarjeta;
+    public static double canEfectivo;
     
     
     /**
@@ -243,7 +243,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
 
     private void Btn_CancelarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarTActionPerformed
         
-        this.dispose();
+        this.dispose();        
     }//GEN-LAST:event_Btn_CancelarTActionPerformed
 
     //CAMPOS
@@ -274,7 +274,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
         if (Txt_Tarjeta.getText().length() >= 16)
         {
             evt.consume();     
-            Toolkit.getDefaultToolkit().beep();
+            Toolkit.getDefaultToolkit().beep();            
         }                     
         
     }//GEN-LAST:event_Txt_TarjetaKeyTyped
@@ -329,11 +329,11 @@ public class FmrPagoMixto extends javax.swing.JFrame {
             String tarjeta = Txt_Tarjeta.getText();
             String monTarjeta = Txt_MontoTarjeta.getText();
             String monEfectivo = Txt_MontoEfectivo.getText();                            
-                
+            
             //ALMACENANDO DATOS OBTENIDOS EN VARIABLES GLOBALES
             numTarjeta = tarjeta; 
-            canTarjeta = monTarjeta;
-            canEfectivo = monEfectivo;
+            canTarjeta = Double.parseDouble(monTarjeta);
+            canEfectivo = Double.parseDouble(monEfectivo);
                                     
             JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");                                        
             this.dispose();
@@ -390,7 +390,6 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

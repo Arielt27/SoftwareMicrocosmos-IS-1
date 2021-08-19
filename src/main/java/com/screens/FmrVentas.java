@@ -74,6 +74,9 @@ public class FmrVentas extends javax.swing.JFrame {
     static DefaultTableModel t2;    
     int factura = 0;
     int idDetalle = 0;
+    String tarj = FmrPagoMixto.numTarjeta;
+    double montoT = FmrPagoMixto.canTarjeta;
+    double montoE = FmrPagoMixto.canEfectivo;
     public static double totalV;
 
     /**
@@ -669,8 +672,7 @@ public class FmrVentas extends javax.swing.JFrame {
         {
             FmrPagoMixto pMixto = new FmrPagoMixto();
             pMixto.setVisible(true);            
-        }
-        
+        }                          
     }//GEN-LAST:event_CBox_TipoPagoActionPerformed
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
@@ -694,7 +696,9 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_Cai.setEditable(false);
         Txt_IdCai.setVisible(false);
         Txt_Cantidad.setText("1");
-        Txt_Fact.setVisible(false);             
+        Txt_Fact.setVisible(false);    
+        Txt_SubTotal.setText("0.00");
+        Txt_Impuesto.setText("0.00");                
         CBox_TipoPago.setEnabled(false);   
 
         listaClientes();
@@ -738,7 +742,19 @@ public class FmrVentas extends javax.swing.JFrame {
             int idVenta = Integer.parseInt(Txt_Fact.getText());
                         
             //Agregando formato a la fecha
-            String fechaV = fechaVenta + " 00:00:00";                        
+            String fechaV = fechaVenta + " 00:00:00"; 
+            
+            //DATOS PAGO MIXTO
+            if(CBox_TipoPago.getSelectedItem().equals("Efectivo"))
+            {
+                tarj = "";
+                montoT = 0;
+                montoE = 0;                                                
+            }else{
+                tarj = FmrPagoMixto.numTarjeta;
+                montoT = FmrPagoMixto.canTarjeta;
+                montoE = FmrPagoMixto.canEfectivo;                                
+            }                        
             
             objVenta.setIdVenta(idVenta);
             objVenta.setFechaVenta(Timestamp.valueOf(fechaV));            
@@ -749,6 +765,8 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setIdEmpleados(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getIdEmpleados());
             objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
             objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));                                                           
+            objVenta.setTarjeta(tarj);
+            objVenta.setMontoTarjeta(montoT);            
             objVenta.setIdEstado(1);                                   
                         
             try{
@@ -994,8 +1012,8 @@ public class FmrVentas extends javax.swing.JFrame {
     private void imprimir()
     {
         String tarj = FmrPagoMixto.numTarjeta;
-        String montoT = FmrPagoMixto.canTarjeta;
-        String montoE = FmrPagoMixto.canEfectivo;
+        double montoT = FmrPagoMixto.canTarjeta;
+        double montoE = FmrPagoMixto.canEfectivo;
         
         JOptionPane.showMessageDialog(null, "La tarjeta es: " + tarj + "\n El monto en tarjeta es: " + montoT + "\n El monto en efectivo es: " + montoE);
         

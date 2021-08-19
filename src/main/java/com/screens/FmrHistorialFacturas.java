@@ -21,8 +21,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -244,37 +246,37 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jTable_DetallesVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID Factura", "Fecha", "Valor", "Id Empleado", "Estado"
+                "ID Factura", "Fecha", "Valor", "TipoPago", "Monto Tarjeta", "Tarjeta", "Id Empleado", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -285,6 +287,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_DetallesVentas.getTableHeader().setReorderingAllowed(false);
         jTable_DetallesVentas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_DetallesVentasMouseClicked(evt);
@@ -297,6 +300,9 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             jTable_DetallesVentas.getColumnModel().getColumn(2).setResizable(false);
             jTable_DetallesVentas.getColumnModel().getColumn(3).setResizable(false);
             jTable_DetallesVentas.getColumnModel().getColumn(4).setResizable(false);
+            jTable_DetallesVentas.getColumnModel().getColumn(5).setResizable(false);
+            jTable_DetallesVentas.getColumnModel().getColumn(6).setResizable(false);
+            jTable_DetallesVentas.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jPanel5.setBackground(new java.awt.Color(60, 63, 65));
@@ -639,13 +645,18 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         {    
             if(Venta.getIdEstado() == 1)
             {
+                s = "Facturada";
+                
                 t.addRow(
                         new Object[]{
                             Venta.getIdVenta(),
                             Venta.getFechaVenta(),
-                            Venta.getTotal(), 
+                            Venta.getTotal(),
+                            GetNombreTipoPago(Venta.getIdTipoDePago()),
+                            Venta.getMontoTarjeta(),
+                            Venta.getTarjeta(),                            
                             Venta.getIdEmpleados(),
-                            Venta.getIdEstado(),                        
+                            s,
                             s                       
                         });            
             }
@@ -774,6 +785,16 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         }else{
             actualizarVentas();
         }
+    }
+    
+    private static String GetNombreTipoPago(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT nombreTipoDePago FROM TipoDePago WHERE idTipoDePago = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;            
     }
     
     

@@ -38,7 +38,12 @@ public class Venta implements Serializable {
     @Column
     private int idCliente;  
     @Column
-    private int idEstado;    
+    private int idEstado;  
+    @Column (nullable=true)
+    private String Tarjeta;
+    @Column 
+    private double MontoTarjeta;
+    
     
 
     public int getIdVenta() {
@@ -120,4 +125,20 @@ public class Venta implements Serializable {
     public void setIdEstado(int idEstado) {
         this.idEstado = idEstado;
     }                      
+
+    public String getTarjeta() {
+        return Tarjeta;
+    }
+
+    public void setTarjeta(String Tarjeta) {
+        this.Tarjeta = Tarjeta;
+    }   
+
+    public double getMontoTarjeta() {
+        return MontoTarjeta;
+    }
+
+    public void setMontoTarjeta(double MontoTarjeta) {
+        this.MontoTarjeta = MontoTarjeta;
+    }        
 }

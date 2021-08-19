@@ -742,7 +742,7 @@ public class FmrClientes extends javax.swing.JFrame {
         
           if (Txt_DireccionCliente.getText().length() >= 125){
         
-        evt.consume();
+        evt.consume();        
         
         }
         
