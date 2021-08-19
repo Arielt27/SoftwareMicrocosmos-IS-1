@@ -36,7 +36,10 @@ public class Venta implements Serializable {
     @Column
     private int idTipoDePago;
     @Column
-    private int idCliente;    
+    private int idCliente;  
+    @Column
+    private int idEstado;    
+    
 
     public int getIdVenta() {
         return idVenta;
@@ -52,9 +55,7 @@ public class Venta implements Serializable {
 
     public void setFechaVenta(Timestamp fechaVenta) {
         this.fechaVenta = fechaVenta;
-    }
-
- 
+    } 
 
     public double getImpuesto() {
         return impuesto;
@@ -110,6 +111,13 @@ public class Venta implements Serializable {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
-    }              
-               
+    }    
+    
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }                      
 }

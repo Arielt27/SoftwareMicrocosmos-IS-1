@@ -7,35 +7,34 @@ package com.screens;
 
 import com.clases.DetalleVenta;
 import com.clases.Estado;
+import com.clases.facturasanuladas;
 import com.dao.DetalleVentaJpaController;
-import com.dao.EstadoJpaController;
+import com.dao.facturasanuladasJpaController;
 import java.awt.Image;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Ariel
  */
-public class FmrDetalleVenta extends javax.swing.JFrame {
+public class FmrDetalleAnuladas extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     DetalleVentaJpaController daoDetalleV = new DetalleVentaJpaController();
-    EstadoJpaController daoEstado = new EstadoJpaController();
     
     Estado objEstadoo = new Estado();
     DetalleVenta objDetalleVenta = new DetalleVenta();    
     
     DefaultTableModel t;
-
+    
     /**
-     * Creates new form FmrDetalleVenta
+     * Creates new form FmrDetalleAnuladas
      */
-    public FmrDetalleVenta() {
+    public FmrDetalleAnuladas() {
         initComponents();
         this.setLocationRelativeTo(null);
         
@@ -43,7 +42,6 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
         Image icon = new ImageIcon(getClass().getResource("/imagenes/barra-de-busqueda.png")).getImage();
         setIconImage(icon);
         
-        //INICIALIZAR PANTALLA              
         actualizarTabla();
     }
 
@@ -56,38 +54,21 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_DetalleVenta = new javax.swing.JTable();
+        jTable_DetalleAnuladas = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         Btn_Regresar3 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Detalle de Factura - Microcosmos");
+        setTitle("Facturas Anuladas - Microcosmos");
         setMaximumSize(new java.awt.Dimension(800, 460));
         setMinimumSize(new java.awt.Dimension(800, 460));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 460));
 
-        jPanel1.setBackground(new java.awt.Color(49, 49, 49));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LogoMicrocosmos.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jTable_DetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_DetalleAnuladas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -123,22 +104,12 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable_DetalleVenta.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable_DetalleAnuladas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_DetalleVentaMouseClicked(evt);
+                jTable_DetalleAnuladasMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable_DetalleVenta);
-        if (jTable_DetalleVenta.getColumnModel().getColumnCount() > 0) {
-            jTable_DetalleVenta.getColumnModel().getColumn(0).setResizable(false);
-            jTable_DetalleVenta.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable_DetalleVenta.getColumnModel().getColumn(1).setResizable(false);
-            jTable_DetalleVenta.getColumnModel().getColumn(1).setPreferredWidth(300);
-            jTable_DetalleVenta.getColumnModel().getColumn(2).setResizable(false);
-            jTable_DetalleVenta.getColumnModel().getColumn(2).setPreferredWidth(10);
-            jTable_DetalleVenta.getColumnModel().getColumn(3).setResizable(false);
-            jTable_DetalleVenta.getColumnModel().getColumn(3).setPreferredWidth(10);
-        }
+        jScrollPane1.setViewportView(jTable_DetalleAnuladas);
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
 
@@ -172,6 +143,23 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
+        jPanel1.setBackground(new java.awt.Color(49, 49, 49));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LogoMicrocosmos.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -193,26 +181,24 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Btn_Regresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar3ActionPerformed
-        
-        this.dispose();
+    private void jTable_DetalleAnuladasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetalleAnuladasMouseClicked
 
+    }//GEN-LAST:event_jTable_DetalleAnuladasMouseClicked
+
+    private void Btn_Regresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Regresar3ActionPerformed
+
+        this.dispose();
+        
     }//GEN-LAST:event_Btn_Regresar3ActionPerformed
 
-    private void jTable_DetalleVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetalleVentaMouseClicked
-        
-                        
-    }//GEN-LAST:event_jTable_DetalleVentaMouseClicked
-
-    
-    //MÉTODOS                        
+    //METODOS
     private void actualizarTabla()
     {
-        t = (DefaultTableModel)jTable_DetalleVenta.getModel();
+        t = (DefaultTableModel)jTable_DetalleAnuladas.getModel();
         t.setRowCount(0);
-        jTable_DetalleVenta.setModel(t);
+        jTable_DetalleAnuladas.setModel(t);
         
-        String IdVenta = FmrHistorialFacturas.idVenta;
+        String IdVenta = FmrHistorialFacturas.idAnulada;
         
         int VentaId = Integer.parseInt(IdVenta);
         
@@ -236,6 +222,7 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
             }
         }        
     }
+
     
     
     /**
@@ -255,20 +242,20 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmrDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FmrDetalleAnuladas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmrDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FmrDetalleAnuladas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmrDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FmrDetalleAnuladas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmrDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FmrDetalleAnuladas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FmrDetalleVenta().setVisible(true);
+                new FmrDetalleAnuladas().setVisible(true);
             }
         });
     }
@@ -279,6 +266,6 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable_DetalleVenta;
+    private javax.swing.JTable jTable_DetalleAnuladas;
     // End of variables declaration//GEN-END:variables
 }

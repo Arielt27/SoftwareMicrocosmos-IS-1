@@ -142,6 +142,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        Tbl_Articulo.getTableHeader().setReorderingAllowed(false);
         Tbl_Articulo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ArticuloMouseClicked(evt);
@@ -701,6 +702,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         Btn_Limpiar.setEnabled(true);
         Btn_Editar.setEnabled(true);
         Btn_Activar_Desactivar.setEnabled(true);
+        
         String Id = Tbl_Articulo.getValueAt(fila, 0).toString();
         String Nombre = Tbl_Articulo.getValueAt(fila, 1).toString();
         String Precio = Tbl_Articulo.getValueAt(fila, 2).toString();
@@ -821,8 +823,8 @@ public class FmrArticulos extends javax.swing.JFrame {
         ComboTalla.addItem("Seleccione");
       
         Tallas.stream().map((Talla) -> Talla.getNombreTalla()).forEachOrdered((lista) -> 
-        {
-            ComboTalla.addItem(lista);
+        {            
+            ComboTalla.addItem(lista);            
         });
     }
     

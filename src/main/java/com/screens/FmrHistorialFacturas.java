@@ -6,9 +6,18 @@
 package com.screens;
 
 import com.clases.Articulo;
+import com.clases.SingletonUser;
+import com.clases.Usuarios;
 import com.clases.Venta;
+import com.clases.facturasanuladas;
+import com.dao.EmpleadosJpaController;
 import com.dao.VentaJpaController;
+import com.dao.facturasanuladasJpaController;
 import java.awt.Image;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,11 +35,19 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     VentaJpaController daoVenta = new VentaJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    facturasanuladasJpaController daoAnuladas = new facturasanuladasJpaController();    
+    
     Venta objVenta = new Venta();
+    facturasanuladas objAnuladas = new facturasanuladas();
     
     DefaultTableModel t;
     
     public static String idVenta;
+    public static String idAnulada;
+    
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
 
     /**
      * Creates new form FmrHistorialFacturas
@@ -44,8 +61,10 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
+        Btn_Anular.setEnabled(false);
         Btn_DetallesVentas.setEnabled(false);
-        actualizar();
+        actualizarVentas(); 
+        actualizarAnuladas();
     }
 
     /**
@@ -72,6 +91,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         Btn_RegresarV = new javax.swing.JButton();
         Btn_DetallesVentas = new javax.swing.JButton();
+        Btn_Anular = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable_DetallesAnuladas = new javax.swing.JTable();
@@ -224,37 +244,37 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         jTable_DetallesVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID Factura", "Fecha", "Valor", "Id Empleado"
+                "ID Factura", "Fecha", "Valor", "Id Empleado", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -276,6 +296,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             jTable_DetallesVentas.getColumnModel().getColumn(1).setResizable(false);
             jTable_DetallesVentas.getColumnModel().getColumn(2).setResizable(false);
             jTable_DetallesVentas.getColumnModel().getColumn(3).setResizable(false);
+            jTable_DetallesVentas.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jPanel5.setBackground(new java.awt.Color(60, 63, 65));
@@ -306,16 +327,31 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             }
         });
 
+        Btn_Anular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/rechazado.png"))); // NOI18N
+        Btn_Anular.setText(" Anular");
+        Btn_Anular.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Anular.setFocusPainted(false);
+        Btn_Anular.setMaximumSize(new java.awt.Dimension(110, 50));
+        Btn_Anular.setMinimumSize(new java.awt.Dimension(110, 50));
+        Btn_Anular.setPreferredSize(new java.awt.Dimension(110, 50));
+        Btn_Anular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_AnularActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(235, Short.MAX_VALUE)
+                .addContainerGap(180, Short.MAX_VALUE)
                 .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
+                .addGap(43, 43, 43)
+                .addComponent(Btn_Anular, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(Btn_RegresarV, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235))
+                .addGap(180, 180, 180))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,7 +359,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_RegresarV, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Anular, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -511,7 +548,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-            Btn_DetallesVentas.setEnabled(true);               
+            Btn_DetallesVentas.setEnabled(true);     
+            Btn_Anular.setEnabled(true);
             
             String valor = jTable_DetallesVentas.getValueAt(fila, 0).toString();
             
@@ -535,15 +573,31 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_Btn_RegresarVActionPerformed
-
     
     //ANULADAS    
     private void jTable_DetallesAnuladasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesAnuladasMouseClicked
-        // TODO add your handling code here:
+        
+        int fila =  jTable_DetallesAnuladas.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            Btn_DetallesAnuladas.setEnabled(true);                 
+            
+            String valor = jTable_DetallesAnuladas.getValueAt(fila, 0).toString();
+            
+            idAnulada = valor;
+            
+        }
+        
     }//GEN-LAST:event_jTable_DetallesAnuladasMouseClicked
 
     private void Btn_DetallesAnuladasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_DetallesAnuladasActionPerformed
-        // TODO add your handling code here:
+        
+         FmrDetalleAnuladas dAnulada = new FmrDetalleAnuladas();
+         dAnulada.setVisible(true); 
+        
     }//GEN-LAST:event_Btn_DetallesAnuladasActionPerformed
 
     private void Btn_RegresarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarAActionPerformed
@@ -553,10 +607,26 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_Btn_RegresarAActionPerformed
+
+    //VENTAS
+    private void Btn_AnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AnularActionPerformed
+        
+        int fila = jTable_DetallesVentas.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+        }else{
+            anularFactura();
+            actualizarVentas(); 
+            actualizarAnuladas();
+        }
+        
+    }//GEN-LAST:event_Btn_AnularActionPerformed
     
                                
     //METODOS
-    private void actualizar()
+    private void actualizarVentas()
     {    
         t = (DefaultTableModel)jTable_DetallesVentas.getModel();
         t.setRowCount(0);           
@@ -566,15 +636,143 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         
         String s = null;
         for(Venta Venta : venta)
+        {    
+            if(Venta.getIdEstado() == 1)
+            {
+                t.addRow(
+                        new Object[]{
+                            Venta.getIdVenta(),
+                            Venta.getFechaVenta(),
+                            Venta.getTotal(), 
+                            Venta.getIdEmpleados(),
+                            Venta.getIdEstado(),                        
+                            s                       
+                        });            
+            }
+        }
+    }
+    
+    private void actualizarAnuladas()
+    {    
+        t = (DefaultTableModel)jTable_DetallesAnuladas.getModel();
+        t.setRowCount(0);           
+        jTable_DetallesAnuladas.setModel(t); 
+        
+        List<facturasanuladas> anuladas = this.daoAnuladas.findfacturasanuladasEntities();
+        
+        String s = null;
+        for(facturasanuladas facturasanuladas : anuladas)
         {                                                 
             t.addRow(
                     new Object[]{
-                        Venta.getIdVenta(),
-                        Venta.getFechaVenta(),
-                        Venta.getTotal(), 
-                        Venta.getIdEmpleados(),                        
+                        facturasanuladas.getIdVenta(),
+                        facturasanuladas.getFechaAnulacion(),
+                        facturasanuladas.getIdEmpleados(),
+                        facturasanuladas.getMotivo(),
                         s                       
                     });            
+        }
+    }
+    
+    private void anularFactura()
+    {
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea anular la factura seleccionada?", "Alerta!", JOptionPane.YES_NO_OPTION);                        
+        
+        if(opcion == 0)
+        {
+            String motivo = JOptionPane.showInputDialog(null, "Escriba el motivo para anular esta factura.", "¡Anular factura!", JOptionPane.QUESTION_MESSAGE);            
+            
+            int filaSel = jTable_DetallesVentas.getSelectedRow();            
+            
+            //OBTENER ID DE VENTA
+            String id = jTable_DetallesVentas.getValueAt(filaSel, 0).toString();
+            
+            //OBTENER FECHA DE ANULACION
+            Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String fechaTexto = formatter.format(fecha);  
+            String fechaAn = fechaTexto + " 00:00:00";
+            
+            
+            //OBTENER ID Y NOMBRE DE EMPLEADO Y MOSTRARLO
+            int IdE = singleton.getCuenta().getIdEmpleados();             
+            
+            //GUARDAR DATOS EN LA TABLA FACTURAS ANULADAS
+            objAnuladas.setIdVenta(Integer.parseInt(id));
+            objAnuladas.setIdEmpleados(IdE);
+            objAnuladas.setFechaAnulacion(Timestamp.valueOf(fechaAn));
+            objAnuladas.setMotivo(motivo);           
+                                                                                             
+            try{
+                daoAnuladas.edit(objAnuladas);                
+                JOptionPane.showMessageDialog(null, "La factura ha sido anulada.");
+                actualizarVentas();
+            }catch(Exception ex){
+                Logger.getLogger(FmrHistorialFacturas.class.getName()).log(Level.SEVERE, null, ex);                                                    
+            }            
+            
+            //OBTENER DATOS DE FACTURA NORMAL PARA CAMBIAR ESTADO DE LA FACTURA
+            int ID = (int) jTable_DetallesVentas.getValueAt(filaSel, 0);            
+            
+            //ID VENTA
+            int idventaa = daoVenta.findVenta(ID).getIdVenta();                                              
+            //String idV = String.valueOf(idventaa);    
+            
+            //FECHA
+            Date fechaV = daoVenta.findVenta(ID).getFechaVenta();
+            String dateV = String.valueOf(fechaV);
+                        
+            //IMPUESTO
+            double imp = daoVenta.findVenta(ID).getImpuesto();            
+            //String tax = String.valueOf(imp);
+            
+            //SUBTOTAL
+            double subT = daoVenta.findVenta(ID).getSubTotal();            
+            //String sub = String.valueOf(subT);
+            
+            //TOTAL
+            double total = daoVenta.findVenta(ID).getTotal();            
+            //String tot = String.valueOf(total);
+            
+            //ID PARAMETORS
+            int param = daoVenta.findVenta(ID).getIdParametros();            
+            //String par = String.valueOf(param);
+            
+            //ID EMPLEADOS
+            int emp = daoVenta.findVenta(ID).getIdEmpleados();            
+            //String emplo = String.valueOf(emp);
+            
+            //TIPO PAGO
+            int tp = daoVenta.findVenta(ID).getIdTipoDePago();            
+            //String pago = String.valueOf(tp);
+            
+            //ID CLIENTE
+            int cliente = daoVenta.findVenta(ID).getIdCliente();            
+            //String cli = String.valueOf(cliente);            
+            
+            //ID ESTADO
+            int est = daoVenta.findVenta(ID).getIdEstado();            
+            //String status = String.valueOf(est);                                              
+                        
+            objVenta.setIdVenta(idventaa);
+            objVenta.setFechaVenta(Timestamp.valueOf(dateV));
+            objVenta.setImpuesto(imp);
+            objVenta.setSubTotal(subT);
+            objVenta.setTotal(total);
+            objVenta.setIdParametros(param);
+            objVenta.setIdEmpleados(emp);
+            objVenta.setIdTipoDePago(tp);
+            objVenta.setIdCliente(cliente);
+            objVenta.setIdEstado(2);                       
+            
+            try{
+                daoVenta.edit(objVenta);                
+                actualizarVentas();
+            }catch(Exception ex){
+                Logger.getLogger(FmrHistorialFacturas.class.getName()).log(Level.SEVERE, null, ex);                                                                    
+            }
+        }else{
+            actualizarVentas();
         }
     }
     
@@ -615,6 +813,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Btn_Anular;
     private javax.swing.JButton Btn_DetallesAnuladas;
     private javax.swing.JButton Btn_DetallesCompras;
     private javax.swing.JButton Btn_DetallesVentas;

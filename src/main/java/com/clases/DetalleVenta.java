@@ -23,9 +23,7 @@ public class DetalleVenta implements Serializable {
     @Column
     private int idVenta;
     @Column
-    private int idArticulo;
-    @Column
-    private int idEstado;
+    private int idArticulo;    
     @Column
     private int idTalla;
 
@@ -60,15 +58,7 @@ public class DetalleVenta implements Serializable {
     public void setIdArticulo(int idArticulo) {
         this.idArticulo = idArticulo;
     }
-
-    public int getIdEstado() {
-        return idEstado;
-    }
-
-    public void setIdEstado(int idEstado) {
-        this.idEstado = idEstado;
-    }           
-    
+                   
     public int getIdTalla(){
         return idTalla;
     }

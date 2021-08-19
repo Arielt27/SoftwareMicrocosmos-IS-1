@@ -591,6 +591,7 @@ public class FmrVentas extends javax.swing.JFrame {
     private void Btn_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_VentaActionPerformed
                      
         hacerVenta();
+        Inicializar();
         
     }//GEN-LAST:event_Btn_VentaActionPerformed
 
@@ -748,6 +749,7 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setIdEmpleados(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getIdEmpleados());
             objVenta.setIdTipoDePago(getIdTipoPago(String.valueOf(CBox_TipoPago.getSelectedItem())));
             objVenta.setIdCliente(GetIdCliente(String.valueOf(CBox_IdCliente.getSelectedItem())));                                                           
+            objVenta.setIdEstado(1);                                   
                         
             try{
                 daoVenta.edit(objVenta);                                
@@ -762,8 +764,7 @@ public class FmrVentas extends javax.swing.JFrame {
                 objDetalleVenta.setIdDetalleVenta(idDetalle);                
                 objDetalleVenta.setCantidad(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,4))));
                 objDetalleVenta.setIdVenta(idVenta);
-                objDetalleVenta.setIdArticulo(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,0))));
-                objDetalleVenta.setIdEstado(1);
+                objDetalleVenta.setIdArticulo(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,0))));                
                 objDetalleVenta.setIdTalla(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,3))));                
                 
                 try{
@@ -772,7 +773,7 @@ public class FmrVentas extends javax.swing.JFrame {
                     Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                    
                 }
             }
-            
+                        
         }
     }
     

@@ -829,7 +829,10 @@ public class FmrClientes extends javax.swing.JFrame {
          for(TipoDocumento TipoDocumento : tipoDocumento){
              
              String lista = TipoDocumento.getNombreTipoDocumento();
-             jComboBox1.addItem(lista);
+             if(TipoDocumento.isActivoTipoDocumento() == true)
+             {
+                 jComboBox1.addItem(lista);
+             }
                                 
                     };
     }  
