@@ -737,7 +737,8 @@ public class FmrCompras extends javax.swing.JFrame {
     {   
                  
         Txt_FechaPedido.setEditable(true);
-         Txt_FechaPedido.setVisible(true);
+       Txt_llegada.setEditable(true);
+        Txt_llegada.setVisible(true);
         Txt_Precio.setEditable(true);
             
        Txt_StockMinimo.setText("0");
@@ -905,13 +906,11 @@ public class FmrCompras extends javax.swing.JFrame {
             String fecha = Txt_llegada.getText();
       
             objcompra.setFechaPedido(Timestamp.valueOf(fecha));
-           // objcompra.setIdEmpleados(daoEmpleados.findEmpleados(singleton));
+            objcompra.setIdEmpleados(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getIdEmpleados());
             objcompra.setFechaRecibido(Timestamp.valueOf(fechaV));
             objcompra.setPrecioCompra(Double.parseDouble(Txt_Precio.getText()));
             objcompra.setIdProveedor(GetIdProveedor(String.valueOf(CBox_Provedor.getSelectedItem())));
            
-            objcompra.setIdEmpleados(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getIdEmpleados());
-          
                                                          
                         
             try{
@@ -926,8 +925,8 @@ public class FmrCompras extends javax.swing.JFrame {
             {
         
                 objDetalle .setCantidad(Integer.parseInt(String.valueOf(Tbl_Compra.getValueAt(i,6))));
-              //  objDetalle.setIdArticulo(GetIdArticulo(String.valueOf(CBox_Articulo.getSelectedItem())));
-               
+                objDetalle.setIdArticulo(GetIdArticulo(String.valueOf(Tbl_Compra.getValueAt(i,0))));
+              
                 
                 try{
                     daodetalle.edit(objDetalle);                                        
