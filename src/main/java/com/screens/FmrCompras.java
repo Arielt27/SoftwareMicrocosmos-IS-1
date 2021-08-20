@@ -69,8 +69,8 @@ public class FmrCompras extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
-        setIconImage(icon);
-         
+        setIconImage(icon); 
+         Inicializar();
          listaProveedores();
          Txt_Activo.setVisible(false);        
         Btn_Guardar.setEnabled(false);
