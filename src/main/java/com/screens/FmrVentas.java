@@ -9,6 +9,7 @@ import com.clases.Articulo;
 import com.clases.Clientes;
 import com.clases.DetalleVenta;
 import com.clases.Empleados;
+import com.clases.FacturaDataSource;
 import com.clases.Parametros;
 import com.clases.SingletonUser;
 import com.clases.TipoDePago;
@@ -22,6 +23,7 @@ import com.dao.ParametrosJpaController;
 import com.dao.TipoDePagoJpaController;
 import com.dao.VentaJpaController;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -29,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +46,12 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -66,7 +75,8 @@ public class FmrVentas extends javax.swing.JFrame {
     Empleados objEmpleados = new Empleados();    
     TipoDePago objTipoPago = new TipoDePago();        
     Parametros objParametros = new Parametros();  
-    DetalleVenta objDetalleVenta = new DetalleVenta();    
+    DetalleVenta objDetalleVenta = new DetalleVenta();
+    FacturaDataSource dataSource;
     
     private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
@@ -614,8 +624,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
                         
-        imprimir();        
-        //idDetalleVenta();
+                      
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
        
@@ -799,9 +808,9 @@ public class FmrVentas extends javax.swing.JFrame {
                 }catch(Exception ex){
                     Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                    
                 }
-            }
-                        
+            }                        
         }
+        imprimirFactura();
     }
     
     public void listaClientes()
@@ -1018,14 +1027,68 @@ public class FmrVentas extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, idDetalle);
     }
     
-    private void imprimir()
+     public void imprimirFactura()
     {
-        String tarj = FmrPagoMixto.numTarjeta;
-        double montoT = FmrPagoMixto.canTarjeta;
-        double montoE = FmrPagoMixto.canEfectivo;
+        List<Venta> listaFacturasBD = daoVenta.findVentaEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        Venta facturaActual = listaFacturasBD.get(listaFacturasBD.size()-1);
+        System.out.println(facturaActual.getIdVenta());
+
+
+        //DETALLES PRODUCTO
+        EntityManager em = daoVenta.getEntityManager();
         
-        JOptionPane.showMessageDialog(null, "La tarjeta es: " + tarj + "\n El monto en tarjeta es: " + montoT + "\n El monto en efectivo es: " + montoE);
+        String hqlDetalleProd = "FROM DetalleVenta E WHERE E.idVenta = :idFactura";
+        Query queryDetalleProd = em.createQuery(hqlDetalleProd);
+        queryDetalleProd.setParameter("idFactura",facturaActual.getIdVenta());
+        List<DetalleVenta> detallesProd = queryDetalleProd.getResultList();                        
         
+        Object[][] arrayDetallesFactura;
+        arrayDetallesFactura = new Object[detallesProd.size()][3];      
+    
+        for(int i = 0; i < detallesProd.size(); i++)
+        {        
+            for(int j = 0; j < 3 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ARTICULO
+                        arrayDetallesFactura[i][0] = daoArticulo.findArticulo(detallesProd.get(i).getIdArticulo()).getNombreArticulo();                        
+                    break;
+                    
+                    case 1: //PRECIO
+                        arrayDetallesFactura[i][1] = daoArticulo.findArticulo(detallesProd.get(i).getIdArticulo()).getPrecioArticulo();                        
+                    break;
+                    
+                    case 2: //CANTIDAD
+                        arrayDetallesFactura[i][2] = detallesProd.get(i).getCantidad();
+                    break;                                                               
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();        
+        param.put("Factura", "000-001-003-" + String.format("%0" + 8 + "d",facturaActual.getIdVenta()));
+        param.put("Cliente", daoClientes.findClientes(facturaActual.getIdCliente()).getNombreCliente());        
+        param.put("Fecha", facturaActual.getFechaVenta().toString());
+        param.put("Empleado",daoEmpleados.findEmpleados(facturaActual.getIdEmpleados()).getNombreEmpleado());                        
+        param.put("CAI", daoParametros.findParametros(facturaActual.getIdParametros()).getCai());
+        param.put("Impuesto",0.15);
+        param.put("SubTotal", daoVenta.findVenta(facturaActual.getIdVenta()).getSubTotal());        
+        param.put("Total", daoVenta.findVenta(facturaActual.getIdVenta()).getTotal());         
+        
+        try {
+            JasperReport reporteFactura = JasperCompileManager.compileReport("src/main/resources/Reports/FacturaVenta.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteFactura,
+                    param, 
+                    dataSource.getDataSource(arrayDetallesFactura));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);
+            view.setTitle("Factura " + facturaActual.getIdVenta());            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /*private void comprobarRepetidos()

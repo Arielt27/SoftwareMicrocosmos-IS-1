@@ -8,15 +8,15 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Articulo.class)
 public abstract class Articulo_ {
 
-	public static volatile SingularAttribute<Articulo, Integer> idArticulo;
-	public static volatile SingularAttribute<Articulo, Integer> stockMinimo;
-	public static volatile SingularAttribute<Articulo, String> descripcionArticulo;
-	public static volatile SingularAttribute<Articulo, Boolean> activoArticulo;
-	public static volatile SingularAttribute<Articulo, Integer> idTalla;
-	public static volatile SingularAttribute<Articulo, Integer> stock;
-	public static volatile SingularAttribute<Articulo, Integer> stockMaximo;
-	public static volatile SingularAttribute<Articulo, Double> precioArticulo;
-	public static volatile SingularAttribute<Articulo, String> nombreArticulo;
+	public static volatile SingularAttribute<Articulo, Integer> IdArticulo;
+	public static volatile SingularAttribute<Articulo, Integer> StockMaximo;
+	public static volatile SingularAttribute<Articulo, Integer> IdTalla;
+	public static volatile SingularAttribute<Articulo, Boolean> ActivoArticulo;
+	public static volatile SingularAttribute<Articulo, String> NombreArticulo;
+	public static volatile SingularAttribute<Articulo, Integer> StockMinimo;
+	public static volatile SingularAttribute<Articulo, Double> PrecioArticulo;
+	public static volatile SingularAttribute<Articulo, String> DescripcionArticulo;
+	public static volatile SingularAttribute<Articulo, Integer> Stock;
 
 }
 
