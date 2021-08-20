@@ -272,19 +272,9 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
 
         int filaSeleccionada = Tbl_ArticulosCompra.getSelectedRow();
-        int cant = 1;
-
-        int SMin = (int) Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 0);
-        int SAct = (int) Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 1);
-        double precio = (double) Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 3);
         
 
-        if(filaSeleccionada != -1 && SMin > SAct && SAct != 0)
-        {
-            JOptionPane.showMessageDialog(null, "Este Artículo esta por debajo de su stock mínimo.","Aviso!", JOptionPane.WARNING_MESSAGE);
-        }
-
-        if(filaSeleccionada != -1 && SAct > 0)
+        if(filaSeleccionada != -1 )
         {
             String Datos[] = new String[3];
             Datos[0] = Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 0).toString();
@@ -295,8 +285,6 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
 
             FmrCompras.t3.addRow(Datos);
             t.removeRow(filaSeleccionada);
-        }else if(SAct == 0){
-            JOptionPane.showMessageDialog(null, "No hay unidades en existencia de esta artículo.","Error!", JOptionPane.ERROR_MESSAGE);
         }else if(filaSeleccionada == -1){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
         }

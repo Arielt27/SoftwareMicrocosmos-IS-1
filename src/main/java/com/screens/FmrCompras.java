@@ -653,8 +653,8 @@ public class FmrCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_CBox_ProvedorActionPerformed
 
     private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
-        FmrBuscarArticulo buscarArt = new FmrBuscarArticulo();
-        buscarArt.setVisible(true);
+        FmrBuscarArticuloCompra buscarArtComp = new FmrBuscarArticuloCompra();
+        buscarArtComp.setVisible(true);
     }//GEN-LAST:event_AgregarActionPerformed
 
     
