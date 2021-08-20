@@ -146,15 +146,13 @@
                           <Component id="jLabel20" min="-2" pref="70" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="Txt_Cantidad" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="Btn_Cantidad" min="-2" pref="30" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="Txt_IdCai" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="Txt_SubTotal" min="-2" pref="75" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jLabel16" min="-2" pref="85" max="-2" attributes="0"/>
@@ -167,9 +165,13 @@
                               <Component id="Txt_Impuesto" pref="75" max="32767" attributes="0"/>
                           </Group>
                       </Group>
+                      <Component id="Txt_SubTotal" alignment="1" min="-2" pref="75" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="Txt_Fact" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="Txt_Fact" pref="30" max="32767" attributes="0"/>
+                      <Component id="Txt_IdCai" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -190,6 +192,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel18" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="Txt_Impuesto" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Txt_IdCai" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="1" attributes="0">
@@ -201,10 +204,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="Btn_Buscar" min="-2" pref="22" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Btn_Cantidad" min="-2" pref="21" max="-2" attributes="0"/>
-                                  <Component id="Txt_IdCai" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="Btn_Cantidad" min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -519,7 +519,7 @@
         <Component class="javax.swing.JButton" name="Btn_Cantidad">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/boton-agregar.png"/>
+              <Image iconType="3" name="/imagenes/sumar.png"/>
             </Property>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
