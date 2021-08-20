@@ -20,6 +20,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     public static String numTarjeta;
     public static double canTarjeta;
     public static double canEfectivo;
+    public static int cancel = 0;
     
     
     /**
@@ -237,13 +238,16 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     //BOTONES
     private void Btn_AceptarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AceptarTActionPerformed
 
+        //cancel = 1;
         aceptarPago();
         
     }//GEN-LAST:event_Btn_AceptarTActionPerformed
 
     private void Btn_CancelarTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarTActionPerformed
+                
+        cancel = 2;        
+        this.dispose();                
         
-        this.dispose();        
     }//GEN-LAST:event_Btn_CancelarTActionPerformed
 
     //CAMPOS

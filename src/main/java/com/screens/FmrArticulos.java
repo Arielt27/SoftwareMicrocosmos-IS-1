@@ -46,6 +46,8 @@ public class FmrArticulos extends javax.swing.JFrame {
     Articulo objArticulo = new Articulo();
     Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
     
+    double precioActual = 0;
+    
     DefaultTableModel t;   
     
     /**

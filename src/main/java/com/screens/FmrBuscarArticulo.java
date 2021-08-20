@@ -28,7 +28,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
-    Articulo objArticulo = new Articulo();        
+    Articulo objArticulo = new Articulo();             
 
     DefaultTableModel t;            
     
@@ -288,9 +288,12 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
                                 
         int filaSeleccionada = Tbl_Articulos.getSelectedRow();
+        int cant = 1;
         
         int SMin = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 2);
         int SAct = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 3);  
+        double precio = (double) Tbl_Articulos.getValueAt(filaSeleccionada, 5);
+        double total = precio * cant;
         
         if(filaSeleccionada != -1 && SMin > SAct && SAct != 0)
         {         
@@ -299,14 +302,16 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
         
         if(filaSeleccionada != -1 && SAct > 0)
         {
-            String Datos[] = new String[4];            
+            String Datos[] = new String[6];            
             Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
             Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();                        
             Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
-            Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();   
+            Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();  
+            Datos[4] = String.valueOf(cant);     
+            Datos[5] = String.valueOf(total);             
                                                 
             FmrVentas.t2.addRow(Datos);
-            t.removeRow(filaSeleccionada);                                                         
+            t.removeRow(filaSeleccionada);               
         }else if(SAct == 0){
             JOptionPane.showMessageDialog(null, "No hay unidades en existencia de esta artículo.","Error!", JOptionPane.ERROR_MESSAGE);                        
         }else if(filaSeleccionada == -1){
@@ -378,7 +383,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
                         Articulos.getStock(),
                         Articulos.getDescripcionArticulo(),
                         Articulos.getPrecioArticulo(),                             
-                        Articulos.getIdTalla(),
+                        GetNombreTalla(Articulos.getIdTalla()),                        
                         Articulos.isActivoArticulo(),
                         s                       
                     });            
@@ -487,6 +492,18 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
             }                                  
         }
     }
+    
+    private static String GetNombreTalla(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT nombreTalla FROM Talla WHERE idTalla = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString() ;  
+    }
+        
     
     /**
      * @param args the command line arguments

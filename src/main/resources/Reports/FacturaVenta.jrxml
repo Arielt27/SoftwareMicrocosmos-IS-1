@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FacturaVenta" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FacturaVenta" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="398"/>
+	<property name="ireport.y" value="136"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -33,101 +33,101 @@
 	<title>
 		<band height="137" splitType="Stretch">
 			<image>
-				<reportElement x="25" y="0" width="145" height="136" />
+				<reportElement x="25" y="0" width="145" height="136"/>
 				<imageExpression><![CDATA["src/main/resources/Reports/IconoMicrocosmos.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement style="Title" x="170" y="0" width="384" height="79" />
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="65" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman"/>
-				</textElement>
-				<text><![CDATA[Microcosmos]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="171" y="79" width="50" height="17" />
+				<reportElement x="171" y="79" width="50" height="17"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[CAI:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="171" y="96" width="50" height="20" />
+				<reportElement x="171" y="96" width="50" height="20"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Empleado:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="170" y="116" width="51" height="20" />
+				<reportElement x="170" y="116" width="51" height="20"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="79" width="46" height="17" />
+				<reportElement x="408" y="80" width="46" height="17"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="96" width="46" height="20" />
+				<reportElement x="408" y="97" width="46" height="20"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Factura:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="222" y="79" width="188" height="17" />
+				<reportElement x="222" y="79" width="177" height="15"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{CAI}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="222" y="96" width="131" height="20" />
+				<reportElement x="222" y="96" width="131" height="20"/>
 				<textFieldExpression><![CDATA[$P{Empleado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="222" y="117" width="131" height="19" />
+				<reportElement x="222" y="116" width="131" height="18"/>
 				<textFieldExpression><![CDATA[$P{Cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="456" y="79" width="98" height="17" />
+				<reportElement x="456" y="79" width="98" height="16"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="456" y="96" width="98" height="20" />
+				<reportElement x="456" y="96" width="98" height="16"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Factura}]]></textFieldExpression>
 			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="171" y="0" width="383" height="79"/>
+				<imageExpression><![CDATA["src/main/resources/Reports/Microcosmos.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="29" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="1" y="1" width="555" height="1" />
+				<reportElement positionType="FixRelativeToBottom" x="1" y="1" width="555" height="1"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<rectangle>
+				<reportElement x="0" y="2" width="555" height="26" backcolor="#000000"/>
+			</rectangle>
 			<staticText>
-				<reportElement x="1" y="5" width="197" height="24" />
-				<textElement textAlignment="Center"/>
+				<reportElement x="1" y="2" width="197" height="24" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Artículo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="198" y="4" width="130" height="24" />
-				<textElement textAlignment="Center"/>
+				<reportElement x="198" y="2" width="130" height="24" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Precio Unitario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="328" y="5" width="104" height="24" />
-				<textElement textAlignment="Center"/>
+				<reportElement x="328" y="2" width="104" height="24" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="432" y="4" width="122" height="24" />
-				<textElement textAlignment="Center"/>
+				<reportElement x="432" y="2" width="122" height="24" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Total Artículo]]></text>
 			</staticText>
 		</band>
@@ -135,22 +135,22 @@
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField>
-				<reportElement x="1" y="0" width="197" height="23" />
+				<reportElement x="1" y="0" width="197" height="23"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Artículo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="198" y="0" width="130" height="23" />
+				<reportElement x="198" y="0" width="130" height="23"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Precio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="328" y="0" width="104" height="23" />
+				<reportElement x="328" y="0" width="104" height="23"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Cantidad}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="432" y="1" width="122" height="22" />
+				<reportElement x="432" y="1" width="122" height="22"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Precio}*$F{Cantidad}]]></textFieldExpression>
 			</textField>
@@ -159,33 +159,33 @@
 	<columnFooter>
 		<band height="62" splitType="Stretch">
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" />
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="422" y="9" width="53" height="17" />
+				<reportElement x="422" y="9" width="53" height="17"/>
 				<text><![CDATA[Sub Total:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="422" y="26" width="53" height="17" />
+				<reportElement x="422" y="26" width="53" height="17"/>
 				<text><![CDATA[Impuesto:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="422" y="43" width="53" height="17" />
+				<reportElement x="422" y="43" width="53" height="17"/>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="475" y="9" width="79" height="17" />
+				<reportElement x="475" y="9" width="79" height="17"/>
 				<textFieldExpression><![CDATA[$P{SubTotal}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00 %">
-				<reportElement x="475" y="26" width="79" height="17" />
+				<reportElement x="475" y="26" width="79" height="17"/>
 				<textFieldExpression><![CDATA[$P{Impuesto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="475" y="43" width="79" height="17" />
+				<reportElement x="475" y="43" width="79" height="17"/>
 				<textFieldExpression><![CDATA[$P{Total}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -193,23 +193,23 @@
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" />
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
 				<textField evaluationTime="Report">
-					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" />
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" />
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement style="Title" x="207" y="0" width="194" height="24" />
+					<reportElement style="Title" x="207" y="0" width="194" height="24"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Eras Demi ITC" size="14" isBold="true" isItalic="true"/>
 					</textElement>
