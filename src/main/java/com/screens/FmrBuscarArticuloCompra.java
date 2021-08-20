@@ -7,11 +7,13 @@ package com.screens;
 
 import com.clases.Articulo;
 import com.dao.ArticuloJpaController;
+import java.awt.Image;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,6 +33,17 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
      */
     public FmrBuscarArticuloCompra() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
+        //ÍCONO
+        Image icon = new ImageIcon(getClass().getResource("/imagenes/barra-de-busqueda.png")).getImage();
+        setIconImage(icon);  
+        
+        //INICIALIZAR        
+        actualizarBusquedaArticulos();
+        listaFiltro();              
+        Btn_Buscar.setEnabled(false);        
+        Txt_Campo.setEnabled(false);
     }
 
     /**

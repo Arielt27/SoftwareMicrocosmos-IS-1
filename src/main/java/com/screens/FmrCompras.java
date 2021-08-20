@@ -565,13 +565,14 @@ public class FmrCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_Tbl_CompraMouseClicked
 
     private void AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirActionPerformed
-        FmrArticulos Com = new FmrArticulos();
+        FmrBuscarArticuloCompra Com = new FmrBuscarArticuloCompra();
         Com.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_AñadirActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
        LimpiarCompra();
+       Inicializar();
        JOptionPane.showMessageDialog(this, "desea salir de compras.");
     }//GEN-LAST:event_CancelarActionPerformed
 
