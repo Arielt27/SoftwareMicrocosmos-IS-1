@@ -9,6 +9,7 @@ import com.clases.Articulo;
 import com.clases.Compra;
 import com.clases.DetalleCompra;
 import com.clases.Empleados;
+import com.clases.Estado;
 import com.clases.Proveedores;
 import com.clases.SingletonUser;
 import com.clases.TipoDePago;
@@ -17,6 +18,7 @@ import com.dao.ArticuloJpaController;
 import com.dao.CompraJpaController;
 import com.dao.DetalleCompraJpaController;
 import com.dao.EmpleadosJpaController;
+import com.dao.EstadoJpaController;
 import com.dao.ProveedoresJpaController;
 import com.dao.TipoDePagoJpaController;
 import static com.screens.FmrArticulos.ValidacionDeRepetidos;
@@ -52,6 +54,8 @@ public class FmrCompras extends javax.swing.JFrame {
      ProveedoresJpaController daoProveedores = new ProveedoresJpaController();
      EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
      CompraJpaController daoCompra = new CompraJpaController();
+     EstadoJpaController daoEstado = new EstadoJpaController();
+     Estado objEstado = new Estado();
     Empleados objEmpleados = new Empleados();
     TipoDePago objTipoPago = new TipoDePago();
     Articulo objArticulo = new  Articulo();
@@ -106,6 +110,8 @@ public class FmrCompras extends javax.swing.JFrame {
         CBox_Provedor = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
         Txt_Precio = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        comboEstado = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tbl_Compra = new javax.swing.JTable();
@@ -238,12 +244,22 @@ public class FmrCompras extends javax.swing.JFrame {
         jLabel17.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel17.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Estado");
+        jLabel10.setMaximumSize(new java.awt.Dimension(120, 20));
+        jLabel10.setMinimumSize(new java.awt.Dimension(120, 20));
+        jLabel10.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        comboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,16 +282,20 @@ public class FmrCompras extends javax.swing.JFrame {
                             .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Txt_IdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(Txt_IdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(Txt_StockMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -316,9 +336,17 @@ public class FmrCompras extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Txt_Idcompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Txt_Idcompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -334,29 +362,29 @@ public class FmrCompras extends javax.swing.JFrame {
 
         Tbl_Compra.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id articulo", "Articulo", "stock ", "Fecha pedido", "fecha llegada ", "Total comprado", "precio"
+                "Id articulo", "Articulo", "stock ", "Fecha pedido", "fecha llegada ", "Total comprado", "precio", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -377,6 +405,16 @@ public class FmrCompras extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(Tbl_Compra);
+        if (Tbl_Compra.getColumnModel().getColumnCount() > 0) {
+            Tbl_Compra.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(3).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(4).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(5).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(6).setResizable(false);
+            Tbl_Compra.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -536,29 +574,29 @@ public class FmrCompras extends javax.swing.JFrame {
         {        
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
         }else{
-        Btn_Guardar.setEnabled(true);
-        Cancelar.setEnabled(true);
-        Agregar.setEnabled(true);
+        //Btn_Guardar.setEnabled(true);
+        //Cancelar.setEnabled(true);
+        //Agregar.setEnabled(true);
       
-        String IdPedido = Tbl_Compra.getValueAt(fila, 0).toString();
-        String IdEmmpleado = Tbl_Compra.getValueAt(fila, 1).toString();
-        Date FechaPedido = (Date) Tbl_Compra.getValueAt(fila, 2);  
-        Date FechaLLegada = (Date) Tbl_Compra.getValueAt(fila, 3);  
-        String Stock= Tbl_Compra.getValueAt(fila, 5).toString();
-        String total= Tbl_Compra.getValueAt(fila, 6).toString();
-        String Proveedor = Tbl_Compra.getValueAt(fila, 7).toString();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaTexto = formatter.format(FechaPedido); 
-        String fechaTexto2 = formatter.format(FechaLLegada);
-        String Articulo = Tbl_Compra.getValueAt(4, fila).toString();
+        //String IdArticulo = Tbl_Compra.getValueAt(fila, 0).toString();
+        //String articulo = Tbl_Compra.getValueAt(fila, 1).toString();
+        //Date FechaPedido = (Date) Tbl_Compra.getValueAt(fila, 3);  
+        //Date FechaLLegada = (Date) Tbl_Compra.getValueAt(fila, 4);  
+        //String Stock= Tbl_Compra.getValueAt(fila, 2).toString();
+        //String total= Tbl_Compra.getValueAt(fila, 6).toString();
+        //String Precio = Tbl_Compra.getValueAt(fila, 7).toString();
+        //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        //String fechaTexto = formatter.format(FechaPedido); 
+        //String fechaTexto2 = formatter.format(FechaLLegada);
+        //String Estado = Tbl_Compra.getValueAt(8, fila).toString();
         
        
-        Txt_IdEmpleado.setText(IdEmmpleado);
-        Txt_FechaPedido.setText(fechaTexto);
-        Txt_llegada.setText(fechaTexto2);
-        Txt_StockMinimo.setText(Stock);
-        Txt_Total.setText(total);
-        CBox_Provedor.setSelectedItem(Proveedor);        
+        //Txt_IdEmpleado.setText(IdEmmpleado);
+        //Txt_FechaPedido.setText(fechaTexto);
+        //Txt_llegada.setText(fechaTexto2);
+        //Txt_StockMinimo.setText(Stock);
+        //Txt_Total.setText(total);
+        //CBox_Provedor.setSelectedItem(Proveedor);        
        // CBox_Articulo.setSelectedItem(Articulo);
         
        
@@ -574,7 +612,7 @@ public class FmrCompras extends javax.swing.JFrame {
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
        LimpiarCompra();
        Inicializar();
-       JOptionPane.showMessageDialog(this, "desea salir de compras.");
+       
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void Txt_FechaPedidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_FechaPedidoKeyTyped
@@ -744,11 +782,12 @@ public class FmrCompras extends javax.swing.JFrame {
             
        Txt_StockMinimo.setText("0");
         Txt_Total.setText("0.00");                
-        CBox_Provedor.setEnabled(true);   
+        CBox_Provedor.setEnabled(true); 
+        comboEstado.setEnabled(true);
 
-        
+        listaEstado();
         listaProveedores();              
-       
+        
         
         //OBTENER ID Y NOMBRE DE EMPLEADO Y MOSTRARLO
         Txt_IdEmpleado.setText(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado());              
@@ -812,6 +851,20 @@ public class FmrCompras extends javax.swing.JFrame {
         {
             String lista = Proveedores.getNombreProveedor();
            CBox_Provedor.addItem(lista);                                
+        };            
+    }
+    public void listaEstado()
+    {
+      comboEstado.removeAllItems();
+        
+        List<Estado> estado = this.daoEstado.findEstadoEntities();
+  
+        comboEstado.addItem("Seleccione");
+      
+        for(Estado Estado : estado )
+        {
+            String lista = Estado.getNombreEstado();
+           comboEstado.addItem(lista);                                
         };            
     }
     private static String GetNombreProveedor(int id)
@@ -915,7 +968,7 @@ public class FmrCompras extends javax.swing.JFrame {
             objcompra.setPrecioCompra(Double.parseDouble(Txt_Precio.getText()));
             objcompra.setIdProveedor(GetIdProveedor(String.valueOf(CBox_Provedor.getSelectedItem())));
             objcompra.setTotalCompra(Double.parseDouble(Txt_Total.getText()));
-           // objcompra.setIdEstado(IdEstado);                                           
+            objcompra.setIdEstado(GetIdEstado(String.valueOf(comboEstado.getSelectedItem())));
                         
             try{
                 daoCompra.edit(objcompra);                                
@@ -954,7 +1007,27 @@ public class FmrCompras extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(null, idDetalle);
     }
+      private static String GetNombreEstado(int id){
+        
+              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+              EntityManager em = emf.createEntityManager();
+              String select = "SELECT nombreEstado FROM Estado  WHERE idEstado = '"+ id+ "'";
+              Query query = em.createQuery(select);
+    
+              return query.getSingleResult().toString() ;
+            
+          }         
    
+    private static int GetIdEstado(String Nombre){
+        
+              EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+              EntityManager em = emf.createEntityManager();
+              String select = "SELECT idEstado FROM Estado WHERE nombreEstado = '"+ Nombre+ "'";
+              Query query = em.createQuery(select);
+    
+              return Integer.parseInt(query.getSingleResult().toString());
+            
+          }          
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Agregar;
@@ -971,7 +1044,9 @@ public class FmrCompras extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_StockMinimo;
     private javax.swing.JTextField Txt_Total;
     private javax.swing.JTextField Txt_llegada;
+    private javax.swing.JComboBox<String> comboEstado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
