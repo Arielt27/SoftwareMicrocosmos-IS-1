@@ -110,8 +110,7 @@ public class FmrCompras extends javax.swing.JFrame {
         CBox_Provedor = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
         Txt_Precio = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        Estado = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tbl_Compra = new javax.swing.JTable();
@@ -244,15 +243,13 @@ public class FmrCompras extends javax.swing.JFrame {
         jLabel17.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel17.setPreferredSize(new java.awt.Dimension(120, 20));
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Estado");
-        jLabel10.setMaximumSize(new java.awt.Dimension(120, 20));
-        jLabel10.setMinimumSize(new java.awt.Dimension(120, 20));
-        jLabel10.setPreferredSize(new java.awt.Dimension(120, 20));
-
-        Estado.setText("jTextField1");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/restar.png"))); // NOI18N
+        jButton1.setText("Retirar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -276,26 +273,25 @@ public class FmrCompras extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 107, Short.MAX_VALUE)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(314, 314, 314)))
+                                .addGap(213, 213, 213)
+                                .addComponent(jButton1)
+                                .addGap(28, 28, 28)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(Txt_IdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(Txt_StockMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -312,15 +308,21 @@ public class FmrCompras extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Txt_StockMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Txt_Total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Txt_Total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(63, 63, 63))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -336,17 +338,9 @@ public class FmrCompras extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Txt_Idcompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Txt_Idcompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -573,28 +567,29 @@ public class FmrCompras extends javax.swing.JFrame {
         {        
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
         }else{
-        //Btn_Guardar.setEnabled(true);
-        //Cancelar.setEnabled(true);
-        //Agregar.setEnabled(true);
+        Btn_Guardar.setEnabled(true);
+        Cancelar.setEnabled(true);
+        Agregar.setEnabled(true);
       
-        //String IdArticulo = Tbl_Compra.getValueAt(fila, 0).toString();
-        //String articulo = Tbl_Compra.getValueAt(fila, 1).toString();
-        //Date FechaPedido = (Date) Tbl_Compra.getValueAt(fila, 3);  
-        //Date FechaLLegada = (Date) Tbl_Compra.getValueAt(fila, 4);  
-        //String Stock= Tbl_Compra.getValueAt(fila, 2).toString();
-        //String total= Tbl_Compra.getValueAt(fila, 6).toString();
-        //String Precio = Tbl_Compra.getValueAt(fila, 7).toString();
-        //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        //String fechaTexto = formatter.format(FechaPedido); 
-        //String fechaTexto2 = formatter.format(FechaLLegada);
-        //String Estado = Tbl_Compra.getValueAt(8, fila).toString();
+         
+        
+        Date FechaPedido = (Date) Tbl_Compra.getValueAt(fila, 3);  
+        Date FechaLLegada = (Date) Tbl_Compra.getValueAt(fila, 4);  
+        String Stock= Tbl_Compra.getValueAt(fila, 2).toString();
+        String total= Tbl_Compra.getValueAt(fila, 6).toString();
+        String Precio = Tbl_Compra.getValueAt(fila, 7).toString();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaTexto = formatter.format(FechaPedido); 
+        String fechaTexto2 = formatter.format(FechaLLegada);
+        
         
        
-        //Txt_IdEmpleado.setText(IdEmmpleado);
-        //Txt_FechaPedido.setText(fechaTexto);
-        //Txt_llegada.setText(fechaTexto2);
-        //Txt_StockMinimo.setText(Stock);
-        //Txt_Total.setText(total);
+       
+        Txt_FechaPedido.setText(fechaTexto);
+        Txt_llegada.setText(fechaTexto2);
+        Txt_StockMinimo.setText(Stock);
+        Txt_Total.setText(total);
+        Txt_Precio.setText(Precio);
         //CBox_Provedor.setSelectedItem(Proveedor);        
        // CBox_Articulo.setSelectedItem(Articulo);
         
@@ -696,6 +691,18 @@ public class FmrCompras extends javax.swing.JFrame {
         buscarArtComp.setVisible(true);
     }//GEN-LAST:event_AgregarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int fila = Tbl_Compra.getSelectedRow();
+
+        if(fila != -1)
+        {
+            retirarArticulo();
+            CBox_Provedor.setSelectedItem("Seleccione");            
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar el artículo que desea retirar.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -780,7 +787,8 @@ public class FmrCompras extends javax.swing.JFrame {
         Txt_Precio.setEditable(true);
             
        Txt_StockMinimo.setText("0");
-        Txt_Total.setText("0.00");                
+        Txt_Total.setText("0");
+        Txt_Precio.setText("0");
         CBox_Provedor.setEnabled(true); 
 
 
@@ -1014,7 +1022,27 @@ public class FmrCompras extends javax.swing.JFrame {
               return Integer.parseInt(query.getSingleResult().toString());
             
           }          
-     
+     private void retirarArticulo()
+    {
+        int fila = Tbl_Compra.getSelectedRow();        
+        
+        if(fila != -1)
+        {
+            t3.removeRow(fila);  
+            
+            
+            
+            int filas = t3.getRowCount();                        
+            
+            if(filas == 0)
+            {
+                Btn_Guardar.setEnabled(false);                
+                Agregar.setEnabled(true);                
+            }                        
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para retirarlo.","Error!", JOptionPane.ERROR_MESSAGE);
+        }                
+    }      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Agregar;
     private javax.swing.JButton Añadir;
@@ -1022,7 +1050,6 @@ public class FmrCompras extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JComboBox<String> CBox_Provedor;
     private javax.swing.JButton Cancelar;
-    private javax.swing.JTextField Estado;
     private javax.swing.JTable Tbl_Compra;
     private javax.swing.JTextField Txt_FechaPedido;
     private javax.swing.JTextField Txt_IdEmpleado;
@@ -1031,8 +1058,8 @@ public class FmrCompras extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_StockMinimo;
     private javax.swing.JTextField Txt_Total;
     private javax.swing.JTextField Txt_llegada;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
