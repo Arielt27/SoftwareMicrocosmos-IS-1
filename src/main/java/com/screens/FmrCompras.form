@@ -115,7 +115,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                                  <Component id="Txt_Activo" min="-2" max="-2" attributes="0"/>
+                                  <Component id="Txt_Idcompra" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -199,7 +199,7 @@
                               <Component id="Txt_llegada" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="Txt_Activo" min="-2" max="-2" attributes="0"/>
+                          <Component id="Txt_Idcompra" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -356,7 +356,7 @@
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_TotalKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="Txt_Activo">
+        <Component class="javax.swing.JTextField" name="Txt_Idcompra">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
           <Properties>

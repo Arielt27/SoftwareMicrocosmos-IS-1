@@ -59,6 +59,7 @@ public class FmrCompras extends javax.swing.JFrame {
     DetalleCompraJpaController daodetalle = new DetalleCompraJpaController();
     DetalleCompra objDetalle = new DetalleCompra();
     static DefaultTableModel t3; 
+     int idDetalle = 0;
      private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
    
@@ -72,7 +73,7 @@ public class FmrCompras extends javax.swing.JFrame {
         setIconImage(icon); 
          Inicializar();
          listaProveedores();
-         Txt_Activo.setVisible(false);        
+         Txt_Idcompra.setVisible(false);        
         Btn_Guardar.setEnabled(false);
         Cancelar.setEnabled(false);           
         
@@ -100,7 +101,7 @@ public class FmrCompras extends javax.swing.JFrame {
         Txt_StockMinimo = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         Txt_Total = new javax.swing.JTextField();
-        Txt_Activo = new javax.swing.JTextField();
+        Txt_Idcompra = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         CBox_Provedor = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
@@ -254,7 +255,7 @@ public class FmrCompras extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(84, 84, 84)
-                                .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_Idcompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 107, Short.MAX_VALUE)
@@ -316,7 +317,7 @@ public class FmrCompras extends javax.swing.JFrame {
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Txt_Idcompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
@@ -898,22 +899,23 @@ public class FmrCompras extends javax.swing.JFrame {
             //OBTENER DATOS
          
             
-            String fechaPedido = Txt_FechaPedido.getText();   
-            String fechaLLEGADA = Txt_llegada.getText();
+            String fechaPedido = Txt_FechaPedido.getText() + " 00:00:00";   
+            String fechaLLEGADA = Txt_llegada.getText() + " 00:00:00";
+            
             String idEmpleado = Txt_IdEmpleado.getText();
-        
+            int idCompra = Integer.parseInt(Txt_Idcompra.getText());
                         
             //Agregando formato a la fecha
-            String fechaV = fechaLLEGADA+ " 00:00:00";                        
-            String fecha = Txt_llegada.getText();
+            
+                             
       
-            objcompra.setFechaPedido(Timestamp.valueOf(fecha));
+            objcompra.setFechaPedido(Timestamp.valueOf(fechaPedido));
             objcompra.setIdEmpleados(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getIdEmpleados());
-            objcompra.setFechaRecibido(Timestamp.valueOf(fechaV));
+            objcompra.setFechaRecibido(Timestamp.valueOf(fechaLLEGADA));
             objcompra.setPrecioCompra(Double.parseDouble(Txt_Precio.getText()));
             objcompra.setIdProveedor(GetIdProveedor(String.valueOf(CBox_Provedor.getSelectedItem())));
-           
-                                                         
+            objcompra.setTotalCompra(Double.parseDouble(Txt_Total.getText()));
+           // objcompra.setIdEstado(IdEstado);                                           
                         
             try{
                 daoCompra.edit(objcompra);                                
@@ -928,8 +930,8 @@ public class FmrCompras extends javax.swing.JFrame {
         
                 objDetalle .setCantidad(Integer.parseInt(String.valueOf(Tbl_Compra.getValueAt(i,6))));
                 objDetalle.setIdArticulo(GetIdArticulo(String.valueOf(Tbl_Compra.getValueAt(i,0))));
-              
-                
+             //   objDetalle.setIdEstado(IdEstado);
+                objDetalle.setIdCompra(idCompra);
                 try{
                     daodetalle.edit(objDetalle);                                        
                 }catch(Exception ex){
@@ -939,7 +941,19 @@ public class FmrCompras extends javax.swing.JFrame {
             
         }
     }
-  
+   private void idDetalleCompra()
+    {
+             daodetalle.findDetalleCompraEntities();
+        
+        int idDetalleC = daodetalle.getDetalleCompraCount();
+        
+        if(idDetalle <= idDetalleC)
+        {
+            idDetalle = idDetalleC + 1;            
+        }
+        
+        JOptionPane.showMessageDialog(null, idDetalle);
+    }
    
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -950,9 +964,9 @@ public class FmrCompras extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> CBox_Provedor;
     private javax.swing.JButton Cancelar;
     private javax.swing.JTable Tbl_Compra;
-    private javax.swing.JTextField Txt_Activo;
     private javax.swing.JTextField Txt_FechaPedido;
     private javax.swing.JTextField Txt_IdEmpleado;
+    private javax.swing.JTextField Txt_Idcompra;
     private javax.swing.JTextField Txt_Precio;
     private javax.swing.JTextField Txt_StockMinimo;
     private javax.swing.JTextField Txt_Total;
