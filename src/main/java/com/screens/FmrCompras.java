@@ -793,7 +793,9 @@ public class FmrCompras extends javax.swing.JFrame {
                 double tot = prc*cant;            
                 t3.setValueAt(cant, fila, 6);                                   
                 t3.setValueAt(tot, fila, 7);                
-                Txt_Total.setText("1");                            
+                Txt_Total.setText("1");
+                 Btn_Guardar.setEnabled(true);
+        
             }
         }   
     }   
@@ -834,7 +836,7 @@ public class FmrCompras extends javax.swing.JFrame {
     
         private void LimpiarCompra(){
         Btn_Guardar.setEnabled(false);
-        Cancelar.setEnabled(false);
+        Cancelar.setEnabled(true);
       
         
         Txt_StockMinimo.setText("");
