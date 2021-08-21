@@ -566,6 +566,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Tbl_CompraMouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Tbl_CompraMouseEntered"/>
               </Events>
             </Component>
           </SubComponents>

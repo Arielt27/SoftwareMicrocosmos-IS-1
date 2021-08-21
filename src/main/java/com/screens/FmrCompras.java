@@ -418,6 +418,9 @@ public class FmrCompras extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_CompraMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Tbl_CompraMouseEntered(evt);
+            }
         });
         jScrollPane1.setViewportView(Tbl_Compra);
         if (Tbl_Compra.getColumnModel().getColumnCount() > 0) {
@@ -581,21 +584,10 @@ public class FmrCompras extends javax.swing.JFrame {
         
         
         String Cantidad= Tbl_Compra.getValueAt(fila, 3).toString();
-        
-       
-      
-        
-        
-       
-       
-       
-      
         Txt_Cantidad.setText(Cantidad);
-       
-       
         //CBox_Provedor.setSelectedItem(Proveedor);        
        // CBox_Articulo.setSelectedItem(Articulo);
-        
+        calcularValores();
        
         }
     }//GEN-LAST:event_Tbl_CompraMouseClicked
@@ -710,9 +702,14 @@ public class FmrCompras extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No ha seleccionado un artículo.","¡Aviso!", JOptionPane.INFORMATION_MESSAGE);
         }else{
             añadirCantidad();
+            calcularValores();
             
         }
     }//GEN-LAST:event_Btn_CantidadActionPerformed
+
+    private void Tbl_CompraMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_CompraMouseEntered
+      
+    }//GEN-LAST:event_Tbl_CompraMouseEntered
 
     
     /**
@@ -952,7 +949,7 @@ public class FmrCompras extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un proveedor.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{            
             //OBTENER DATOS
-         
+         calcularValores();
             
             String fechaPedido = Txt_FechaPedido.getText() + " 00:00:00";   
             String fechaLLEGADA = Txt_llegada.getText() + " 00:00:00";
@@ -1038,6 +1035,7 @@ public class FmrCompras extends javax.swing.JFrame {
         {
             t3.removeRow(fila);  
             
+            calcularValores();
             
             
             int filas = t3.getRowCount();                        
