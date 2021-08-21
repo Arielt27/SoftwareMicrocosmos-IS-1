@@ -132,7 +132,6 @@ public class FmrCompras extends javax.swing.JFrame {
         setTitle("Compras - Microcosmos");
         setMaximumSize(new java.awt.Dimension(800, 600));
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
@@ -885,8 +884,8 @@ public class FmrCompras extends javax.swing.JFrame {
     private void calcularTotal()
     {
         double precio = Double.parseDouble(Txt_PrecioC.getText());
-        
-        double subT = precio * 0.12;
+        double Cantidad = Double.parseDouble(Txt_Cantidad.getText());
+        double subT = precio * Cantidad;
         
         double totalC = precio + subT;
         
