@@ -7,6 +7,7 @@ package com.screens;
 
 import com.clases.Articulo;
 import com.clases.Clientes;
+import com.clases.Compra;
 import com.clases.DetalleVenta;
 import com.clases.Empleados;
 import com.clases.Estado;
@@ -19,6 +20,7 @@ import com.clases.Venta;
 import com.clases.facturasanuladas;
 import com.dao.ArticuloJpaController;
 import com.dao.ClientesJpaController;
+import com.dao.CompraJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.EstadoJpaController;
 import com.dao.ParametrosJpaController;
@@ -54,18 +56,20 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class FmrHistorialFacturas extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    
+        
     VentaJpaController daoVenta = new VentaJpaController();
     EstadoJpaController daoEstado = new EstadoJpaController();                 
+    CompraJpaController daoCompras = new CompraJpaController();
     ArticuloJpaController daoArticulo = new ArticuloJpaController();  
     ClientesJpaController daoClientes = new ClientesJpaController();   
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();          
     ParametrosJpaController daoParametros = new ParametrosJpaController();    
-    facturasanuladasJpaController daoAnuladas = new facturasanuladasJpaController();    
-    
+    facturasanuladasJpaController daoAnuladas = new facturasanuladasJpaController();        
+        
     Venta objVenta = new Venta();
-    Estado objEstadoo = new Estado();
+    Compra objCompra = new Compra();
+    Estado objEstadoo = new Estado();    
     Clientes objClientes = new Clientes(); 
     Articulo objArticulo = new Articulo();
     Empleados objEmpleados = new Empleados();    
@@ -73,10 +77,12 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     Parametros objParametros = new Parametros();  
     facturasanuladas objAnuladas = new facturasanuladas();
         
+        
     FacturaDataSource dataSource;    
     DefaultTableModel t;
     
     public static String idVenta;
+    public static String idCompra;    
     public static String idAnulada;
     
     private Usuarios usuarios = new Usuarios(); 
@@ -97,7 +103,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_Anular.setEnabled(false);
         Btn_DetallesVentas.setEnabled(false);
         actualizarVentas(); 
-        actualizarAnuladas();
+        actualizarCompras();
+        actualizarAnuladas();        
     }
 
     /**
@@ -600,7 +607,21 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
     //COMPRAS
     private void jTable_DetallesComprasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_DetallesComprasMouseClicked
-        // TODO add your handling code here:
+        
+        int fila =  jTable_DetallesCompras.getSelectedRow();
+        
+        if(fila == -1)
+        {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
+        }else{
+            Btn_DetallesCompras.setEnabled(true);     
+            //Btn_Anular.setEnabled(true);
+            
+            String valor = jTable_DetallesCompras.getValueAt(fila, 0).toString();
+            
+            idCompra = valor;                      
+        }
+        
     }//GEN-LAST:event_jTable_DetallesComprasMouseClicked
 
     private void Btn_DetallesComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_DetallesComprasActionPerformed
@@ -611,7 +632,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         
         FmrConfiguraciones conf = new FmrConfiguraciones();
         conf.setVisible(true);
-        this.dispose();
+        this.dispose();        
         
     }//GEN-LAST:event_Btn_RegresarCActionPerformed
 
@@ -765,6 +786,27 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                         facturasanuladas.getMotivo(),
                         s                       
                     });            
+        }
+    }
+    
+    private void actualizarCompras()
+    {
+        t = (DefaultTableModel)jTable_DetallesCompras.getModel();
+        t.setRowCount(0); 
+        jTable_DetallesCompras.setModel(t);
+        
+        List<Compra> compras = this.daoCompras.findCompraEntities();
+        
+        String s = null;
+        for(Compra Compra : compras)
+        {
+            t.addRow(
+                    new Object[]{
+                        Compra.getIdCompra(),
+                        Compra.getFechaRecibido(),
+                        Compra.getTotalCompra(),
+                        Compra.getIdEstado(),                        
+                    });
         }
     }
     

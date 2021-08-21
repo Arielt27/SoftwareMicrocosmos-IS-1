@@ -565,6 +565,7 @@ public class FmrCompras extends javax.swing.JFrame {
     private void Btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_GuardarActionPerformed
         
         guardarCompra();
+        Inicializar();
         
     }//GEN-LAST:event_Btn_GuardarActionPerformed
 
@@ -595,8 +596,10 @@ public class FmrCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_CBox_ProveedorActionPerformed
 
     private void Btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AgregarActionPerformed
+        
         FmrBuscarArticuloCompra buscarArtComp = new FmrBuscarArticuloCompra();
         buscarArtComp.setVisible(true);
+        
     }//GEN-LAST:event_Btn_AgregarActionPerformed
 
     private void Tbl_CompraMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_CompraMouseEntered
@@ -668,13 +671,14 @@ public class FmrCompras extends javax.swing.JFrame {
 
     private void Btn_AñadirCantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirCantActionPerformed
         
+        int filas = Tbl_Compra.getRowCount();
         int filaSel = Tbl_Compra.getSelectedRow();
         
         if(filaSel == -1)
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
         }else{
-            añadirCantidad();
+            añadirCantidad();                                                            
         }
         
     }//GEN-LAST:event_Btn_AñadirCantActionPerformed
@@ -740,9 +744,7 @@ public class FmrCompras extends javax.swing.JFrame {
             
             String fechaP = Txt_Pedido.getText() + " 00:00:00";
             String fechaL = Txt_Llegada.getText() + " 00:00:00";
-            
-            
-            objCompra.setIdCompra(Integer.parseInt(Txt_IdCompra.getText()));            
+                                    
             objCompra.setPrecioCompra(Double.parseDouble(Txt_PrecioC.getText()));
             objCompra.setTotalCompra(Double.parseDouble(Txt_TotalC.getText()));
             objCompra.setFechaPedido(Timestamp.valueOf(fechaP));
@@ -766,8 +768,7 @@ public class FmrCompras extends javax.swing.JFrame {
                 objDetalle.setIdArticulo(Integer.parseInt(String.valueOf(Tbl_Compra.getValueAt(i, 0))));
 
                 try{
-                    daoDetalle.edit(objDetalle);  
-                    Inicializar();
+                    daoDetalle.edit(objDetalle);                      
                 }catch(Exception ex){
                     Logger.getLogger(FmrCompras.class.getName()).log(Level.SEVERE, null, ex);                                                    
                 }                
