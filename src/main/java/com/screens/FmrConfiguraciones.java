@@ -212,6 +212,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton1.setText("Parámetros");
+        jButton1.setToolTipText("Añade y verifica los datos del CAI.");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         jButton1.setFocusPainted(false);
         jButton1.setMaximumSize(new java.awt.Dimension(150, 50));
@@ -226,6 +227,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
         Btn_Facturas.setBackground(new java.awt.Color(204, 204, 204));
         Btn_Facturas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Btn_Facturas.setText("Historial de Facturas");
+        Btn_Facturas.setToolTipText("Revisa e imprime las facturas registradas en el sistema.");
         Btn_Facturas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Facturas.setFocusPainted(false);
         Btn_Facturas.setMaximumSize(new java.awt.Dimension(150, 50));

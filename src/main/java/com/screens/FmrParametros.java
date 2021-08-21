@@ -296,6 +296,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
         Btn_Regresar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar2.setText(" Regresar");
+        Btn_Regresar2.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar2.setFocusPainted(false);
         Btn_Regresar2.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -309,6 +310,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
         Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
         Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setToolTipText("Limpia los campos de ingreso de datos.");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -322,6 +324,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
         Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
         Btn_Añadir.setText(" Añadir CAI");
+        Btn_Añadir.setToolTipText("Añade un nuevo CAI si los campos están correctamente rellenos.");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Añadir.setFocusPainted(false);
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));

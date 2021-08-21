@@ -461,6 +461,7 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Par&#xe1;metros"/>
+            <Property name="toolTipText" type="java.lang.String" value="A&#xf1;ade y verifica los datos del CAI."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -495,6 +496,7 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Historial de Facturas"/>
+            <Property name="toolTipText" type="java.lang.String" value="Revisa e imprime las facturas registradas en el sistema."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>

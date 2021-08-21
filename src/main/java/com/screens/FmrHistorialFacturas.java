@@ -213,6 +213,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         Btn_RegresarC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_RegresarC.setText(" Regresar");
+        Btn_RegresarC.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_RegresarC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_RegresarC.setFocusPainted(false);
         Btn_RegresarC.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -226,6 +227,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         Btn_DetallesCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/DetalleFact.png"))); // NOI18N
         Btn_DetallesCompras.setText(" Ver Detalles");
+        Btn_DetallesCompras.setToolTipText("Mira los detalles de la factura seleccionada.");
         Btn_DetallesCompras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_DetallesCompras.setFocusPainted(false);
         Btn_DetallesCompras.setMaximumSize(new java.awt.Dimension(120, 50));

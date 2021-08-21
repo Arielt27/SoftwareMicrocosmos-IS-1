@@ -252,6 +252,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
         Btn_Añadir.setText(" Añadir");
+        Btn_Añadir.setToolTipText("Añade una nueva sección en tienda si los campos están correctamente rellenos.");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Añadir.setFocusPainted(false);
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -265,6 +266,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         Btn_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         Btn_Actualizar.setText(" Actualizar");
+        Btn_Actualizar.setToolTipText("Actualiza los datos de una sección ya registrada en el sistema.");
         Btn_Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Actualizar.setFocusPainted(false);
         Btn_Actualizar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -278,6 +280,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         Btn_Activar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
         Btn_Activar.setText(" Desactivar");
+        Btn_Activar.setToolTipText("Activa o desactiva la sección seleccionada.");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar.setFocusPainted(false);
         Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -291,6 +294,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
         Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setToolTipText("Limpia los campos de ingreso de datos.");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -304,7 +308,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
-        Btn_Regresar.setToolTipText("");
+        Btn_Regresar.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));

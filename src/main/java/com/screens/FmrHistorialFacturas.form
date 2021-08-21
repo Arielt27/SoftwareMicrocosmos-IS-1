@@ -211,6 +211,7 @@
                       <Image iconType="3" name="/imagenes/regresar.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value=" Regresar"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Regresa a la pantalla de Men&#xfa; Principal."/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder>
@@ -242,6 +243,7 @@
                       <Image iconType="3" name="/imagenes/DetalleFact.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value=" Ver Detalles"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Mira los detalles de la factura seleccionada."/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                         <LineBorder>

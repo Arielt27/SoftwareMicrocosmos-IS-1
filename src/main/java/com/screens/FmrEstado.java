@@ -250,6 +250,7 @@ Estado objEstado = new Estado();
 
         Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
         Btn_Añadir.setText(" Añadir");
+        Btn_Añadir.setToolTipText("Añade un nuevo estado de datos si los campos están correctamente rellenos.");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Añadir.setFocusPainted(false);
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -263,6 +264,7 @@ Estado objEstado = new Estado();
 
         Btn_Actualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         Btn_Actualizar.setText(" Actualizar");
+        Btn_Actualizar.setToolTipText("Actualiza los datos de un estado ya registrado en el sistema.");
         Btn_Actualizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Actualizar.setFocusPainted(false);
         Btn_Actualizar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -276,6 +278,7 @@ Estado objEstado = new Estado();
 
         Btn_Activar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
         Btn_Activar.setText(" Desactivar");
+        Btn_Activar.setToolTipText("Activa o desactiva el estado seleccionado.");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar.setFocusPainted(false);
         Btn_Activar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -289,6 +292,7 @@ Estado objEstado = new Estado();
 
         Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
         Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setToolTipText("Limpia los campos de ingreso de datos.");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -302,6 +306,7 @@ Estado objEstado = new Estado();
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
+        Btn_Regresar.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));

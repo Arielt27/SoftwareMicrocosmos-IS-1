@@ -262,6 +262,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
+        Btn_Regresar.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
