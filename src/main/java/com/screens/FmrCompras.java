@@ -27,6 +27,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import static java.util.Collections.singleton;
@@ -40,6 +41,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -66,6 +68,8 @@ public class FmrCompras extends javax.swing.JFrame {
      int idDetalle = 0;
      private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
+   public static double totalC;
+    String precio;
    
     /**
      * Creates new form Compras
@@ -1080,7 +1084,38 @@ public class FmrCompras extends javax.swing.JFrame {
         }   
     }        
      
-     
+     public void calcularValores()
+    {           
+        double cantidad = 0;
+        double precio = 0;
+        double total = 0;
+        
+        DecimalFormat formato1 = new DecimalFormat("#.00");
+                        
+        /*formato1.format(sub);
+        formato1.format(imp);
+        formato1.format(total);*/
+        
+        for(int i = 0; i<Tbl_Compra.getRowCount(); i++)
+        {
+            
+            cantidad = cantidad +Double.parseDouble(t3.getValueAt(i, 3).toString());
+        }
+        precio = Double.parseDouble(Txt_Precio.getText());
+          
+         
+        
+        total = precio * cantidad ;
+        totalC = total;
+        
+               
+        Txt_Precio.setText(String.valueOf(formato1.format(precio)));        
+        Txt_Total.setText(String.valueOf(formato1.format(total)));
+        
+        Btn_Guardar.setEnabled(true);
+        CBox_Provedor.setEnabled(true);
+        //Btn_Buscar.setEnabled(false);                     
+    }   
      
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
