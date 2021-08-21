@@ -19,20 +19,23 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Christian castro
+ * @author Ariel
  */
 public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
-  EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
-    ArticuloJpaController daoArticulo = new ArticuloJpaController();
-    Articulo objArticulo = new Articulo();             
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    
+    Articulo objArticulo = new Articulo();     
+    ArticuloJpaController daoArticulo = new ArticuloJpaController();   
+    
+    DefaultTableModel t;                
 
-    DefaultTableModel t;            
     /**
      * Creates new form FmrBuscarArticuloCompra
      */
     public FmrBuscarArticuloCompra() {
         initComponents();
+        
         this.setLocationRelativeTo(null);
         
         //ÍCONO
@@ -41,9 +44,6 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         
         //INICIALIZAR        
         actualizarBusquedaArticulos();
-        listaFiltro();              
-        Btn_Buscar.setEnabled(false);        
-        Txt_Campo.setEnabled(false);
     }
 
     /**
@@ -58,7 +58,7 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Tbl_ArticulosCompra = new javax.swing.JTable();
+        Tbl_Articulos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Regresar = new javax.swing.JButton();
@@ -69,10 +69,11 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         Btn_Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(600, 400));
-        setMinimumSize(new java.awt.Dimension(600, 400));
-        setPreferredSize(new java.awt.Dimension(600, 400));
-        setSize(new java.awt.Dimension(600, 400));
+        setTitle("Buscar Artículo - Microcosmos");
+        setMaximumSize(new java.awt.Dimension(600, 410));
+        setMinimumSize(new java.awt.Dimension(600, 410));
+        setResizable(false);
+        setSize(new java.awt.Dimension(600, 410));
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
 
@@ -83,38 +84,38 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        Tbl_ArticulosCompra.setModel(new javax.swing.table.DefaultTableModel(
+        Tbl_Articulos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Artículo", "Stock Min.", "Stock Act.", "Descripción", "Precio", "Talla"
+                "ID", "Artículo", "Stock Act.", "Descripción", "Talla"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -125,21 +126,19 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        Tbl_ArticulosCompra.getTableHeader().setReorderingAllowed(false);
-        Tbl_ArticulosCompra.addMouseListener(new java.awt.event.MouseAdapter() {
+        Tbl_Articulos.getTableHeader().setReorderingAllowed(false);
+        Tbl_Articulos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Tbl_ArticulosCompraMouseClicked(evt);
+                Tbl_ArticulosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(Tbl_ArticulosCompra);
-        if (Tbl_ArticulosCompra.getColumnModel().getColumnCount() > 0) {
-            Tbl_ArticulosCompra.getColumnModel().getColumn(0).setResizable(false);
-            Tbl_ArticulosCompra.getColumnModel().getColumn(1).setResizable(false);
-            Tbl_ArticulosCompra.getColumnModel().getColumn(2).setResizable(false);
-            Tbl_ArticulosCompra.getColumnModel().getColumn(3).setResizable(false);
-            Tbl_ArticulosCompra.getColumnModel().getColumn(4).setResizable(false);
-            Tbl_ArticulosCompra.getColumnModel().getColumn(5).setResizable(false);
-            Tbl_ArticulosCompra.getColumnModel().getColumn(6).setResizable(false);
+        jScrollPane1.setViewportView(Tbl_Articulos);
+        if (Tbl_Articulos.getColumnModel().getColumnCount() > 0) {
+            Tbl_Articulos.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(3).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
@@ -248,7 +247,7 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
                             .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -272,32 +271,45 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Tbl_ArticulosCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_ArticulosCompraMouseClicked
+    private void Tbl_ArticulosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_ArticulosMouseClicked
 
-        int fila =  Tbl_ArticulosCompra.getSelectedRow();
+        int fila =  Tbl_Articulos.getSelectedRow();
 
         if(fila == -1)
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_Tbl_ArticulosCompraMouseClicked
+    }//GEN-LAST:event_Tbl_ArticulosMouseClicked
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
 
-        int filaSeleccionada = Tbl_ArticulosCompra.getSelectedRow();
-        
+        int filaSeleccionada = Tbl_Articulos.getSelectedRow();
+        int cant = 1;
 
-        if(filaSeleccionada != -1 )
+        int SMin = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 2);
+        int SAct = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 3);
+        double precio = (double) Tbl_Articulos.getValueAt(filaSeleccionada, 5);
+        double total = precio * cant;
+
+        if(filaSeleccionada != -1 && SMin > SAct && SAct != 0)
         {
-            String Datos[] = new String[3];
-            Datos[0] = Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 0).toString();
-            Datos[1] = Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 1).toString();
-            Datos[2] = Tbl_ArticulosCompra.getValueAt(filaSeleccionada, 3).toString();
-            
-            
+            JOptionPane.showMessageDialog(null, "Este Artículo esta por debajo de su stock mínimo.","Aviso!", JOptionPane.WARNING_MESSAGE);
+        }
 
-            FmrCompras.t3.addRow(Datos);
+        if(filaSeleccionada != -1 && SAct > 0)
+        {
+            String Datos[] = new String[6];
+            Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
+            Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
+            Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
+            Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();
+            Datos[4] = String.valueOf(cant);
+            //Datos[5] = String.valueOf(formato1.format(total));
+
+            FmrVentas.t2.addRow(Datos);
             t.removeRow(filaSeleccionada);
+        }else if(SAct == 0){
+            JOptionPane.showMessageDialog(null, "No hay unidades en existencia de esta artículo.","Error!", JOptionPane.ERROR_MESSAGE);
         }else if(filaSeleccionada == -1){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
         }
@@ -334,46 +346,13 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
 
     }//GEN-LAST:event_Btn_BuscarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmrBuscarArticuloCompra().setVisible(true);
-            }
-        });
-    }
-
-     public void actualizarBusquedaArticulos()
+    
+    //MÉTODOS
+    public void actualizarBusquedaArticulos()
     {
-        t = (DefaultTableModel)Tbl_ArticulosCompra.getModel();
+        t = (DefaultTableModel)Tbl_Articulos.getModel();
         t.setRowCount(0);           
-        Tbl_ArticulosCompra.setModel(t);                         
+        Tbl_Articulos.setModel(t);                         
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
@@ -385,11 +364,9 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
             t.addRow(
                     new Object[]{
                         Articulos.getIdArticulo(),
-                        Articulos.getNombreArticulo(),
-                        Articulos.getStockMinimo(),                        
+                        Articulos.getNombreArticulo(),                                               
                         Articulos.getStock(),
-                        Articulos.getDescripcionArticulo(),
-                        Articulos.getPrecioArticulo(),                             
+                        Articulos.getDescripcionArticulo(),                                                     
                         GetNombreTalla(Articulos.getIdTalla()),                        
                         Articulos.isActivoArticulo(),
                         s                       
@@ -405,9 +382,9 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
                 
     private void consultarIDArt(int idB)
     {                                       
-        t = (DefaultTableModel)Tbl_ArticulosCompra.getModel();
+        t = (DefaultTableModel)Tbl_Articulos.getModel();
         t.setRowCount(0);           
-       Tbl_ArticulosCompra.setModel(t);                               
+        Tbl_Articulos.setModel(t);                               
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
@@ -431,7 +408,7 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
             }
         }
 
-        int filas = Tbl_ArticulosCompra.getRowCount();               
+        int filas = Tbl_Articulos.getRowCount();               
         
         if(filas == 0)
         {
@@ -441,9 +418,9 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
     
     private void consultarNombreArt(String nombreAB)
     {
-        t = (DefaultTableModel)Tbl_ArticulosCompra.getModel();
+        t = (DefaultTableModel)Tbl_Articulos.getModel();
         t.setRowCount(0);           
-        Tbl_ArticulosCompra.setModel(t);                               
+        Tbl_Articulos.setModel(t);                               
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
@@ -467,7 +444,7 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
             }            
         }
         
-        int filas =Tbl_ArticulosCompra.getRowCount();               
+        int filas = Tbl_Articulos.getRowCount();               
         
         if(filas == 0)
         {
@@ -510,15 +487,48 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
     
         return query.getSingleResult().toString() ;  
     }
-        
     
-  
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FmrBuscarArticuloCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FmrBuscarArticuloCompra().setVisible(true);
+            }
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_Buscar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JComboBox<String> CBox_Filtro;
-    private javax.swing.JTable Tbl_ArticulosCompra;
+    private javax.swing.JTable Tbl_Articulos;
     private javax.swing.JTextField Txt_Campo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;

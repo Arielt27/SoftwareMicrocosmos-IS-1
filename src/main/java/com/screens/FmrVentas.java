@@ -27,8 +27,10 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -89,6 +91,9 @@ public class FmrVentas extends javax.swing.JFrame {
     double montoT = FmrPagoMixto.canTarjeta;
     double montoE = FmrPagoMixto.canEfectivo;        
     public static double totalV;
+    
+    Date fecha = new Date(Calendar.getInstance().getTimeInMillis());        
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Creates new form Ventas
@@ -102,8 +107,9 @@ public class FmrVentas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
-        Inicializar();                
-        facturaID();        
+        Inicializar();    
+        //validarCAI();
+        facturaID();
     }        
 
     /**
@@ -739,16 +745,14 @@ public class FmrVentas extends javax.swing.JFrame {
         String texto= Integer.toString(txt);        
         Txt_IdCai.setText(texto);
         
-        //OBTENER, FORMATEAR Y MOSTRAR FECHA ACTUAL
-        Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        //OBTENER, FORMATEAR Y MOSTRAR FECHA ACTUAL        
         String fechaTexto = formatter.format(fecha);
         Txt_FechaFact.setText(fechaTexto);    
         
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t2 = (DefaultTableModel)jTable_Venta.getModel();
         t2.setRowCount(0);                 
-        jTable_Venta.setModel(t2);                  
+        jTable_Venta.setModel(t2);                                        
     }
     
     private void hacerVenta()
@@ -1111,7 +1115,84 @@ public class FmrVentas extends javax.swing.JFrame {
         Query query = em.createQuery(select);
     
         return Integer.parseInt(query.getSingleResult().toString());
-    } 
+    }         
+    
+    /*private void validarCAI()
+    {
+        Parametros CAI = null;
+        
+        List<Parametros> parametrosBD = daoParametros.findParametrosEntities();                
+        
+        //ULTIMA FACTURA
+        Query query = daoParametros.getEntityManager().createQuery("FROM Venta ORDER BY idVenta DESC");
+        query.setMaxResults(1);
+        int numeroFactura = 0;
+        
+        try{
+            Venta lastFactura = (Venta) query.getSingleResult();
+            numeroFactura = lastFactura.getIdVenta() + 1;                    
+        }catch(javax.persistence.NoResultException Ex){
+            numeroFactura = 1;
+        }
+        
+        Date fechaHoy = new Date(000000000);
+        try{
+            fechaHoy = formatter.parse(Txt_FechaFact.getText());
+        }catch(ParseException ex){
+            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(int i = 0 ; i < parametrosBD.size() ; i++)
+        {
+            if(parametrosBD.get(i).getFechaCaducidad().before(fechaHoy) || parametrosBD.get(i).getFacturaFinal() < numeroFactura)                    
+            {
+                Parametros parametro = daoParametros.findParametros(parametrosBD.get(i).getIdParametros());                
+                parametro.setActivoParametros(false);                        
+             
+                try{
+                    daoParametros.edit(parametro);
+                }catch(Exception ex){
+                    Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+            
+        //ENCONTRAR LOS PARAMETROS QUE PUEDEN SER VALIDOS        
+        Query queryParametrosActivos = daoParametros.getEntityManager().createQuery("FROM Parametros E WHERE E.ActivoParametros = :idEstado");
+        queryParametrosActivos.setParameter("idEstado",true);
+        List<Parametros> parametrosActivos = (List<Parametros>) queryParametrosActivos.getResultList();
+        
+        for(Parametros parametro : parametrosActivos)
+        {
+            if(fechaHoy.compareTo(parametro.getFechaEmision()) >= 0 && fechaHoy.compareTo(parametro.getFechaCaducidad()) <= 0 &&                    
+                    numeroFactura >= parametro.getFacturaInicial() &&
+                    numeroFactura <= parametro.getFacturaFinal())
+            {
+                CAI = parametro;
+                Btn_Buscar.setEnabled(true);
+            }else
+            {
+                Btn_Buscar.setEnabled(false);
+            }
+        }
+            
+        if(CAI == null)
+        {
+            JOptionPane.showMessageDialog(this,"No se encuentra un CAI válido para facturar.","CAI Expirado",JOptionPane.ERROR_MESSAGE);
+            Btn_Buscar.setEnabled(false);            
+            return;
+        }else{
+            LocalDate fechaFinal = convertToLocalDateViaInstant(Timestamp.parse(CAI.getFechaCaducidad().toString()));            
+            Period periodo = Period.between(LocalDate.now(),fechaFinal);
+            System.out.println(periodo.getDays());
+            
+            if(periodo.getDays() < 3 )
+            {
+                JOptionPane.showMessageDialog(null,"El CAI actual está por expirar.","CAI Próximo a Vencer",JOptionPane.WARNING_MESSAGE);            
+            }     
+        }    
+    }*/
+    
     
     /*private void comprobarRepetidos()
     {                                    
@@ -1206,4 +1287,5 @@ public class FmrVentas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Venta;
     // End of variables declaration//GEN-END:variables
+  
 }

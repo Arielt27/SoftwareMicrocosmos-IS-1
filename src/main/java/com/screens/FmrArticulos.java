@@ -726,9 +726,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                     Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);                    
                 }
                 
-            }/*else if(precioActual == precioNuevo){
-                JOptionPane.showMessageDialog(null, "El precio no cambió");                                                                
-            }*/            
+            }           
             LimpiarArticulo();            
         }        
     }//GEN-LAST:event_Btn_EditarActionPerformed
