@@ -1094,11 +1094,7 @@ public class FmrCompras extends javax.swing.JFrame {
         formato1.format(imp);
         formato1.format(total);*/
         
-        for(int i = 0; i<Tbl_Compra.getRowCount(); i++)
-        {
-            
-            cantidad = cantidad +Double.parseDouble(t3.getValueAt(i, 3).toString());
-        }
+        cantidad = Double.parseDouble(Txt_Cantidad.getText());
         precio = Double.parseDouble(Txt_Precio.getText());
           
          
