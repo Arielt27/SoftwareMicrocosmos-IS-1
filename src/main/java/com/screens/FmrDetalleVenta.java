@@ -114,30 +114,30 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
 
         jTable_DetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID Venta", "Artículos", "Cantidad", "Talla"
+                "ID Venta", "Artículos", "Cantidad", "Precio", "Talla"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -163,7 +163,8 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
             jTable_DetalleVenta.getColumnModel().getColumn(2).setResizable(false);
             jTable_DetalleVenta.getColumnModel().getColumn(2).setPreferredWidth(10);
             jTable_DetalleVenta.getColumnModel().getColumn(3).setResizable(false);
-            jTable_DetalleVenta.getColumnModel().getColumn(3).setPreferredWidth(10);
+            jTable_DetalleVenta.getColumnModel().getColumn(4).setResizable(false);
+            jTable_DetalleVenta.getColumnModel().getColumn(4).setPreferredWidth(10);
         }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
@@ -256,6 +257,7 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
                         DetalleVenta.getIdVenta(), 
                         GetNombreArticulo(DetalleVenta.getIdArticulo()),
                         DetalleVenta.getCantidad(),
+                        DetalleVenta.getPrecioArticulo(),
                         GetNombreTalla(DetalleVenta.getIdTalla()),                                                
                         s                       
                     });                

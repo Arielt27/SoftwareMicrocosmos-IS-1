@@ -384,7 +384,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         Btn_ImprimirFact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
         Btn_ImprimirFact.setMnemonic(' ');
-        Btn_ImprimirFact.setText(" Imprimir");
+        Btn_ImprimirFact.setText("  Imprimir");
         Btn_ImprimirFact.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_ImprimirFact.setFocusPainted(false);
         Btn_ImprimirFact.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -527,7 +527,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
 
         Btn_ImprimirFact1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
         Btn_ImprimirFact1.setMnemonic(' ');
-        Btn_ImprimirFact1.setText(" Imprimir");
+        Btn_ImprimirFact1.setText("  Imprimir");
         Btn_ImprimirFact1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_ImprimirFact1.setFocusPainted(false);
         Btn_ImprimirFact1.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -630,7 +630,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             
             String valor = jTable_DetallesVentas.getValueAt(fila, 0).toString();
             
-            idVenta = valor;
+            idVenta = valor;            
             
         }
         
@@ -708,7 +708,9 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_ImprimirFactActionPerformed
 
     private void Btn_ImprimirFact1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirFact1ActionPerformed
-        // TODO add your handling code here:
+        
+        imprimirFactura();
+        
     }//GEN-LAST:event_Btn_ImprimirFact1ActionPerformed
     
                                
@@ -880,7 +882,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     
     public void imprimirFactura()
     {         
-        Date date = objVenta.getFechaVenta();        
+        Date date = daoVenta.findVenta(Integer.parseInt(idVenta)).getFechaVenta();        
         
         List<Venta> listaFacturasBD = daoVenta.findVentaEntities();
         java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");

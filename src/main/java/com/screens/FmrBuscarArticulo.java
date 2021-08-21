@@ -11,6 +11,7 @@ import com.dao.ArticuloJpaController;
 import com.dao.TallaJpaController;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +29,9 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
-    Articulo objArticulo = new Articulo();             
+    Articulo objArticulo = new Articulo();     
+    
+    DecimalFormat formato1 = new DecimalFormat("#.00");        
 
     DefaultTableModel t;            
     
@@ -287,13 +290,13 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
     //BOTONES Y TABLA
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
                                 
-        int filaSeleccionada = Tbl_Articulos.getSelectedRow();
+        int filaSeleccionada = Tbl_Articulos.getSelectedRow();        
         int cant = 1;
         
         int SMin = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 2);
         int SAct = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 3);  
         double precio = (double) Tbl_Articulos.getValueAt(filaSeleccionada, 5);
-        double total = precio * cant;
+        double total = precio * cant;                             
         
         if(filaSeleccionada != -1 && SMin > SAct && SAct != 0)
         {         
@@ -308,7 +311,7 @@ public class FmrBuscarArticulo extends javax.swing.JFrame {
             Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
             Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();  
             Datos[4] = String.valueOf(cant);     
-            Datos[5] = String.valueOf(total);             
+            Datos[5] = String.valueOf(formato1.format(total));                         
                                                 
             FmrVentas.t2.addRow(Datos);
             t.removeRow(filaSeleccionada);               

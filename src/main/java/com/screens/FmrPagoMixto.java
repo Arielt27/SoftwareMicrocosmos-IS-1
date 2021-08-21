@@ -8,6 +8,7 @@ package com.screens;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -21,6 +22,8 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     public static double canTarjeta;
     public static double canEfectivo;
     public static int cancel = 0;
+    
+    DecimalFormat formato1 = new DecimalFormat("#.00");        
     
     
     /**
@@ -288,10 +291,10 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     
     //METODOS
     private void Inicializar()
-    {
+    {        
         double ventaTotal = FmrVentas.totalV;
         
-        String textVenta = String.valueOf(ventaTotal);
+        String textVenta = String.valueOf(formato1.format(ventaTotal));
         
         Txt_MontoTotal.setText(textVenta);            
         
@@ -317,7 +320,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
         }else{
             double montoEfectivo = montoTotal - montoTarjeta;
             
-            String txtEfectivo = String.valueOf(montoEfectivo);        
+            String txtEfectivo = String.valueOf(formato1.format(montoEfectivo));                    
             Txt_MontoEfectivo.setText(txtEfectivo);        
         }        
     }
