@@ -927,18 +927,20 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     
     public void imprimirFactura()
     {         
-        Date date = daoVenta.findVenta(Integer.parseInt(idVenta)).getFechaVenta();        
+        System.out.println(idVenta);
         
-        List<Venta> listaFacturasBD = daoVenta.findVentaEntities();
+        Date date = daoVenta.findVenta(Integer.parseInt(idVenta)).getFechaVenta();                  
+        
+        //List<Venta> listaFacturasBD = daoVenta.findVentaEntities();
         java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        Venta facturaActual = listaFacturasBD.get(listaFacturasBD.size()-1);
+        Venta facturaActual = daoVenta.findVenta(Integer.parseInt(idVenta));        
 
         //DETALLES PRODUCTO
         EntityManager em = daoVenta.getEntityManager();
         
         String hqlDetalleProd = "FROM DetalleVenta E WHERE E.idVenta = :idFactura";
         Query queryDetalleProd = em.createQuery(hqlDetalleProd);
-        queryDetalleProd.setParameter("idFactura",facturaActual.getIdVenta());
+        queryDetalleProd.setParameter("idFactura",Integer.parseInt(idVenta));                
         List<DetalleVenta> detallesProd = queryDetalleProd.getResultList();                        
         
         Object[][] arrayDetallesFactura;

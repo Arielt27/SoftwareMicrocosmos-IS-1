@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -108,7 +109,7 @@ public class FmrVentas extends javax.swing.JFrame {
         
         //INICIALIZAR PANTALLA
         Inicializar();    
-        //validarCAI();
+        validarCAI();
         facturaID();
     }        
 
@@ -606,8 +607,7 @@ public class FmrVentas extends javax.swing.JFrame {
        
     private void Btn_VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_VentaActionPerformed
                      
-        hacerVenta();
-        Inicializar();
+        hacerVenta();        
         
     }//GEN-LAST:event_Btn_VentaActionPerformed
 
@@ -819,8 +819,9 @@ public class FmrVentas extends javax.swing.JFrame {
                     Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                    
                 }
             }                        
-        }
-        imprimirFactura();
+            imprimirFactura();
+            Inicializar();
+        }        
     }
     
     public void listaClientes()
@@ -1116,7 +1117,7 @@ public class FmrVentas extends javax.swing.JFrame {
         return Integer.parseInt(query.getSingleResult().toString());
     }         
     
-    /*private void validarCAI()
+    private void validarCAI()
     {
         Parametros CAI = null;
         
@@ -1174,14 +1175,14 @@ public class FmrVentas extends javax.swing.JFrame {
                 Btn_Buscar.setEnabled(false);
             }
         }
-            
+            //22+20=42
         if(CAI == null)
         {
             JOptionPane.showMessageDialog(this,"No se encuentra un CAI válido para facturar.","CAI Expirado",JOptionPane.ERROR_MESSAGE);
             Btn_Buscar.setEnabled(false);            
             return;
         }else{
-            LocalDate fechaFinal = convertToLocalDateViaInstant(Timestamp.parse(CAI.getFechaCaducidad().toString()));            
+            LocalDate fechaFinal = convertToLocalDateViaInstant(CAI.getFechaCaducidad());            
             Period periodo = Period.between(LocalDate.now(),fechaFinal);
             System.out.println(periodo.getDays());
             
@@ -1190,7 +1191,13 @@ public class FmrVentas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"El CAI actual está por expirar.","CAI Próximo a Vencer",JOptionPane.WARNING_MESSAGE);            
             }     
         }    
-    }*/
+    }
+    
+    public LocalDate convertToLocalDateViaInstant(java.util.Date dateToConvert) {
+    return dateToConvert.toInstant()
+      .atZone(ZoneId.systemDefault())
+      .toLocalDate();
+    }
     
     
     /*private void comprobarRepetidos()

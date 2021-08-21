@@ -714,7 +714,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                 
                 //JOptionPane.showMessageDialog(null, fechaTexto);                                                                
                 
-                objPrecio.setPrecio(precioNuevo);
+                objPrecio.setPrecio(precioActual);
                 objPrecio.setFechaInicial(Timestamp.valueOf(fechaH));
                 objPrecio.setFechaFinal(Timestamp.valueOf(fechaH));                
                 objPrecio.setActivoPrecioHistorico(true);
@@ -850,7 +850,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
             objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
             objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));
-            objArticulo.setActivoArticulo(true);
+            objArticulo.setActivoArticulo(true);            
         }
         
         try{
