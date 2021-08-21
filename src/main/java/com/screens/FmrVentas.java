@@ -642,6 +642,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
     private void Txt_CantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CantidadKeyTyped
 
+        
         char l = evt.getKeyChar();
 
         // Permitir solo números

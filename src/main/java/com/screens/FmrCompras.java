@@ -122,7 +122,6 @@ public class FmrCompras extends javax.swing.JFrame {
         Cancelar = new javax.swing.JButton();
         Btn_Regresar = new javax.swing.JButton();
         Btn_Guardar = new javax.swing.JButton();
-        Añadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compras - Microcosmos");
@@ -347,7 +346,6 @@ public class FmrCompras extends javax.swing.JFrame {
                     .addComponent(Txt_llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -494,17 +492,6 @@ public class FmrCompras extends javax.swing.JFrame {
             }
         });
 
-        Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
-        Añadir.setText("Añadir nuvo  Articulo");
-        Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
-        Añadir.setMinimumSize(new java.awt.Dimension(120, 50));
-        Añadir.setPreferredSize(new java.awt.Dimension(120, 50));
-        Añadir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AñadirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -514,9 +501,7 @@ public class FmrCompras extends javax.swing.JFrame {
                 .addComponent(Btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(160, 160, 160)
                 .addComponent(Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -528,7 +513,6 @@ public class FmrCompras extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -611,12 +595,6 @@ public class FmrCompras extends javax.swing.JFrame {
        
         }
     }//GEN-LAST:event_Tbl_CompraMouseClicked
-
-    private void AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirActionPerformed
-        FmrBuscarArticuloCompra Com = new FmrBuscarArticuloCompra();
-        Com.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_AñadirActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
        LimpiarCompra();
@@ -816,7 +794,7 @@ public class FmrCompras extends javax.swing.JFrame {
         Txt_Precio.setEditable(true);
               
        Txt_Cantidad.setEditable(true);
-       Txt_Cantidad.setText("0");
+       
         Txt_Total.setText("0");
         Txt_Precio.setText("0");
         CBox_Provedor.setEnabled(true); 
@@ -860,12 +838,7 @@ public class FmrCompras extends javax.swing.JFrame {
             Articulo s = this.daoArticulo.findArticulo(id);                        
             
             int stock = s.getStock();
-            
-            if(stock < cant)
-            {
-                JOptionPane.showMessageDialog(null, "No tenemos la cantidad deseada en existencia.\n"
-                                                    + "La cantidad de stock para este artículo es: " + stock, "¡Error!", JOptionPane.ERROR_MESSAGE);
-            }else{                                
+           {                                
                 double prc = Double.parseDouble(t3.getValueAt(fila, 2).toString());            
                 double tot = prc*cant;            
                 t3.setValueAt(cant, fila, 6);                                   
@@ -1112,7 +1085,6 @@ public class FmrCompras extends javax.swing.JFrame {
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Agregar;
-    private javax.swing.JButton Añadir;
     private javax.swing.JButton Btn_Cantidad;
     private javax.swing.JButton Btn_Guardar;
     private javax.swing.JButton Btn_Regresar;
