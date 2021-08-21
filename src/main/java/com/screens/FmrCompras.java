@@ -630,7 +630,7 @@ public class FmrCompras extends javax.swing.JFrame {
         }
         
         // Máximo de carácteres
-        if ( Txt_FechaPedido.getText().length() >= 8)
+        if ( Txt_Cantidad.getText().length() >= 8)
         {
             evt.consume();     
             Toolkit.getDefaultToolkit().beep();
@@ -648,7 +648,7 @@ public class FmrCompras extends javax.swing.JFrame {
         }
         
         // Máximo de carácteres
-        if ( Txt_FechaPedido.getText().length() >= 8)
+        if ( Txt_llegada.getText().length() >= 8)
         {
             evt.consume();     
             Toolkit.getDefaultToolkit().beep();
@@ -666,7 +666,7 @@ public class FmrCompras extends javax.swing.JFrame {
         }
         
         // Máximo de carácteres
-        if ( Txt_FechaPedido.getText().length() >= 8)
+        if ( Txt_Total.getText().length() >= 8)
         {
             evt.consume();     
             Toolkit.getDefaultToolkit().beep();
