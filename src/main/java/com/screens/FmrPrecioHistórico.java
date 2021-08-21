@@ -64,14 +64,12 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         Txt_Precio = new javax.swing.JTextField();
         Txt_FechaI = new javax.swing.JTextField();
         Txt_FechaF = new javax.swing.JTextField();
-        Txt_Estado = new javax.swing.JTextField();
         Txt_IdArticulo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         Btn_Clean = new javax.swing.JButton();
         Btn_Regresar = new javax.swing.JButton();
@@ -85,20 +83,20 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
 
         jTable_PrecioHistorico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID Precio H.", "Precio", "Fecha Inicial", "Fecha Final", "Activo", "Articulo"
+                "ID Precio H.", "Precio", "Fecha Inicial", "Fecha Final", "Articulo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -118,8 +116,6 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
             jTable_PrecioHistorico.getColumnModel().getColumn(2).setResizable(false);
             jTable_PrecioHistorico.getColumnModel().getColumn(3).setResizable(false);
             jTable_PrecioHistorico.getColumnModel().getColumn(4).setResizable(false);
-            jTable_PrecioHistorico.getColumnModel().getColumn(4).setPreferredWidth(35);
-            jTable_PrecioHistorico.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -157,8 +153,6 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
 
         Txt_FechaF.setEditable(false);
 
-        Txt_Estado.setEditable(false);
-
         Txt_IdArticulo.setEditable(false);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -188,14 +182,8 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Estado");
+        jLabel6.setText("Artículo");
         jLabel6.setPreferredSize(new java.awt.Dimension(80, 20));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Artículo");
-        jLabel7.setPreferredSize(new java.awt.Dimension(80, 20));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -213,19 +201,15 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
                     .addComponent(Txt_PH, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_FechaI))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_IdArticulo))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_FechaF))
+                        .addComponent(Txt_FechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(100, 100, 100))
         );
         jPanel2Layout.setVerticalGroup(
@@ -240,15 +224,13 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Txt_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Txt_FechaI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
@@ -369,9 +351,8 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
             String IdPH = jTable_PrecioHistorico.getValueAt(fila, 0).toString();
             String Precio = jTable_PrecioHistorico.getValueAt(fila, 1).toString();
             Date FechaI = (Date) jTable_PrecioHistorico.getValueAt(fila, 2);
-            Date FechaF = (Date)  jTable_PrecioHistorico.getValueAt(fila, 3);
-            String Estado = jTable_PrecioHistorico.getValueAt(fila, 4).toString();
-            String IdArticulo = jTable_PrecioHistorico.getValueAt(fila, 5).toString();
+            Date FechaF = (Date)  jTable_PrecioHistorico.getValueAt(fila, 3);            
+            String IdArticulo = jTable_PrecioHistorico.getValueAt(fila, 4).toString();
 
             //OBTENER FECHAS
             String fechaI = formatter.format(FechaI);
@@ -381,15 +362,8 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
             Txt_Precio.setText(Precio);
             Txt_FechaI.setText(fechaI);
             Txt_FechaF.setText(fechaF);
-            Txt_Estado.setText(Estado);
-            Txt_IdArticulo.setText(IdArticulo);
             
-            if(Estado == "true")
-            {
-                Txt_Estado.setText("Activo");                                 
-            }else if(Estado == "false"){
-                Txt_Estado.setText("Desactivado"); 
-            } 
+            Txt_IdArticulo.setText(IdArticulo);                        
         }       
         
     }//GEN-LAST:event_jTable_PrecioHistoricoMouseClicked
@@ -426,8 +400,7 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
                         PrecioHistorico.getIdPrecioHistorico(),
                         PrecioHistorico.getPrecio(),
                         PrecioHistorico.getFechaInicial(),
-                        PrecioHistorico.getFechaFinal(),
-                        s,
+                        PrecioHistorico.getFechaFinal(),                        
                         GetNombreArticulo(PrecioHistorico.getIdArticulo()),
                         s
                     });
@@ -439,9 +412,7 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         Txt_PH.setText("");
         Txt_Precio.setText("");
         Txt_FechaI.setText("");
-        Txt_FechaF.setText("");
-        Txt_Estado.setText("");
-        Txt_Estado.setText("");
+        Txt_FechaF.setText("");        
         Txt_IdArticulo.setText("");        
     }
     
@@ -501,7 +472,6 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Clean;
     private javax.swing.JButton Btn_Regresar;
-    private javax.swing.JTextField Txt_Estado;
     private javax.swing.JTextField Txt_FechaF;
     private javax.swing.JTextField Txt_FechaI;
     private javax.swing.JTextField Txt_IdArticulo;
@@ -514,7 +484,6 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
