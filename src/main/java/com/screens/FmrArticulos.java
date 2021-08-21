@@ -8,15 +8,22 @@ package com.screens;
 //Imports
 import com.clases.Articulo;
 import com.clases.Articulo_SeccionTienda;
+import com.clases.PrecioHistorico;
 import com.clases.Talla;
 import com.clases.SeccionTienda;
 import com.dao.ArticuloJpaController;
 import com.dao.Articulo_SeccionTiendaJpaController;
+import com.dao.PrecioHistoricoJpaController;
 import com.dao.SeccionTiendaJpaController;
 import com.dao.TallaJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,16 +44,17 @@ public class FmrArticulos extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     //Declarando drivers
-    ArticuloJpaController daoArticulo = new ArticuloJpaController();
-    Articulo Art = new Articulo();
-    
     TallaJpaController daoTalla = new TallaJpaController();
-    Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();
+    ArticuloJpaController daoArticulo = new ArticuloJpaController();
+    PrecioHistoricoJpaController daoPrecioH = new PrecioHistoricoJpaController();
     
     Articulo objArticulo = new Articulo();
+    PrecioHistorico objPrecio = new PrecioHistorico();
     Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
+    Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();                         
     
     double precioActual = 0;
+    double precioNuevo = 0;
     
     DefaultTableModel t;   
     
@@ -682,6 +690,40 @@ public class FmrArticulos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{
             EditarArticulo();
+            
+            //DESPUES DE EDITAR ARTICULO, OBTENGO EL PRECIO NUEVO Y LO COMPARO CON EL ACTUAL,
+            //SI SON DISTINTOS, GUARDO EL PRECIOACTUAL EN EL PRECIO HISTORICO
+            precioNuevo = Double.parseDouble(Txt_PrecioArticulo.getText());            
+            JOptionPane.showMessageDialog(null, "Nuevo: " + precioNuevo);
+            
+            if(precioActual != precioNuevo)
+            {
+                //OBTENER Y FORMATEAR FECHA ACTUAL 
+                Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaTexto = formatter.format(fecha);
+                String fechaH = fechaTexto + " 00:00:00"; 
+                
+                //OBTENER Y PARSEAR A STRING EL IDARTICULO
+                int idArt = (int) Tbl_Articulo.getValueAt(fila, 0);
+                
+                //JOptionPane.showMessageDialog(null, fechaTexto);                                                                
+                
+                objPrecio.setPrecio(precioNuevo);
+                objPrecio.setFechaInicial(Timestamp.valueOf(fechaH));
+                objPrecio.setFechaFinal(Timestamp.valueOf(fechaH));                
+                objPrecio.setActivoPrecioHistorico(true);
+                objPrecio.setIdArticulo(idArt);
+                
+                try{
+                    daoPrecioH.edit(objPrecio);                    
+                }catch(Exception ex){
+                    Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);                    
+                }
+                
+            }/*else if(precioActual == precioNuevo){
+                JOptionPane.showMessageDialog(null, "El precio no cambió");                                                                
+            }*/            
             LimpiarArticulo();            
         }        
     }//GEN-LAST:event_Btn_EditarActionPerformed
@@ -699,39 +741,40 @@ public class FmrArticulos extends javax.swing.JFrame {
         if(fila == -1)
         {        
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
-        }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Editar.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(true);
+        }else{                                   
+            Btn_Añadir.setEnabled(false);
+            Btn_Limpiar.setEnabled(true);
+            Btn_Editar.setEnabled(true);
+            Btn_Activar_Desactivar.setEnabled(true);
         
-        String Id = Tbl_Articulo.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_Articulo.getValueAt(fila, 1).toString();
-        String Precio = Tbl_Articulo.getValueAt(fila, 2).toString();
-        String Destripcion = Tbl_Articulo.getValueAt(fila, 3).toString();
-        String Talla= Tbl_Articulo.getValueAt(fila, 4).toString();
-        String StockAct= Tbl_Articulo.getValueAt(fila, 5).toString();
-        String StockMin = Tbl_Articulo.getValueAt(fila, 6).toString();
-        String StockMax = Tbl_Articulo.getValueAt(fila, 7).toString();
-        String Activo = Tbl_Articulo.getValueAt(fila, 8).toString();                
+            String Id = Tbl_Articulo.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_Articulo.getValueAt(fila, 1).toString();
+            String Precio = Tbl_Articulo.getValueAt(fila, 2).toString();
+            String Destripcion = Tbl_Articulo.getValueAt(fila, 3).toString();
+            String Talla= Tbl_Articulo.getValueAt(fila, 4).toString();
+            String StockAct= Tbl_Articulo.getValueAt(fila, 5).toString();
+            String StockMin = Tbl_Articulo.getValueAt(fila, 6).toString();
+            String StockMax = Tbl_Articulo.getValueAt(fila, 7).toString();
+            String Activo = Tbl_Articulo.getValueAt(fila, 8).toString();                
 
-        Txt_IdArticulo.setText(Id);
-        Txt_NombreArticulo.setText(Nombre);
-        Txt_PrecioArticulo.setText(Precio);
-        Txt_DescripcionArticulo.setText(Destripcion);
-        ComboTalla.setSelectedItem(Talla);
-        Txt_StockAct.setText(StockAct);
-        Txt_StockMin.setText(StockMin);
-        Txt_StockMax.setText(StockMax);        
-        Txt_Activo.setText(Activo);
+            Txt_IdArticulo.setText(Id);
+            Txt_NombreArticulo.setText(Nombre);
+            Txt_PrecioArticulo.setText(Precio);
+            Txt_DescripcionArticulo.setText(Destripcion);
+            ComboTalla.setSelectedItem(Talla);
+            Txt_StockAct.setText(StockAct);
+            Txt_StockMin.setText(StockMin);
+            Txt_StockMax.setText(StockMax);        
+            Txt_Activo.setText(Activo);
+            
+            precioActual = Double.parseDouble(Txt_PrecioArticulo.getText());             
         
         if(Activo == "Activado")
         {
             Btn_Activar_Desactivar.setText("Desactivar");
         }else{
             Btn_Activar_Desactivar.setText("Activar");
-            }
-        
+            }               
         Txt_StockAct.setEditable(false);
         }
     }//GEN-LAST:event_Tbl_ArticuloMouseClicked
@@ -921,7 +964,9 @@ public class FmrArticulos extends javax.swing.JFrame {
         
     private void EditarArticulo()
     {
-        boolean status = true;
+        boolean status = true;     
+        
+        JOptionPane.showMessageDialog(null, "Actual: " + precioActual);
         
         if(Txt_NombreArticulo.getText().length() < 3)
         {
@@ -963,9 +1008,9 @@ public class FmrArticulos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
         }catch(Exception ex){
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }  
-}     
+        }                                                                               
+    }
+}             
     
     private static int GetIdSeccion(String Nombre)
     {

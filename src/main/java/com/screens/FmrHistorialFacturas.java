@@ -161,6 +161,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_DetallesCompras.getTableHeader().setReorderingAllowed(false);
         jTable_DetallesCompras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_DetallesComprasMouseClicked(evt);
@@ -430,6 +431,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_DetallesAnuladas.getTableHeader().setReorderingAllowed(false);
         jTable_DetallesAnuladas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_DetallesAnuladasMouseClicked(evt);

@@ -21,9 +21,7 @@ public class DetalleCompra implements Serializable {
     @Column
     private int cantidad;
     @Column
-    private int idCompra;
-    @Column
-    private int idEstado;
+    private int idCompra;    
     @Column
     private int idArticulo;
 
@@ -49,15 +47,7 @@ public class DetalleCompra implements Serializable {
 
     public void setIdCompra(int idCompra) {
         this.idCompra = idCompra;
-    }
-
-    public int getIdEstado() {
-        return idEstado;
-    }
-
-    public void setIdEstado(int idEstado) {
-        this.idEstado = idEstado;
-    }
+    }  
 
     public int getIdArticulo() {
         return idArticulo;
@@ -65,8 +55,5 @@ public class DetalleCompra implements Serializable {
 
     public void setIdArticulo(int idArticulo) {
         this.idArticulo = idArticulo;
-    }
-    
-    
-    
+    }            
 }

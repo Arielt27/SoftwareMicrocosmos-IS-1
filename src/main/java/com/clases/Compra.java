@@ -33,6 +33,8 @@ public class Compra implements Serializable {
     private int idProveedor;
     @Column
     private int idEmpleados;
+    @Column
+    private int idEstado;
 
     public int getIdCompra() {
         return idCompra;
@@ -91,6 +93,11 @@ public class Compra implements Serializable {
         this.idEmpleados = idEmpleados;
     }
     
-    
-    
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }            
 }
