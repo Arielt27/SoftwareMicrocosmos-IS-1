@@ -722,6 +722,9 @@ public class FmrVentas extends javax.swing.JFrame {
     //METODOS
     private void Inicializar()
     {   
+        factura = 0;
+        idDetalle = 0;
+        
         Btn_Venta.setEnabled(false);                
         Txt_Cai.setEditable(false);
         Txt_IdCai.setVisible(false);
@@ -812,6 +815,7 @@ public class FmrVentas extends javax.swing.JFrame {
                 objDetalleVenta.setIdVenta(idVenta);
                 objDetalleVenta.setIdArticulo(Integer.parseInt(String.valueOf(jTable_Venta.getValueAt(i,0))));                
                 objDetalleVenta.setIdTalla((GetIdTalla(String.valueOf(jTable_Venta.getValueAt(i,3)))));                
+                objDetalleVenta.setPrecioArticulo(Double.parseDouble(jTable_Venta.getValueAt(i, 2).toString()));
                 
                 try{
                     daoDetalleVenta.edit(objDetalleVenta);                                        

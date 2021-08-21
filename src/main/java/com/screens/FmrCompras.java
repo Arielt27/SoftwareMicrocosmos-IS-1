@@ -563,8 +563,7 @@ public class FmrCompras extends javax.swing.JFrame {
 
     private void Btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_GuardarActionPerformed
         
-        guardarCompra();
-        Inicializar();
+        guardarCompra();        
         
     }//GEN-LAST:event_Btn_GuardarActionPerformed
 
@@ -772,6 +771,7 @@ public class FmrCompras extends javax.swing.JFrame {
                     Logger.getLogger(FmrCompras.class.getName()).log(Level.SEVERE, null, ex);                                                    
                 }                
             }
+            Inicializar();
         }
     }
     
