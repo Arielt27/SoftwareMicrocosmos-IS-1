@@ -164,7 +164,7 @@ public class FmrMenú extends javax.swing.JFrame {
         Btn_CerrarSesion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Btn_CerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cerrarsesion.png"))); // NOI18N
         Btn_CerrarSesion.setText("Cerrar Sesión");
-        Btn_CerrarSesion.setToolTipText("Cierra tu sesión actual.");
+        Btn_CerrarSesion.setToolTipText("Cierra la sesión actual.");
         Btn_CerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 255)));
         Btn_CerrarSesion.setFocusPainted(false);
         Btn_CerrarSesion.addActionListener(new java.awt.event.ActionListener() {

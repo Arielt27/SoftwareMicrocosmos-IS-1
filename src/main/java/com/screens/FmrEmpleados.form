@@ -67,7 +67,7 @@
         <Component class="javax.swing.JTable" name="Tbl_Empleados">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="11" rowCount="7">
+              <Table columnCount="11" rowCount="8">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
                 <Column editable="false" title="Nombre" type="java.lang.String"/>
                 <Column editable="false" title="Apellido" type="java.lang.String"/>
@@ -256,7 +256,7 @@
                       <Component id="Txt_Documento" max="32767" attributes="0"/>
                       <Component id="CBox_Genero" max="32767" attributes="0"/>
                       <Component id="CBox_Area" max="32767" attributes="0"/>
-                      <Component id="Txt_Fecha" max="32767" attributes="0"/>
+                      <Component id="Txt_Fecha" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
@@ -646,6 +646,16 @@
         <Component class="javax.swing.JTextField" name="Txt_Activar">
         </Component>
         <Component class="javax.swing.JTextField" name="Txt_Fecha">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="yyyy-mm-dd"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Cursor de Texto"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="" noResource="true"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
+          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Txt_FechaActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_FechaKeyTyped"/>
@@ -716,6 +726,7 @@
               <Image iconType="3" name="/imagenes/anadir.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" A&#xf1;adir"/>
+            <Property name="toolTipText" type="java.lang.String" value="A&#xf1;ade un nuevo usuario si los campos est&#xe1;n correctamente rellenos."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -734,6 +745,9 @@
               <Dimension value="[120, 50]"/>
             </Property>
           </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
+          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_A&#xf1;adirActionPerformed"/>
           </Events>
@@ -744,6 +758,7 @@
               <Image iconType="3" name="/imagenes/actualizar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Actualizar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Actualiza los datos de un empleado ya registrado en el sistema."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -772,6 +787,7 @@
               <Image iconType="3" name="/imagenes/estado.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Desactivar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Activa o desactiva el empleado seleccionado."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -800,6 +816,7 @@
               <Image iconType="3" name="/imagenes/limpiar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Limpiar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Limpia los campos de ingreso de datos."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -828,6 +845,7 @@
               <Image iconType="3" name="/imagenes/regresar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Regresar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Regresa a la pantalla de Men&#xfa; Principal."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>

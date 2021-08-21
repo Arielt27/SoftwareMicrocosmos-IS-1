@@ -196,6 +196,7 @@ public class FmrVentas extends javax.swing.JFrame {
         jLabel9.setPreferredSize(new java.awt.Dimension(120, 20));
 
         Btn_Buscar.setText("Buscar Artículos");
+        Btn_Buscar.setToolTipText("Abre una nueva ventana y agrega los artículos seleccionados a la venta actual.");
         Btn_Buscar.setFocusPainted(false);
         Btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -267,6 +268,7 @@ public class FmrVentas extends javax.swing.JFrame {
         jLabel17.setPreferredSize(new java.awt.Dimension(120, 20));
 
         Btn_Retirar.setText("Retirar Artículo");
+        Btn_Retirar.setToolTipText("Retira el artículo seleccionado de la venta actual.");
         Btn_Retirar.setFocusPainted(false);
         Btn_Retirar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,6 +301,7 @@ public class FmrVentas extends javax.swing.JFrame {
         });
 
         Btn_Cantidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/sumar.png"))); // NOI18N
+        Btn_Cantidad.setToolTipText("Añade la cantidad digitada al artículo seleccionado.");
         Btn_Cantidad.setFocusPainted(false);
         Btn_Cantidad.setMaximumSize(new java.awt.Dimension(73, 22));
         Btn_Cantidad.setMinimumSize(new java.awt.Dimension(73, 22));
@@ -492,6 +495,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
+        Btn_Regresar.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -505,6 +509,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
         Btn_Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
         Btn_Cancelar.setText(" Cancelar");
+        Btn_Cancelar.setToolTipText("Cancela la venta actual y limpia todos los campos.");
         Btn_Cancelar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Cancelar.setFocusPainted(false);
         Btn_Cancelar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -518,6 +523,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
         Btn_Venta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/vender.png"))); // NOI18N
         Btn_Venta.setText("Realizar Venta");
+        Btn_Venta.setToolTipText("Factura la venta actual y genera un archivo pdf con los datos de la venta actual.");
         Btn_Venta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Venta.setFocusPainted(false);
         Btn_Venta.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -1031,7 +1037,7 @@ public class FmrVentas extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, idDetalle);
     }
     
-     public void imprimirFactura()
+    public void imprimirFactura()
     {         
         Date date = objVenta.getFechaVenta();        
         

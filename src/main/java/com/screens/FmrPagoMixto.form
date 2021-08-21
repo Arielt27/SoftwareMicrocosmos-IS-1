@@ -270,6 +270,7 @@
         <Component class="javax.swing.JButton" name="Btn_AceptarT">
           <Properties>
             <Property name="text" type="java.lang.String" value="Aceptar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Guarda los datos de la tarjeta y los montos pagados."/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[90, 22]"/>
@@ -288,6 +289,7 @@
         <Component class="javax.swing.JButton" name="Btn_CancelarT">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Cancela la acci&#xf3;n actual y regresa a la pantalla de Venta."/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[90, 22]"/>

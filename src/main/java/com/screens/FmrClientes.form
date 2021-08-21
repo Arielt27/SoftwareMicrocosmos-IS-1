@@ -663,6 +663,7 @@
               <Image iconType="3" name="/imagenes/anadir.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" A&#xf1;adir"/>
+            <Property name="toolTipText" type="java.lang.String" value="A&#xf1;ade un nuevo cliente si los campos est&#xe1;n correctamente rellenos."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -691,6 +692,7 @@
               <Image iconType="3" name="/imagenes/actualizar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Actualizar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Actualiza los datos de un cliente ya registrado en el sistema."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -719,6 +721,7 @@
               <Image iconType="3" name="/imagenes/estado.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Desactivar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Activa o desactiva el cliente seleccionado."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -747,6 +750,7 @@
               <Image iconType="3" name="/imagenes/limpiar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Limpiar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Limpia los campos de ingreso de datos."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>
@@ -775,6 +779,7 @@
               <Image iconType="3" name="/imagenes/regresar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" Regresar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Regresa a la pantalla de Men&#xfa; Principal."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder>

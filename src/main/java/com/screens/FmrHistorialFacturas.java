@@ -6,11 +6,23 @@
 package com.screens;
 
 import com.clases.Articulo;
+import com.clases.Clientes;
+import com.clases.DetalleVenta;
+import com.clases.Empleados;
+import com.clases.Estado;
+import com.clases.FacturaDataSource;
+import com.clases.Parametros;
 import com.clases.SingletonUser;
+import com.clases.TipoDePago;
 import com.clases.Usuarios;
 import com.clases.Venta;
 import com.clases.facturasanuladas;
+import com.dao.ArticuloJpaController;
+import com.dao.ClientesJpaController;
 import com.dao.EmpleadosJpaController;
+import com.dao.EstadoJpaController;
+import com.dao.ParametrosJpaController;
+import com.dao.TipoDePagoJpaController;
 import com.dao.VentaJpaController;
 import com.dao.facturasanuladasJpaController;
 import java.awt.Image;
@@ -18,6 +30,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +41,12 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -37,12 +56,24 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     VentaJpaController daoVenta = new VentaJpaController();
+    EstadoJpaController daoEstado = new EstadoJpaController();                 
+    ArticuloJpaController daoArticulo = new ArticuloJpaController();  
+    ClientesJpaController daoClientes = new ClientesJpaController();   
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();          
+    ParametrosJpaController daoParametros = new ParametrosJpaController();    
     facturasanuladasJpaController daoAnuladas = new facturasanuladasJpaController();    
     
     Venta objVenta = new Venta();
+    Estado objEstadoo = new Estado();
+    Clientes objClientes = new Clientes(); 
+    Articulo objArticulo = new Articulo();
+    Empleados objEmpleados = new Empleados();    
+    TipoDePago objTipoPago = new TipoDePago();        
+    Parametros objParametros = new Parametros();  
     facturasanuladas objAnuladas = new facturasanuladas();
-    
+        
+    FacturaDataSource dataSource;    
     DefaultTableModel t;
     
     public static String idVenta;
@@ -94,12 +125,14 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_RegresarV = new javax.swing.JButton();
         Btn_DetallesVentas = new javax.swing.JButton();
         Btn_Anular = new javax.swing.JButton();
+        Btn_ImprimirFact = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable_DetallesAnuladas = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         Btn_RegresarA = new javax.swing.JButton();
         Btn_DetallesAnuladas = new javax.swing.JButton();
+        Btn_ImprimirFact1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Historial de Facturas - Microcosmos");
@@ -347,18 +380,34 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             }
         });
 
+        Btn_ImprimirFact.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
+        Btn_ImprimirFact.setMnemonic(' ');
+        Btn_ImprimirFact.setText(" Imprimir");
+        Btn_ImprimirFact.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_ImprimirFact.setFocusPainted(false);
+        Btn_ImprimirFact.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_ImprimirFact.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_ImprimirFact.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_ImprimirFact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirFactActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(180, Short.MAX_VALUE)
+                .addContainerGap(99, Short.MAX_VALUE)
                 .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(Btn_ImprimirFact, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(Btn_Anular, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(Btn_RegresarV, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(180, 180, 180))
+                .addGap(99, 99, 99))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,7 +416,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_RegresarV, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_DetallesVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Anular, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Anular, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_ImprimirFact, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -473,16 +523,32 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             }
         });
 
+        Btn_ImprimirFact1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
+        Btn_ImprimirFact1.setMnemonic(' ');
+        Btn_ImprimirFact1.setText(" Imprimir");
+        Btn_ImprimirFact1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_ImprimirFact1.setFocusPainted(false);
+        Btn_ImprimirFact1.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_ImprimirFact1.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_ImprimirFact1.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_ImprimirFact1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirFact1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(235, Short.MAX_VALUE)
+                .addContainerGap(170, Short.MAX_VALUE)
                 .addComponent(Btn_DetallesAnuladas, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
+                .addGap(48, 48, 48)
+                .addComponent(Btn_ImprimirFact1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addComponent(Btn_RegresarA, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(235, 235, 235))
+                .addGap(170, 170, 170))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -490,7 +556,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_RegresarA, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_DetallesAnuladas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_DetallesAnuladas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_ImprimirFact1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -631,6 +698,16 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_Btn_AnularActionPerformed
+
+    private void Btn_ImprimirFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirFactActionPerformed
+
+        imprimirFactura();
+
+    }//GEN-LAST:event_Btn_ImprimirFactActionPerformed
+
+    private void Btn_ImprimirFact1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirFact1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Btn_ImprimirFact1ActionPerformed
     
                                
     //METODOS
@@ -799,6 +876,70 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         return query.getSingleResult().toString() ;            
     }
     
+    public void imprimirFactura()
+    {         
+        Date date = objVenta.getFechaVenta();        
+        
+        List<Venta> listaFacturasBD = daoVenta.findVentaEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        Venta facturaActual = listaFacturasBD.get(listaFacturasBD.size()-1);
+
+        //DETALLES PRODUCTO
+        EntityManager em = daoVenta.getEntityManager();
+        
+        String hqlDetalleProd = "FROM DetalleVenta E WHERE E.idVenta = :idFactura";
+        Query queryDetalleProd = em.createQuery(hqlDetalleProd);
+        queryDetalleProd.setParameter("idFactura",facturaActual.getIdVenta());
+        List<DetalleVenta> detallesProd = queryDetalleProd.getResultList();                        
+        
+        Object[][] arrayDetallesFactura;
+        arrayDetallesFactura = new Object[detallesProd.size()][3];      
+    
+        for(int i = 0; i < detallesProd.size(); i++)
+        {        
+            for(int j = 0; j < 3 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ARTICULO
+                        arrayDetallesFactura[i][0] = daoArticulo.findArticulo(detallesProd.get(i).getIdArticulo()).getNombreArticulo();                        
+                    break;
+                    
+                    case 1: //PRECIO
+                        arrayDetallesFactura[i][1] = daoArticulo.findArticulo(detallesProd.get(i).getIdArticulo()).getPrecioArticulo();                        
+                    break;
+                    
+                    case 2: //CANTIDAD
+                        arrayDetallesFactura[i][2] = detallesProd.get(i).getCantidad();
+                    break;                                                               
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();        
+        param.put("Factura", "000-001-003-" + String.format("%0" + 8 + "d",facturaActual.getIdVenta()));
+        param.put("Cliente", daoClientes.findClientes(facturaActual.getIdCliente()).getNombreCliente());                
+        param.put("Fecha", formatoFecha.format(date));                        
+        param.put("Empleado",daoEmpleados.findEmpleados(facturaActual.getIdEmpleados()).getNombreEmpleado());                        
+        param.put("CAI", daoParametros.findParametros(facturaActual.getIdParametros()).getCai());
+        param.put("Impuesto",0.15);
+        param.put("SubTotal", daoVenta.findVenta(facturaActual.getIdVenta()).getSubTotal());        
+        param.put("Total", daoVenta.findVenta(facturaActual.getIdVenta()).getTotal());         
+        
+        try {
+            JasperReport reporteFactura = JasperCompileManager.compileReport("src/main/resources/Reports/FacturaVenta.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteFactura,
+                    param, 
+                    dataSource.getDataSource(arrayDetallesFactura));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);
+            view.setTitle("Factura " + facturaActual.getIdVenta());            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
     /**
      * @param args the command line arguments
@@ -840,6 +981,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     private javax.swing.JButton Btn_DetallesAnuladas;
     private javax.swing.JButton Btn_DetallesCompras;
     private javax.swing.JButton Btn_DetallesVentas;
+    private javax.swing.JButton Btn_ImprimirFact;
+    private javax.swing.JButton Btn_ImprimirFact1;
     private javax.swing.JButton Btn_RegresarA;
     private javax.swing.JButton Btn_RegresarC;
     private javax.swing.JButton Btn_RegresarV;

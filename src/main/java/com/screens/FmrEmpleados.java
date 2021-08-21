@@ -131,6 +131,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
@@ -345,6 +346,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         CBox_Area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        Txt_Fecha.setToolTipText("yyyy-mm-dd");
+        Txt_Fecha.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        Txt_Fecha.setName(""); // NOI18N
         Txt_Fecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Txt_FechaActionPerformed(evt);
@@ -445,12 +449,15 @@ public class FmrEmpleados extends javax.swing.JFrame {
                 .addGap(8, 8, 8))
         );
 
+        Txt_Fecha.getAccessibleContext().setAccessibleDescription("");
+
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
         jPanel3.setMaximumSize(new java.awt.Dimension(800, 130));
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 130));
 
         Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
         Btn_Añadir.setText(" Añadir");
+        Btn_Añadir.setToolTipText("Añade un nuevo usuario si los campos están correctamente rellenos.");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Añadir.setFocusPainted(false);
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -464,6 +471,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         Btn_Editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         Btn_Editar.setText(" Actualizar");
+        Btn_Editar.setToolTipText("Actualiza los datos de un empleado ya registrado en el sistema.");
         Btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Editar.setFocusPainted(false);
         Btn_Editar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -477,6 +485,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         Btn_Activar_Desactivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
         Btn_Activar_Desactivar.setText(" Desactivar");
+        Btn_Activar_Desactivar.setToolTipText("Activa o desactiva el empleado seleccionado.");
         Btn_Activar_Desactivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar_Desactivar.setFocusPainted(false);
         Btn_Activar_Desactivar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -490,6 +499,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
         Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setToolTipText("Limpia los campos de ingreso de datos.");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -503,6 +513,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
+        Btn_Regresar.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -558,6 +569,8 @@ public class FmrEmpleados extends javax.swing.JFrame {
                     .addComponent(Btn_Añadir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
+
+        Btn_Añadir.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -773,7 +786,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             String Estado = Tbl_Empleados.getValueAt(fila, 10).toString();
             
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String fechaTexto = formatter.format(FechaNac);
+            String fechaTexto = formatter.format(FechaNac);                                              
             
             Txt_IdEmpleados.setText(IdE);            
             Txt_NombreEmpleado.setText(Nombre);       
@@ -1037,17 +1050,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else if(ValidacionTresLetras(Txt_Apellido.getText())){
             JOptionPane.showMessageDialog(null, "El apellido no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                    
         }else if(Txt_Telefono.getText().length() < 8){
-            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
+            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 carácteres.\nEl formato de teléfono es: xxxxxxxx","¡Error!", JOptionPane.ERROR_MESSAGE);                        
         }else if(Txt_Direccion.getText().length() < 8){
             JOptionPane.showMessageDialog(null, "Debe ingresar una dirección con al menos 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                            
         }else if(ValidacionTresLetras(Txt_Direccion.getText())){
             JOptionPane.showMessageDialog(null, "La dirección no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                                
         }else if(ValidacionMail(Txt_Correo.getText())== false){
-            JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+            JOptionPane.showMessageDialog(null, "Formato de Email inválido.\nEl formato de E-mail es: user@example.com","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
             JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(validacionFecha(Txt_Fecha.getText()) == false || Txt_Fecha.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Formato de fecha incorrecto.\nEl formato de fecha es: yyyy-mm-dd","¡Error!", JOptionPane.ERROR_MESSAGE);                                                            
         }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
@@ -1055,7 +1070,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else{
             
             String fechaTxt = Txt_Fecha.getText();
-            String fecha = fechaTxt + " 00:00:00";                       
+            String fecha = fechaTxt + " 00:00:00";             
             
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
             objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
@@ -1193,9 +1208,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else{
             return false;        
         }              
-    }
+    }       
     
-    /*public static boolean validacionFecha(String text) 
+    public static boolean validacionFecha(String text) 
     {
         if (text == null || !text.matches("\\d{4}-[01]\\d-[0-3]\\d"))
         {
@@ -1211,7 +1226,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }catch(ParseException ex){
             return false;
         }
-    }*/
+    }
         
     
     /**

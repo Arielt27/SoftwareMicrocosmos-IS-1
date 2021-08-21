@@ -394,6 +394,7 @@ public class FmrClientes extends javax.swing.JFrame {
 
         Btn_Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/anadir.png"))); // NOI18N
         Btn_Añadir.setText(" Añadir");
+        Btn_Añadir.setToolTipText("Añade un nuevo cliente si los campos están correctamente rellenos.");
         Btn_Añadir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Añadir.setFocusPainted(false);
         Btn_Añadir.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -407,6 +408,7 @@ public class FmrClientes extends javax.swing.JFrame {
 
         Btn_Editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/actualizar.png"))); // NOI18N
         Btn_Editar.setText(" Actualizar");
+        Btn_Editar.setToolTipText("Actualiza los datos de un cliente ya registrado en el sistema.");
         Btn_Editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Editar.setFocusPainted(false);
         Btn_Editar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -420,6 +422,7 @@ public class FmrClientes extends javax.swing.JFrame {
 
         Btn_Activar_Desactivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
         Btn_Activar_Desactivar.setText(" Desactivar");
+        Btn_Activar_Desactivar.setToolTipText("Activa o desactiva el cliente seleccionado.");
         Btn_Activar_Desactivar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar_Desactivar.setFocusPainted(false);
         Btn_Activar_Desactivar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -433,6 +436,7 @@ public class FmrClientes extends javax.swing.JFrame {
 
         Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
         Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setToolTipText("Limpia los campos de ingreso de datos.");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -446,6 +450,7 @@ public class FmrClientes extends javax.swing.JFrame {
 
         Btn_Regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Regresar.setText(" Regresar");
+        Btn_Regresar.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Regresar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Regresar.setFocusPainted(false);
         Btn_Regresar.setMaximumSize(new java.awt.Dimension(120, 50));
@@ -905,7 +910,7 @@ public class FmrClientes extends javax.swing.JFrame {
             
         }else if(Txt_TelefonoCliente.getText().length() < 8){
                 
-            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 números.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "El teléfono debe contener 8 números.\nEl formato de teléfono es: xxxxxxxx","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
                 
@@ -921,7 +926,7 @@ public class FmrClientes extends javax.swing.JFrame {
             
         }else if(ValidacionMail(Txt_CorreoCliente.getText())== false){
                 
-            JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.\nEl formato de E-mail es: user@example.com","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
                 
@@ -983,7 +988,7 @@ public class FmrClientes extends javax.swing.JFrame {
             
         }else if(Txt_TelefonoCliente.getText().length() < 8){
                     
-            JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 números.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "El Teléfono debe de contener 8 números.\nEl formato de teléfono es: xxxxxxxx","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox2.getSelectedItem()) == "Seleccione"){
                     
@@ -999,7 +1004,7 @@ public class FmrClientes extends javax.swing.JFrame {
             
         }else if(ValidacionMail(Txt_CorreoCliente.getText())== false){
                     
-            JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "Formato de E-mail inválido.\nEl formato de E-mail es: user@example.com","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
         }else if(String.valueOf(jComboBox1.getSelectedItem()) == "Seleccione"){
                     

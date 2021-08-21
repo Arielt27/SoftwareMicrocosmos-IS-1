@@ -5,12 +5,29 @@
  */
 package com.screens;
 
+import com.clases.Articulo;
+import com.clases.Clientes;
 import com.clases.DetalleVenta;
+import com.clases.Empleados;
 import com.clases.Estado;
+import com.clases.FacturaDataSource;
+import com.clases.Parametros;
+import com.clases.TipoDePago;
+import com.clases.Venta;
+import com.dao.ArticuloJpaController;
+import com.dao.ClientesJpaController;
 import com.dao.DetalleVentaJpaController;
+import com.dao.EmpleadosJpaController;
 import com.dao.EstadoJpaController;
+import com.dao.ParametrosJpaController;
+import com.dao.TipoDePagoJpaController;
+import com.dao.VentaJpaController;
 import java.awt.Image;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,6 +35,12 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -25,12 +48,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FmrDetalleVenta extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    
+        
+    VentaJpaController daoVenta = new VentaJpaController();                
     DetalleVentaJpaController daoDetalleV = new DetalleVentaJpaController();
-    EstadoJpaController daoEstado = new EstadoJpaController();
     
-    Estado objEstadoo = new Estado();
-    DetalleVenta objDetalleVenta = new DetalleVenta();    
+    Venta objVenta = new Venta();    
+    DetalleVenta objDetalleVenta = new DetalleVenta();          
     
     DefaultTableModel t;
 
@@ -163,15 +186,15 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(365, 365, 365)
+                .addGap(340, 340, 340)
                 .addComponent(Btn_Regresar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(340, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(Btn_Regresar3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Regresar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(21, 21, 21))
         );
 
@@ -258,7 +281,8 @@ public class FmrDetalleVenta extends javax.swing.JFrame {
         Query query = em.createQuery(select);
     
         return query.getSingleResult().toString() ;            
-    } 
+    }     
+    
     
     /**
      * @param args the command line arguments

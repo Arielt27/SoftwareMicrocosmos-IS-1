@@ -134,6 +134,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
         Txt_MontoTotal.setEditable(false);
 
         Btn_AceptarT.setText("Aceptar");
+        Btn_AceptarT.setToolTipText("Guarda los datos de la tarjeta y los montos pagados.");
         Btn_AceptarT.setFocusPainted(false);
         Btn_AceptarT.setMaximumSize(new java.awt.Dimension(90, 22));
         Btn_AceptarT.setMinimumSize(new java.awt.Dimension(90, 22));
@@ -145,6 +146,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
         });
 
         Btn_CancelarT.setText("Cancelar");
+        Btn_CancelarT.setToolTipText("Cancela la acción actual y regresa a la pantalla de Venta.");
         Btn_CancelarT.setFocusPainted(false);
         Btn_CancelarT.setMaximumSize(new java.awt.Dimension(90, 22));
         Btn_CancelarT.setMinimumSize(new java.awt.Dimension(90, 22));

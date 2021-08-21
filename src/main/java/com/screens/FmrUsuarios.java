@@ -187,6 +187,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Admin.setEditable(false);
 
         Btn_Admin.setText("Administrador");
+        Btn_Admin.setToolTipText("Convierte en Administrador al usuario seleccionado, si está desactivado, no puedes realizar esta acción.");
         Btn_Admin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Admin.setFocusPainted(false);
         Btn_Admin.setMaximumSize(new java.awt.Dimension(85, 30));
@@ -208,6 +209,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         Btn_AñadirUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boton-agregar.png"))); // NOI18N
         Btn_AñadirUser.setText(" Agregar");
+        Btn_AñadirUser.setToolTipText("Agrega un nuevo usuario en el sistema.");
         Btn_AñadirUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_AñadirUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -350,6 +352,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         Btn_CambiarPass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/contrasena.png"))); // NOI18N
         Btn_CambiarPass.setText("Cambiar Contraseña");
+        Btn_CambiarPass.setToolTipText("Cambia la contraseña del usuario seleccionado.");
         Btn_CambiarPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_CambiarPass.setFocusPainted(false);
         Btn_CambiarPass.setMaximumSize(new java.awt.Dimension(160, 50));
@@ -363,6 +366,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         Btn_Activar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/estado.png"))); // NOI18N
         Btn_Activar.setText("Activar Usuario");
+        Btn_Activar.setToolTipText("Activa o desactiva al usuario seleccionado.");
         Btn_Activar.setActionCommand(" Activar Usuario");
         Btn_Activar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Activar.setFocusPainted(false);
@@ -377,6 +381,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         Btn_Return.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/regresar.png"))); // NOI18N
         Btn_Return.setText(" Regresar");
+        Btn_Return.setToolTipText("Regresa a la pantalla de Menú Principal.");
         Btn_Return.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Return.setFocusPainted(false);
         Btn_Return.setMaximumSize(new java.awt.Dimension(160, 50));
@@ -390,6 +395,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
         Btn_Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/limpiar.png"))); // NOI18N
         Btn_Limpiar.setText(" Limpiar");
+        Btn_Limpiar.setToolTipText("Borra los datos de todos los campos.");
         Btn_Limpiar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Limpiar.setFocusPainted(false);
         Btn_Limpiar.setMaximumSize(new java.awt.Dimension(160, 50));
