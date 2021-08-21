@@ -71,6 +71,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         //INICIALIZAR PANTALLA
         actualizarArticulo();        
         listaTalla();
+        listaFiltro();
         Txt_Activo.setVisible(false);        
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
@@ -108,6 +109,10 @@ public class FmrArticulos extends javax.swing.JFrame {
         ComboTalla = new javax.swing.JComboBox<>();
         Txt_Activo = new javax.swing.JTextField();
         Txt_PrecioArticulo = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        CBox_Filtro = new javax.swing.JComboBox<>();
+        Txt_Campo = new javax.swing.JTextField();
+        Btn_Buscar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -319,6 +324,38 @@ public class FmrArticulos extends javax.swing.JFrame {
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel14.setText("Filtra Por:");
+        jLabel14.setMaximumSize(new java.awt.Dimension(120, 20));
+        jLabel14.setMinimumSize(new java.awt.Dimension(120, 20));
+        jLabel14.setPreferredSize(new java.awt.Dimension(120, 20));
+
+        CBox_Filtro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+        CBox_Filtro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBox_FiltroActionPerformed(evt);
+            }
+        });
+
+        Txt_Campo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Txt_CampoKeyTyped(evt);
+            }
+        });
+
+        Btn_Buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Lupa.png"))); // NOI18N
+        Btn_Buscar.setFocusPainted(false);
+        Btn_Buscar.setMaximumSize(new java.awt.Dimension(55, 22));
+        Btn_Buscar.setMinimumSize(new java.awt.Dimension(55, 22));
+        Btn_Buscar.setPreferredSize(new java.awt.Dimension(55, 22));
+        Btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_BuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -328,50 +365,65 @@ public class FmrArticulos extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(249, 249, 249))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 327, Short.MAX_VALUE)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(Txt_PrecioArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(Txt_NombreArticulo)
+                                        .addGap(127, 127, 127)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
+                        .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(Txt_PrecioArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Txt_NombreArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(Txt_StockMax, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                        .addComponent(Txt_StockMin, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(Txt_StockAct, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(ComboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ComboTalla, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Txt_StockMax)
+                    .addComponent(Txt_StockMin)
+                    .addComponent(Txt_StockAct)
+                    .addComponent(Txt_Campo))
                 .addGap(85, 85, 85))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -395,8 +447,13 @@ public class FmrArticulos extends javax.swing.JFrame {
                             .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ComboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(40, 40, 40))
-                    .addComponent(Txt_Activo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_Campo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -781,6 +838,31 @@ public class FmrArticulos extends javax.swing.JFrame {
         Txt_StockAct.setEditable(false);
         }
     }//GEN-LAST:event_Tbl_ArticuloMouseClicked
+
+    private void CBox_FiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_FiltroActionPerformed
+
+        seleccionCBox();
+
+    }//GEN-LAST:event_CBox_FiltroActionPerformed
+
+    private void Txt_CampoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CampoKeyTyped
+
+        char n = evt.getKeyChar();
+
+        // Bloquear carácteres especiales menos espacio
+        if (!Character.isDigit(n))
+        {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_Txt_CampoKeyTyped
+
+    private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
+
+        int busquedaID = Integer.parseInt(Txt_Campo.getText());
+        consultarIDArt(busquedaID);
+
+    }//GEN-LAST:event_Btn_BuscarActionPerformed
       
     //MÉTODOS
     private void actualizarArticulo()
@@ -874,6 +956,12 @@ public class FmrArticulos extends javax.swing.JFrame {
         {            
             ComboTalla.addItem(lista);            
         });
+    }
+    
+    public void listaFiltro()
+    {
+        CBox_Filtro.addItem("ID");
+        CBox_Filtro.addItem("Nombre");
     }
     
     private static int GetIdTalla(String Nombre)
@@ -1073,6 +1161,103 @@ public class FmrArticulos extends javax.swing.JFrame {
         }            
     }
     
+    private void seleccionCBox()
+    {
+        Object seleccion = CBox_Filtro.getSelectedItem();
+        
+        if(seleccion.equals("ID"))
+        {
+            Btn_Buscar.setEnabled(true); 
+            Txt_Campo.setEnabled(true);
+        }else if(seleccion.equals("Nombre")){
+            
+            Txt_Campo.setText("");
+            
+            String articuloBuscar = JOptionPane.showInputDialog(null, "Ingrese el nombre del articulo a buscar.", "Articulo", JOptionPane.OK_CANCEL_OPTION);            
+            
+            String busquedaNombre = articuloBuscar;
+            
+            if(busquedaNombre.equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de artículo para buscar.","Error!", JOptionPane.ERROR_MESSAGE);                
+            }else{
+                consultarNombreArt(busquedaNombre);                
+            }                                  
+        }
+    }
+    
+    private void consultarNombreArt(String nombreAB)
+    {
+        t = (DefaultTableModel)Tbl_Articulo.getModel();
+        t.setRowCount(0);           
+        Tbl_Articulo.setModel(t);                               
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        String s = "Activado";
+        for(Articulo Articulos : articulo)
+        {
+            if(Articulos.getNombreArticulo().equals(nombreAB) && Articulos.isActivoArticulo())
+            {
+                t.addRow(
+                        new Object[]{
+                        Articulos.getIdArticulo(),
+                        Articulos.getNombreArticulo(),
+                        Articulos.getStockMinimo(),                        
+                        Articulos.getStock(),
+                        Articulos.getDescripcionArticulo(),
+                        Articulos.getPrecioArticulo(),                             
+                        Articulos.getIdTalla(),
+                        Articulos.isActivoArticulo(),
+                        s                       
+                        });                        
+            }            
+        }
+        
+        int filas = Tbl_Articulo.getRowCount();               
+        
+        if(filas == 0)
+        {
+            JOptionPane.showMessageDialog(null, "No existen artículos con ese nombre.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
+        }        
+    }
+    
+    private void consultarIDArt(int idB)
+    {                                       
+        t = (DefaultTableModel)Tbl_Articulo.getModel();
+        t.setRowCount(0);           
+        Tbl_Articulo.setModel(t);                               
+        
+        List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
+        
+        String s = "1";
+        for(Articulo Articulos : articulo)
+        {
+            if(Articulos.getIdArticulo() == idB && Articulos.isActivoArticulo())
+            {
+                t.addRow(
+                        new Object[]{
+                        Articulos.getIdArticulo(),
+                        Articulos.getNombreArticulo(),
+                        Articulos.getStockMinimo(),                        
+                        Articulos.getStock(),
+                        Articulos.getDescripcionArticulo(),
+                        Articulos.getPrecioArticulo(),                             
+                        Articulos.getIdTalla(),
+                        Articulos.isActivoArticulo(),
+                        s                       
+                        });                        
+            }
+        }
+
+        int filas = Tbl_Articulo.getRowCount();               
+        
+        if(filas == 0)
+        {
+            JOptionPane.showMessageDialog(null, "No existe un artículo con ese ID.");            
+        }
+    }
+    
     /**
      * 
      * 
@@ -1120,12 +1305,15 @@ public class FmrArticulos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar_Desactivar;
     private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Buscar;
     private javax.swing.JButton Btn_Editar;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
+    private javax.swing.JComboBox<String> CBox_Filtro;
     private javax.swing.JComboBox<String> ComboTalla;
     private javax.swing.JTable Tbl_Articulo;
     private javax.swing.JTextField Txt_Activo;
+    private javax.swing.JTextField Txt_Campo;
     private javax.swing.JTextField Txt_DescripcionArticulo;
     private javax.swing.JTextField Txt_IdArticulo;
     private javax.swing.JTextField Txt_NombreArticulo;
@@ -1138,6 +1326,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

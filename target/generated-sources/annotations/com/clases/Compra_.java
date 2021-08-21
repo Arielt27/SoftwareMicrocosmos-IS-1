@@ -10,6 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Compra_ {
 
 	public static volatile SingularAttribute<Compra, Double> totalCompra;
+	public static volatile SingularAttribute<Compra, Integer> idEstado;
 	public static volatile SingularAttribute<Compra, Timestamp> fechaRecibido;
 	public static volatile SingularAttribute<Compra, Integer> idCompra;
 	public static volatile SingularAttribute<Compra, Double> precioCompra;

@@ -6,6 +6,7 @@ C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrCompras.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\clases\AreaLaboralHistorica.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\dao\EstadoJpaController.java
+C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrBuscarArticuloCompra.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrVentas.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\dao\exceptions\IllegalOrphanException.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrClientes.java
@@ -49,6 +50,7 @@ C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\clases\SingletonUser.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrParametros.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\clases\Clientes.java
+C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrDetalleCompra.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\clases\TipoDePago.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\screens\FmrSecciónTienda.java
 C:\Users\Ariel\Documents\NetBeansProjects\SoftwareMicrocosmos-IS-1\src\main\java\com\clases\FacturaDataSource.java

@@ -20,6 +20,7 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -68,7 +69,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         Txt_UserName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        Txt_Contraseña = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -77,8 +77,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Admin = new javax.swing.JTextField();
         Btn_Admin = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        Txt_Confirmar = new javax.swing.JTextField();
         Btn_AñadirUser = new javax.swing.JButton();
+        Txt_Contraseña = new javax.swing.JPasswordField();
+        Txt_Confirmar = new javax.swing.JPasswordField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Usuarios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -233,10 +234,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(Txt_IdEmpleado)
                                         .addGap(85, 85, 85))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Txt_Contraseña))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -250,14 +247,17 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Txt_IdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -293,14 +293,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
                     .addComponent(Btn_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -434,7 +434,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        Btn_CambiarPass.getAccessibleContext().setAccessibleDescription("Cambia la contraseña del usuario seleccionado.");
         Btn_Activar.getAccessibleContext().setAccessibleDescription("Permite activar o desactivar el elemento seleccionado.");
         Btn_Return.getAccessibleContext().setAccessibleDescription("Vuelve a la pantalla anterior.");
         Btn_Limpiar.getAccessibleContext().setAccessibleDescription("Borra los datos de todos los campos de texto.");
@@ -584,6 +583,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
         String pass2 = Txt_Confirmar.getText();
         boolean status = true;
         
+        String contraEncriptada = DigestUtils.md5Hex(contra);
+        
          Pattern pass = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");        
          Matcher mat = pass.matcher(Txt_Contraseña.getText());
          
@@ -596,7 +597,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
                  objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
                  objUsuario.setNombreUsuario(Txt_UserName.getText());
-                 objUsuario.setContraseña(Txt_Contraseña.getText());
+                 objUsuario.setContraseña(contraEncriptada);
                  objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));
                  objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));                 
                  
@@ -605,11 +606,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  
                  if(estado.equals("Activado"))
                  {
-                     status = true;  
-                     JOptionPane.showMessageDialog(null,"Activo");
+                     status = true;                       
                  }else if(estado.equals("Desactivado")){
-                     status = false;
-                     JOptionPane.showMessageDialog(null,"No Activo");
+                     status = false;                     
                  }
                  
                  objUsuario.setActivoUsuario(status);
@@ -617,6 +616,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  try{
                      daoUsuarios.edit(objUsuario);
                      actualizarUsuario();
+                     limpiarUsuario();
                      JOptionPane.showMessageDialog(this, "La contraseña se actualizó correctamente.");
                  }catch(Exception ex){
                      Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
@@ -668,13 +668,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         if(estado.equals("Activado"))
         {            
-            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
-            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
-            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
-            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));            
-            objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
-            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
-            objUsuario.setActivoUsuario(false);            
+            objUsuario = daoUsuarios.findUsuarios(Integer.parseInt(Txt_IdUsuario.getText()));
+            objUsuario.setActivoUsuario(false);
                         
             try{
                 daoUsuarios.edit(objUsuario);
@@ -690,13 +685,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Btn_Limpiar.setEnabled(false);
             
         }else{            
-            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
-            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
-            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
-            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));            
-            objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));
-            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));
-            objUsuario.setActivoUsuario(true);  
+            
+            objUsuario = daoUsuarios.findUsuarios(Integer.parseInt(Txt_IdUsuario.getText()));
+            objUsuario.setActivoUsuario(true); 
             
             try{
                 daoUsuarios.edit(objUsuario);
@@ -722,11 +713,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         if(admin.equals("Si"))
         {
-            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
-            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
-            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
-            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));                        
-            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));                        
+            objUsuario = daoUsuarios.findUsuarios(Integer.parseInt(Txt_IdUsuario.getText()));
             objUsuario.setAdmin(false);
             
             try{
@@ -736,12 +723,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }catch(Exception ex){
                 Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);                                            
             }                                  
-        }else{
-            objUsuario.setIdUsuario(Integer.parseInt(Txt_IdUsuario.getText()));
-            objUsuario.setNombreUsuario(jTable_Usuarios.getValueAt(fila, 1).toString());            
-            objUsuario.setContraseña(jTable_Usuarios.getValueAt(fila, 2).toString());
-            objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));                        
-            objUsuario.setIdEmpleados(Integer.parseInt(Txt_IdEmpleado.getText()));            
+        }else{            
+            
             objUsuario.setAdmin(true);
             
             try{
@@ -830,8 +813,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Return;
     private javax.swing.JTextField Txt_Admin;
-    private javax.swing.JTextField Txt_Confirmar;
-    private javax.swing.JTextField Txt_Contraseña;
+    private javax.swing.JPasswordField Txt_Confirmar;
+    private javax.swing.JPasswordField Txt_Contraseña;
     private javax.swing.JTextField Txt_Estado;
     private javax.swing.JTextField Txt_IdEmpleado;
     private javax.swing.JTextField Txt_IdUsuario;
