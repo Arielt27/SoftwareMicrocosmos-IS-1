@@ -625,7 +625,10 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable_DetallesComprasMouseClicked
 
     private void Btn_DetallesComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_DetallesComprasActionPerformed
-        // TODO add your handling code here:
+        
+        FmrDetalleCompra dCompra = new FmrDetalleCompra();
+        dCompra.setVisible(true);        
+        
     }//GEN-LAST:event_Btn_DetallesComprasActionPerformed
 
     private void Btn_RegresarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarCActionPerformed
