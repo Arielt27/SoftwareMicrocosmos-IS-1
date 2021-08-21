@@ -44,6 +44,7 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         
         //INICIALIZAR        
         actualizarBusquedaArticulos();
+        listaFiltro();
     }
 
     /**
@@ -135,10 +136,15 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Tbl_Articulos);
         if (Tbl_Articulos.getColumnModel().getColumnCount() > 0) {
             Tbl_Articulos.getColumnModel().getColumn(0).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(0).setPreferredWidth(10);
             Tbl_Articulos.getColumnModel().getColumn(1).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(1).setPreferredWidth(140);
             Tbl_Articulos.getColumnModel().getColumn(2).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(2).setPreferredWidth(20);
             Tbl_Articulos.getColumnModel().getColumn(3).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(3).setPreferredWidth(200);
             Tbl_Articulos.getColumnModel().getColumn(4).setResizable(false);
+            Tbl_Articulos.getColumnModel().getColumn(4).setPreferredWidth(10);
         }
 
         jPanel2.setBackground(new java.awt.Color(60, 63, 65));
@@ -283,33 +289,19 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
 
-        int filaSeleccionada = Tbl_Articulos.getSelectedRow();
         int cant = 1;
-
-        int SMin = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 2);
-        int SAct = (int) Tbl_Articulos.getValueAt(filaSeleccionada, 3);
-        double precio = (double) Tbl_Articulos.getValueAt(filaSeleccionada, 5);
-        double total = precio * cant;
-
-        if(filaSeleccionada != -1 && SMin > SAct && SAct != 0)
+        int filaSeleccionada = Tbl_Articulos.getSelectedRow();
+                                        
+        if(filaSeleccionada != -1)
         {
-            JOptionPane.showMessageDialog(null, "Este Artículo esta por debajo de su stock mínimo.","Aviso!", JOptionPane.WARNING_MESSAGE);
-        }
-
-        if(filaSeleccionada != -1 && SAct > 0)
-        {
-            String Datos[] = new String[6];
+            String Datos[] = new String[4];
             Datos[0] = Tbl_Articulos.getValueAt(filaSeleccionada, 0).toString();
             Datos[1] = Tbl_Articulos.getValueAt(filaSeleccionada, 1).toString();
-            Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 5).toString();
-            Datos[3] = Tbl_Articulos.getValueAt(filaSeleccionada, 6).toString();
-            Datos[4] = String.valueOf(cant);
-            //Datos[5] = String.valueOf(formato1.format(total));
+            Datos[2] = Tbl_Articulos.getValueAt(filaSeleccionada, 2).toString();            
+            Datos[3] = String.valueOf(cant);            
 
-            FmrVentas.t2.addRow(Datos);
+            FmrCompras.t3.addRow(Datos);
             t.removeRow(filaSeleccionada);
-        }else if(SAct == 0){
-            JOptionPane.showMessageDialog(null, "No hay unidades en existencia de esta artículo.","Error!", JOptionPane.ERROR_MESSAGE);
         }else if(filaSeleccionada == -1){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
         }
@@ -358,17 +350,14 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
         
         String s = null;
         for(Articulo Articulos : articulo)
-        {
-            if(Articulos.isActivoArticulo() == true)                                             
-            
+        {                                                                     
             t.addRow(
                     new Object[]{
                         Articulos.getIdArticulo(),
                         Articulos.getNombreArticulo(),                                               
                         Articulos.getStock(),
                         Articulos.getDescripcionArticulo(),                                                     
-                        GetNombreTalla(Articulos.getIdTalla()),                        
-                        Articulos.isActivoArticulo(),
+                        GetNombreTalla(Articulos.getIdTalla()),                                                
                         s                       
                     });            
         }           
@@ -381,17 +370,15 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
     }
                 
     private void consultarIDArt(int idB)
-    {                                       
-        t = (DefaultTableModel)Tbl_Articulos.getModel();
-        t.setRowCount(0);           
-        Tbl_Articulos.setModel(t);                               
+    {                                              
+        t.setRowCount(0);                 
         
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
         String s = "1";
         for(Articulo Articulos : articulo)
         {
-            if(Articulos.getIdArticulo() == idB && Articulos.isActivoArticulo())
+            if(Articulos.getIdArticulo() == idB)
             {
                 t.addRow(
                         new Object[]{
@@ -417,17 +404,15 @@ public class FmrBuscarArticuloCompra extends javax.swing.JFrame {
     }
     
     private void consultarNombreArt(String nombreAB)
-    {
-        t = (DefaultTableModel)Tbl_Articulos.getModel();
+    {        
         t.setRowCount(0);           
-        Tbl_Articulos.setModel(t);                               
-        
+                
         List<Articulo> articulo = this.daoArticulo.findArticuloEntities();
         
         String s = "Activado";
         for(Articulo Articulos : articulo)
         {
-            if(Articulos.getNombreArticulo().equals(nombreAB) && Articulos.isActivoArticulo())
+            if(Articulos.getNombreArticulo().equals(nombreAB))
             {
                 t.addRow(
                         new Object[]{

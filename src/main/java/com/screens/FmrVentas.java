@@ -626,7 +626,7 @@ public class FmrVentas extends javax.swing.JFrame {
         
         if(filas == 0)
         {                   
-            JOptionPane.showMessageDialog(null, "No hay artículos que seleccionar.","¡Aviso!", JOptionPane.INFORMATION_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "No hay artículos que seleccionar.","¡Aviso!", JOptionPane.WARNING_MESSAGE);        
         }else if(filas != 0){
             calcularValores();
         }
@@ -647,7 +647,6 @@ public class FmrVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_CantidadActionPerformed
 
     private void Txt_CantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CantidadKeyTyped
-
         
         char l = evt.getKeyChar();
 
