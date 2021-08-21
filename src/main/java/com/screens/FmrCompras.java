@@ -592,8 +592,8 @@ public class FmrCompras extends javax.swing.JFrame {
         
         
         
-        String Cantidad= Tbl_Compra.getValueAt(fila, 2).toString();
-        String total= Tbl_Compra.getValueAt(fila, 6).toString();
+        String Cantidad= Tbl_Compra.getValueAt(fila, 3).toString();
+        
        
       
         
@@ -603,7 +603,7 @@ public class FmrCompras extends javax.swing.JFrame {
        
       
         Txt_Cantidad.setText(Cantidad);
-        Txt_Total.setText(total);
+       
        
         //CBox_Provedor.setSelectedItem(Proveedor);        
        // CBox_Articulo.setSelectedItem(Articulo);
@@ -810,11 +810,12 @@ public class FmrCompras extends javax.swing.JFrame {
   private void Inicializar()
     {   
                  
-        Txt_FechaPedido.setEditable(true);
+       
        Txt_llegada.setEditable(true);
-        Txt_llegada.setVisible(true);
+       Txt_FechaPedido.setVisible(true);
         Txt_Precio.setEditable(true);
-            
+              
+       Txt_Cantidad.setEditable(true);
        Txt_Cantidad.setText("0");
         Txt_Total.setText("0");
         Txt_Precio.setText("0");
@@ -834,7 +835,7 @@ public class FmrCompras extends javax.swing.JFrame {
         Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String fechaTexto = formatter.format(fecha);
-        Txt_llegada.setText(fechaTexto);    
+        Txt_FechaPedido.setText(fechaTexto);    
         
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t3 = (DefaultTableModel)Tbl_Compra.getModel();
@@ -919,6 +920,7 @@ public class FmrCompras extends javax.swing.JFrame {
         Txt_Cantidad.setText("");
         CBox_Provedor.setSelectedIndex(0);
         Txt_Total.setText("");
+        Inicializar();
         
        }
           private static boolean ValidacionTresLetras(String Nombre)
@@ -1096,10 +1098,10 @@ public class FmrCompras extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No tenemos la cantidad deseada en existencia.\n"
                                                     + "La cantidad de stock para este artículo es: " + stock, "¡Error!", JOptionPane.ERROR_MESSAGE);
             }else{                                
-                double prc = Double.parseDouble(t2.getValueAt(fila, 2).toString());            
+                double prc = Double.parseDouble(t3.getValueAt(fila, 2).toString());            
                 double tot = prc*cant;            
-                t2.setValueAt(cant, fila, 4);                                   
-                t2.setValueAt(tot, fila, 5);                                
+                t3.setValueAt(cant, fila, 3);                                   
+                                              
                 Txt_Cantidad.setText("1");
             }
         }   
