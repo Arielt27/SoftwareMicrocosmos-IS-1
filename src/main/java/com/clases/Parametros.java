@@ -20,7 +20,7 @@ public class Parametros implements Serializable {
     
     
     @Id
-    private int IdParametros;
+    private int idParametros;
     @Column
     private String cai;
     @Column
@@ -36,11 +36,11 @@ public class Parametros implements Serializable {
     
     
     public int getIdParametros() {
-        return IdParametros;
+        return idParametros;
     }
 
     public void setIdParametros(int idParametros) {
-        this.IdParametros = idParametros;
+        this.idParametros = idParametros;
     }
 
     public String getCai() {

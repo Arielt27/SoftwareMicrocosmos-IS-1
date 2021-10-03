@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -401,7 +402,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
-        Limpiar();        
+        Limpiar();               
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
@@ -523,12 +524,40 @@ public class FmrParametros extends javax.swing.JFrame {
     //METODOS
     private void Añadir()
     {
-        //validacionCAI();
+        //OBTENIENDO VALORES INGRESADOS POR USER DE TXT 
+        /*String fechaI = Txt_FechaIC.getText();
+        String fechaF = Txt_FechaFC.getText();        
+        String factI = Txt_NumeroI.getText();
+        String factF = Txt_NumeroF.getText();   */
         
+        //OBTENIENDO VALORES DE LA TABlA
+        //int ultimaFila = jTable_CAI.getRowCount() - 1;
+        
+        /*String fechaIT = String.valueOf(jTable_CAI.getValueAt(ultimaFila, 2));
+        String fechaFT = String.valueOf(jTable_CAI.getValueAt(ultimaFila, 3));
+        String factIT = String.valueOf(jTable_CAI.getValueAt(ultimaFila, 4));
+        String factfT = String.valueOf(jTable_CAI.getValueAt(ultimaFila, 5));       
+        
+        //LocalDate Fechaiu = */
+        
+        
+        
+        
+        //validacionCAI();        
         if(ValidacionDeRepetidos(Txt_Cai.getText()) == true)
         {
             JOptionPane.showMessageDialog(null, "Este elemento ya existe.","!Error¡", JOptionPane.ERROR_MESSAGE);
-        }else{                                  
+        }else if(Txt_Cai.getText().isEmpty()){                                  
+            JOptionPane.showMessageDialog(null, "El CAI no puede estar vacío.","!Error¡", JOptionPane.ERROR_MESSAGE);            
+        }else if(Txt_FechaIC.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "La fecha inicial no puede estar vacía.","!Error¡", JOptionPane.ERROR_MESSAGE);                                    
+        }else  if(Txt_FechaFC.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "La fecha final no puede estar vacía.","!Error¡", JOptionPane.ERROR_MESSAGE);                                    
+        }else if(Txt_NumeroI.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El rango inicial no puede estar vacío.","!Error¡", JOptionPane.ERROR_MESSAGE);                                    
+        }else if(Txt_NumeroF.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El rango final no puede estar vacío.","!Error¡", JOptionPane.ERROR_MESSAGE);                                    
+        }else{
             
             //Recogiendo fechas
             String fechaIC = Txt_FechaIC.getText();
@@ -536,10 +565,10 @@ public class FmrParametros extends javax.swing.JFrame {
             
             //Agregando formato a la fecha
             String fechaI = fechaIC + " 00:00:00";
-            String fechaF = fechaFC + " 00:00:00";           
+            String fechaF = fechaFC + " 00:00:00"; 
             
             //Añadiendo datos al objeto
-            objParam.setCai(Txt_Cai.getText());                      
+            objParam.setCai(Txt_Cai.getText());
             objParam.setFechaEmision(Timestamp.valueOf(fechaI));
             objParam.setFechaCaducidad(Timestamp.valueOf(fechaF));
             objParam.setFacturaInicial(Integer.parseInt(Txt_NumeroI.getText()));
@@ -548,13 +577,14 @@ public class FmrParametros extends javax.swing.JFrame {
             
             
             try{
-                daoParam.edit(objParam);
+                daoParam.edit(objParam);                
                 actualizarCai();
+                desactivarCaiEmitido();
                 Limpiar();
-                JOptionPane.showMessageDialog(this, "Se guardó correctamente.");
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
             }catch(Exception ex){
                 Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);                                                
-            }
+            }                                   
         }
     }
     
@@ -638,6 +668,30 @@ public class FmrParametros extends javax.swing.JFrame {
              return true;
                 
              }        
+    }
+    
+    private void desactivarCaiEmitido()
+    {
+        if(jTable_CAI.getRowCount() >= 2)
+        {
+            int filaAnterior = jTable_CAI.getRowCount()-2; 
+            System.out.println(filaAnterior);
+            String idAnterior = String.valueOf(jTable_CAI.getValueAt(filaAnterior, 0));
+        
+            System.out.println(idAnterior);
+        
+            //AQUI OBTENGO EL ID DE LA PENULTIMA FILA
+            objParam = daoParam.findParametros(Integer.parseInt(idAnterior));
+         
+            objParam.setActivoParametros(false);
+        
+            try{
+                daoParam.edit(objParam);    
+                actualizarCai();
+            }catch(Exception ex){
+                Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);                                                            
+            }
+        }                        
     }
     
     /**

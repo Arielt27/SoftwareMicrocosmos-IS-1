@@ -8,7 +8,6 @@ package com.screens;
 import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import java.awt.Image;
-import java.awt.Toolkit;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -23,6 +22,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @author Christian castro
  * Para Sprint 1
  */
+import org.apache.commons.codec.digest.DigestUtils;
 public class FmrLogin extends javax.swing.JFrame {
 
     /**
@@ -251,9 +251,8 @@ public class FmrLogin extends javax.swing.JFrame {
         
         }else{
             
-            String contraEncriptada = DigestUtils.md5Hex(Txt_Contraseña.getText());
-            
-            ValidarAcceso(Txt_Usuario.getText().toString(),contraEncriptada);
+        String contraEncriptada = DigestUtils.md5Hex(Txt_Contraseña.getText());
+        ValidarAcceso(Txt_Usuario.getText().toString(),contraEncriptada);
              
         }    
        
@@ -267,7 +266,7 @@ public class FmrLogin extends javax.swing.JFrame {
     EntityManager em = emf.createEntityManager();
 
 
-    String select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND activoUsuario = true";
+    String select = "SELECT nombreUsuario, pass FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND activoUsuario = true";
    
     Query query = em.createQuery(select);
       
@@ -280,7 +279,7 @@ public class FmrLogin extends javax.swing.JFrame {
     }else{
           
           Resetear(Usuario);
-          select = "SELECT nombreUsuario, contraseña FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND contraseña = '" + Contraseña + "' AND activoUsuario = true"; 
+          select = "SELECT nombreUsuario, pass FROM Usuarios WHERE nombreUsuario = '"+ Usuario+ "' AND pass = '" + Contraseña + "' AND activoUsuario = true"; 
           query = em.createQuery(select);
           
           if(query.getResultList().size() != 0){

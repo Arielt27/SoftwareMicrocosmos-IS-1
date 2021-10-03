@@ -21,7 +21,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -69,10 +68,10 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         CBox_IdEmpleado = new javax.swing.JComboBox<>();
         Txt_NameUser = new javax.swing.JTextField();
-        Btn_Añadir = new javax.swing.JButton();
-        Btn_Cancelar = new javax.swing.JButton();
         Txt_Pass = new javax.swing.JPasswordField();
         Txt_CheckPass = new javax.swing.JPasswordField();
+        Btn_Añadir = new javax.swing.JButton();
+        Btn_Cancelar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -185,9 +184,9 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Txt_NameUser)
-                    .addComponent(CBox_IdEmpleado, 0, 90, Short.MAX_VALUE)
                     .addComponent(Txt_Pass)
-                    .addComponent(Txt_CheckPass))
+                    .addComponent(Txt_CheckPass)
+                    .addComponent(CBox_IdEmpleado, 0, 90, Short.MAX_VALUE))
                 .addGap(57, 57, 57)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,8 +208,8 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_Pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -284,9 +283,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     private void añadirUsuario()
     {
         String pass = new String(Txt_Pass.getPassword());        
-        String confir = new String(Txt_CheckPass.getPassword());  
-        
-        String contraEncriptada = DigestUtils.md5Hex(pass);
+        String confir = new String(Txt_CheckPass.getPassword());                 
         
         if(CBox_IdEmpleado.getSelectedItem().toString() == "Seleccione")
         {
@@ -305,7 +302,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Las contraseñas coinciden.");                        
                     
                     objUsuarios.setNombreUsuario(Txt_NameUser.getText());
-                    objUsuarios.setContraseña(contraEncriptada);
+                    objUsuarios.setContraseña(pass);
                     objUsuarios.setNumeroDeIntentos(0);
                     objUsuarios.setActivoUsuario(true);
                     objUsuarios.setAdmin(false);

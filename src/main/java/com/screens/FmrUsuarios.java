@@ -251,12 +251,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Txt_Estado, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -559,7 +561,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         int fila = jTable_Usuarios.getSelectedRow();
         
-        if(fila != -1)
+        if(fila != -1)            
         {                      
             adminUsuario();                                                                              
         }else{
@@ -583,7 +585,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         String pass2 = Txt_Confirmar.getText();
         boolean status = true;
         
-        String contraEncriptada = DigestUtils.md5Hex(contra);
+        String contraEncriptada = DigestUtils.md5Hex(contra);        
         
          Pattern pass = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");        
          Matcher mat = pass.matcher(Txt_Contraseña.getText());
@@ -599,7 +601,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  objUsuario.setNombreUsuario(Txt_UserName.getText());
                  objUsuario.setContraseña(contraEncriptada);
                  objUsuario.setNumeroDeIntentos(Integer.parseInt(Txt_Intentos.getText()));
-                 objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText()));                 
+                 objUsuario.setAdmin(Boolean.parseBoolean(Txt_Admin.getText())); 
+                 objUsuario.setActivoUsuario(true);
                  
                  //OBTENIENDO EL ESTADO DEL USUARIO EN STRING Y PASANDOLO A BOOLEAN
                  String estado = Txt_Estado.getText();
@@ -616,7 +619,6 @@ public class FmrUsuarios extends javax.swing.JFrame {
                  try{
                      daoUsuarios.edit(objUsuario);
                      actualizarUsuario();
-                     limpiarUsuario();
                      JOptionPane.showMessageDialog(this, "La contraseña se actualizó correctamente.");
                  }catch(Exception ex){
                      Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
@@ -627,6 +629,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
          }else{
              JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos un número, una letra mayúscula y minúscula, un carácter especial y mínimo 8 dígitos.","Formato de contraseña incorrecto", JOptionPane.ERROR_MESSAGE);             
          }              
+         limpiarUsuario();
     }
     
     private void actualizarUsuario()
@@ -685,9 +688,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Btn_Limpiar.setEnabled(false);
             
         }else{            
-            
             objUsuario = daoUsuarios.findUsuarios(Integer.parseInt(Txt_IdUsuario.getText()));
-            objUsuario.setActivoUsuario(true); 
+            objUsuario.setActivoUsuario(true);             
             
             try{
                 daoUsuarios.edit(objUsuario);
@@ -723,8 +725,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }catch(Exception ex){
                 Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);                                            
             }                                  
-        }else{            
-            
+        }else{
+            objUsuario = daoUsuarios.findUsuarios(Integer.parseInt(Txt_IdUsuario.getText()));
             objUsuario.setAdmin(true);
             
             try{
@@ -757,7 +759,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         EntityManager em = emf.createEntityManager();
                     
-        String select = "SELECT idUsuario FROM Usuarios WHERE contraseña  = '"+Contraseña+ "'";
+        String select = "SELECT idUsuario FROM Usuarios WHERE pass  = '"+Contraseña+ "'";
    
         Query query = em.createQuery(select);
        

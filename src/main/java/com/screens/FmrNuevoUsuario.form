@@ -121,9 +121,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="Txt_NameUser" max="32767" attributes="0"/>
-                      <Component id="CBox_IdEmpleado" alignment="0" pref="90" max="32767" attributes="0"/>
                       <Component id="Txt_Pass" max="32767" attributes="0"/>
                       <Component id="Txt_CheckPass" max="32767" attributes="0"/>
+                      <Component id="CBox_IdEmpleado" alignment="0" pref="90" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -151,8 +151,8 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Btn_Cancelar" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="Txt_Pass" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="Btn_Cancelar" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -269,6 +269,10 @@
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Txt_NameUserKeyTyped"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JPasswordField" name="Txt_Pass">
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="Txt_CheckPass">
+        </Component>
         <Component class="javax.swing.JButton" name="Btn_A&#xf1;adir">
           <Properties>
             <Property name="text" type="java.lang.String" value="A&#xf1;adir Usuario"/>
@@ -304,10 +308,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_CancelarActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JPasswordField" name="Txt_Pass">
-        </Component>
-        <Component class="javax.swing.JPasswordField" name="Txt_CheckPass">
         </Component>
       </SubComponents>
     </Container>

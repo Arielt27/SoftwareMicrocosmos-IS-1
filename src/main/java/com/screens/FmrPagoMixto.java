@@ -66,9 +66,9 @@ public class FmrPagoMixto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pago Mixto - Microcosmos");
-        setMaximumSize(new java.awt.Dimension(300, 200));
         setMinimumSize(new java.awt.Dimension(300, 200));
         setResizable(false);
+        setSize(new java.awt.Dimension(319, 180));
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
 
@@ -280,7 +280,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
         }   
         
         // Maximo de carácteres permitidos
-        if (Txt_Tarjeta.getText().length() >= 16)
+        if (Txt_Tarjeta.getText().length() >= 22)
         {
             evt.consume();     
             Toolkit.getDefaultToolkit().beep();            

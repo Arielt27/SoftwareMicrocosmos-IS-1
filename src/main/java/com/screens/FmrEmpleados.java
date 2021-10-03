@@ -601,7 +601,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
     private void Txt_NombreEmpleadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreEmpleadoKeyTyped
 
-        char c = evt.getKeyChar();
+        /*char c = evt.getKeyChar();
         String Texto = Txt_NombreEmpleado.getText();
 
         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
@@ -614,7 +614,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             char mayuscula = Texto.charAt(0);
             Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
             Txt_NombreEmpleado.setText(Texto);
-        }
+        }*/
     }//GEN-LAST:event_Txt_NombreEmpleadoKeyTyped
 
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed

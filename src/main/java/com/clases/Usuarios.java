@@ -22,7 +22,7 @@ public class Usuarios implements Serializable {
     @Column
     private String nombreUsuario;
     @Column
-    private String contraseña;
+    private String pass;
     @Column
     private int numeroDeIntentos;
     @Column
@@ -49,11 +49,11 @@ public class Usuarios implements Serializable {
     }
 
     public String getContraseña() {
-        return contraseña;
+        return pass;
     }
 
     public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+        this.pass = contraseña;
     }
 
     public int getNumeroDeIntentos() {

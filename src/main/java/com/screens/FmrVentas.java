@@ -63,7 +63,7 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class FmrVentas extends javax.swing.JFrame {
     
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");    
         
     VentaJpaController daoVenta = new VentaJpaController();            
     ClientesJpaController daoClientes = new ClientesJpaController();        
@@ -92,9 +92,14 @@ public class FmrVentas extends javax.swing.JFrame {
     double montoT = FmrPagoMixto.canTarjeta;
     double montoE = FmrPagoMixto.canEfectivo;        
     public static double totalV;
+    String Tarjeta = FmrTarjeta.nTarjeta;
+    
     
     Date fecha = new Date(Calendar.getInstance().getTimeInMillis());        
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    
+    Date fechaBD = new Date(Calendar.getInstance().getTimeInMillis());        
+    SimpleDateFormat formatterBD = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Creates new form Ventas
@@ -109,7 +114,7 @@ public class FmrVentas extends javax.swing.JFrame {
         
         //INICIALIZAR PANTALLA
         Inicializar();    
-        validarCAI();
+        //validarCAI();
         facturaID();
     }        
 
@@ -148,6 +153,7 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_IdCai = new javax.swing.JTextField();
         Txt_Fact = new javax.swing.JTextField();
         Txt_IdEmpleado = new javax.swing.JTextField();
+        Txt_FechaBD = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Venta = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -326,6 +332,8 @@ public class FmrVentas extends javax.swing.JFrame {
             }
         });
 
+        Txt_FechaBD.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -360,7 +368,7 @@ public class FmrVentas extends javax.swing.JFrame {
                         .addComponent(Btn_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)))
                 .addGap(50, 50, 50)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,8 +377,9 @@ public class FmrVentas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Txt_TotalVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                            .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)))
-                    .addComponent(Txt_SubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_Impuesto, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                            .addComponent(Txt_SubTotal)))
+                    .addComponent(Txt_FechaBD, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Txt_Fact, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
@@ -397,7 +406,8 @@ public class FmrVentas extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(Txt_Cai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Txt_Cai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_FechaBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
@@ -600,7 +610,7 @@ public class FmrVentas extends javax.swing.JFrame {
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
 
         FmrMenú Menu = new FmrMenú();
-        Menu.setVisible(true);
+        Menu.setVisible(true);        
         this.dispose();
 
     }//GEN-LAST:event_Btn_RegresarActionPerformed
@@ -680,7 +690,10 @@ public class FmrVentas extends javax.swing.JFrame {
         {
             FmrPagoMixto pMixto = new FmrPagoMixto();
             pMixto.setVisible(true);                                   
-        }            
+        }else if(mixto.equals("Tarjeta")){
+            FmrTarjeta tar = new FmrTarjeta();
+            tar.setVisible(true);            
+        }
                 
     }//GEN-LAST:event_CBox_TipoPagoActionPerformed
 
@@ -733,7 +746,8 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_SubTotal.setText("0.00");
         Txt_Impuesto.setText("0.00");                
         Txt_TotalVenta.setText("0.00");
-        CBox_TipoPago.setEnabled(false);                   
+        CBox_TipoPago.setEnabled(false);  
+        Txt_FechaBD.setVisible(false);        
 
         listaClientes();
         listaTipoPago();              
@@ -750,6 +764,10 @@ public class FmrVentas extends javax.swing.JFrame {
         //OBTENER, FORMATEAR Y MOSTRAR FECHA ACTUAL        
         String fechaTexto = formatter.format(fecha);
         Txt_FechaFact.setText(fechaTexto);    
+        
+        //OBTENER Y FORMATEAR FECHA PARA BD
+        String fechaDB = formatterBD.format(fechaBD);
+        Txt_FechaBD.setText(fechaDB);  
         
         //INICIALIZAR TABLA DE PRODUCTOS Y FACTURA        
         t2 = (DefaultTableModel)jTable_Venta.getModel();
@@ -768,7 +786,7 @@ public class FmrVentas extends javax.swing.JFrame {
             //OBTENER DATOS
             calcularValores();
             
-            String fechaVenta = Txt_FechaFact.getText();            
+            String fechaVenta = Txt_FechaBD.getText();            
             String idEmpleado = Txt_IdEmpleado.getText();
             int idVenta = Integer.parseInt(Txt_Fact.getText());
                         
@@ -785,7 +803,12 @@ public class FmrVentas extends javax.swing.JFrame {
                 tarj = FmrPagoMixto.numTarjeta;
                 montoT = FmrPagoMixto.canTarjeta;
                 montoE = FmrPagoMixto.canEfectivo;                                
-            }                        
+            }
+            
+            if(CBox_TipoPago.getSelectedItem().equals("Tarjeta"))
+            {
+                tarj = FmrTarjeta.nTarjeta;                    
+            }
             
             objVenta.setIdVenta(idVenta);
             objVenta.setFechaVenta(Timestamp.valueOf(fechaV));            
@@ -990,10 +1013,10 @@ public class FmrVentas extends javax.swing.JFrame {
     {        
         EntityManager em = daoParametros.getEntityManager();
         
-        String hql = "FROM Parametros E WHERE E.IdParametros = :IdParametros AND E.ActivoParametros = 1";
+        String hql = "FROM Parametros E WHERE E.idParametros = :idParametros AND E.ActivoParametros = 1";
         Query query = em.createQuery(hql);
         
-        query.setParameter("IdParametros", 1);
+        query.setParameter("idParametros", 1);
         
         Parametros id = (Parametros)query.getSingleResult();
         
@@ -1004,10 +1027,10 @@ public class FmrVentas extends javax.swing.JFrame {
     {
         EntityManager em = daoParametros.getEntityManager();
         
-        String hql = "FROM Parametros E WHERE E.IdParametros = :IdParametros AND E.ActivoParametros = 1";
+        String hql = "FROM Parametros E WHERE E.idParametros = :idParametros AND E.ActivoParametros = 1";
         Query query = em.createQuery(hql);
         
-        query.setParameter("IdParametros", 1);
+        query.setParameter("idParametros", 1);
         
         Parametros id = (Parametros)query.getSingleResult();                              
         
@@ -1275,6 +1298,7 @@ public class FmrVentas extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_Cai;
     private javax.swing.JTextField Txt_Cantidad;
     private javax.swing.JTextField Txt_Fact;
+    private javax.swing.JTextField Txt_FechaBD;
     private javax.swing.JTextField Txt_FechaFact;
     private javax.swing.JTextField Txt_IdCai;
     private javax.swing.JTextField Txt_IdEmpleado;

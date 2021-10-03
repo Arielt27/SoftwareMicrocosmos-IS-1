@@ -21,6 +21,7 @@ import com.clases.facturasanuladas;
 import com.dao.ArticuloJpaController;
 import com.dao.ClientesJpaController;
 import com.dao.CompraJpaController;
+import com.dao.DetalleVentaJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.EstadoJpaController;
 import com.dao.ParametrosJpaController;
@@ -64,7 +65,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     ClientesJpaController daoClientes = new ClientesJpaController();   
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();          
-    ParametrosJpaController daoParametros = new ParametrosJpaController();    
+    ParametrosJpaController daoParametros = new ParametrosJpaController();        
+    DetalleVentaJpaController daoDetalle = new DetalleVentaJpaController();
     facturasanuladasJpaController daoAnuladas = new facturasanuladasJpaController();        
         
     Venta objVenta = new Venta();
@@ -75,7 +77,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     Empleados objEmpleados = new Empleados();    
     TipoDePago objTipoPago = new TipoDePago();        
     Parametros objParametros = new Parametros();  
-    facturasanuladas objAnuladas = new facturasanuladas();
+    DetalleVenta objDetalle = new DetalleVenta();
+    facturasanuladas objAnuladas = new facturasanuladas();   
         
         
     FacturaDataSource dataSource;    
@@ -857,6 +860,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             int idventaa = daoVenta.findVenta(ID).getIdVenta();                                              
             //String idV = String.valueOf(idventaa);    
             
+            int idDventa = idventaa;                                                                        
+            
             //FECHA
             Date fechaV = daoVenta.findVenta(ID).getFechaVenta();
             String dateV = String.valueOf(fechaV);
@@ -910,8 +915,8 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
             }catch(Exception ex){
                 Logger.getLogger(FmrHistorialFacturas.class.getName()).log(Level.SEVERE, null, ex);                                                                    
             }
-        }else{
-            actualizarVentas();
+        }else{                        
+            actualizarVentas();                       
         }
     }
     
@@ -989,6 +994,20 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         } catch (JRException ex) {
             Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void devolverStock(String idArticulo, String Cantidad)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction().begin();
+        String select = "UPDATE Articulo SET stock = (stock + "+Cantidad+") WHERE idArticulo = '"+ idArticulo+"'";
+        
+        Query query = em.createQuery(select);
+        query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
     
     
