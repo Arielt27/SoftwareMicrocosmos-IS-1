@@ -698,9 +698,13 @@ public class FmrProveedores extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         String Texto = Txt_DocumentoProveedor.getText();
         
-         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9')){
+          
+       
+        if(c < '0' || c > '9') {
         
+            //consume no valida los datos
             evt.consume();
+             
         
         }
         
