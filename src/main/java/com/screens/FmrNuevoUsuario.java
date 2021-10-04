@@ -10,6 +10,7 @@ import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +20,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
@@ -33,8 +36,12 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     
     Empleados objEmpleados = new Empleados();
-    Usuarios objUsuarios = new Usuarios();
-
+    Usuarios objUsuarios = new Usuarios();   
+    
+    FmrUsuarios frmUsers = new FmrUsuarios();
+                    
+    int nuevoUser = 0;
+           
     /**
      * Creates new form FmrNuevoUsuario
      */
@@ -240,7 +247,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     //BOTONES Y CAMPOS
     private void Btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarActionPerformed
                 
-        this.dispose();              
+        this.dispose();             
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
@@ -249,8 +256,23 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_CBox_IdEmpleadoActionPerformed
 
     private void Txt_NameUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NameUserKeyTyped
+                
+         char l = evt.getKeyChar();
+        String Txt = Txt_NameUser.getText();
         
+        // Primera letra masyúscula
+        if (Txt_NameUser.getText().length() == 1)
+        {
+            char mayus = Txt.charAt(0);
+            Txt = Character.toUpperCase(mayus)+ Txt.substring(1,Txt.length());
+            Txt_NameUser.setText(Txt);
+        }
         
+        // Bloquear carácteres especiales menos punto.
+        if (!Character.isLetter(l) && !Character.isDigit(l) && l != KeyEvent.VK_COMMA)
+        {
+            evt.consume();                        
+        }
         
     }//GEN-LAST:event_Txt_NameUserKeyTyped
 
@@ -282,15 +304,21 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     
     private void añadirUsuario()
     {
-        String pass = new String(Txt_Pass.getPassword());        
-        String confir = new String(Txt_CheckPass.getPassword());                 
+        Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         
+        String pass = new String(Txt_Pass.getPassword());        
+        String confir = new String(Txt_CheckPass.getPassword()); 
+                        
         if(CBox_IdEmpleado.getSelectedItem().toString() == "Seleccione")
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Empleado.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
         }else if(Txt_NameUser.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe añadir un nombre de usuario.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
-        }else{
+        }else if(Txt_NameUser.getText().length() < 3){
+            JOptionPane.showMessageDialog(null, "El nombre de usuario debe contener un mínimo de 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                    
+        }else if(Txt_NameUser.getText().length() > 10){
+            JOptionPane.showMessageDialog(null, "El nombre de usuario no debe ser mayor de 10 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                    
+        }else{                                    
             
             Pattern contra = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");        
             Matcher mat = contra.matcher(Txt_Pass.getText());  
@@ -301,17 +329,21 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                 {
                     JOptionPane.showMessageDialog(this, "Las contraseñas coinciden.");                        
                     
+                    String passEnc = DigestUtils.md5Hex(Txt_Pass.getText());
+                    
                     objUsuarios.setNombreUsuario(Txt_NameUser.getText());
-                    objUsuarios.setContraseña(pass);
+                    objUsuarios.setContraseña(passEnc);
                     objUsuarios.setNumeroDeIntentos(0);
                     objUsuarios.setActivoUsuario(true);
                     objUsuarios.setAdmin(false);
                     objUsuarios.setIdEmpleados(Character.getNumericValue(CBox_IdEmpleado.getSelectedItem().toString().charAt(0)));
                     
                     try{
-                        daoUsuarios.edit(objUsuarios);                       
-                        JOptionPane.showMessageDialog(null,"El Usuario ha sido creado exitosamente.");
-                        this.dispose();
+                        daoUsuarios.edit(objUsuarios); 
+                        nuevoUser = 1;                        
+                        JOptionPane.showMessageDialog(null, "El Usuario ha sido creado exitosamente.", "Nuevo Usuario", 0, icono);
+                        frmUsers.actualizarNuevoIngreso(nuevoUser);
+                        this.dispose();                            
                     }catch(Exception ex){
                         Logger.getLogger(FmrNuevoUsuario.class.getName()).log(Level.SEVERE, null, ex);                        
                     }

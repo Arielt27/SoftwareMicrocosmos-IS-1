@@ -31,7 +31,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     Usuarios objUsuario = new Usuarios();
-
+    
+    public int updateUsers = 0;
+                
     /**
      * Creates new form FmrUsuarios
      */
@@ -47,7 +49,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
         actualizarUsuario();        
         Btn_CambiarPass.setEnabled(false);
         Btn_Activar.setEnabled(false);  
-        Btn_Limpiar.setEnabled(false);        
+        Btn_Limpiar.setEnabled(false);   
+        Txt_Nuevo.setText(String.valueOf(updateUsers));            
     }
 
     /**
@@ -80,6 +83,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_AñadirUser = new javax.swing.JButton();
         Txt_Contraseña = new javax.swing.JPasswordField();
         Txt_Confirmar = new javax.swing.JPasswordField();
+        Txt_Nuevo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Usuarios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -268,7 +272,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
                             .addComponent(Txt_Admin))
                         .addGap(18, 18, 18)
                         .addComponent(Btn_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Txt_Nuevo))
                 .addGap(123, 123, 123))
         );
         jPanel2Layout.setVerticalGroup(
@@ -300,9 +305,11 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -478,13 +485,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
                
         int fila = jTable_Usuarios.getSelectedRow();        
         
-        if(fila != -1)
+        if(fila != -1 && fila != 0)
         {
             estadoUsuario();            
+        }else if(fila == 0){
+            JOptionPane.showMessageDialog(null, "El usuario root no puede ser desactivado.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para realizar esta acción.","¡Aviso!", JOptionPane.WARNING_MESSAGE);
-        }             
-                       
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para realizar esta acción.","¡Aviso!", JOptionPane.WARNING_MESSAGE);            
+        }                       
     }//GEN-LAST:event_Btn_ActivarActionPerformed
       
     private void Btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ReturnActionPerformed
@@ -539,7 +547,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 Txt_Estado.setText("Desactivado"); 
             }
             
-            if(Admin == "true")
+            if(Admin == "Admin")
             {
                 Txt_Admin.setText("Si");                
             }else{
@@ -561,13 +569,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         int fila = jTable_Usuarios.getSelectedRow();
         
-        if(fila != -1)            
+        if(fila != -1 && fila != 0)            
         {                      
             adminUsuario();                                                                              
+        }else if(fila == 0){
+            JOptionPane.showMessageDialog(null, "El usuario root es un administrador por defecto.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);
-        }                     
-        
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);            
+        }                           
     }//GEN-LAST:event_Btn_AdminActionPerformed
 
     private void Btn_AñadirUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirUserActionPerformed
@@ -641,6 +650,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         List<Usuarios> usuario = this.daoUsuarios.findUsuariosEntities();
         
         String s;
+        String r;
         for(Usuarios Usuarios : usuario)
         {
             if(Usuarios.isActivoUsuario() == true) 
@@ -648,7 +658,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 s = "Activado";                
             }else{
                 s = "Desactivado";
-            }                                 
+            }   
+            
+            if(Usuarios.isAdmin() == true)            
+            {
+                r = "Admin";                
+            }else{
+                r = "No Admin";
+            }
             
             t.addRow(
                     new Object[]{
@@ -656,7 +673,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         Usuarios.getNombreUsuario(),                        
                         Usuarios.getNumeroDeIntentos(),
                         s,
-                        Usuarios.isAdmin(),
+                        r,
                         Usuarios.getIdEmpleados(),
                         s
                     });
@@ -725,10 +742,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }catch(Exception ex){
                 Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);                                            
             }                                  
-        }else{
+        }else if(admin.equals("No")){            
             objUsuario = daoUsuarios.findUsuarios(Integer.parseInt(Txt_IdUsuario.getText()));
-            objUsuario.setAdmin(true);
-            
+            objUsuario.setAdmin(true);            
             try{
                 daoUsuarios.edit(objUsuario);
                 actualizarUsuario();
@@ -770,6 +786,17 @@ public class FmrUsuarios extends javax.swing.JFrame {
         }else{
             return true;                
         }             
+    }
+    
+    public void actualizarNuevoIngreso(int nuevoIngreso)
+    {  
+        if(nuevoIngreso == 1)        
+        {
+            updateUsers = nuevoIngreso;            
+            JOptionPane.showMessageDialog(null, "El número es: " + updateUsers);
+            actualizarUsuario();
+            //Txt_Nuevo.setText("1");                        
+        }
     }
             
     /**
@@ -821,6 +848,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JTextField Txt_IdEmpleado;
     private javax.swing.JTextField Txt_IdUsuario;
     private javax.swing.JTextField Txt_Intentos;
+    private javax.swing.JTextField Txt_Nuevo;
     private javax.swing.JTextField Txt_UserName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -718,6 +718,7 @@ public class FmrCompras extends javax.swing.JFrame {
         Txt_Llegada.setText(fechaMostrada);         
         
         Txt_Cantidad.setText("1");
+        Txt_SubC.setText("0.00");        
         Txt_PrecioC.setText("0.00");        
         Txt_Pedido.setText("");        
         
@@ -732,7 +733,9 @@ public class FmrCompras extends javax.swing.JFrame {
     }
     
     private void guardarCompra()
-    {                
+    {       
+        Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+        
         /*if(validacionFecha(Txt_Pedido.getText()) == false)
         {
             JOptionPane.showMessageDialog(null, "Formato de fecha inválido.\nEl formato de la fecha es dd-MM-yyyy.","¡Error!", JOptionPane.ERROR_MESSAGE);            
@@ -770,7 +773,8 @@ public class FmrCompras extends javax.swing.JFrame {
             
             try{
                 daoCompra.edit(objCompra);
-                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");                                
+                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Compras", 0, icono);                                               
+                
             }catch(Exception ex){
                 Logger.getLogger(FmrCompras.class.getName()).log(Level.SEVERE, null, ex);                                
             }            
@@ -875,28 +879,28 @@ public class FmrCompras extends javax.swing.JFrame {
             double precioC = cant * precio;     
             double sub = 0;
             
-            DecimalFormat formato1 = new DecimalFormat("#.00");
+            DecimalFormat formato2 = new DecimalFormat("#.00");
             
             if(precio == 0){
                 JOptionPane.showMessageDialog(null, "Debe ingresar el precio unitario y debe ser mayor que 0.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                            
             }else if(cant > 0 && precio > 0){
                 
                 Tbl_Compra.setValueAt(cant, filaSel, 3);        
-                Tbl_Compra.setValueAt(formato1.format(precio), filaSel, 4);
-                Tbl_Compra.setValueAt(formato1.format(precioC), filaSel, 5);                
+                Tbl_Compra.setValueAt(formato2.format(precio), filaSel, 4);
+                Tbl_Compra.setValueAt(formato2.format(precioC), filaSel, 5);                
                                 
                 for(int i = 0; i < Tbl_Compra.getRowCount(); i++)
                 {
                     sub = sub + Double.parseDouble(Tbl_Compra.getValueAt(i, 5).toString());
                 }   
                 
-                Txt_SubC.setText(String.valueOf(formato1.format(sub)));                
+                Txt_SubC.setText(String.valueOf(formato2.format(sub)));                
                 
                 double subT = sub * 0.12;
                 
                 double total = subT + sub;
                 
-                Txt_PrecioC.setText(String.valueOf(formato1.format(total)));                
+                Txt_PrecioC.setText(String.valueOf(formato2.format(total)));                
                 
                 if(Double.parseDouble(Txt_PrecioC.getText()) != 0)                    
                 Btn_Guardar.setEnabled(true);

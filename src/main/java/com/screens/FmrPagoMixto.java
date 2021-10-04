@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -23,8 +24,9 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     public static double canEfectivo;
     public static int cancel = 0;
     
-    DecimalFormat formato1 = new DecimalFormat("#.00");        
+    DecimalFormat formato1 = new DecimalFormat("#.00");     
     
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));    
     
     /**
      * Creates new form PagoMixto
@@ -326,7 +328,7 @@ public class FmrPagoMixto extends javax.swing.JFrame {
     }
     
     private void aceptarPago()
-    {                        
+    {                          
         if(Txt_Tarjeta.getText().equals(""))
         {
             JOptionPane.showMessageDialog(null, "Debe ingresar un número de tarjeta de crédito.", "¡Error!", JOptionPane.ERROR_MESSAGE);
@@ -343,8 +345,8 @@ public class FmrPagoMixto extends javax.swing.JFrame {
             numTarjeta = tarjeta; 
             canTarjeta = Double.parseDouble(monTarjeta);
             canEfectivo = Double.parseDouble(monEfectivo);
-                                    
-            JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");                                        
+                                                
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Pago Mixto", 0, icono);
             this.dispose();
         }             
     }

@@ -45,6 +45,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -100,13 +101,15 @@ public class FmrVentas extends javax.swing.JFrame {
     
     Date fechaBD = new Date(Calendar.getInstance().getTimeInMillis());        
     SimpleDateFormat formatterBD = new SimpleDateFormat("yyyy-MM-dd");
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
 
     /**
      * Creates new form Ventas
      */
     public FmrVentas() {        
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);        
         
         //ÍCONO
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
@@ -611,7 +614,7 @@ public class FmrVentas extends javax.swing.JFrame {
 
         FmrMenú Menu = new FmrMenú();
         Menu.setVisible(true);        
-        this.dispose();
+        this.dispose();        
 
     }//GEN-LAST:event_Btn_RegresarActionPerformed
        
@@ -824,8 +827,8 @@ public class FmrVentas extends javax.swing.JFrame {
             objVenta.setIdEstado(1);                                   
                         
             try{
-                daoVenta.edit(objVenta);                                
-                JOptionPane.showMessageDialog(this, "Venta facturada.\nGenerando factura.");                
+                daoVenta.edit(objVenta); 
+                JOptionPane.showMessageDialog(null, "Venta facturada.\nGenerando factura.", "Venta Realizad", 0, icono);                              
             }catch(Exception ex){
                 Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);                
             }                        
