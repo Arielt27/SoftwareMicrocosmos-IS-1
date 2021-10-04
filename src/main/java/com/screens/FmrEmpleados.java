@@ -695,6 +695,13 @@ public class FmrEmpleados extends javax.swing.JFrame {
         {
             Txt_Direccion.setText(Texto.substring(0, 125));                    
         }
+        // Primera letra mayúscula
+        if (Txt_Direccion.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_Direccion.setText(Texto);
+        }
     }//GEN-LAST:event_Txt_DireccionKeyTyped
 
     private void Txt_CorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_CorreoKeyTyped
