@@ -146,22 +146,21 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(264, 264, 264)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_IdDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Txt_DescripcionTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_NombreTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(196, 196, 196))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Txt_NombreTipoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Txt_IdDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -752,29 +751,33 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
              
         }
         
-    private static boolean ValidacionTresLetras(String Nombre){
-        
-            
-        if(Nombre.length() >= 3){
-        String Letra1 = Nombre.substring(0, 1);
-        String Letra2 = Nombre.substring(1, 2);
-        String Letra3 = Nombre.substring(2, 3);
-        
-        
-        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
-        
-        return true;
-         
+    private static boolean ValidacionTresLetras(String Nombre)
+    {
+        if(Nombre.length() >= 3)
+        {
+            String Letra1 = Nombre.substring(0, 1);
+            String Letra2 = Nombre.substring(1, 2);
+            String Letra3 = Nombre.substring(2, 3);
+            String Letra4 = Nombre.substring(3, 4);
+            String Letra5 = Nombre.substring(4, 5);
+            String Letra6 = Nombre.substring(5, 6);
+            String Letra7 = Nombre.substring(6, 7);
+            String Letra8 = Nombre.substring(7, 8);
+            String Letra9 = Nombre.substring(8, 9);
+            String Letra10 = Nombre.substring(9, 10);
+               
+            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
+                && Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
+                && Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10))
+            {
+                return true;
+            }else{
+                return false;              
+            }
         }else{
-        
-        return false;
-              
-        }
-        }else{
-        
-            return false;
-        
-        }
+            return false;        
+        }              
+    
               
         }
     

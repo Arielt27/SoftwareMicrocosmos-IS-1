@@ -1144,7 +1144,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             {
                 status = true;                       
             }else{
-                status = false;                     
+                status = true;                     
             }
             objEmpleados.setActivoEmpleado(status);            
                                     
@@ -1193,22 +1193,31 @@ public class FmrEmpleados extends javax.swing.JFrame {
     
     private static boolean ValidacionTresLetras(String Nombre)
     {
-        if(Nombre.length() >= 2)
+        if(Nombre.length() >= 3)
         {
             String Letra1 = Nombre.substring(0, 1);
             String Letra2 = Nombre.substring(1, 2);
-            String Letra3 = Nombre.substring(2, 3);        
-        
-            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3))
+            String Letra3 = Nombre.substring(2, 3);
+            String Letra4 = Nombre.substring(3, 4);
+            String Letra5 = Nombre.substring(4, 5);
+            String Letra6 = Nombre.substring(5, 6);
+            String Letra7 = Nombre.substring(6, 7);
+            String Letra8 = Nombre.substring(7, 8);
+            String Letra9 = Nombre.substring(8, 9);
+            String Letra10 = Nombre.substring(9, 10);
+               
+            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
+                && Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
+                && Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10))
             {
-                return true;         
+                return true;
             }else{
                 return false;              
             }
         }else{
             return false;        
         }              
-    }       
+    }     
     
     public static boolean validacionFecha(String text) 
     {
@@ -1217,7 +1226,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             return false;
         }
         
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         df.setLenient(false);
         
         try{
