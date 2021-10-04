@@ -37,11 +37,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     
     Empleados objEmpleados = new Empleados();
     Usuarios objUsuarios = new Usuarios();   
-    
-    FmrUsuarios frmUsers = new FmrUsuarios();
-                    
-    int nuevoUser = 0;
-           
+                                           
     /**
      * Creates new form FmrNuevoUsuario
      */
@@ -278,7 +274,9 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
-        añadirUsuario();
+        añadirUsuario();      
+        FmrUsuarios frmUsers = new FmrUsuarios();
+        frmUsers.setVisible(true);
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
@@ -339,11 +337,9 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                     objUsuarios.setIdEmpleados(Character.getNumericValue(CBox_IdEmpleado.getSelectedItem().toString().charAt(0)));
                     
                     try{
-                        daoUsuarios.edit(objUsuarios); 
-                        nuevoUser = 1;                        
-                        JOptionPane.showMessageDialog(null, "El Usuario ha sido creado exitosamente.", "Nuevo Usuario", 0, icono);
-                        frmUsers.actualizarNuevoIngreso(nuevoUser);
-                        this.dispose();                            
+                        daoUsuarios.edit(objUsuarios);                         
+                        JOptionPane.showMessageDialog(null, "El Usuario ha sido creado exitosamente.", "Nuevo Usuario", 0, icono);                                                                                                
+                        this.dispose();                                                                            
                     }catch(Exception ex){
                         Logger.getLogger(FmrNuevoUsuario.class.getName()).log(Level.SEVERE, null, ex);                        
                     }
