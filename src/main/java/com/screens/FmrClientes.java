@@ -640,7 +640,7 @@ public class FmrClientes extends javax.swing.JFrame {
         if(fila != -1 && fila != 0)
         {
             Activar_Desactivar();
-        }else if(fila == 0){            
+        }else if(fila == -1){            
             JOptionPane.showMessageDialog(null, "No puede desactivar el elemento Consumidor Final.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
             LimpiarCliente();
             Btn_Añadir.setEnabled(true);
@@ -900,7 +900,7 @@ public class FmrClientes extends javax.swing.JFrame {
                         
             JOptionPane.showMessageDialog(null, "El nombre no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);        
             
-        }else if(Txt_ApellidoCliente.getText().length() < 3){
+        }else if(Txt_ApellidoCliente.getText().length() < 2){
                 
             JOptionPane.showMessageDialog(null, "El apellido tiene que contener al menos 2 letras","!Error¡", JOptionPane.ERROR_MESSAGE);        
         
