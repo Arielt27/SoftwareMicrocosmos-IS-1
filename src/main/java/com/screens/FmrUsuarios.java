@@ -793,7 +793,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         if(nuevoIngreso == 1)        
         {
             updateUsers = nuevoIngreso;            
-            JOptionPane.showMessageDialog(null, "El número es: " + updateUsers);
+            //JOptionPane.showMessageDialog(null, "El número es: " + updateUsers);
             actualizarUsuario();
             //Txt_Nuevo.setText("1");                        
         }
