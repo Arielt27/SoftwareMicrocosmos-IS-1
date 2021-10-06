@@ -10,6 +10,7 @@ import com.clases.Empleados;
 import com.clases.Proveedores;
 import com.clases.Sexo;
 import com.clases.TipoDocumento;
+import com.clases.fechas;
 import com.dao.AreaLaboralJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.SexoJpaController;
@@ -21,6 +22,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,6 +36,7 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -744,7 +749,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }//GEN-LAST:event_Txt_DocumentoKeyTyped
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
-    
+             
         añadirEmpleado();
        
     }//GEN-LAST:event_Btn_AñadirActionPerformed
@@ -1045,6 +1050,25 @@ public class FmrEmpleados extends javax.swing.JFrame {
     
     private void añadirEmpleado()
     {                   
+       
+            String fechaTxt = Txt_Fecha.getText();
+            String fecha = new SimpleDateFormat("dd/MM/yyyy").format(Txt_Fecha.getText());
+            String [] dateParts = fecha.split("/");
+            String año = dateParts[2],
+                   mes = dateParts[1],
+                   dia = dateParts[0];
+            String año_actual = fechas.fecha_actual();
+             
+            int edad;
+            
+            edad = Integer.parseInt(año_actual)- Integer.parseInt(año);
+            if (edad <= 17 ){
+              JOptionPane.showMessageDialog(null, "La persona no es mayor de edad","¡Error!", JOptionPane.ERROR_MESSAGE);  
+            }else{
+                
+            
+      
+        
         if(Txt_NombreEmpleado.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
@@ -1076,9 +1100,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else{
             
-            String fechaTxt = Txt_Fecha.getText();
-            String fecha = fechaTxt + " 00:00:00";             
-            
+                    
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
             objEmpleados.setApellidoEmpleado(Txt_Apellido.getText());
             objEmpleados.setTelefonoEmpleado(Integer.parseInt(Txt_Telefono.getText()));
@@ -1100,7 +1122,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             }
         }
     }
-    
+    }
     private void editarEmpleado()
     {                
         if(Txt_NombreEmpleado.getText().length() < 3)
@@ -1244,7 +1266,15 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }
     }
         
-    
+    public static String Validacionmayor(String Nombre)
+            
+    {
+        Date fecha = new Date();
+        SimpleDateFormat formato_fecha = new  SimpleDateFormat("yyyy");
+        
+      return formato_fecha.format(fecha);
+    }
+ 
     /**
      * @param args the command line arguments
      */
