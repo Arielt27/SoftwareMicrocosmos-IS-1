@@ -899,7 +899,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                     new Object[]{
                         Articulos.getIdArticulo(),
                         Articulos.getNombreArticulo(),
-                        Articulos.getPrecioArticulo(), 
+                        formatearValor(Articulos.getPrecioArticulo()), 
                         Articulos.getDescripcionArticulo(), 
                         GetNombreTalla(Articulos.getIdTalla()),                        
                         Articulos.getStock(),
@@ -1313,6 +1313,17 @@ public class FmrArticulos extends javax.swing.JFrame {
                 consultarNombreArt(busquedaNombre);                
             }                                  
         }
+    }
+    
+    private double formatearValor(double valor)
+    {
+        double precio = valor;
+        
+        String precio2 = formato1.format(precio);
+        
+        double valor2 = Double.parseDouble(precio2);
+        
+        return valor2;
     }
     
     /**

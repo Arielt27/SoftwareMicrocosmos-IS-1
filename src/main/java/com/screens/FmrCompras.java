@@ -736,10 +736,10 @@ public class FmrCompras extends javax.swing.JFrame {
     {       
         Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         
-        /*if(validacionFecha(Txt_Pedido.getText()) == false)
+        if(validacionFecha(Txt_Pedido.getText()) == false)
         {
             JOptionPane.showMessageDialog(null, "Formato de fecha inválido.\nEl formato de la fecha es dd-MM-yyyy.","¡Error!", JOptionPane.ERROR_MESSAGE);            
-        }else*/ if(Txt_Pedido.getText().isEmpty()){
+        }else if(Txt_Pedido.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Tiene que ingresar la fecha en que realizó el pedido.\nEl formato de fecha es dd-MM-yyyy.","¡Error!", JOptionPane.ERROR_MESSAGE);            
         }else if(CBox_Proveedor.getSelectedItem().equals("Seleccione")){
             JOptionPane.showMessageDialog(null, "Tiene que seleccionar un proveedor.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
@@ -750,7 +750,7 @@ public class FmrCompras extends javax.swing.JFrame {
             String mes = "";
             String year = "";
           
-            try {
+            try{
                 dia = Txt_Pedido.getText(0, 2);
                 mes = Txt_Pedido.getText(3, 2);
                 year = Txt_Pedido.getText(6, 4);
@@ -850,7 +850,7 @@ public class FmrCompras extends javax.swing.JFrame {
     
     public static boolean validacionFecha(String text) 
     {
-        if (text == null || !text.matches("^([0][1-9]|[12][0-9]|3[01])(\\/|-)([0][1-9]|[1][0-2])\\2(\\d{4})(\\s)([0-1][1-9]|[2][0-3])(:)([0-5][0-9])$"))
+        if (text == null || !text.matches("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$"))
         {
             return false;
         }        
