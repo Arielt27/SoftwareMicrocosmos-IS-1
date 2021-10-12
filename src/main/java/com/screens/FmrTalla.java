@@ -746,7 +746,7 @@ public class FmrTalla extends javax.swing.JFrame {
              
         }
         
-   private static boolean ValidacionTresLetras(String Nombre)
+    private static boolean ValidacionTresLetras(String Nombre)
     {
         if(Nombre.length() >= 3)
         {
@@ -760,10 +760,17 @@ public class FmrTalla extends javax.swing.JFrame {
             String Letra8 = Nombre.substring(7, 8);
             String Letra9 = Nombre.substring(8, 9);
             String Letra10 = Nombre.substring(9, 10);
+            String Letra11 = Nombre.substring(10, 11);
+            String Letra12 = Nombre.substring(11, 12);
+            String Letra13 = Nombre.substring(12, 13);
+            String Letra14 = Nombre.substring(13, 14);
+            String Letra15 = Nombre.substring(14, 15);
                
             if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
-                && Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
-                && Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10))
+                || Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
+                || Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10)
+                || Letra10.equalsIgnoreCase(Letra11) && Letra11.equalsIgnoreCase(Letra12) && Letra12.equalsIgnoreCase(Letra13)
+                || Letra13.equalsIgnoreCase(Letra14) && Letra14.equalsIgnoreCase(Letra15))
             {
                 return true;
             }else{
@@ -772,9 +779,7 @@ public class FmrTalla extends javax.swing.JFrame {
         }else{
             return false;        
         }              
-    
-              
-        }
+    }
     
     
     /**

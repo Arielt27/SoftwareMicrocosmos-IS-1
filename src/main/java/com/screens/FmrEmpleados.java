@@ -1080,11 +1080,12 @@ public class FmrEmpleados extends javax.swing.JFrame {
             edad = Integer.parseInt(año_actual)- Integer.parseInt(año);
             if (edad <= 17 ){
               JOptionPane.showMessageDialog(null, "La persona no es mayor de edad","¡Error!", JOptionPane.ERROR_MESSAGE);  
-            }else{
-                
+            }else
             
-      
-        
+            
+            {
+                
+
         if(Txt_NombreEmpleado.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
@@ -1105,10 +1106,10 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else if(ValidacionMail(Txt_Correo.getText())== false){
             JOptionPane.showMessageDialog(null, "Formato de Email inválido.\nEl formato de E-mail es: user@example.com","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }//validacion de la vis
-        else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "visa"){
+        else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Visa"){
             if(Validacionvisa(Txt_Documento.getText())== false){
              JOptionPane.showMessageDialog(null, "validacion de la visa inalida","¡Error!", JOptionPane.ERROR_MESSAGE);    
-            }  
+            
             
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
@@ -1144,6 +1145,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             }
         }
     }
+        }  
     }
     private void editarEmpleado()
     {      
@@ -1172,8 +1174,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
-        }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
-            JOptionPane.showMessageDialog(null, "Formato de documento inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if( (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
+                   
+            JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);                                                      
         }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
@@ -1249,7 +1252,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
     
     
-    private static boolean ValidacionTresLetras(String Nombre)
+       private static boolean ValidacionTresLetras(String Nombre)
     {
         if(Nombre.length() >= 3)
         {
@@ -1263,10 +1266,17 @@ public class FmrEmpleados extends javax.swing.JFrame {
             String Letra8 = Nombre.substring(7, 8);
             String Letra9 = Nombre.substring(8, 9);
             String Letra10 = Nombre.substring(9, 10);
+            String Letra11 = Nombre.substring(10, 11);
+            String Letra12 = Nombre.substring(11, 12);
+            String Letra13 = Nombre.substring(12, 13);
+            String Letra14 = Nombre.substring(13, 14);
+            String Letra15 = Nombre.substring(14, 15);
                
             if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
-                && Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
-                && Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10))
+                || Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
+                || Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10)
+                || Letra10.equalsIgnoreCase(Letra11) && Letra11.equalsIgnoreCase(Letra12) && Letra12.equalsIgnoreCase(Letra13)
+                || Letra13.equalsIgnoreCase(Letra14) && Letra14.equalsIgnoreCase(Letra15))
             {
                 return true;
             }else{
@@ -1275,7 +1285,8 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else{
             return false;        
         }              
-    }     
+    }
+      
     
     public static boolean validacionFecha(String text) 
     {

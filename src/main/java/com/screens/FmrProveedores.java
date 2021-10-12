@@ -122,6 +122,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             }
         });
         Tbl_Proveedores.getTableHeader().setReorderingAllowed(false);
+        Tbl_Proveedores.setUpdateSelectionOnSort(false);
         Tbl_Proveedores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Tbl_ProveedoresMouseClicked(evt);
@@ -138,6 +139,8 @@ public class FmrProveedores extends javax.swing.JFrame {
             Tbl_Proveedores.getColumnModel().getColumn(6).setResizable(false);
             Tbl_Proveedores.getColumnModel().getColumn(7).setResizable(false);
         }
+        Tbl_Proveedores.getAccessibleContext().setAccessibleName("");
+        Tbl_Proveedores.getAccessibleContext().setAccessibleDescription("");
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
         jPanel1.setMaximumSize(new java.awt.Dimension(800, 100));
@@ -1033,23 +1036,40 @@ public class FmrProveedores extends javax.swing.JFrame {
         }
        
        private static boolean ValidacionTresLetras(String Nombre)
-       {                  
-           if(Nombre.length() >= 3)
-           {
-               String Letra1 = Nombre.substring(0, 1);
-               String Letra2 = Nombre.substring(1, 2);
-               String Letra3 = Nombre.substring(2, 3);
+    {
+        if(Nombre.length() >= 3)
+        {
+            String Letra1 = Nombre.substring(0, 1);
+            String Letra2 = Nombre.substring(1, 2);
+            String Letra3 = Nombre.substring(2, 3);
+            String Letra4 = Nombre.substring(3, 4);
+            String Letra5 = Nombre.substring(4, 5);
+            String Letra6 = Nombre.substring(5, 6);
+            String Letra7 = Nombre.substring(6, 7);
+            String Letra8 = Nombre.substring(7, 8);
+            String Letra9 = Nombre.substring(8, 9);
+            String Letra10 = Nombre.substring(9, 10);
+            String Letra11 = Nombre.substring(10, 11);
+            String Letra12 = Nombre.substring(11, 12);
+            String Letra13 = Nombre.substring(12, 13);
+            String Letra14 = Nombre.substring(13, 14);
+            String Letra15 = Nombre.substring(14, 15);
                
-               if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3))
-               {
-                   return true;
-               }else{
-                   return false;              
-               }
+            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
+                || Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
+                || Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10)
+                || Letra10.equalsIgnoreCase(Letra11) && Letra11.equalsIgnoreCase(Letra12) && Letra12.equalsIgnoreCase(Letra13)
+                || Letra13.equalsIgnoreCase(Letra14) && Letra14.equalsIgnoreCase(Letra15))
+            {
+                return true;
             }else{
-               return false;        
-            }              
-        }
+                return false;              
+            }
+        }else{
+            return false;        
+        }              
+    }
+    
     
     /**
      * @param args the command line arguments
