@@ -308,6 +308,11 @@ public class FmrEmpleados extends javax.swing.JFrame {
         jLabel9.setPreferredSize(new java.awt.Dimension(120, 20));
 
         CBox_TipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBox_TipoDoc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CBox_TipoDocMouseClicked(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -730,6 +735,12 @@ public class FmrEmpleados extends javax.swing.JFrame {
          
         char c = evt.getKeyChar();
         String Texto = Txt_Documento.getText();
+       
+        //  if(CBox_TipoDoc=="Visa"){
+         //   Validacionvisa();
+          //   evt.consume(); 
+        //}
+        
         
         if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')&&(c < '0' || c > '9'))
         {
@@ -844,6 +855,11 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_FechaActionPerformed
+
+    private void CBox_TipoDocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CBox_TipoDocMouseClicked
+        
+          
+    }//GEN-LAST:event_CBox_TipoDocMouseClicked
             
     
     //METODOS
@@ -1088,6 +1104,12 @@ public class FmrEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "La dirección no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                                
         }else if(ValidacionMail(Txt_Correo.getText())== false){
             JOptionPane.showMessageDialog(null, "Formato de Email inválido.\nEl formato de E-mail es: user@example.com","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }//validacion de la vis
+        else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "visa"){
+            if(Validacionvisa(Txt_Documento.getText())== false){
+             JOptionPane.showMessageDialog(null, "validacion de la visa inalida","¡Error!", JOptionPane.ERROR_MESSAGE);    
+            }  
+            
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
@@ -1124,8 +1146,14 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
     }
     private void editarEmpleado()
-    {                
-        if(Txt_NombreEmpleado.getText().length() < 3)
+    {      
+        if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "visa"){
+            Validacionvisa(Txt_Documento.getText());
+                  
+
+        
+        }
+        else if(Txt_NombreEmpleado.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())){
@@ -1220,6 +1248,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         return RTN.matches("^[0-1]{1}[0-9]{13}$");                
     }
     
+    
     private static boolean ValidacionTresLetras(String Nombre)
     {
         if(Nombre.length() >= 3)
@@ -1266,13 +1295,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }
     }
         
-    public static String Validacionmayor(String Nombre)
+    public static String Validacionmayor(String text)
             
     {
         Date fecha = new Date();
         SimpleDateFormat formato_fecha = new  SimpleDateFormat("yyyy");
         
       return formato_fecha.format(fecha);
+    }
+    
+     public static boolean Validacionvisa(String Visa)
+    {  
+        
+        return Visa.matches("[a-zA-Z]{2,}");               
     }
  
     /**
