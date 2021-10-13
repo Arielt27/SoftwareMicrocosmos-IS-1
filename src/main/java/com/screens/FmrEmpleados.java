@@ -1210,11 +1210,32 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else{
+              String fechaP = Txt_Fecha.getText();
+            String dia = "";
+            String mes = "";
+            String year = "";
+          
+            try {
+                dia = Txt_Fecha.getText(0, 2);
+                mes = Txt_Fecha.getText(3, 2);
+                year = Txt_Fecha.getText(6, 4);
+            } catch (BadLocationException ex) {
+                Logger.getLogger(FmrCompras.class.getName()).log(Level.SEVERE, null, ex);
+            }  
+            
+            String fechaPedido = year + "-" + mes + "-" + dia;                                                
+            
+            String fechaPBD = fechaPedido + " 00:00:00";
+              int edad;
+              String año_actual = fechas.fecha_actual();
+            
+           edad = Integer.parseInt(año_actual)- Integer.parseInt(year);
+            if (edad <= 17 ){
+              JOptionPane.showMessageDialog(null, "La persona no es mayor de edad","¡Error!", JOptionPane.ERROR_MESSAGE);  
+           }else
             
             
-            
-            String fechaTxt = Txt_Fecha.getText();
-            String fecha = fechaTxt + " 00:00:00";                       
+                                
             
             objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));            
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
@@ -1224,7 +1245,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
             objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));                             
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fechaPBD));                             
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
             
             String estado = Txt_Activar.toString();                 
@@ -1318,12 +1339,12 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
       
     
-    public static boolean validacionFecha(String text) 
+      public static boolean validacionFecha(String text) 
     {
-        if (text == null || !text.matches("\\d{4}-[01]\\d-[0-3]\\d"))
+        if (text == null || !text.matches("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$"))
         {
             return false;
-        }
+        }        
         
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         df.setLenient(false);
@@ -1335,6 +1356,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             return false;
         }
     }
+    
         
     public static String Validacionmayor(String text)
             
