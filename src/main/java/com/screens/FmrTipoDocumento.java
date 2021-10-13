@@ -571,22 +571,22 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
         if(Txt_NombreTipoDocumento.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras.");
+       JOptionPane.showMessageDialog(null, "El nombre debe contener 3 letras minimo ","!Error¡", JOptionPane.ERROR_MESSAGE); 
         
         }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
         
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe.");
+       JOptionPane.showMessageDialog(null, "Ya existe el elemento ","!Error¡", JOptionPane.ERROR_MESSAGE); 
         
         }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
         
-        JOptionPane.showMessageDialog(this, "No puede contener letras consecutivas repetidas.");
+       JOptionPane.showMessageDialog(null, " no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE); 
         
         }else if(Txt_DescripcionTipoDocumento.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras.");
+         JOptionPane.showMessageDialog(null, " la descripcion debe contener al menos 3 letras","!Error¡", JOptionPane.ERROR_MESSAGE); 
         
         }else if(ValidacionTresLetras(Txt_DescripcionTipoDocumento.getText()) == true){
-            JOptionPane.showMessageDialog(this, "No puede contener letras consecutivas repetidas.");
+             JOptionPane.showMessageDialog(null, " no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE); 
         }else{    
        objTipoDocumento.setNombreTipoDocumento(Txt_NombreTipoDocumento.getText());
        objTipoDocumento.setDescripcionTipoDocumento(Txt_DescripcionTipoDocumento.getText());
@@ -636,21 +636,22 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                
         if(Txt_NombreTipoDocumento.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras");
+        JOptionPane.showMessageDialog(null, "El nombre debe contener 3 letras minimo ","!Error¡", JOptionPane.ERROR_MESSAGE); 
         
         }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
         
-        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
+          JOptionPane.showMessageDialog(null, "Ya existe el elemento ","!Error¡", JOptionPane.ERROR_MESSAGE); 
+        
         Btn_Añadir.setEnabled(true);
         Btn_Limpiar.setEnabled(false);
         
         }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
         
-        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
+          JOptionPane.showMessageDialog(null, " no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);
         
         }else if(Txt_DescripcionTipoDocumento.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
+      JOptionPane.showMessageDialog(null, " la descripcion debe contener al menos 3 letras","!Error¡", JOptionPane.ERROR_MESSAGE); 
         
         }else{
        objTipoDocumento.setIdTipoDocumento(Integer.parseInt(Txt_IdDocumento.getText()));
