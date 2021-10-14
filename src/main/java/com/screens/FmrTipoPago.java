@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 TipoDePagoJpaController daoTipoDePago = new TipoDePagoJpaController();  
 
 TipoDePago objTipoDePago = new TipoDePago();
+
+Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
      * Creates new form TipoPago
      */
@@ -680,7 +683,7 @@ TipoDePago objTipoDePago = new TipoDePago();
         try{
             daoTipoDePago.edit(objTipoDePago);
             ActualizarTipoPago();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+            JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Tipo Pago", 0, icono);                
         }catch(Exception ex){
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -709,7 +712,7 @@ TipoDePago objTipoDePago = new TipoDePago();
         try{
             daoTipoDePago.create(objTipoDePago);
             ActualizarTipoPago();
-            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Tipo Pago", 0, icono);                
         }catch(Exception ex){
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
             }

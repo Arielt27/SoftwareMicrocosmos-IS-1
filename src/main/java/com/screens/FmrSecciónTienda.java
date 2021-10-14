@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     
     SeccionTiendaJpaController daoSeccionTienda = new SeccionTiendaJpaController();
     SeccionTienda objSeccionTienda = new SeccionTienda();
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
 
     /**
      * Creates new form SecciónTienda
@@ -568,7 +571,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
                 daoSeccionTienda.create(objSeccionTienda);
                 ActualizarSeccion();
                 LimpiarSeccion();
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Sección Tienda", 0, icono);                
         } catch (Exception ex) {
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -595,7 +598,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
        try{
            daoSeccionTienda.edit(objSeccionTienda);
            ActualizarSeccion();
-           JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
+           JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Sección Tienda", 0, icono);                
         }catch(Exception ex){
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
             }

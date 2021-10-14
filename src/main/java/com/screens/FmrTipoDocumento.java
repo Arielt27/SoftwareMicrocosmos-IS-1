@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +36,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
     //Objeto global
     TipoDocumento objTipoDocumento = new TipoDocumento();
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     DefaultTableModel t;
     
@@ -598,7 +601,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             daoTipoDocumento.create(objTipoDocumento);
             ActualizarTipoDocumento();
             LimpiarTipoDocumento();
-            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Tipo Documento", 0, icono);                
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -662,7 +665,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         try {
             daoTipoDocumento.edit(objTipoDocumento);
             ActualizarTipoDocumento();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
+            JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Tipo Documento", 0, icono);                
         } catch (Exception ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }

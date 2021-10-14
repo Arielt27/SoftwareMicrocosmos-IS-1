@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +32,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
 EstadoJpaController daoEstado = new EstadoJpaController();  
 Estado objEstado = new Estado();
+
+Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
      * Creates new form Estado
      */
@@ -619,6 +622,8 @@ Estado objEstado = new Estado();
 
     private void EditarEstado()
     {
+        boolean estado = true;
+        
         if(Txt_NombreEstado.getText().length() < 3)
         {                   
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","!Error¡", JOptionPane.ERROR_MESSAGE);
@@ -629,15 +634,22 @@ Estado objEstado = new Estado();
         }else if(ValidacionTresLetras(Txt_DescripcionEstado.getText()) == true){                    
             JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
         }else{
+            
+            if(Txt_Activo.getText().equals("Activado")){
+                estado = true;                
+            }else if(Txt_Activo.getText().equals("Desactivado")){
+                estado = false;                
+            }
          
             objEstado.setIdEstado(Integer.parseInt(Txt_IdEstado.getText()));
             objEstado.setNombreEstado(Txt_NombreEstado.getText());
             objEstado.setDescripcionEstado(Txt_DescripcionEstado.getText());
+            objEstado.setActivoEstado(estado);            
        
             try{
                 daoEstado.edit(objEstado);
                 ActualizarEstado();
-                JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Estado", 0, icono);                
             }catch(Exception ex){
                 Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -667,7 +679,7 @@ Estado objEstado = new Estado();
                 daoEstado.edit(objEstado);
                 ActualizarEstado();
                 LimpiarEstado();
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Estado", 0, icono);                
             }catch(Exception ex){
                 Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);        
             }

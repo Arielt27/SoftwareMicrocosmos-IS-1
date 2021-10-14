@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -34,6 +35,8 @@ public class FmrTalla extends javax.swing.JFrame {
     TallaJpaController daoTalla = new TallaJpaController();
     //Objeto global
     Talla objTalla = new Talla();
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     public FmrTalla() {
         initComponents();
@@ -648,7 +651,7 @@ public class FmrTalla extends javax.swing.JFrame {
                 daoTalla.create(objTalla);
                 ActualizarTalla();
                 LimpiarTalla();
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Talla", 0, icono);                
             }catch(Exception ex){
                 Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -685,7 +688,7 @@ public class FmrTalla extends javax.swing.JFrame {
         try{
             daoTalla.edit(objTalla);
             ActualizarTalla();
-            JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+            JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Talla", 0, icono);                
         }catch(Exception ex){
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
             }

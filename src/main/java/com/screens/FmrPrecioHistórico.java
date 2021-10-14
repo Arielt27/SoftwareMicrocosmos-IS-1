@@ -147,6 +147,14 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
 
         Txt_PH.setEditable(false);
 
+        Txt_Precio.setEditable(false);
+
+        Txt_FechaI.setEditable(false);
+
+        Txt_FechaF.setEditable(false);
+
+        Txt_IdArticulo.setEditable(false);
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

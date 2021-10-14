@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +37,8 @@ public class FmrProveedores extends javax.swing.JFrame {
     ProveedoresJpaController daoProveedores = new ProveedoresJpaController();
     
     Proveedores objProveedores = new Proveedores();
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     
     public FmrProveedores() {
@@ -895,7 +898,7 @@ public class FmrProveedores extends javax.swing.JFrame {
             daoProveedores.create(objProveedores);
             ActualizarProveedor();
             LimpiarProveedor();
-            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Proveedores", 0, icono);                
         } catch (Exception ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -952,7 +955,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         try {
             daoProveedores.edit(objProveedores);
             ActualizarProveedor();
-             JOptionPane.showMessageDialog(this, "Se actualizó correctamente.");
+             JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Proveedores", 0, icono);                
         } catch (Exception ex) {
              Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
