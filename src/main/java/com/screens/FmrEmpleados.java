@@ -35,6 +35,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -54,6 +55,8 @@ public class FmrEmpleados extends javax.swing.JFrame {
     AreaLaboralJpaController daoArea = new AreaLaboralJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     DefaultTableModel t;
     
@@ -133,23 +136,23 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         Tbl_Empleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Fecha", "Género", "Estado"
+                "ID", "Nombre", "Apellido", "Teléfono", "Dirección", "Correo", "TipoDocumento", "Documento", "Fecha", "Género", "Estado", "Área"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -187,6 +190,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             Tbl_Empleados.getColumnModel().getColumn(9).setPreferredWidth(55);
             Tbl_Empleados.getColumnModel().getColumn(10).setResizable(false);
             Tbl_Empleados.getColumnModel().getColumn(10).setPreferredWidth(60);
+            Tbl_Empleados.getColumnModel().getColumn(11).setResizable(false);
         }
 
         jPanel1.setBackground(new java.awt.Color(49, 49, 49));
@@ -809,8 +813,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
             Date FechaNac = (Date) Tbl_Empleados.getValueAt(fila, 8);
             String Genero = Tbl_Empleados.getValueAt(fila, 9).toString();
             String Estado = Tbl_Empleados.getValueAt(fila, 10).toString();
+            String Area = Tbl_Empleados.getValueAt(fila, 11).toString();
             
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String fechaTexto = formatter.format(FechaNac);                                              
             
             Txt_IdEmpleados.setText(IdE);            
@@ -823,7 +828,8 @@ public class FmrEmpleados extends javax.swing.JFrame {
             Txt_Documento.setText(Documento);
             Txt_Fecha.setText(fechaTexto);         
             CBox_Genero.setSelectedItem(Genero);            
-            Txt_Activar.setText(Estado);
+            Txt_Activar.setText(Estado);    
+            CBox_Area.setSelectedItem(Area);            
             
             if(Estado == "Activado")
             {
@@ -873,7 +879,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         
         List<Empleados> empleados = this.daoEmpleados.findEmpleadosEntities();
         
-        String s = null;
+        String s;
         for(Empleados Empleados : empleados)
         {
             if(Empleados.isActivoEmpleado() == true) 
@@ -894,8 +900,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
                         GetNombreTipoDocumento(Empleados.getIdTipoDocumento()),
                         Empleados.getDocumento(),
                         Empleados.getFechaDeNacimiento(),
-                        GetNombreSexo(Empleados.getIdSexo()),
-                        s                       
+                        GetNombreSexo(Empleados.getIdSexo()),                        
+                        s,
+                        Empleados.getArealaboral(),
                     });                                         
         }
     }
@@ -1151,13 +1158,14 @@ public class FmrEmpleados extends javax.swing.JFrame {
             objEmpleados.setDocumento(Txt_Documento.getText());
             objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fechaPBD));                             
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
+            objEmpleados.setArealaboral(String.valueOf(CBox_Area.getSelectedItem()));            
             objEmpleados.setActivoEmpleado(true);
             
             try{
                 daoEmpleados.edit(objEmpleados);
                 actualizarEmpleados();
                 limpiarEmpleado();
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Empleados", 0, icono);                
             }catch(Exception ex){
                 Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);                
             }
@@ -1170,15 +1178,16 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
          
     }
+    
     private void editarEmpleado()
     {      
+        boolean estado = true;
+        
         if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "visa"){
             Validacionvisa(Txt_Documento.getText());                         
-        }
-        else if(Txt_NombreEmpleado.getText().length() < 3)
-        {
+        }else if(Txt_NombreEmpleado.getText().length() < 3){
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
-        }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())==true){
+        }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())){
             JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                        
         }else if(Txt_Apellido.getText().length() < 3){
             JOptionPane.showMessageDialog(null, "El apellido debe contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
@@ -1194,19 +1203,46 @@ public class FmrEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Formato de Email inválido.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
-        }else if( (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
-                   
+        }else if( (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){                   
             JOptionPane.showMessageDialog(null, "El formato del documento es inválido.","!Error¡", JOptionPane.ERROR_MESSAGE);                                                      
         }else if(String.valueOf(CBox_Genero.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un género.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
+        }else if(validacionFecha(Txt_Fecha.getText())==false){
+            JOptionPane.showMessageDialog(null, "Formato de fecha incorrecta.\nEl formato de la fecha es: dd-MM-yyyy","¡Error!", JOptionPane.ERROR_MESSAGE);                                                            
         }else{
             
+            if(Txt_Activar.getText().equals("Activado"))
+            {
+                estado = true;                
+            }else if(Txt_Activar.getText().equals("Desactivado")){                
+                estado = false;
+            }
+
+            String fechaP = Txt_Fecha.getText();
+            String dia = "";
+            String mes = "";
+            String year = "";
+          
+            try {
+                dia = Txt_Fecha.getText(0, 2);
+                mes = Txt_Fecha.getText(3, 2);
+                year = Txt_Fecha.getText(6, 4);
+            } catch (BadLocationException ex) {
+                Logger.getLogger(FmrCompras.class.getName()).log(Level.SEVERE, null, ex);
+            }  
             
+            String fechaPedido = year + "-" + mes + "-" + dia;                                                
             
-            String fechaTxt = Txt_Fecha.getText();
-            String fecha = fechaTxt + " 00:00:00";                       
+            String fechaPBD = fechaPedido + " 00:00:00";
+              int edad;
+              String año_actual = fechas.fecha_actual();
+            
+           edad = Integer.parseInt(año_actual)- Integer.parseInt(year);
+            if (edad <= 17 ){
+              JOptionPane.showMessageDialog(null, "La persona no es mayor de edad","¡Error!", JOptionPane.ERROR_MESSAGE);  
+           }else                                                        
             
             objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));            
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
@@ -1216,29 +1252,20 @@ public class FmrEmpleados extends javax.swing.JFrame {
             objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
             objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));                             
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fechaPBD));                             
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
-            
-            String estado = Txt_Activar.toString();                 
-            boolean status = true;
-            
-            if(estado.equals("Activado"))
-            {
-                status = true;                       
-            }else{
-                status = true;                     
-            }
-            objEmpleados.setActivoEmpleado(status);            
+            objEmpleados.setArealaboral(String.valueOf(CBox_Area.getSelectedItem()));  
+            objEmpleados.setActivoEmpleado(estado);                                                           
                                     
             try{
                 daoEmpleados.edit(objEmpleados);
                 actualizarEmpleados();
-                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.");
+                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Empleados", 0, icono);                
             }catch(Exception ex){
                 Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);                
             }            
         }        
-    }
+    }    
       
     public static boolean ValidacionDeRepetidos(String Nombre)
     {
@@ -1275,14 +1302,14 @@ public class FmrEmpleados extends javax.swing.JFrame {
     
     public boolean ValidacionTresLetras(String Nombre)
     {
-         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        String patron = "^(\\d|(([A-Za-zñÑ\\s])\\3?(?!\\3)))+$";
         Pattern patt = Pattern.compile(patron);
         Matcher comparador = patt.matcher(Nombre);
-        if(comparador.matches()){
-            return true;
-        }else
+        if(comparador.matches())
         {
             return false;
+        }else{
+            return true;
         }
     }                          
             
@@ -1304,8 +1331,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }
     }
         
-    public static String Validacionmayor(String text)
-            
+    public static String Validacionmayor(String text)            
     {
         Date fecha = new Date();
         SimpleDateFormat formato_fecha = new  SimpleDateFormat("yyyy");

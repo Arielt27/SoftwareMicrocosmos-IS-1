@@ -213,6 +213,11 @@ public class FmrTalla extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -227,7 +232,8 @@ public class FmrTalla extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        Tbl_Talla.setPreferredSize(new java.awt.Dimension(225, 95));
+        Tbl_Talla.setMinimumSize(new java.awt.Dimension(135, 112));
+        Tbl_Talla.setPreferredSize(new java.awt.Dimension(515, 112));
         Tbl_Talla.getTableHeader().setReorderingAllowed(false);
         Tbl_Talla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -651,6 +657,8 @@ public class FmrTalla extends javax.swing.JFrame {
     
     private void EditarTalla()
     {
+        boolean Estado = true;
+        
         if(Txt_NombreTalla.getText().length() < 1)
         {            
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos una letra.","!Error¡", JOptionPane.ERROR_MESSAGE);
@@ -662,9 +670,17 @@ public class FmrTalla extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "La descripción no puede contener letras consecutivas repetidas.","!Error¡", JOptionPane.ERROR_MESSAGE);
         }else{
             
+            if(Txt_Activo.getText().equals("Activado"))
+            {
+                Estado = true;                
+            }else if(Txt_Activo.getText().equals("Desactivado")){
+                Estado = false;                
+            }
+            
             objTalla.setIdTalla(Integer.parseInt(Txt_IdTalla.getText()));
             objTalla.setNombreTalla(Txt_NombreTalla.getText());
             objTalla.setDescripcionTalla(Txt_DescripcionTalla.getText());       
+            objTalla.setActivoTalla(Estado);            
        
         try{
             daoTalla.edit(objTalla);
@@ -750,14 +766,14 @@ public class FmrTalla extends javax.swing.JFrame {
         
     public boolean ValidacionTresLetras(String Nombre)
     {
-         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        String patron = "^(\\d|(([A-Za-zñÑ\\s])\\3?(?!\\3)))+$";
         Pattern patt = Pattern.compile(patron);
         Matcher comparador = patt.matcher(Nombre);
-        if(comparador.matches()){
-            return true;
-        }else
+        if(comparador.matches())
         {
             return false;
+        }else{
+            return true;
         }
     }
     

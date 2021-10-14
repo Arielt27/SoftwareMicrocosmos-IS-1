@@ -41,6 +41,8 @@ public class Empleados implements Serializable {
     private int idTipoDocumento;
     @Column
     private String direccion;
+    @Column
+    private String arealaboral;
     /*@Column
     private int idareaLaboral;*/
      //@Column
@@ -151,7 +153,13 @@ public class Empleados implements Serializable {
     @Override
     public String toString(){
         return idEmpleados + "." + nombreEmpleado;
+    }  
+    public String getArealaboral() {
+        return arealaboral;
+    }
+
+    public void setArealaboral(String arealaboral) {
+        this.arealaboral = arealaboral;
     }   
-    
     
 }

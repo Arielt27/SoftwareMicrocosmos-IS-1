@@ -11,10 +11,13 @@ import java.awt.Image;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +31,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
 AreaLaboralJpaController daoAreaLaboral = new AreaLaboralJpaController();  
 AreaLaboral objAreaLaboral = new AreaLaboral();
+
+Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
      * Creates new form ÁreaLaboral
      */
@@ -637,7 +642,7 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             try {
                 daoAreaLaboral.edit(objAreaLaboral);
                 ActualizarAreaLaboral();
-                JOptionPane.showMessageDialog(this, "Se actualizó correctamente");
+                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Área Laboral", 0, icono);                
             }catch(Exception ex){
                 Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -666,40 +671,25 @@ AreaLaboral objAreaLaboral = new AreaLaboral();
             try{
                 daoAreaLaboral.edit(objAreaLaboral);
                 ActualizarAreaLaboral();
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+                JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Área Laboral", 0, icono);                
         }catch(Exception ex){
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
             }
         }   
     }     
           
-    private static boolean ValidacionTresLetras(String Nombre)
+    public boolean ValidacionTresLetras(String Nombre)
     {
-        if(Nombre.length() >= 3)
+        String patron = "^(\\d|(([A-Za-zñÑ\\s])\\3?(?!\\3)))+$";
+        Pattern patt = Pattern.compile(patron);
+        Matcher comparador = patt.matcher(Nombre);
+        if(comparador.matches())
         {
-            String Letra1 = Nombre.substring(0, 1);
-            String Letra2 = Nombre.substring(1, 2);
-            String Letra3 = Nombre.substring(2, 3);
-            String Letra4 = Nombre.substring(3, 4);
-            String Letra5 = Nombre.substring(4, 5);
-            String Letra6 = Nombre.substring(5, 6);
-            String Letra7 = Nombre.substring(6, 7);
-            String Letra8 = Nombre.substring(7, 8);
-            String Letra9 = Nombre.substring(8, 9);
-            
-               
-            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
-                || Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
-                || Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9))
-            {
-                return true;
-            }else{
-                return false;              
-            }
+            return false;
         }else{
-            return false;        
-        }              
-    }      
+            return true;
+        }
+    }     
       
     public static boolean ValidacionDeRepetidos(String Nombre)
     {

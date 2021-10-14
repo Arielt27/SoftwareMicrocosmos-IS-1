@@ -792,13 +792,11 @@ public class FmrArticulos extends javax.swing.JFrame {
                 objPrecio.setIdArticulo(idArt);
                 
                 try{
-                    daoPrecioH.edit(objPrecio);                    
+                    daoPrecioH.edit(objPrecio);                         
                 }catch(Exception ex){
                     Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);                    
-                }
-                
-            }           
-            LimpiarArticulo();            
+                }                
+            }                                
         }        
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
@@ -973,6 +971,69 @@ public class FmrArticulos extends javax.swing.JFrame {
         }                
     }
     
+    private void EditarArticulo()
+    {
+        boolean status = true;     
+                        
+        if(Txt_NombreArticulo.getText().length() < 3)
+        {
+            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(ValidacionTresLetras(Txt_NombreArticulo.getText()) == true){                        
+            JOptionPane.showMessageDialog(null, "El nombre del artículo no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
+        }else if(Txt_PrecioArticulo.getText().length() < 2){
+            JOptionPane.showMessageDialog(null, "El artículo debe tener un precio de 2 dígitos.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(Txt_DescripcionArticulo.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "La descripcion  debe de contener mínimo 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else if(ValidacionTresLetras(Txt_DescripcionArticulo.getText()) == true){                        
+            JOptionPane.showMessageDialog(null, "La descripción no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
+        }else if(Txt_StockAct.getText().equals("")){            
+            JOptionPane.showMessageDialog(null, "El campo stock actual no puede estar vacío.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockAct.getText()) == 0){
+            JOptionPane.showMessageDialog(null, "El stock actual no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockAct.getText()) >= Integer.parseInt(Txt_StockMax.getText())){
+            JOptionPane.showMessageDialog(null, "El stock actual no puede ser mayor que el stock máximo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_StockMax.getText().equals("")){            
+            JOptionPane.showMessageDialog(null, "El campo stock máximo no puede estar vacío.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockAct.getText()) == 0){
+            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockMax.getText()) <= Integer.parseInt(Txt_StockMin.getText())){
+            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser menor o igual que el stock mínimo.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Txt_StockMin.getText().equals("")){            
+            JOptionPane.showMessageDialog(null, "El campo stock mínimo no puede estar vacío.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(Integer.parseInt(Txt_StockMin.getText()) >= Integer.parseInt(Txt_StockAct.getText())){
+            JOptionPane.showMessageDialog(null, "El stock mínimo no puede ser mayor que el stock actual.","¡Error!", JOptionPane.ERROR_MESSAGE);
+        }else if(String.valueOf(ComboTalla.getSelectedItem()) == "Seleccione"){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una talla para el artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);            
+        }else{            
+            objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
+            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
+            objArticulo.setPrecioArticulo(Double.parseDouble(Txt_PrecioArticulo.getText()));
+            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
+            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
+            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
+            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
+            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));                                               
+            
+            if(Txt_Activo.getText().equals("Activado"))
+            {
+                status = true;                                
+            }else{
+                status = false;
+            }
+            
+            objArticulo.setActivoArticulo(status);  
+                                  
+            try{
+                daoArticulo.edit(objArticulo);
+                actualizarArticulo();                
+                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Artículos", 0, icono);
+                LimpiarArticulo();
+            }catch(Exception ex){
+                Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+            }                                                                               
+        }
+    }
+    
     public void listaTalla()
     {
         ComboTalla.removeAllItems();
@@ -1076,69 +1137,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             }                
         LimpiarArticulo();        
         }                               
-    }           
-        
-    private void EditarArticulo()
-    {
-        boolean status = true;     
-                        
-        if(Txt_NombreArticulo.getText().length() < 3)
-        {
-            JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(ValidacionTresLetras(Txt_NombreArticulo.getText()) == true){                        
-            JOptionPane.showMessageDialog(null, "El nombre del artículo no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
-        }else if(Txt_PrecioArticulo.getText().length() < 2){
-            JOptionPane.showMessageDialog(null, "El artículo debe tener un precio de 2 dígitos.","¡Error!", JOptionPane.ERROR_MESSAGE);            
-        }else if(Txt_DescripcionArticulo.getText().length() < 8){
-            JOptionPane.showMessageDialog(null, "La descripcion  debe de contener mínimo 8 carácteres.","¡Error!", JOptionPane.ERROR_MESSAGE);            
-        }else if(ValidacionTresLetras(Txt_DescripcionArticulo.getText()) == true){                        
-            JOptionPane.showMessageDialog(null, "La descripción no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);                    
-        }else if(Txt_StockAct.getText().equals("")){            
-            JOptionPane.showMessageDialog(null, "El campo stock actual no puede estar vacío.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Integer.parseInt(Txt_StockAct.getText()) == 0){
-            JOptionPane.showMessageDialog(null, "El stock actual no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Integer.parseInt(Txt_StockAct.getText()) >= Integer.parseInt(Txt_StockMax.getText())){
-            JOptionPane.showMessageDialog(null, "El stock actual no puede ser mayor que el stock máximo.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Txt_StockMax.getText().equals("")){            
-            JOptionPane.showMessageDialog(null, "El campo stock máximo no puede estar vacío.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Integer.parseInt(Txt_StockAct.getText()) == 0){
-            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser 0.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Integer.parseInt(Txt_StockMax.getText()) <= Integer.parseInt(Txt_StockMin.getText())){
-            JOptionPane.showMessageDialog(null, "El stock máximo no puede ser menor o igual que el stock mínimo.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Txt_StockMin.getText().equals("")){            
-            JOptionPane.showMessageDialog(null, "El campo stock mínimo no puede estar vacío.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(Integer.parseInt(Txt_StockMin.getText()) >= Integer.parseInt(Txt_StockMax.getText())){
-            JOptionPane.showMessageDialog(null, "El stock mínimo no puede ser mayor que el stock máximo.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else if(String.valueOf(ComboTalla.getSelectedItem()) == "Seleccione"){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una talla para el artículo.","¡Error!", JOptionPane.ERROR_MESSAGE);            
-        }else{            
-            objArticulo.setIdArticulo(Integer.parseInt(Txt_IdArticulo.getText()));
-            objArticulo.setNombreArticulo(Txt_NombreArticulo.getText());
-            objArticulo.setPrecioArticulo(Double.parseDouble(Txt_PrecioArticulo.getText()));
-            objArticulo.setDescripcionArticulo(Txt_DescripcionArticulo.getText());
-            objArticulo.setIdTalla(GetIdTalla(String.valueOf(ComboTalla.getSelectedItem())));
-            objArticulo.setStock(Integer.parseInt(Txt_StockAct.getText()));
-            objArticulo.setStockMinimo(Integer.parseInt(Txt_StockMin.getText()));
-            objArticulo.setStockMaximo(Integer.parseInt(Txt_StockMax.getText()));                                               
-            
-            if(Txt_Activo.getText().equals("Activado"))
-            {
-                status = true;                                
-            }else{
-                status = false;
-            }
-            
-            objArticulo.setActivoArticulo(status);  
-                                  
-            try{
-                daoArticulo.edit(objArticulo);
-                actualizarArticulo();                
-                JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Artículos", 0, icono);
-            }catch(Exception ex){
-                Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
-            }                                                                               
-        }
-    }             
+    }                                    
     
     private static int GetIdSeccion(String Nombre)
     {
@@ -1164,14 +1163,14 @@ public class FmrArticulos extends javax.swing.JFrame {
     
     public boolean ValidacionTresLetras(String Nombre)
     {
-         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        String patron = "^(\\d|(([A-Za-zñÑ\\s])\\3?(?!\\3)))+$";
         Pattern patt = Pattern.compile(patron);
         Matcher comparador = patt.matcher(Nombre);
-        if(comparador.matches()){
-            return true;
-        }else
+        if(comparador.matches())
         {
             return false;
+        }else{
+            return true;
         }
     }
     

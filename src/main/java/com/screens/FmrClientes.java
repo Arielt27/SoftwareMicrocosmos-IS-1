@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +40,8 @@ public class FmrClientes extends javax.swing.JFrame {
     ClientesJpaController daoClientes = new ClientesJpaController();    
     
     Clientes objCliente = new Clientes();
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     public FmrClientes() {
         initComponents();
@@ -960,7 +963,7 @@ public class FmrClientes extends javax.swing.JFrame {
             daoClientes.create(objCliente);
             ActualizarCliente();
             LimpiarCliente();
-            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente.", "Clientes", 0, icono);                
         } catch (Exception ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -970,7 +973,7 @@ public class FmrClientes extends javax.swing.JFrame {
     private void EditarCliente()
     {
         
-        boolean status = true;           
+        boolean estado = true;           
             
         if(Txt_NombreCliente.getText().length() < 3){            
             
@@ -1018,6 +1021,13 @@ public class FmrClientes extends javax.swing.JFrame {
         
         }else{
             
+            if(Txt_Activo.getText().equals("Activado"))
+            {
+                estado = true;                
+            }else if(Txt_Activo.getText().equals("Activado")){
+                estado = false;                
+            }
+            
             objCliente.setIdCliente(Integer.parseInt(Txt_IdCliente.getText()));
             objCliente.setNombreCliente(Txt_NombreCliente.getText());
             objCliente.setApellidoCliente(Txt_ApellidoCliente.getText());
@@ -1026,21 +1036,13 @@ public class FmrClientes extends javax.swing.JFrame {
             objCliente.setCorreoCliente(Txt_CorreoCliente.getText());
             objCliente.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(jComboBox1.getSelectedItem())));
             objCliente.setDocumento(Txt_DocumentoCliente.getText());
-            objCliente.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));
-            
-            if(Txt_Activo.getText().equals("Activado"))
-            {
-                status = true;                
-            }else{
-                status = false;                
-            }
-            
-            objCliente.setActivoCliente(status);                 
+            objCliente.setIdSexo(GetIdSexo(String.valueOf(jComboBox2.getSelectedItem())));                                    
+            objCliente.setActivoCliente(estado);                 
             
         try {
             daoClientes.edit(objCliente);
             ActualizarCliente();
-             JOptionPane.showMessageDialog(this, "Datos actualizados correctamente.");
+            JOptionPane.showMessageDialog(null, "Se actualizó correctamente.", "Clientes", 0, icono);                             
         } catch (Exception ex) {
              Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1203,14 +1205,14 @@ public class FmrClientes extends javax.swing.JFrame {
      
     public boolean ValidacionTresLetras(String Nombre)
     {
-         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        String patron = "^(\\d|(([A-Za-zñÑ\\s])\\3?(?!\\3)))+$";
         Pattern patt = Pattern.compile(patron);
         Matcher comparador = patt.matcher(Nombre);
-        if(comparador.matches()){
-            return true;
-        }else
+        if(comparador.matches())
         {
             return false;
+        }else{
+            return true;
         }
     }
      

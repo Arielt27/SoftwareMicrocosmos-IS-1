@@ -739,16 +739,16 @@ TipoDePago objTipoDePago = new TipoDePago();
         
     public boolean ValidacionTresLetras(String Nombre)
     {
-         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        String patron = "^(\\d|(([A-Za-zñÑ\\s])\\3?(?!\\3)))+$";
         Pattern patt = Pattern.compile(patron);
         Matcher comparador = patt.matcher(Nombre);
-        if(comparador.matches()){
-            return true;
-        }else
+        if(comparador.matches())
         {
             return false;
+        }else{
+            return true;
         }
-    }                              
+    }                             
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
