@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -131,7 +133,6 @@ public class FmrEmpleados extends javax.swing.JFrame {
 
         Tbl_Empleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -1106,12 +1107,6 @@ public class FmrEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "La dirección no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                                                
         }else if(ValidacionMail(Txt_Correo.getText())== false){
             JOptionPane.showMessageDialog(null, "Formato de Email inválido.\nEl formato de E-mail es: user@example.com","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
-        }//validacion de la vis
-        else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Visa"){
-            if(Validacionvisa(Txt_Documento.getText())== false){
-             JOptionPane.showMessageDialog(null, "validacion de la visa inalida","¡Error!", JOptionPane.ERROR_MESSAGE);    
-            
-            
         }else if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un tipo de documento.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else if((String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("dni") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("identidad") && ValidacionDNI(Txt_Documento.getText()) == false ) || (String.valueOf(CBox_TipoDoc.getSelectedItem()).equalsIgnoreCase("rtn") && ValidacionRTN(Txt_Documento.getText())== false)){
@@ -1171,22 +1166,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
             
                     
            
-        }
+        
     }
          
     }
     private void editarEmpleado()
     {      
         if(String.valueOf(CBox_TipoDoc.getSelectedItem()) == "visa"){
-            Validacionvisa(Txt_Documento.getText());
-                  
-
-        
+            Validacionvisa(Txt_Documento.getText());                         
         }
         else if(Txt_NombreEmpleado.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
-        }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())){
+        }else if(ValidacionTresLetras(Txt_NombreEmpleado.getText())==true){
             JOptionPane.showMessageDialog(null, "El nombre no puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                                        
         }else if(Txt_Apellido.getText().length() < 3){
             JOptionPane.showMessageDialog(null, "El apellido debe contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                        
@@ -1210,32 +1202,11 @@ public class FmrEmpleados extends javax.swing.JFrame {
         }else if(String.valueOf(CBox_Area.getSelectedItem()) == "Seleccione"){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un área laboral.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
         }else{
-              String fechaP = Txt_Fecha.getText();
-            String dia = "";
-            String mes = "";
-            String year = "";
-          
-            try {
-                dia = Txt_Fecha.getText(0, 2);
-                mes = Txt_Fecha.getText(3, 2);
-                year = Txt_Fecha.getText(6, 4);
-            } catch (BadLocationException ex) {
-                Logger.getLogger(FmrCompras.class.getName()).log(Level.SEVERE, null, ex);
-            }  
-            
-            String fechaPedido = year + "-" + mes + "-" + dia;                                                
-            
-            String fechaPBD = fechaPedido + " 00:00:00";
-              int edad;
-              String año_actual = fechas.fecha_actual();
-            
-           edad = Integer.parseInt(año_actual)- Integer.parseInt(year);
-            if (edad <= 17 ){
-              JOptionPane.showMessageDialog(null, "La persona no es mayor de edad","¡Error!", JOptionPane.ERROR_MESSAGE);  
-           }else
             
             
-                                
+            
+            String fechaTxt = Txt_Fecha.getText();
+            String fecha = fechaTxt + " 00:00:00";                       
             
             objEmpleados.setIdEmpleados(Integer.parseInt(Txt_IdEmpleados.getText()));            
             objEmpleados.setNombreEmpleado(Txt_NombreEmpleado.getText());
@@ -1245,7 +1216,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
             objEmpleados.setCorreoEmpleado(Txt_Correo.getText());
             objEmpleados.setIdTipoDocumento(GetIdTipoDocumento(String.valueOf(CBox_TipoDoc.getSelectedItem())));
             objEmpleados.setDocumento(Txt_Documento.getText());
-            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fechaPBD));                             
+            objEmpleados.setFechaDeNacimiento(Timestamp.valueOf(fecha));                             
             objEmpleados.setIdSexo(GetIdSexo(String.valueOf(CBox_Genero.getSelectedItem())));
             
             String estado = Txt_Activar.toString();                 
@@ -1302,44 +1273,20 @@ public class FmrEmpleados extends javax.swing.JFrame {
         return RTN.matches("^[0-1]{1}[0-9]{13}$");                
     }
     
-    
-       private static boolean ValidacionTresLetras(String Nombre)
+    public boolean ValidacionTresLetras(String Nombre)
     {
-        if(Nombre.length() >= 3)
+         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        Pattern patt = Pattern.compile(patron);
+        Matcher comparador = patt.matcher(Nombre);
+        if(comparador.matches()){
+            return true;
+        }else
         {
-            String Letra1 = Nombre.substring(0, 1);
-            String Letra2 = Nombre.substring(1, 2);
-            String Letra3 = Nombre.substring(2, 3);
-            String Letra4 = Nombre.substring(3, 4);
-            String Letra5 = Nombre.substring(4, 5);
-            String Letra6 = Nombre.substring(5, 6);
-            String Letra7 = Nombre.substring(6, 7);
-            String Letra8 = Nombre.substring(7, 8);
-            String Letra9 = Nombre.substring(8, 9);
-            String Letra10 = Nombre.substring(9, 10);
-            String Letra11 = Nombre.substring(10, 11);
-            String Letra12 = Nombre.substring(11, 12);
-            String Letra13 = Nombre.substring(12, 13);
-            String Letra14 = Nombre.substring(13, 14);
-            String Letra15 = Nombre.substring(14, 15);
-               
-            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
-                || Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
-                || Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10)
-                || Letra10.equalsIgnoreCase(Letra11) && Letra11.equalsIgnoreCase(Letra12) && Letra12.equalsIgnoreCase(Letra13)
-                || Letra13.equalsIgnoreCase(Letra14) && Letra14.equalsIgnoreCase(Letra15))
-            {
-                return true;
-            }else{
-                return false;              
-            }
-        }else{
-            return false;        
-        }              
-    }
-      
-    
-      public static boolean validacionFecha(String text) 
+            return false;
+        }
+    }                          
+            
+    public static boolean validacionFecha(String text) 
     {
         if (text == null || !text.matches("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$"))
         {
@@ -1356,7 +1303,6 @@ public class FmrEmpleados extends javax.swing.JFrame {
             return false;
         }
     }
-    
         
     public static String Validacionmayor(String text)
             

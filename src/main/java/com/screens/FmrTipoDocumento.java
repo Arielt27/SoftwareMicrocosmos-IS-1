@@ -12,6 +12,8 @@ import java.awt.Toolkit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -570,23 +572,23 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     private void LlenarTipoDocumento(){
         
         if(Txt_NombreTipoDocumento.getText().length() < 3){
-        
-       JOptionPane.showMessageDialog(null, "El nombre debe contener 3 letras minimo ","!Error¡", JOptionPane.ERROR_MESSAGE); 
+                
+        JOptionPane.showMessageDialog(null, "El nombre tiene que contener mínimo 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
         
         }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
-        
-       JOptionPane.showMessageDialog(null, "Ya existe el elemento ","!Error¡", JOptionPane.ERROR_MESSAGE); 
+                
+        JOptionPane.showMessageDialog(null, "Este elemento ya existe.","¡Error!", JOptionPane.ERROR_MESSAGE);
         
         }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
-        
-       JOptionPane.showMessageDialog(null, " no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE); 
+                
+        JOptionPane.showMessageDialog(null, "No puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);
         
         }else if(Txt_DescripcionTipoDocumento.getText().length() < 3){
+                
+        JOptionPane.showMessageDialog(null, "La descripción tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);
         
-         JOptionPane.showMessageDialog(null, " la descripcion debe contener al menos 3 letras","!Error¡", JOptionPane.ERROR_MESSAGE); 
-        
-        }else if(ValidacionTresLetras(Txt_DescripcionTipoDocumento.getText()) == true){
-             JOptionPane.showMessageDialog(null, " no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE); 
+        }else if(ValidacionTresLetras(Txt_DescripcionTipoDocumento.getText()) == true){            
+            JOptionPane.showMessageDialog(null, "No puede contener letras consecutivas repetidas.","¡Error!", JOptionPane.ERROR_MESSAGE);
         }else{    
        objTipoDocumento.setNombreTipoDocumento(Txt_NombreTipoDocumento.getText());
        objTipoDocumento.setDescripcionTipoDocumento(Txt_DescripcionTipoDocumento.getText());
@@ -636,22 +638,21 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                
         if(Txt_NombreTipoDocumento.getText().length() < 3){
         
-        JOptionPane.showMessageDialog(null, "El nombre debe contener 3 letras minimo ","!Error¡", JOptionPane.ERROR_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "El nombre tiene que contener mínimo 3 letras");
         
         }else if(ValidacionDeRepetidos(Txt_NombreTipoDocumento.getText()) == true){
         
-          JOptionPane.showMessageDialog(null, "Ya existe el elemento ","!Error¡", JOptionPane.ERROR_MESSAGE); 
-        
+        JOptionPane.showMessageDialog(this, "Este elemento ya existe");
         Btn_Añadir.setEnabled(true);
         Btn_Limpiar.setEnabled(false);
         
         }else if(ValidacionTresLetras(Txt_NombreTipoDocumento.getText()) == true){
         
-          JOptionPane.showMessageDialog(null, " no puede tener caracteres repetidos consecutivos.","!Error¡", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "No se pueden repetir 3 letras seguidas");
         
         }else if(Txt_DescripcionTipoDocumento.getText().length() < 3){
         
-      JOptionPane.showMessageDialog(null, " la descripcion debe contener al menos 3 letras","!Error¡", JOptionPane.ERROR_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "La descripción tiene que contener al menos 3 letras");
         
         }else{
        objTipoDocumento.setIdTipoDocumento(Integer.parseInt(Txt_IdDocumento.getText()));
@@ -752,35 +753,18 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
              
         }
         
-    private static boolean ValidacionTresLetras(String Nombre)
+    public boolean ValidacionTresLetras(String Nombre)
     {
-        if(Nombre.length() >= 3)
+         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        Pattern patt = Pattern.compile(patron);
+        Matcher comparador = patt.matcher(Nombre);
+        if(comparador.matches()){
+            return true;
+        }else
         {
-            String Letra1 = Nombre.substring(0, 1);
-            String Letra2 = Nombre.substring(1, 2);
-            String Letra3 = Nombre.substring(2, 3);
-            String Letra4 = Nombre.substring(3, 4);
-            String Letra5 = Nombre.substring(4, 5);
-            String Letra6 = Nombre.substring(5, 6);
-            String Letra7 = Nombre.substring(6, 7);
-            String Letra8 = Nombre.substring(7, 8);
-            String Letra9 = Nombre.substring(8, 9);
-            String Letra10 = Nombre.substring(9, 10);
-               
-            if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3) && Letra3.equalsIgnoreCase(Letra4)
-                && Letra4.equalsIgnoreCase(Letra5) && Letra5.equalsIgnoreCase(Letra6) && Letra6.equalsIgnoreCase(Letra7)
-                && Letra7.equalsIgnoreCase(Letra8) && Letra8.equalsIgnoreCase(Letra9) && Letra9.equalsIgnoreCase(Letra10))
-            {
-                return true;
-            }else{
-                return false;              
-            }
-        }else{
-            return false;        
-        }              
-    
-              
+            return false;
         }
+    }
     
     
     public static void main(String args[]) {

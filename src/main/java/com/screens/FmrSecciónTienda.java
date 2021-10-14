@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -711,29 +713,18 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
              }        
     }
     
-    private static boolean ValidacionTresLetras(String Nombre)
+    public boolean ValidacionTresLetras(String Nombre)
     {
-        if(Nombre.length() >= 3){
-        String Letra1 = Nombre.substring(0, 1);
-        String Letra2 = Nombre.substring(1, 2);
-        String Letra3 = Nombre.substring(2, 3);
-        
-        
-        if(Letra1.equalsIgnoreCase(Letra2) && Letra2.equalsIgnoreCase(Letra3)){
-        
-        return true;
-         
-        }else{
-        
-        return false;
-              
-        }
-        }else{
-        
+         String patron = "^\\b(\\w*)(\\w)\\2{2,}(\\w*)\\b";
+        Pattern patt = Pattern.compile(patron);
+        Matcher comparador = patt.matcher(Nombre);
+        if(comparador.matches()){
+            return true;
+        }else
+        {
             return false;
-        
-        }        
-    }  
+        }
+    }
     
     /**
      * @param args the command line arguments
