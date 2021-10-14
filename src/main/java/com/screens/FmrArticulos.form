@@ -73,7 +73,7 @@
               <Table columnCount="9" rowCount="7">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
                 <Column editable="false" title="Art&#xed;culo" type="java.lang.String"/>
-                <Column editable="false" title="Precio" type="java.lang.Double"/>
+                <Column editable="false" title="Precio" type="java.lang.String"/>
                 <Column editable="false" title="Descripci&#xf3;n" type="java.lang.String"/>
                 <Column editable="false" title="Talla" type="java.lang.Integer"/>
                 <Column editable="false" title="Stock" type="java.lang.Integer"/>

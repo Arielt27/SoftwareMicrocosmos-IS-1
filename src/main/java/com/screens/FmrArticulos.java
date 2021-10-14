@@ -58,6 +58,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();                         
     
     DecimalFormat formato1 = new DecimalFormat("#.00");
+    float myFloat = 2.001f;
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     Icon iconoDA = new ImageIcon(getClass().getResource("/imagenes/estado.png"));
@@ -65,7 +66,20 @@ public class FmrArticulos extends javax.swing.JFrame {
     double precioActual = 0;
     double precioNuevo = 0;
     
-    DefaultTableModel t;   
+    DefaultTableModel t;  
+    
+    /*float myFloat = 2.001f;
+    String formattedString = String.format("%.02f", myFloat);
+    
+    double d = 1.234567;
+    DecimalFormat df = new DecimalFormat("#.##");
+    System.out.print(df.format(d));
+    
+    float f = 102.236569f; 
+    DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    float twoDigitsF = Float.valueOf(decimalFormat.format(f)); // output is 102.24
+    
+    double new_variable = Math.round(old_variable*100) / 100.0;*/
     
     /**
      * Creates new form Articulos
@@ -152,7 +166,7 @@ public class FmrArticulos extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
@@ -1294,15 +1308,17 @@ public class FmrArticulos extends javax.swing.JFrame {
         }
     }
     
-    private double formatearValor(double valor)
+    private String formatearValor(double valor)
     {
-        double precio = valor;
+        //DecimalFormat df = new DecimalFormat("#.##");       
         
-        String precio2 = formato1.format(precio);
+        String formattedString = String.format("%.02f", valor);
+                        
+        //String precio = df.format(valor);
         
-        double valor2 = Double.parseDouble(precio2);
+        //double valor2 = Double.parseDouble(precio);
         
-        return valor2;
+        return formattedString;
     }
     
     /**
