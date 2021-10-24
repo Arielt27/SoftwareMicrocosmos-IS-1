@@ -1,0 +1,81 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.screens;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author crist
+ */
+public class FmrTipoDocumentoTest {
+    
+    public FmrTipoDocumentoTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of ValidacionDeRepetidos method, of class FmrTipoDocumento.
+     */
+    @Test
+    public void testValidacionDeRepetidos() {
+        System.out.println("ValidacionDeRepetidos");
+        String Nombre = "";
+        boolean expResult = false;
+        boolean result = FmrTipoDocumento.ValidacionDeRepetidos(Nombre);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of ValidacionTresLetras method, of class FmrTipoDocumento.
+     */
+    @Test
+    public void testValidacionTresLetras() {
+        System.out.println("ValidacionTresLetras");
+        String Nombre = "";
+        FmrTipoDocumento instance = new FmrTipoDocumento();
+        boolean expResult = false;
+        boolean result = instance.ValidacionTresLetras(Nombre);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of main method, of class FmrTipoDocumento.
+     */
+    @Test
+    public void testMain() {
+        System.out.println("main");
+        String[] args = null;
+        FmrTipoDocumento.main(args);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
+}
