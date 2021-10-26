@@ -67,7 +67,7 @@ public class FmrArticulosTest {
      * Test of ValidacionDeRepetidos method, of class FmrArticulos.
      */
     @org.junit.Test
-    public void testValidacionDeRepetidos() {
+     void testValidacionDeRepetidos() {
         System.out.println("ValidacionDeRepetidos");
         String Nombre = "";
         boolean expResult = false;
@@ -92,8 +92,8 @@ public class FmrArticulosTest {
     /**
      * Test of main method, of class FmrArticulos.
      */
-    @org.junit.Test
-    public void testMain() {
+    @org.junit.Test;
+     void testMain() {
         System.out.println("main");
         String[] args = null;
         FmrArticulos.main(args);

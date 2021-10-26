@@ -764,7 +764,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Admin.setText("");             
     }        
     
-    public static boolean contraseñaRepetida(String Contraseña)
+    private static boolean contraseñaRepetida(String Contraseña)
     {             
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
         EntityManager em = emf.createEntityManager();

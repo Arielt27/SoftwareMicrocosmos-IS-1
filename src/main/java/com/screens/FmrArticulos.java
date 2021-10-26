@@ -57,8 +57,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
     Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();                         
     
-    DecimalFormat formato1 = new DecimalFormat("#.00");
-    float myFloat = 2.001f;
+    DecimalFormat formato1 = new DecimalFormat("#.00");    
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     Icon iconoDA = new ImageIcon(getClass().getResource("/imagenes/estado.png"));
@@ -67,20 +66,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     double precioNuevo = 0;
     
     DefaultTableModel t;  
-    
-    /*float myFloat = 2.001f;
-    String formattedString = String.format("%.02f", myFloat);
-    
-    double d = 1.234567;
-    DecimalFormat df = new DecimalFormat("#.##");
-    System.out.print(df.format(d));
-    
-    float f = 102.236569f; 
-    DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    float twoDigitsF = Float.valueOf(decimalFormat.format(f)); // output is 102.24
-    
-    double new_variable = Math.round(old_variable*100) / 100.0;*/
-    
+            
     /**
      * Creates new form Articulos
      */
@@ -1309,14 +1295,8 @@ public class FmrArticulos extends javax.swing.JFrame {
     }
     
     private String formatearValor(double valor)
-    {
-        //DecimalFormat df = new DecimalFormat("#.##");       
-        
-        String formattedString = String.format("%.02f", valor);
-                        
-        //String precio = df.format(valor);
-        
-        //double valor2 = Double.parseDouble(precio);
+    {                
+        String formattedString = String.format("%.02f", valor);                                
         
         return formattedString;
     }

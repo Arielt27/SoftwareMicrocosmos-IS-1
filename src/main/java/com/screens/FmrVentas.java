@@ -1008,8 +1008,7 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_TotalVenta.setText(String.valueOf(formato1.format(total)));
         
         Btn_Venta.setEnabled(true);
-        CBox_TipoPago.setEnabled(true);
-        //Btn_Buscar.setEnabled(false);                     
+        CBox_TipoPago.setEnabled(true);                     
     }   
     
     private void mostrarCAI()
@@ -1227,31 +1226,7 @@ public class FmrVentas extends javax.swing.JFrame {
     return dateToConvert.toInstant()
       .atZone(ZoneId.systemDefault())
       .toLocalDate();
-    }
-    
-    
-    /*private void comprobarRepetidos()
-    {                                    
-        for(int i = 0; i < jTable_Venta.getRowCount(); i++)                             
-        {
-            Object id1 = jTable_Venta.getValueAt(i, 0);           
-            
-            //JOptionPane.showMessageDialog(null, "ID1:" + id1);
-            
-            for(int j = 0; j < jTable_Venta.getRowCount(); j++)                         
-            {
-                Object id2 = jTable_Venta.getValueAt(j, 0);       
-                
-                //JOptionPane.showMessageDialog(null, "ID2:" + id2);
-                
-                if(id2 == id1)
-                {
-                    t2.removeRow(j);                    
-                }
-            }
-        }
-    }*/
-       
+    }                  
            
     /**
      * @param args the command line arguments
