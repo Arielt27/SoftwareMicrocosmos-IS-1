@@ -6,9 +6,12 @@
 package com.screens;
 
 import com.clases.Estado;
+import com.clases.EstadoDataSource;
 import com.dao.EstadoJpaController;
 import static com.screens.FmrTalla.ValidacionDeRepetidos;
 import java.awt.Image;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -32,6 +41,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
 EstadoJpaController daoEstado = new EstadoJpaController();  
 Estado objEstado = new Estado();
+
+EstadoDataSource dataSource;
 
 Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
@@ -207,6 +218,11 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
         Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
         Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -552,6 +568,12 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         }
     }//GEN-LAST:event_Txt_DescripcionEstadoKeyTyped
 
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        imprimirFactura();
+        
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
     private void LimpiarEstado(){
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
@@ -733,6 +755,54 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         }
     }
     
+    public void imprimirFactura()
+    {
+        java.util.Date fecha = new Date();        
+        
+        List<Estado> listaEstados = daoEstado.findEstadoEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+        
+        EntityManager em = daoEstado.getEntityManager();                                        
+        
+        Object[][] arrayEstado;
+        arrayEstado = new Object[listaEstados.size()][3];      
+        
+        for(int i = 0; i < listaEstados.size(); i++)
+        {        
+            for(int j = 0; j < 3 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayEstado[i][0] = listaEstados.get(i).getIdEstado();
+                    break;
+                    
+                    case 1: //Nombre                        
+                        arrayEstado[i][1] = daoEstado.findEstado(listaEstados.get(i).getIdEstado()).getNombreEstado();
+                    break;
+                    
+                    case 2: //Descripcion                        
+                        arrayEstado[i][2] = daoEstado.findEstado(listaEstados.get(i).getIdEstado()).getDescripcionEstado();
+                    break;                                             
+                }            
+            }
+        }        
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));
+        
+        try{
+            JasperReport reporteEstado = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteEstado.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteEstado,
+                    param, 
+                    dataSource.getDataSource(arrayEstado));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrEstado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
                                  
     /**
      * @param args the command line arguments

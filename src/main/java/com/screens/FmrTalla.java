@@ -48,10 +48,7 @@ public class FmrTalla extends javax.swing.JFrame {
     Talla objTalla = new Talla();
     TallaDataSource dataSource;
     
-    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
-    
-    Date fecha = new Date(Calendar.getInstance().getTimeInMillis());        
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));        
     
     public FmrTalla() {
         initComponents();
@@ -866,6 +863,8 @@ public class FmrTalla extends javax.swing.JFrame {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
     
     
     /**
