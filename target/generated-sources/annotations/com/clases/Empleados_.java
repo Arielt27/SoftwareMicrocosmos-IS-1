@@ -10,6 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Empleados_ {
 
 	public static volatile SingularAttribute<Empleados, Timestamp> fechaDeNacimiento;
+	public static volatile SingularAttribute<Empleados, String> arealaboral;
 	public static volatile SingularAttribute<Empleados, Integer> idSexo;
 	public static volatile SingularAttribute<Empleados, Boolean> activoEmpleado;
 	public static volatile SingularAttribute<Empleados, String> apellidoEmpleado;

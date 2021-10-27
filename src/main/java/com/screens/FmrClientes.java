@@ -6,12 +6,16 @@
 package com.screens;
 
 import com.clases.Clientes;
+import com.clases.ClientesDataSource;
 import com.clases.Sexo;
+import com.clases.Talla;
 import com.clases.TipoDocumento;
 import com.dao.ClientesJpaController;
 import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +29,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -40,7 +50,7 @@ public class FmrClientes extends javax.swing.JFrame {
     ClientesJpaController daoClientes = new ClientesJpaController();    
     
     Clientes objCliente = new Clientes();
-    
+    ClientesDataSource dataSource;
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     public FmrClientes() {
@@ -91,6 +101,7 @@ public class FmrClientes extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         Txt_Activo = new javax.swing.JTextField();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -308,6 +319,19 @@ public class FmrClientes extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -337,13 +361,13 @@ public class FmrClientes extends javax.swing.JFrame {
                             .addComponent(Txt_TelefonoCliente))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Txt_CorreoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -351,6 +375,8 @@ public class FmrClientes extends javax.swing.JFrame {
                             .addComponent(Txt_DireccionCliente))
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(76, 76, 76))))
         );
@@ -388,8 +414,9 @@ public class FmrClientes extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(25, 25, 25))
+                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17))
         );
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -810,6 +837,13 @@ public class FmrClientes extends javax.swing.JFrame {
                     
         }
     }//GEN-LAST:event_Txt_DocumentoClienteKeyTyped
+
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        
+        imprimir();
+
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
     
 
     private void LimpiarCliente(){
@@ -1216,7 +1250,76 @@ public class FmrClientes extends javax.swing.JFrame {
         }
     }
      
+    public void imprimir()
+    {         
+        java.util.Date fecha = new Date();        
+        
+        List<Clientes> listaClientesBD = daoClientes.findClientesEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+
+        
+        EntityManager em = daoClientes.getEntityManager();                                        
+        
+        Object[][] arrayClientes;
+        arrayClientes = new Object[listaClientesBD.size()][9];      
     
+        for(int i = 0; i < listaClientesBD.size(); i++)
+        {        
+            for(int j = 0; j < 9 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayClientes[i][0] = listaClientesBD.get(i).getIdCliente();
+                    break;
+                    
+                    case 1: //Nombre                        
+                        arrayClientes[i][1] = daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getNombreCliente();
+                    break;
+                    
+                    case 2: //apellido                        
+                       arrayClientes[i][2] = daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getApellidoCliente();
+                    break; 
+                    case 3: //telefono                        
+                       arrayClientes[i][3] = daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getTelefonoCliente();
+                    break; 
+                    case 4: //Direccion                      
+                       arrayClientes[i][4] = daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getDireccionCliente();
+                    break; 
+                    case 5: //correo                       
+                       arrayClientes[i][5] = daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getCorreoCliente();
+                    case 6: //TipoDocumento                       
+                       arrayClientes[i][6] = daoTipoDocumento.findTipoDocumento(daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getIdTipoDocumento()).getNombreTipoDocumento();
+                    break;  
+                    case 7: //Documento                       
+                       arrayClientes[i][7] = daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getDocumento();
+                       
+                    break; 
+                    case 8: //Genero                        
+                       arrayClientes[i][8] = daoSexo.findSexo(daoClientes.findClientes(listaClientesBD.get(i).getIdCliente()).getIdSexo()).getNombreSexo();
+                    break; 
+                   
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));                                     
+        
+        try{
+            JasperReport reporteClientes = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteClientes.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(reporteClientes,
+                    param, 
+                    dataSource.getDataSource(arrayClientes));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+   
     /**
      * @param args the command line arguments
      */
@@ -1256,6 +1359,7 @@ public class FmrClientes extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Activar_Desactivar;
     private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_Editar;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTable Tbl_Clientes;

@@ -10,8 +10,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Parametros_ {
 
 	public static volatile SingularAttribute<Parametros, Timestamp> fechaCaducidad;
-	public static volatile SingularAttribute<Parametros, Integer> IdParametros;
 	public static volatile SingularAttribute<Parametros, Integer> facturaFinal;
+	public static volatile SingularAttribute<Parametros, Integer> idParametros;
 	public static volatile SingularAttribute<Parametros, String> cai;
 	public static volatile SingularAttribute<Parametros, Timestamp> fechaEmision;
 	public static volatile SingularAttribute<Parametros, Integer> facturaInicial;
