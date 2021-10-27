@@ -5,7 +5,7 @@
  */
 package com.screens;
 
-import com.clases.ArticuloDataSource;
+import com.clases.UsuarioDataSource;
 import com.clases.Usuarios;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
@@ -40,7 +40,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     Usuarios objUsuario = new Usuarios();   
-    ArticuloDataSource dataSource;
+    UsuarioDataSource dataSource;
                 
     /**
      * Creates new form FmrUsuarios
@@ -866,7 +866,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             JasperViewer view = new JasperViewer(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
-            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
         

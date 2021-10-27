@@ -45,11 +45,11 @@ public class UsuarioDataSource implements JRDataSource{
                 valor = usuario[index][1];
                 break;
                 
-            case "NumeroIntentos":
+            case "Intentos":
                 valor = usuario[index][2];
                 break;    
                 
-            case "IdEmpleado":
+            case "Empleado":
                 valor = usuario[index][3];
                 break;                                            
         }

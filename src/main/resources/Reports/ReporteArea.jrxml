@@ -96,6 +96,7 @@
 		<band height="25" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="25" height="20" />
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
 			</textField>
 			<textField>

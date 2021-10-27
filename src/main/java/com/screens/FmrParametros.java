@@ -6,14 +6,15 @@
 package com.screens;
 
 import com.clases.Parametros;
+import com.clases.ParametrosDataSource;
 import com.dao.ParametrosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,12 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -39,6 +46,8 @@ public class FmrParametros extends javax.swing.JFrame {
     
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+    ParametrosDataSource dataSource;
+    
     /**
      * Creates new form FmrParametros
      */
@@ -88,6 +97,7 @@ public class FmrParametros extends javax.swing.JFrame {
         Btn_Regresar2 = new javax.swing.JButton();
         Btn_Limpiar = new javax.swing.JButton();
         Btn_Añadir = new javax.swing.JButton();
+        Btn_Imprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Parámetros - Microcosmos");
@@ -337,18 +347,34 @@ public class FmrParametros extends javax.swing.JFrame {
             }
         });
 
+        Btn_Imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime en un archivo PDF los datos de la tabla.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(120, 50));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(120, 50));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(120, 50));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(160, 160, 160)
+                .addGap(80, 80, 80)
                 .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(50, 50, 50)
                 .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
                 .addComponent(Btn_Regresar2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addGap(80, 80, 80))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,7 +383,8 @@ public class FmrParametros extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Btn_Regresar2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Btn_Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Añadir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39))
         );
 
@@ -519,6 +546,12 @@ public class FmrParametros extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jTable_CAIMouseClicked
+
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+        
+        imprimir();
+        
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
         
     
     //METODOS
@@ -694,6 +727,68 @@ public class FmrParametros extends javax.swing.JFrame {
         }                        
     }
     
+    public void imprimir()
+    {
+        java.util.Date fecha = new Date(); 
+        
+        List<Parametros> listaParametros = daoParam.findParametrosEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+        
+        EntityManager em = daoParam.getEntityManager();
+        
+        Object[][] arrayParametros;
+        arrayParametros = new Object[listaParametros.size()][6];      
+        
+        for(int i = 0; i < listaParametros.size(); i++)
+        {        
+            for(int j = 0; j < 6 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayParametros[i][0] = listaParametros.get(i).getIdParametros();
+                    break;
+                    
+                    case 1: //CAI                        
+                        arrayParametros[i][1] = daoParam.findParametros(listaParametros.get(i).getIdParametros()).getCai();
+                    break;
+                    
+                    case 2: //Fecha Inicial                        
+                        arrayParametros[i][2] = String.valueOf(daoParam.findParametros(listaParametros.get(i).getIdParametros()).getFechaEmision());                        
+                    break; 
+                    
+                    case 3: //Fecha Final                        
+                        arrayParametros[i][3] = String.valueOf(daoParam.findParametros(listaParametros.get(i).getIdParametros()).getFechaCaducidad());
+                    break; 
+                    
+                    case 4: //Factura Inicial                        
+                        arrayParametros[i][4] = String.valueOf(daoParam.findParametros(listaParametros.get(i).getIdParametros()).getFacturaInicial());
+                    break; 
+                    
+                    case 5: //Factura Final
+                        arrayParametros[i][5] = String.valueOf(daoParam.findParametros(listaParametros.get(i).getIdParametros()).getFacturaFinal());
+                    break; 
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));
+        
+        try{
+            JasperReport reporteParametros = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteParametros.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteParametros,
+                    param, 
+                    dataSource.getDataSource(arrayParametros));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -731,6 +826,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar2;
     private javax.swing.JTextField Txt_Cai;
