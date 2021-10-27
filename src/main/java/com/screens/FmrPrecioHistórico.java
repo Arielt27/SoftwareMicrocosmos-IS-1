@@ -5,12 +5,18 @@
  */
 package com.screens;
 
+import com.clases.Parametros;
 import com.clases.PrecioHistorico;
+import com.clases.PrecioHistoricoDataSource;
+import com.dao.ArticuloJpaController;
 import com.dao.PrecioHistoricoJpaController;
 import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,6 +24,12 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -27,8 +39,9 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     PrecioHistoricoJpaController daoPrecioH = new PrecioHistoricoJpaController();
+    ArticuloJpaController daoArticulo = new ArticuloJpaController();
     PrecioHistorico objPrecioH = new PrecioHistorico();
-    
+    PrecioHistoricoDataSource dataSource;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
@@ -70,6 +83,7 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Clean = new javax.swing.JButton();
         Btn_Regresar = new javax.swing.JButton();
@@ -185,6 +199,19 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         jLabel6.setText("Artículo");
         jLabel6.setPreferredSize(new java.awt.Dimension(80, 20));
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -203,14 +230,19 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_FechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(100, 100, 100))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Txt_FechaF, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(100, 100, 100))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(190, 190, 190))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,11 +259,16 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_IdArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Txt_FechaI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Txt_FechaI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -374,6 +411,11 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_CleanActionPerformed
 
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        imprimir();
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
     
     //METODOS
     private void actualizarPrecioHistorico()
@@ -425,6 +467,64 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
     
         return query.getSingleResult().toString() ;  
     }
+     public void imprimir()
+    {
+        java.util.Date fecha = new Date(); 
+        
+        List<PrecioHistorico> listaPrecioHistorico = daoPrecioH.findPrecioHistoricoEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+        
+        EntityManager em = daoPrecioH.getEntityManager();
+        
+        Object[][] arrayPrecioHistorico;
+        arrayPrecioHistorico = new Object[listaPrecioHistorico.size()][5];      
+        
+        for(int i = 0; i < listaPrecioHistorico.size(); i++)
+        {        
+            for(int j = 0; j < 5 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayPrecioHistorico[i][0] = listaPrecioHistorico.get(i).getIdPrecioHistorico();
+                    break;
+                    
+                    case 1: //Precio                      
+                        arrayPrecioHistorico[i][1] = daoPrecioH.findPrecioHistorico(listaPrecioHistorico.get(i).getIdPrecioHistorico()).getPrecio();
+                    break;
+                    
+                    case 2: //Fecha Inicial                        
+                        arrayPrecioHistorico[i][2] = String.valueOf(daoPrecioH.findPrecioHistorico(listaPrecioHistorico.get(i).getIdPrecioHistorico()).getFechaInicial());                       
+                    break; 
+                    
+                    case 3: //Fecha Final                        
+                        arrayPrecioHistorico[i][3] =String.valueOf(daoPrecioH.findPrecioHistorico(listaPrecioHistorico.get(i).getIdPrecioHistorico()).getFechaFinal());  
+                    break; 
+                    
+                    case 4: //Articulo                     
+                        arrayPrecioHistorico[i][4] = daoArticulo.findArticulo(daoPrecioH.findPrecioHistorico(listaPrecioHistorico.get(i).getIdPrecioHistorico()).getIdArticulo()).getNombreArticulo();
+                    break; 
+                    
+                   
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));
+        
+        try{
+            JasperReport reporteParametros = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteParametros.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(reporteParametros,
+                    param, 
+                    dataSource.getDataSource(arrayPrecioHistorico));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     
     /**
      * @param args the command line arguments
@@ -470,6 +570,7 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Clean;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTextField Txt_FechaF;
     private javax.swing.JTextField Txt_FechaI;
