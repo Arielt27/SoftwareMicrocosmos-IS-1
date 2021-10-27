@@ -284,6 +284,9 @@
                   <Dimension value="[70, 22]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_ImprimirActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

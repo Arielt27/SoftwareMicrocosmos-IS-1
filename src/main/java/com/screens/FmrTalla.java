@@ -5,9 +5,16 @@
  */
 package com.screens;
 
+import com.clases.DetalleVenta;
 import com.clases.Talla;
+import com.clases.TallaDataSource;
+import com.clases.Venta;
 import com.dao.TallaJpaController;
 import java.awt.Image;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +28,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -35,8 +48,12 @@ public class FmrTalla extends javax.swing.JFrame {
     TallaJpaController daoTalla = new TallaJpaController();
     //Objeto global
     Talla objTalla = new Talla();
+    TallaDataSource dataSource;
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+    
+    Date fecha = new Date(Calendar.getInstance().getTimeInMillis());        
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     
     public FmrTalla() {
         initComponents();
@@ -166,6 +183,11 @@ public class FmrTalla extends javax.swing.JFrame {
         Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
         Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
         Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -604,6 +626,12 @@ public class FmrTalla extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Txt_DescripcionTallaActionPerformed
 
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+        
+        imprimirFactura();
+        
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
     private void LimpiarTalla(){
        Btn_Editar.setEnabled(false);
        Btn_Activar_Desactivar.setEnabled(false);
@@ -789,6 +817,56 @@ public class FmrTalla extends javax.swing.JFrame {
             return false;
         }else{
             return true;
+        }
+    }
+    
+    public void imprimirFactura()
+    {         
+        java.util.Date fecha = new Date();        
+        
+        List<Talla> listaTallasBD = daoTalla.findTallaEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+
+        //DETALLES PRODUCTO
+        EntityManager em = daoTalla.getEntityManager();                                        
+        
+        Object[][] arrayTalla;
+        arrayTalla = new Object[listaTallasBD.size()][3];      
+    
+        for(int i = 0; i < listaTallasBD.size(); i++)
+        {        
+            for(int j = 0; j < 3 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayTalla[i][0] = listaTallasBD.get(i).getIdTalla();
+                    break;
+                    
+                    case 1: //Nombre                        
+                        arrayTalla[i][1] = daoTalla.findTalla(listaTallasBD.get(i).getIdTalla()).getNombreTalla();
+                    break;
+                    
+                    case 2: //Descripcion                        
+                        arrayTalla[i][2] = daoTalla.findTalla(listaTallasBD.get(i).getIdTalla()).getDescripcionTalla();
+                    break;                                             
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));                                     
+        
+        try{
+            JasperReport reporteTalla = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteTalla.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteTalla,
+                    param, 
+                    dataSource.getDataSource(arrayTalla));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

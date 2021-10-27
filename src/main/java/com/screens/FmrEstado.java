@@ -72,6 +72,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         Txt_NombreEstado = new javax.swing.JTextField();
         Txt_IdEstado = new javax.swing.JTextField();
         Txt_Activo = new javax.swing.JTextField();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Actualizar = new javax.swing.JButton();
@@ -199,6 +200,14 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
             }
         });
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -219,10 +228,13 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Txt_DescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_IdEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_NombreEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(196, 196, 196))))
+                            .addComponent(Txt_NombreEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(Txt_DescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(108, 108, 108))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,8 +254,9 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
                         .addGap(39, 39, 39)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_DescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36))
+                            .addComponent(Txt_DescripcionEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -768,6 +781,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     private javax.swing.JButton Btn_Activar;
     private javax.swing.JButton Btn_Actualizar;
     private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTable Tbl_Estado;

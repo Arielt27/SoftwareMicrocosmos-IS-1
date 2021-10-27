@@ -7,12 +7,16 @@ package com.screens;
 
 //Imports
 import com.clases.Articulo;
+import com.clases.ArticuloDataSource;
 import com.clases.Articulo_SeccionTienda;
 import com.clases.PrecioHistorico;
 import com.clases.Talla;
 import com.clases.SeccionTienda;
+import com.clases.SingletonUser;
+import com.clases.Usuarios;
 import com.dao.ArticuloJpaController;
 import com.dao.Articulo_SeccionTiendaJpaController;
+import com.dao.EmpleadosJpaController;
 import com.dao.PrecioHistoricoJpaController;
 import com.dao.SeccionTiendaJpaController;
 import com.dao.TallaJpaController;
@@ -25,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +43,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author david
@@ -50,6 +61,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     //Declarando drivers
     TallaJpaController daoTalla = new TallaJpaController();
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     PrecioHistoricoJpaController daoPrecioH = new PrecioHistoricoJpaController();
     
     Articulo objArticulo = new Articulo();
@@ -57,7 +69,14 @@ public class FmrArticulos extends javax.swing.JFrame {
     Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
     Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();                         
     
-    DecimalFormat formato1 = new DecimalFormat("#.00");    
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
+    
+    DecimalFormat formato1 = new DecimalFormat("#.00"); 
+    
+    ArticuloDataSource dataSource;
+    Date fecha = new Date(Calendar.getInstance().getTimeInMillis());        
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     Icon iconoDA = new ImageIcon(getClass().getResource("/imagenes/estado.png"));
@@ -122,6 +141,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         CBox_Filtro = new javax.swing.JComboBox<>();
         Txt_Campo = new javax.swing.JTextField();
         Btn_Buscar = new javax.swing.JButton();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -365,6 +385,19 @@ public class FmrArticulos extends javax.swing.JFrame {
             }
         });
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -398,19 +431,20 @@ public class FmrArticulos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(Txt_DescripcionArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(368, 368, 368)
                         .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)))))
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Txt_StockMax)
@@ -461,12 +495,13 @@ public class FmrArticulos extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(CBox_Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(Txt_Campo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(Btn_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 115, Short.MAX_VALUE)
+                        .addGap(0, 116, Short.MAX_VALUE)
                         .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -875,6 +910,12 @@ public class FmrArticulos extends javax.swing.JFrame {
         consultarIDArt(busquedaID);
 
     }//GEN-LAST:event_Btn_BuscarActionPerformed
+
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+        
+        imprimirFactura();
+        
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
       
     //MÉTODOS
     private void actualizarArticulo()
@@ -1301,6 +1342,77 @@ public class FmrArticulos extends javax.swing.JFrame {
         return formattedString;
     }
     
+    public void imprimirFactura()
+    {         
+        java.util.Date fecha = new Date();    
+        
+        List<Articulo> listaArticulos = daoArticulo.findArticuloEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+
+        //DETALLES PRODUCTO
+        EntityManager em = daoArticulo.getEntityManager();               
+        
+        Object[][] arrayArticulos;
+        arrayArticulos = new Object[listaArticulos.size()][8];      
+    
+        for(int i = 0; i < listaArticulos.size(); i++)
+        {        
+            for(int j = 0; j < 8 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //Id
+                        arrayArticulos[i][0] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getIdArticulo();
+                    break;
+                    
+                    case 1: //Articulo
+                        arrayArticulos[i][1] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getNombreArticulo();                        
+                    break;
+                    
+                    case 2: //Precio
+                        arrayArticulos[i][2] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getPrecioArticulo();
+                    break;     
+                    
+                    case 3: //Descripcion
+                        arrayArticulos[i][3] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getDescripcionArticulo();
+                        break;
+                        
+                    case 4: //Talla                          
+                        arrayArticulos[i][4] = daoTalla.findTalla(daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getIdTalla()).getNombreTalla();
+                        break;
+                        
+                    case 5: //Stock
+                        arrayArticulos[i][5] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getStock();
+                        break;
+                        
+                    case 6: //Minimo
+                        arrayArticulos[i][6] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getStockMinimo();
+                        break;
+                        
+                    case 7: //Maximo
+                        arrayArticulos[i][7] = daoArticulo.findArticulo(listaArticulos.get(i).getIdArticulo()).getStockMaximo();
+                        break;
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                       
+        param.put("Fecha", formatoFecha.format(fecha));   
+        //param.put("Empleado",daoEmpleados.findEmpleados();
+                                        
+        try {
+            JasperReport reporteFactura = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteArticulos.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteFactura,
+                    param, 
+                    dataSource.getDataSource(arrayArticulos));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * 
      * 
@@ -1350,6 +1462,7 @@ public class FmrArticulos extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_Buscar;
     private javax.swing.JButton Btn_Editar;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JComboBox<String> CBox_Filtro;

@@ -69,6 +69,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         jLabel4 = new javax.swing.JLabel();
         Txt_DescripciónÁreaLaboral = new javax.swing.JTextField();
         Txt_Activo = new javax.swing.JTextField();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         Btn_Actualizar = new javax.swing.JButton();
@@ -160,6 +161,14 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
             }
         });
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -171,25 +180,26 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(251, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(248, 248, 248))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_IdÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_DescripciónÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Txt_ÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(196, 196, 196))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Txt_IdÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Txt_ÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(248, 248, 248))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(Txt_DescripciónÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(116, 116, 116)))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +217,8 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
                 .addGap(39, 39, 39)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_DescripciónÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_DescripciónÁreaLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -396,73 +407,6 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Txt_ÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_ÁreaLaboralKeyTyped
-
-        char c = evt.getKeyChar();
-        String Texto = Txt_ÁreaLaboral.getText();
-
-        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
-              if(c==32){
-                  
-              }else{
-               evt.consume();   
-              }
-            
-
-        }
-
-        if (Txt_ÁreaLaboral.getText().length() == 1){
-
-            char mayuscula = Texto.charAt(0);
-            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
-            Txt_ÁreaLaboral.setText(Texto);
-
-        }
-          if((evt.getKeyChar() == 22)){
-        
-            Txt_ÁreaLaboral.setText(Texto.substring(0, 25));
-                    
-        }
-        
-        if (Txt_ÁreaLaboral.getText().length() >= 25){
-        
-        evt.consume();
-        
-        }
-
-    }//GEN-LAST:event_Txt_ÁreaLaboralKeyTyped
-
-    private void Txt_DescripciónÁreaLaboralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Txt_DescripciónÁreaLaboralActionPerformed
-
-    private void Txt_DescripciónÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralKeyTyped
-
-        char c = evt.getKeyChar();
-        String Texto = Txt_DescripciónÁreaLaboral.getText();
-        
-        
-        if((evt.getKeyChar() == 40)){
-        
-             Txt_DescripciónÁreaLaboral.setText(Texto.substring(0, 45));
-                    
-        }
-        
-        if ( Txt_DescripciónÁreaLaboral.getText().length() >= 45){
-        
-        evt.consume();
-        
-        }
-        
-        if ( Txt_DescripciónÁreaLaboral.getText().length() == 1){
-
-            char mayuscula = Texto.charAt(0);
-            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
-            Txt_DescripciónÁreaLaboral.setText(Texto);
-
-        }
-    }//GEN-LAST:event_Txt_DescripciónÁreaLaboralKeyTyped
-
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
 
         LlenarAreaLaboral();
@@ -541,6 +485,70 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         }
         }
     }//GEN-LAST:event_Tbl_AreaLaboralMouseClicked
+
+    private void Txt_DescripciónÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralKeyTyped
+
+        char c = evt.getKeyChar();
+        String Texto = Txt_DescripciónÁreaLaboral.getText();
+
+        if((evt.getKeyChar() == 40)){
+
+            Txt_DescripciónÁreaLaboral.setText(Texto.substring(0, 45));
+
+        }
+
+        if ( Txt_DescripciónÁreaLaboral.getText().length() >= 45){
+
+            evt.consume();
+
+        }
+
+        if ( Txt_DescripciónÁreaLaboral.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_DescripciónÁreaLaboral.setText(Texto);
+
+        }
+    }//GEN-LAST:event_Txt_DescripciónÁreaLaboralKeyTyped
+
+    private void Txt_DescripciónÁreaLaboralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Txt_DescripciónÁreaLaboralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Txt_DescripciónÁreaLaboralActionPerformed
+
+    private void Txt_ÁreaLaboralKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_ÁreaLaboralKeyTyped
+
+        char c = evt.getKeyChar();
+        String Texto = Txt_ÁreaLaboral.getText();
+
+        if((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')){
+            if(c==32){
+
+            }else{
+                evt.consume();
+            }
+
+        }
+
+        if (Txt_ÁreaLaboral.getText().length() == 1){
+
+            char mayuscula = Texto.charAt(0);
+            Texto = Character.toUpperCase(mayuscula)+ Texto.substring(1,Texto.length());
+            Txt_ÁreaLaboral.setText(Texto);
+
+        }
+        if((evt.getKeyChar() == 22)){
+
+            Txt_ÁreaLaboral.setText(Texto.substring(0, 25));
+
+        }
+
+        if (Txt_ÁreaLaboral.getText().length() >= 25){
+
+            evt.consume();
+
+        }
+    }//GEN-LAST:event_Txt_ÁreaLaboralKeyTyped
 
     private void LimpiarAreaLaboral(){
        Btn_Actualizar.setEnabled(false);
@@ -752,6 +760,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     private javax.swing.JButton Btn_Activar;
     private javax.swing.JButton Btn_Actualizar;
     private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTable Tbl_AreaLaboral;

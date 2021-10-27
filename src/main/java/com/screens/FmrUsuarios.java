@@ -5,9 +5,12 @@
  */
 package com.screens;
 
+import com.clases.ArticuloDataSource;
 import com.clases.Usuarios;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +23,12 @@ import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -30,7 +39,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     UsuariosJpaController daoUsuarios = new UsuariosJpaController();
-    Usuarios objUsuario = new Usuarios();        
+    Usuarios objUsuario = new Usuarios();   
+    ArticuloDataSource dataSource;
                 
     /**
      * Creates new form FmrUsuarios
@@ -80,6 +90,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_AñadirUser = new javax.swing.JButton();
         Txt_Contraseña = new javax.swing.JPasswordField();
         Txt_Confirmar = new javax.swing.JPasswordField();
+        Btn_Imprimir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Usuarios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -218,6 +229,19 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }
         });
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -268,7 +292,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
                             .addComponent(Txt_Admin))
                         .addGap(18, 18, 18)
                         .addComponent(Btn_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(123, 123, 123))
         );
         jPanel2Layout.setVerticalGroup(
@@ -300,9 +325,11 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -579,6 +606,12 @@ public class FmrUsuarios extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_Btn_AñadirUserActionPerformed
+
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+        
+        imprimirFactura();
+        
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
     
             
     //FUNCIONES
@@ -781,6 +814,61 @@ public class FmrUsuarios extends javax.swing.JFrame {
             return true;                
         }             
     }
+    
+    public void imprimirFactura()
+    {         
+        java.util.Date fecha = new Date();    
+        
+        List<Usuarios> listaUsuarios = daoUsuarios.findUsuariosEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+
+        //DETALLES PRODUCTO
+        EntityManager em = daoUsuarios.getEntityManager();               
+        
+        Object[][] arrayUsuarios;
+        arrayUsuarios = new Object[listaUsuarios.size()][4];      
+    
+        for(int i = 0; i < listaUsuarios.size(); i++)
+        {        
+            for(int j = 0; j < 4 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //Id
+                        arrayUsuarios[i][0] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getIdUsuario();
+                    break;
+                    
+                    case 1: //NombreUsuario
+                        arrayUsuarios[i][1] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getNombreUsuario();                        
+                    break;
+                    
+                    case 2: //NumeroIntentos
+                        arrayUsuarios[i][2] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getNumeroDeIntentos();
+                    break;     
+                    
+                    case 3: //IdEmpleado
+                        arrayUsuarios[i][3] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getIdEmpleados();
+                        break;                                            
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                       
+        param.put("Fecha", formatoFecha.format(fecha));   
+        //param.put("Empleado",daoEmpleados.findEmpleados();
+                                        
+        try {
+            JasperReport reporteFactura = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteUsuarios.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteFactura,
+                    param, 
+                    dataSource.getDataSource(arrayUsuarios));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
         
             
     /**
@@ -823,6 +911,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Admin;
     private javax.swing.JButton Btn_AñadirUser;
     private javax.swing.JButton Btn_CambiarPass;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Return;
     private javax.swing.JTextField Txt_Admin;
