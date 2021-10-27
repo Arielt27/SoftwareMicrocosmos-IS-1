@@ -835,11 +835,11 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 switch(j)
                 {                
                     case 0: //Id
-                        arrayUsuarios[i][0] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getIdUsuario();
+                        arrayUsuarios[i][0] = listaUsuarios.get(i).getIdUsuario();
                     break;
                     
                     case 1: //NombreUsuario
-                        arrayUsuarios[i][1] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getNombreUsuario();                        
+                        arrayUsuarios[i][1] = daoUsuarios.findUsuarios(listaUsuarios.get(i).getIdUsuario()).getNombreUsuario();
                     break;
                     
                     case 2: //NumeroIntentos
@@ -858,9 +858,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         //param.put("Empleado",daoEmpleados.findEmpleados();
                                         
         try {
-            JasperReport reporteFactura = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteUsuarios.jrxml");
+            JasperReport reporteUsuarios = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteUsuarios.jrxml");
             JasperPrint print = JasperFillManager.fillReport(
-                    reporteFactura,
+                    reporteUsuarios,
                     param, 
                     dataSource.getDataSource(arrayUsuarios));
             JasperViewer view = new JasperViewer(print,false);

@@ -5,9 +5,12 @@
  */
 package com.screens;
 
+import com.clases.AreaDataSource;
 import com.clases.AreaLaboral;
 import com.dao.AreaLaboralJpaController;
 import java.awt.Image;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -31,6 +40,8 @@ EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
 AreaLaboralJpaController daoAreaLaboral = new AreaLaboralJpaController();  
 AreaLaboral objAreaLaboral = new AreaLaboral();
+
+AreaDataSource dataSource;
 
 Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
@@ -168,6 +179,11 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
         Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
         Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -550,6 +566,12 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         }
     }//GEN-LAST:event_Txt_ÁreaLaboralKeyTyped
 
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        imprimirFactura();
+        
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
     private void LimpiarAreaLaboral(){
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
@@ -716,6 +738,55 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
               return true;                
           }             
       }      
+    
+    public void imprimirFactura()
+    {
+        java.util.Date fecha = new Date();        
+        
+        List<AreaLaboral> listaAreas = daoAreaLaboral.findAreaLaboralEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+                
+        EntityManager em = daoAreaLaboral.getEntityManager();                                        
+        
+        Object[][] arrayArea;
+        arrayArea = new Object[listaAreas.size()][3]; 
+        
+        for(int i = 0; i < listaAreas.size(); i++)
+        {        
+            for(int j = 0; j < 3 ; j++)
+            { 
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayArea[i][0] = listaAreas.get(i).getIdAreaLaboral();
+                    break;
+                    
+                    case 1: //Nombre                        
+                        arrayArea[i][1] = daoAreaLaboral.findAreaLaboral(listaAreas.get(i).getIdAreaLaboral()).getNombreAreaLaboral();
+                    break;
+                    
+                    case 2: //Descripcion                        
+                        arrayArea[i][2] = daoAreaLaboral.findAreaLaboral(listaAreas.get(i).getIdAreaLaboral()).getDescripcionAreaLaboral();
+                    break;                                             
+                }                 
+            }                        
+        }             
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));                                     
+        
+        try{
+            JasperReport reporteArea = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteArea.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(
+                    reporteArea,
+                    param, 
+                    dataSource.getDataSource(arrayArea));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrAreaLaboral.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
     /**

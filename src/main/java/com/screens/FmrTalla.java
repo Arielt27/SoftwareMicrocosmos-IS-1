@@ -5,10 +5,8 @@
  */
 package com.screens;
 
-import com.clases.DetalleVenta;
 import com.clases.Talla;
 import com.clases.TallaDataSource;
-import com.clases.Venta;
 import com.dao.TallaJpaController;
 import java.awt.Image;
 import java.text.SimpleDateFormat;
@@ -826,8 +824,7 @@ public class FmrTalla extends javax.swing.JFrame {
         
         List<Talla> listaTallasBD = daoTalla.findTallaEntities();
         java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
-
-        //DETALLES PRODUCTO
+        
         EntityManager em = daoTalla.getEntityManager();                                        
         
         Object[][] arrayTalla;
@@ -866,7 +863,7 @@ public class FmrTalla extends javax.swing.JFrame {
             JasperViewer view = new JasperViewer(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
-            Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
