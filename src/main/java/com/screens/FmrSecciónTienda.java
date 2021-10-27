@@ -6,10 +6,14 @@
 package com.screens;
 
 import com.clases.SeccionTienda;
+import com.clases.SeccionTiendaDataSource;
+import com.clases.TipoDePago;
 import com.dao.SeccionTiendaJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +27,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -30,7 +40,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FmrSecciónTienda extends javax.swing.JFrame{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    
+    SeccionTiendaDataSource dataSource;
     SeccionTiendaJpaController daoSeccionTienda = new SeccionTiendaJpaController();
     SeccionTienda objSeccionTienda = new SeccionTienda();
     
@@ -77,6 +87,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         Txt_NombreSección = new javax.swing.JTextField();
         Txt_DescripcionSecciónTienda = new javax.swing.JTextField();
         Txt_Activo = new javax.swing.JTextField();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Actualizar = new javax.swing.JButton();
@@ -204,6 +215,19 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
             }
         });
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -224,10 +248,13 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Txt_DescripcionSecciónTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Txt_IdSección, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Txt_NombreSección, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(196, 196, 196))))
+                            .addComponent(Txt_NombreSección, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(Txt_DescripcionSecciónTienda, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(100, 100, 100))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,8 +273,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_DescripcionSecciónTienda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                    .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
 
         jPanel3.setBackground(new java.awt.Color(60, 63, 65));
@@ -546,6 +574,11 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         }        
     }//GEN-LAST:event_JTable_SecciónMouseClicked
 
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        imprimir();
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
         
     //FUNCIONES 
     private void LlenarSeccion()
@@ -728,6 +761,55 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
             return true;
         }
     }
+       public void imprimir()
+    {         
+        java.util.Date fecha = new Date();        
+        
+        List<SeccionTienda> listaSeccionTiendaBD =  daoSeccionTienda.findSeccionTiendaEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+        
+        EntityManager em = daoSeccionTienda.getEntityManager();                                        
+        
+        Object[][] arraySeccionTienda;
+        arraySeccionTienda = new Object[listaSeccionTiendaBD.size()][3];      
+    
+        for(int i = 0; i < listaSeccionTiendaBD.size(); i++)
+        {        
+            for(int j = 0; j < 3 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arraySeccionTienda[i][0] = listaSeccionTiendaBD.get(i).getIdSeccionTienda();
+                    break;
+                    
+                    case 1: //Nombre                        
+                        arraySeccionTienda[i][1] = daoSeccionTienda.findSeccionTienda(listaSeccionTiendaBD.get(i).getIdSeccionTienda()).getNombreSeccionTienda();
+                    break;
+                    
+                    case 2: //Descripcion                        
+                        arraySeccionTienda[i][2] =daoSeccionTienda.findSeccionTienda(listaSeccionTiendaBD.get(i).getIdSeccionTienda()).getDescripcionSeccionTienda();
+                    break;                                             
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));                                     
+        
+        try{
+            JasperReport reporteTalla = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteSeccionTienda.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(reporteTalla,
+                    param, 
+                    dataSource.getDataSource(arraySeccionTienda));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    
     
     /**
      * @param args the command line arguments
@@ -767,6 +849,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     private javax.swing.JButton Btn_Activar;
     private javax.swing.JButton Btn_Actualizar;
     private javax.swing.JButton Btn_Añadir;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTable JTable_Sección;

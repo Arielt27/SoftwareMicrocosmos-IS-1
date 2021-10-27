@@ -9,27 +9,31 @@ package com.clases;
  *
  * @author crist
  */
+/**
+ *
+ * @author crist
+ */
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
 
 
-public class ClientesDataSource implements JRDataSource{
+public class EmpleadosDataSource implements JRDataSource{
     
-    private final Object[][] clientes;
+    private final Object[][] Empleados;
     private int index;
     
-    public ClientesDataSource(Object[][] clientes)
+    public EmpleadosDataSource(Object[][] empleados)
     {
-        this.clientes = clientes;
+        this.Empleados = empleados;
         index = -1;
     }
     
     @Override
     public boolean next() throws JRException {
         index++;
-        return (index < clientes.length);
+        return (index < Empleados.length);
     }
     
     @Override
@@ -40,39 +44,43 @@ public class ClientesDataSource implements JRDataSource{
         switch(nombreCampo)
         {
             case "ID":
-                valor = clientes[index][0];
+                valor = Empleados[index][0];
                 break;
             case "Nombre":
-                valor = clientes[index][1];
+                valor = Empleados[index][1];
                 break;
             case "Apellido":
-                valor = clientes[index][2];
+                valor = Empleados[index][2];
                 break;
             case "Telefono":
-                valor = clientes[index][3];
+                valor = Empleados[index][3];
                 break; 
              case "Direccion":
-                valor = clientes[index][4];
+                valor = Empleados[index][4];
                 break;   
             case "Correo":
-                valor = clientes[index][5];
+                valor = Empleados[index][5];
                 break;    
             case "Tipo":
-                valor = clientes[index][6];
+                valor = Empleados[index][6];
                 break;    
             case "Documento":
-                valor = clientes[index][7];
+                valor = Empleados[index][7];
                 break;   
+            case "Fecha":
+                valor = Empleados[index][8];
+                break;        
+                
             case "Genero":
-                valor = clientes[index][8];
+                valor = Empleados[index][9];
                 break;    
                 
         }
         return valor;
     }   
     
-    public static JRDataSource getDataSource(Object[][] clientes)
+    public static JRDataSource getDataSource(Object[][] Empleados)
     {
-        return new ClientesDataSource(clientes);
+        return new EmpleadosDataSource(Empleados);
     }    
 }

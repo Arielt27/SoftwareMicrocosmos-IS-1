@@ -34,9 +34,11 @@
 				<imageExpression><![CDATA["src/main/resources/Reports/IconoMicrocosmos.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="171" y="79" width="157" height="17" />
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Reporte de Empleados]]></text>
+				<reportElement x="171" y="79" width="237" height="17" />
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Reporte de Clientes]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="408" y="80" width="46" height="17" />

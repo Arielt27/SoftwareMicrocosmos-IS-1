@@ -5,11 +5,15 @@
  */
 package com.screens;
 
+import com.clases.Clientes;
 import com.clases.Proveedores;
+import com.clases.ProveedoresDataSource;
 import com.clases.TipoDocumento;
 import com.dao.ProveedoresJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +27,12 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -35,7 +45,7 @@ public class FmrProveedores extends javax.swing.JFrame {
     
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
     ProveedoresJpaController daoProveedores = new ProveedoresJpaController();
-    
+    ProveedoresDataSource dataSource;
     Proveedores objProveedores = new Proveedores();
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
@@ -84,6 +94,7 @@ public class FmrProveedores extends javax.swing.JFrame {
         Txt_DireccionProveedor = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         Txt_Activo = new javax.swing.JTextField();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -277,6 +288,19 @@ public class FmrProveedores extends javax.swing.JFrame {
         jLabel10.setMinimumSize(new java.awt.Dimension(120, 20));
         jLabel10.setPreferredSize(new java.awt.Dimension(120, 20));
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -308,6 +332,8 @@ public class FmrProveedores extends javax.swing.JFrame {
                             .addComponent(Txt_DireccionProveedor))
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
                         .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(121, 121, 121))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -346,7 +372,8 @@ public class FmrProveedores extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_CorreoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
 
@@ -730,6 +757,12 @@ public class FmrProveedores extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Txt_DocumentoProveedorKeyTyped
 
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        
+        imprimir();
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
     
     
     
@@ -1053,7 +1086,68 @@ public class FmrProveedores extends javax.swing.JFrame {
             return true;
         }
     }
-       
+    public void imprimir()
+    {         
+        java.util.Date fecha = new Date();        
+        
+        List<Proveedores> listaProveedoresBD = daoProveedores.findProveedoresEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+
+        
+        EntityManager em = daoProveedores.getEntityManager();                                        
+        
+        Object[][] arrayProveedores;
+        arrayProveedores = new Object[listaProveedoresBD.size()][7];      
+    
+        for(int i = 0; i < listaProveedoresBD.size(); i++)
+        {        
+            for(int j = 0; j < 7 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayProveedores[i][0] = listaProveedoresBD.get(i).getIdProveedor();
+                    break;
+                    
+                    case 1: //Proveedor                        
+                        arrayProveedores[i][1] =daoProveedores.findProveedores(listaProveedoresBD.get(i).getIdProveedor()).getNombreProveedor();
+                    break;
+                    
+                    case 2: //telefono                        
+                       arrayProveedores[i][2] =daoProveedores.findProveedores(listaProveedoresBD.get(i).getIdProveedor()).getTelefonoProveedor();
+                    break; 
+                    case 3: //Direccion                      
+                       arrayProveedores[i][3] = daoProveedores.findProveedores(listaProveedoresBD.get(i).getIdProveedor()).getUbicacionProveedor();
+                    break; 
+                    case 4: //correo                       
+                       arrayProveedores[i][4] = daoProveedores.findProveedores(listaProveedoresBD.get(i).getIdProveedor()).getCorreoProveedor();
+                    case 5: //TipoDocumento                       
+                       arrayProveedores[i][5] = daoTipoDocumento.findTipoDocumento(daoProveedores.findProveedores(listaProveedoresBD.get(i).getIdProveedor()).getIdTipoDocumento()).getNombreTipoDocumento();
+                    break;  
+                    case 6: //Documento                       
+                       arrayProveedores[i][6] =  daoProveedores.findProveedores(listaProveedoresBD.get(i).getIdProveedor()).getDocumento();
+                       
+                    break; 
+         
+                   
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));                                     
+        
+        try{
+            JasperReport reporteProveedores = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteProveedores.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(reporteProveedores,
+                    param, 
+                    dataSource.getDataSource(arrayProveedores));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }   
     
     
     
@@ -1096,6 +1190,7 @@ public class FmrProveedores extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Activar_Desactivar;
     private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_Editar;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JTable Tbl_Proveedores;

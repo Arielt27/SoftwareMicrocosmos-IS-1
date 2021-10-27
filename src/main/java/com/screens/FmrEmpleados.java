@@ -6,7 +6,9 @@
 package com.screens;
 
 import com.clases.AreaLaboral;
+
 import com.clases.Empleados;
+import com.clases.EmpleadosDataSource;
 import com.clases.Proveedores;
 import com.clases.Sexo;
 import com.clases.TipoDocumento;
@@ -26,6 +28,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +43,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
@@ -55,7 +64,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
     AreaLaboralJpaController daoArea = new AreaLaboralJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
-    
+    EmpleadosDataSource dataSource;
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     DefaultTableModel t;
@@ -120,6 +129,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
         CBox_Area = new javax.swing.JComboBox<>();
         Txt_Activar = new javax.swing.JTextField();
         Txt_Fecha = new javax.swing.JTextField();
+        Btn_Imprimir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Btn_Añadir = new javax.swing.JButton();
         Btn_Editar = new javax.swing.JButton();
@@ -376,6 +386,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
             }
         });
 
+        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
+        Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Imprimir.setFocusPainted(false);
+        Btn_Imprimir.setMaximumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setMinimumSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.setPreferredSize(new java.awt.Dimension(70, 22));
+        Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout Txt_ActivoLayout = new javax.swing.GroupLayout(Txt_Activo);
         Txt_Activo.setLayout(Txt_ActivoLayout);
         Txt_ActivoLayout.setHorizontalGroup(
@@ -414,12 +437,14 @@ public class FmrEmpleados extends javax.swing.JFrame {
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(CBox_TipoDoc, 0, 150, Short.MAX_VALUE)
-                    .addComponent(Txt_Documento)
-                    .addComponent(CBox_Genero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Area, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Txt_Fecha))
+                .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(CBox_TipoDoc, 0, 150, Short.MAX_VALUE)
+                        .addComponent(Txt_Documento)
+                        .addComponent(CBox_Genero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CBox_Area, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Txt_Fecha))
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55))
         );
         Txt_ActivoLayout.setVerticalGroup(
@@ -461,8 +486,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
                 .addGroup(Txt_ActivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_Correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Txt_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8))
+                    .addComponent(Txt_Activar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7))
         );
 
         Txt_Fecha.getAccessibleContext().setAccessibleDescription("");
@@ -868,6 +894,11 @@ public class FmrEmpleados extends javax.swing.JFrame {
         
           
     }//GEN-LAST:event_CBox_TipoDocMouseClicked
+
+    private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
+
+        imprimir();
+    }//GEN-LAST:event_Btn_ImprimirActionPerformed
             
     
     //METODOS
@@ -1345,6 +1376,80 @@ public class FmrEmpleados extends javax.swing.JFrame {
         return Visa.matches("[a-zA-Z]{2,}");               
     }
  
+       public void imprimir()
+    {         
+        java.util.Date fecha = new Date();        
+        
+        List<Empleados> listaEmpleadosBD = daoEmpleados.findEmpleadosEntities();
+        java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("dd/MM/yyyy");        
+
+        
+        EntityManager em = daoEmpleados.getEntityManager();                                        
+        
+        Object[][] arrayEmpleados;
+        arrayEmpleados = new Object[listaEmpleadosBD.size()][10];      
+    
+        for(int i = 0; i < listaEmpleadosBD.size(); i++)
+        {        
+            for(int j = 0; j < 10 ; j++)
+            {            
+                switch(j)
+                {                
+                    case 0: //ID                        
+                        arrayEmpleados[i][0] = listaEmpleadosBD.get(i).getIdEmpleados();
+                    break;
+                    
+                    case 1: //Nombre                        
+                        arrayEmpleados[i][1] = daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getNombreEmpleado();
+                    break;
+                    
+                    case 2: //apellido                        
+                       arrayEmpleados[i][2] = daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getApellidoEmpleado();
+                    break; 
+                    case 3: //telefono                        
+                       arrayEmpleados[i][3] = daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getTelefonoEmpleado();
+                    break; 
+                    case 4: //Direccion                      
+                       arrayEmpleados[i][4] =daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getDireccion();
+                    break; 
+                    case 5: //correo                       
+                       arrayEmpleados[i][5] = daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getCorreoEmpleado();
+                    case 6: //TipoDocumento                       
+                       arrayEmpleados[i][6] = daoTipoDocumento.findTipoDocumento(daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getIdTipoDocumento()).getNombreTipoDocumento();
+                    break;  
+                    case 7: //Documento                       
+                       arrayEmpleados[i][7] = daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getDocumento();
+                       
+                    break; 
+                    case 8: //fecha                       
+                       arrayEmpleados[i][8] = String.valueOf(daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getFechaDeNacimiento());
+                       
+                    break; 
+                    
+                    case 9: //Genero                        
+                       arrayEmpleados[i][9] = daoSexo.findSexo(daoEmpleados.findEmpleados(listaEmpleadosBD.get(i).getIdEmpleados()).getIdSexo()).getNombreSexo();
+                    break; 
+                   
+                }            
+            }
+        }
+        
+        HashMap param = new HashMap();                      
+        param.put("Fecha", formatoFecha.format(fecha));                                     
+        
+        try{
+            JasperReport reporteClientes = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteEmpleados.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(reporteClientes,
+                    param, 
+                    dataSource.getDataSource(arrayEmpleados));
+            JasperViewer view = new JasperViewer(print,false);
+            view.setVisible(true);            
+        } catch (JRException ex) {
+            Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+     
+     
     /**
      * @param args the command line arguments
      */
@@ -1391,6 +1496,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
     private javax.swing.JButton Btn_Activar_Desactivar;
     private javax.swing.JButton Btn_Añadir;
     private javax.swing.JButton Btn_Editar;
+    private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
     private javax.swing.JButton Btn_Regresar;
     private javax.swing.JComboBox<String> CBox_Area;

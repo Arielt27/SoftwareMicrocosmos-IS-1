@@ -16,27 +16,26 @@
 	<parameter name="Fecha" class="java.lang.String"/>
 	<field name="ID" class="java.lang.Integer"/>
 	<field name="Nombre" class="java.lang.String"/>
-	<field name="Apellido" class="java.lang.String"/>
 	<field name="Telefono" class="java.lang.Integer"/>
 	<field name="Direccion" class="java.lang.String"/>
 	<field name="Correo" class="java.lang.String"/>
 	<field name="Tipo" class="java.lang.String"/>
 	<field name="Documento" class="java.lang.String"/>
-	<field name="Fecha" class="java.lang.String"/>
-	<field name="Genero" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="137" splitType="Stretch">
+		<band height="146" splitType="Stretch">
 			<image>
 				<reportElement x="25" y="0" width="145" height="136" />
 				<imageExpression><![CDATA["src/main/resources/Reports/IconoMicrocosmos.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="171" y="79" width="157" height="17" />
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Reporte de Empleados]]></text>
+				<reportElement x="171" y="79" width="237" height="17" />
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Reporte de Proveedores]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="408" y="80" width="46" height="17" />
@@ -60,9 +59,9 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="31" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="1" width="555" height="26" backcolor="#000000" />
+				<reportElement x="1" y="1" width="555" height="26" backcolor="#000000" />
 			</rectangle>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="1" y="1" width="555" height="1" />
@@ -76,84 +75,68 @@
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="25" y="2" width="46" height="24" forecolor="#FFFFFF" />
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Nombre]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="71" y="2" width="42" height="24" forecolor="#FFFFFF" />
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Apellido]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="113" y="2" width="52" height="24" forecolor="#FFFFFF" />
+				<reportElement x="99" y="2" width="82" height="24" forecolor="#FFFFFF" />
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Teléfono]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="165" y="2" width="72" height="24" forecolor="#FFFFFF" />
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Dirección]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="237" y="2" width="91" height="24" forecolor="#FFFFFF" />
+				<reportElement x="181" y="3" width="85" height="24" forecolor="#FFFFFF" />
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Correo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="328" y="2" width="72" height="24" forecolor="#FFFFFF" />
+				<reportElement x="363" y="2" width="80" height="24" forecolor="#FFFFFF" />
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[TipoDoc]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="1" width="91" height="24" forecolor="#FFFFFF" />
+				<reportElement x="443" y="3" width="113" height="24" forecolor="#FFFFFF" />
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Documento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="491" y="2" width="65" height="24" forecolor="#FFFFFF" />
+				<reportElement x="266" y="3" width="97" height="24" forecolor="#FFFFFF" />
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Género]]></text>
+				<text><![CDATA[Dirección]]></text>
 			</staticText>
+			<elementGroup>
+				<staticText>
+					<reportElement x="25" y="2" width="74" height="24" forecolor="#FFFFFF" />
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Proveedor]]></text>
+				</staticText>
+			</elementGroup>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="25" height="20" />
+				<reportElement x="1" y="0" width="24" height="20" />
 				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="25" y="0" width="46" height="20" />
+				<reportElement x="25" y="0" width="74" height="20" />
 				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="71" y="0" width="42" height="20" />
-				<textFieldExpression><![CDATA[$F{Apellido}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="113" y="0" width="52" height="20" />
+				<reportElement x="99" y="0" width="82" height="20" />
 				<textFieldExpression><![CDATA[$F{Telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="165" y="0" width="72" height="20" />
-				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="237" y="0" width="91" height="20" />
+				<reportElement x="186" y="0" width="80" height="20" />
 				<textFieldExpression><![CDATA[$F{Correo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="328" y="0" width="72" height="20" />
+				<reportElement x="266" y="0" width="97" height="20" />
+				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="363" y="0" width="80" height="20" />
 				<textFieldExpression><![CDATA[$F{Tipo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="400" y="0" width="91" height="20" />
+				<reportElement x="443" y="0" width="113" height="20" />
 				<textFieldExpression><![CDATA[$F{Documento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="491" y="0" width="63" height="20" />
-				<textFieldExpression><![CDATA[$F{Genero}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
