@@ -514,16 +514,15 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         param.put("Fecha", formatoFecha.format(fecha));
         
         try{
-            JasperReport reporteParametros = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteParametros.jrxml");
-            JasperPrint print = JasperFillManager.fillReport(reporteParametros,
+            JasperReport reportePrecio = JasperCompileManager.compileReport("src/main/resources/Reports/ReportePrecioHistorico.jrxml");
+            JasperPrint print = JasperFillManager.fillReport(reportePrecio,
                     param, 
                     dataSource.getDataSource(arrayPrecioHistorico));
             JasperViewer view = new JasperViewer(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
-            Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            Logger.getLogger(FmrPrecioHistórico.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
     
     /**
