@@ -243,6 +243,8 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     //BOTONES Y CAMPOS
     private void Btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarActionPerformed
                 
+        FmrUsuarios frmUsers = new FmrUsuarios();
+        frmUsers.setVisible(true);        
         this.dispose();             
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed

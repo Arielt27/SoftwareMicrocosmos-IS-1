@@ -5,12 +5,17 @@
  */
 package com.screens;
 
+import com.clases.SingletonUser;
 import com.clases.Talla;
 import com.clases.TipoDocumento;
 import com.clases.TipoDocumentoDataSource;
+import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,14 +48,26 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     //Se crea el Entity manager factory
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     //Se declaran los controladores de cada una de las tablas
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+        
     //Objeto global
-    TipoDocumento objTipoDocumento = new TipoDocumento();
-    TipoDocumentoDataSource dataSource;
-    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
-    
     DefaultTableModel t;
+    TipoDocumentoDataSource dataSource;
+    TipoDocumento objTipoDocumento = new TipoDocumento();    
     
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Empleado = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);       
+    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));            
     
     public FmrTipoDocumento() {
         initComponents();
@@ -834,7 +851,9 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         }
         
         HashMap param = new HashMap();                      
-        param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Fecha", formatoFecha.format(fecha)); 
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteTalla = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteTipoDocumento.jrxml");

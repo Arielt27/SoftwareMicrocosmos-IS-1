@@ -5,10 +5,14 @@
  */
 package com.screens;
 
+import com.clases.SingletonUser;
 import com.clases.Talla;
 import com.clases.TallaDataSource;
+import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.TallaJpaController;
 import java.awt.Image;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -44,9 +49,22 @@ public class FmrTalla extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     //Se declaran los controladores de cada una de las tablas
     TallaJpaController daoTalla = new TallaJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     //Objeto global
     Talla objTalla = new Talla();
     TallaDataSource dataSource;
+
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));        
     
@@ -60,7 +78,7 @@ public class FmrTalla extends javax.swing.JFrame {
         Txt_Activo.setVisible(false);
         Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
-        Btn_Activar_Desactivar.setEnabled(false);
+        Btn_Activar_Desactivar.setEnabled(false);                        
     }
 
     /**
@@ -200,19 +218,20 @@ public class FmrTalla extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(274, 274, 274)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Txt_DescripcionTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(274, 274, 274)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(Txt_IdTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
-                        .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(206, 206, 206)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Txt_DescripcionTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Txt_Activo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -220,7 +239,7 @@ public class FmrTalla extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_IdTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -228,7 +247,7 @@ public class FmrTalla extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_NombreTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGap(18, 31, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Txt_DescripcionTalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -623,7 +642,7 @@ public class FmrTalla extends javax.swing.JFrame {
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
         
-        imprimirFactura();
+        imprimirReporte();
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
 
@@ -815,7 +834,7 @@ public class FmrTalla extends javax.swing.JFrame {
         }
     }
     
-    public void imprimirFactura()
+    public void imprimirReporte()
     {         
         java.util.Date fecha = new Date();        
         
@@ -850,6 +869,8 @@ public class FmrTalla extends javax.swing.JFrame {
         
         HashMap param = new HashMap();                      
         param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteTalla = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteTalla.jrxml");
@@ -858,6 +879,7 @@ public class FmrTalla extends javax.swing.JFrame {
                     param, 
                     dataSource.getDataSource(arrayTalla));
             JasperViewer view = new JasperViewer(print,false);
+            //JasperExportManager.exportReportToPdfFile( print, "E:/temporal/reporte.pdf");
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);

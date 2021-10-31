@@ -7,11 +7,16 @@ package com.screens;
 
 import com.clases.SeccionTienda;
 import com.clases.SeccionTiendaDataSource;
+import com.clases.SingletonUser;
 import com.clases.TipoDePago;
+import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.SeccionTiendaJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,10 +44,24 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Ariel
  */
 public class FmrSecciónTienda extends javax.swing.JFrame{
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    SeccionTiendaDataSource dataSource;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");    
+    
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     SeccionTiendaJpaController daoSeccionTienda = new SeccionTiendaJpaController();
+    
     SeccionTienda objSeccionTienda = new SeccionTienda();
+    
+    SeccionTiendaDataSource dataSource;
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Empleado = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
 
@@ -795,7 +814,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         }
         
         HashMap param = new HashMap();                      
-        param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Fecha", formatoFecha.format(fecha));  
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteTalla = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteSeccionTienda.jrxml");

@@ -238,7 +238,7 @@ public class FmrLogin extends javax.swing.JFrame {
 
     private void Btn_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_SalirActionPerformed
        
-        this.dispose();
+        System.exit(0);
         
     }//GEN-LAST:event_Btn_SalirActionPerformed
 

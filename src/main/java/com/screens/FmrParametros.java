@@ -7,11 +7,15 @@ package com.screens;
 
 import com.clases.Parametros;
 import com.clases.ParametrosDataSource;
+import com.clases.SingletonUser;
+import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.ParametrosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,12 +45,26 @@ import net.sf.jasperreports.view.JasperViewer;
 public class FmrParametros extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    
     ParametrosJpaController daoParam = new ParametrosJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    
+    ParametrosDataSource dataSource;
     Parametros objParam = new Parametros();      
     
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    ParametrosDataSource dataSource;
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
     
     /**
      * Creates new form FmrParametros
@@ -549,7 +567,7 @@ public class FmrParametros extends javax.swing.JFrame {
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
         
-        imprimir();
+        imprimirReporte();
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
         
@@ -571,11 +589,8 @@ public class FmrParametros extends javax.swing.JFrame {
         String factIT = String.valueOf(jTable_CAI.getValueAt(ultimaFila, 4));
         String factfT = String.valueOf(jTable_CAI.getValueAt(ultimaFila, 5));       
         
-        //LocalDate Fechaiu = */
-        
-        
-        
-        
+        //LocalDate Fechaiu = */      
+                        
         //validacionCAI();        
         if(ValidacionDeRepetidos(Txt_Cai.getText()) == true)
         {
@@ -727,7 +742,7 @@ public class FmrParametros extends javax.swing.JFrame {
         }                        
     }
     
-    public void imprimir()
+    public void imprimirReporte()
     {
         java.util.Date fecha = new Date(); 
         
@@ -774,6 +789,8 @@ public class FmrParametros extends javax.swing.JFrame {
         
         HashMap param = new HashMap();                      
         param.put("Fecha", formatoFecha.format(fecha));
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteParametros = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteParametros.jrxml");
@@ -781,7 +798,7 @@ public class FmrParametros extends javax.swing.JFrame {
                     reporteParametros,
                     param, 
                     dataSource.getDataSource(arrayParametros));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperViewer view = new JasperViewer(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);

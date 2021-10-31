@@ -7,8 +7,13 @@ package com.screens;
 
 import com.clases.AreaDataSource;
 import com.clases.AreaLaboral;
+import com.clases.SingletonUser;
+import com.clases.Usuarios;
 import com.dao.AreaLaboralJpaController;
+import com.dao.EmpleadosJpaController;
 import java.awt.Image;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +41,26 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Ariel
  */
 public class FmrAreaLaboral extends javax.swing.JFrame {
-EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
-AreaLaboralJpaController daoAreaLaboral = new AreaLaboralJpaController();  
-AreaLaboral objAreaLaboral = new AreaLaboral();
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
-AreaDataSource dataSource;
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    AreaLaboralJpaController daoAreaLaboral = new AreaLaboralJpaController();  
+ 
+    AreaDataSource dataSource;
+    AreaLaboral objAreaLaboral = new AreaLaboral();
+
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
 
 Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
@@ -568,7 +587,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
 
-        imprimirFactura();
+        imprimirReporte();
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
 
@@ -739,7 +758,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
           }             
       }      
     
-    public void imprimirFactura()
+    public void imprimirReporte()
     {
         java.util.Date fecha = new Date();        
         
@@ -774,6 +793,8 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         
         HashMap param = new HashMap();                      
         param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteArea = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteArea.jrxml");

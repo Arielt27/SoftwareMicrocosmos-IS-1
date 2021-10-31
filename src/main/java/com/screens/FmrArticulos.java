@@ -24,6 +24,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -69,14 +70,21 @@ public class FmrArticulos extends javax.swing.JFrame {
     Articulo_SeccionTienda objArtSec = new Articulo_SeccionTienda();
     Articulo_SeccionTiendaJpaController daoSeccionT = new Articulo_SeccionTiendaJpaController();                         
     
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
     private Usuarios usuarios = new Usuarios(); 
-    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
     
     DecimalFormat formato1 = new DecimalFormat("#.00"); 
     
-    ArticuloDataSource dataSource;
-    Date fecha = new Date(Calendar.getInstance().getTimeInMillis());        
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    ArticuloDataSource dataSource;    
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     Icon iconoDA = new ImageIcon(getClass().getResource("/imagenes/estado.png"));
@@ -913,7 +921,7 @@ public class FmrArticulos extends javax.swing.JFrame {
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
         
-        imprimirFactura();
+        imprimirReporte();
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
       
@@ -1342,7 +1350,7 @@ public class FmrArticulos extends javax.swing.JFrame {
         return formattedString;
     }
     
-    public void imprimirFactura()
+    public void imprimirReporte()
     {         
         java.util.Date fecha = new Date();    
         
@@ -1398,7 +1406,8 @@ public class FmrArticulos extends javax.swing.JFrame {
         
         HashMap param = new HashMap();                       
         param.put("Fecha", formatoFecha.format(fecha));   
-        //param.put("Empleado",daoEmpleados.findEmpleados();
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
                                         
         try {
             JasperReport reporteFactura = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteArticulos.jrxml");

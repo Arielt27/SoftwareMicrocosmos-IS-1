@@ -14,6 +14,8 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="Fecha" class="java.lang.String"/>
+	<parameter name="Empleado" class="java.lang.String"/>
+	<parameter name="Hora" class="java.lang.String"/>
 	<field name="ID" class="java.lang.Integer"/>
 	<field name="Nombre" class="java.lang.String"/>
 	<field name="Intentos" class="java.lang.Integer"/>
@@ -29,7 +31,7 @@
 			</image>
 			<staticText>
 				<reportElement x="171" y="79" width="237" height="17"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[Reporte de Usuarios]]></text>
@@ -42,7 +44,7 @@
 			<textField>
 				<reportElement x="456" y="79" width="98" height="16"/>
 				<textElement verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Fecha}]]></textFieldExpression>
 			</textField>
@@ -50,6 +52,26 @@
 				<reportElement x="171" y="0" width="383" height="79"/>
 				<imageExpression><![CDATA["src/main/resources/Reports/Microcosmos.png"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="408" y="97" width="46" height="17"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="456" y="97" width="98" height="17"/>
+				<textElement verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Hora}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="171" y="96" width="50" height="20"/>
+				<text><![CDATA[Empleado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="223" y="96" width="125" height="20"/>
+				<textFieldExpression><![CDATA[$P{Empleado}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

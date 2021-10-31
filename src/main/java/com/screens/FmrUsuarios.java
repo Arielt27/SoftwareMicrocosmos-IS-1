@@ -5,10 +5,14 @@
  */
 package com.screens;
 
+import com.clases.SingletonUser;
 import com.clases.UsuarioDataSource;
 import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,9 +42,24 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class FmrUsuarios extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        
     UsuariosJpaController daoUsuarios = new UsuariosJpaController();
-    Usuarios objUsuario = new Usuarios();   
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    
     UsuarioDataSource dataSource;
+    Usuarios objUsuario = new Usuarios();       
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
                 
     /**
      * Creates new form FmrUsuarios
@@ -609,7 +628,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
         
-        imprimirFactura();
+        imprimirReporte();
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
     
@@ -815,7 +834,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         }             
     }
     
-    public void imprimirFactura()
+    public void imprimirReporte()
     {         
         java.util.Date fecha = new Date();    
         
@@ -855,7 +874,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         HashMap param = new HashMap();                       
         param.put("Fecha", formatoFecha.format(fecha));   
-        //param.put("Empleado",daoEmpleados.findEmpleados();
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
                                         
         try {
             JasperReport reporteUsuarios = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteUsuarios.jrxml");
