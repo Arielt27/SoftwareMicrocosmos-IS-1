@@ -9,16 +9,15 @@ package com.screens;
 import com.clases.Articulo;
 import com.clases.ArticuloDataSource;
 import com.clases.Articulo_SeccionTienda;
+import com.clases.JasperV;
 import com.clases.PrecioHistorico;
 import com.clases.Talla;
-import com.clases.SeccionTienda;
 import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.ArticuloJpaController;
 import com.dao.Articulo_SeccionTiendaJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.PrecioHistoricoJpaController;
-import com.dao.SeccionTiendaJpaController;
 import com.dao.TallaJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -27,7 +26,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,7 +47,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author david
@@ -1415,7 +1412,7 @@ public class FmrArticulos extends javax.swing.JFrame {
                     reporteFactura,
                     param, 
                     dataSource.getDataSource(arrayArticulos));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrVentas.class.getName()).log(Level.SEVERE, null, ex);

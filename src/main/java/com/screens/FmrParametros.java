@@ -5,6 +5,7 @@
  */
 package com.screens;
 
+import com.clases.JasperV;
 import com.clases.Parametros;
 import com.clases.ParametrosDataSource;
 import com.clases.SingletonUser;
@@ -36,7 +37,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -798,7 +798,7 @@ public class FmrParametros extends javax.swing.JFrame {
                     reporteParametros,
                     param, 
                     dataSource.getDataSource(arrayParametros));
-            JasperViewer view = new JasperViewer(print,false);            
+            JasperV view = new JasperV(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrParametros.class.getName()).log(Level.SEVERE, null, ex);

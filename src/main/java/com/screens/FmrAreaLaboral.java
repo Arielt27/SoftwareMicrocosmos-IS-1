@@ -7,6 +7,7 @@ package com.screens;
 
 import com.clases.AreaDataSource;
 import com.clases.AreaLaboral;
+import com.clases.JasperV;
 import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.AreaLaboralJpaController;
@@ -34,7 +35,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -802,7 +802,7 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
                     reporteArea,
                     param, 
                     dataSource.getDataSource(arrayArea));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrAreaLaboral.class.getName()).log(Level.SEVERE, null, ex);

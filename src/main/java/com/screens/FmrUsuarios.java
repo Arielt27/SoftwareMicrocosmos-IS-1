@@ -5,6 +5,7 @@
  */
 package com.screens;
 
+import com.clases.JasperV;
 import com.clases.SingletonUser;
 import com.clases.UsuarioDataSource;
 import com.clases.Usuarios;
@@ -32,7 +33,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -877,13 +877,13 @@ public class FmrUsuarios extends javax.swing.JFrame {
         param.put("Empleado",Empleado);
         param.put("Hora", horaImpresion);
                                         
-        try {
+        try{
             JasperReport reporteUsuarios = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteUsuarios.jrxml");
             JasperPrint print = JasperFillManager.fillReport(
                     reporteUsuarios,
                     param, 
                     dataSource.getDataSource(arrayUsuarios));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);

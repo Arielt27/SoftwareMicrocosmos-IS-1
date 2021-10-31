@@ -5,6 +5,7 @@
  */
 package com.screens;
 
+import com.clases.JasperV;
 import com.clases.SingletonUser;
 import com.clases.Talla;
 import com.clases.TallaDataSource;
@@ -14,7 +15,6 @@ import com.dao.TallaJpaController;
 import java.awt.Image;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +32,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -878,8 +876,7 @@ public class FmrTalla extends javax.swing.JFrame {
                     reporteTalla,
                     param, 
                     dataSource.getDataSource(arrayTalla));
-            JasperViewer view = new JasperViewer(print,false);
-            //JasperExportManager.exportReportToPdfFile( print, "E:/temporal/reporte.pdf");
+            JasperV view = new JasperV(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrTalla.class.getName()).log(Level.SEVERE, null, ex);

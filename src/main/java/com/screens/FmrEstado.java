@@ -7,11 +7,11 @@ package com.screens;
 
 import com.clases.Estado;
 import com.clases.EstadoDataSource;
+import com.clases.JasperV;
 import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.EstadoJpaController;
-import static com.screens.FmrTalla.ValidacionDeRepetidos;
 import java.awt.Image;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -818,7 +817,7 @@ public class FmrEstado extends javax.swing.JFrame {
                     reporteEstado,
                     param, 
                     dataSource.getDataSource(arrayEstado));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrEstado.class.getName()).log(Level.SEVERE, null, ex);
