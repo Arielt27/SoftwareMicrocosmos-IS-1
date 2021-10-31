@@ -5,10 +5,10 @@
  */
 package com.screens;
 
+import com.clases.JasperV;
 import com.clases.SeccionTienda;
 import com.clases.SeccionTiendaDataSource;
 import com.clases.SingletonUser;
-import com.clases.TipoDePago;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.SeccionTiendaJpaController;
@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -56,7 +55,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
     private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
-    String Empleado = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
     
     //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
     Date date = new Date();
@@ -823,7 +824,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
             JasperPrint print = JasperFillManager.fillReport(reporteTalla,
                     param, 
                     dataSource.getDataSource(arraySeccionTienda));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);  
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrSecciónTienda.class.getName()).log(Level.SEVERE, null, ex);

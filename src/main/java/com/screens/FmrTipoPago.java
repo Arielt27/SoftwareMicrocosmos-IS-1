@@ -5,12 +5,16 @@
  */
 package com.screens;
 
+import com.clases.JasperV;
+import com.clases.SingletonUser;
 import com.clases.TipoDePago;
-import com.clases.TipoDocumento;
 import com.clases.TipoPagoDataSource;
+import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.TipoDePagoJpaController;
-import static com.screens.FmrTalla.ValidacionDeRepetidos;
 import java.awt.Image;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,20 +35,34 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Ariel
  */
 public class FmrTipoPago extends javax.swing.JFrame {
-EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
-TipoDePagoJpaController daoTipoDePago = new TipoDePagoJpaController();  
-TipoPagoDataSource dataSource;
-TipoDePago objTipoDePago = new TipoDePago();
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
-Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    TipoDePagoJpaController daoTipoDePago = new TipoDePagoJpaController();  
+
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
+
+    TipoPagoDataSource dataSource;
+    TipoDePago objTipoDePago = new TipoDePago();
+
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     /**
      * Creates new form TipoPago
      */
@@ -821,14 +839,16 @@ Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
         }
         
         HashMap param = new HashMap();                      
-        param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Fecha", formatoFecha.format(fecha));      
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteTalla = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteTipoPago.jrxml");
             JasperPrint print = JasperFillManager.fillReport(reporteTalla,
                     param, 
                     dataSource.getDataSource(arrayTipoPago));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);  
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);

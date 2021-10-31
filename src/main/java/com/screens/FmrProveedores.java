@@ -6,12 +6,18 @@
 package com.screens;
 
 import com.clases.Clientes;
+import com.clases.JasperV;
 import com.clases.Proveedores;
 import com.clases.ProveedoresDataSource;
+import com.clases.SingletonUser;
 import com.clases.TipoDocumento;
+import com.clases.Usuarios;
+import com.dao.EmpleadosJpaController;
 import com.dao.ProveedoresJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,14 +48,28 @@ public class FmrProveedores extends javax.swing.JFrame {
 
     //Se crea el Entity manager factory
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    
-    TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+        
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     ProveedoresJpaController daoProveedores = new ProveedoresJpaController();
+    TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+    
     ProveedoresDataSource dataSource;
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
+    
     Proveedores objProveedores = new Proveedores();
     
-    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
-    
+    Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));    
     
     public FmrProveedores() {
         initComponents();
@@ -1135,14 +1155,16 @@ public class FmrProveedores extends javax.swing.JFrame {
         }
         
         HashMap param = new HashMap();                      
-        param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Fecha", formatoFecha.format(fecha));  
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteProveedores = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteProveedores.jrxml");
             JasperPrint print = JasperFillManager.fillReport(reporteProveedores,
                     param, 
                     dataSource.getDataSource(arrayProveedores));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrProveedores.class.getName()).log(Level.SEVERE, null, ex);

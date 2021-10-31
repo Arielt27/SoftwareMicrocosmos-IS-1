@@ -7,13 +7,19 @@ package com.screens;
 
 import com.clases.Clientes;
 import com.clases.ClientesDataSource;
+import com.clases.JasperV;
 import com.clases.Sexo;
+import com.clases.SingletonUser;
 import com.clases.Talla;
 import com.clases.TipoDocumento;
+import com.clases.Usuarios;
 import com.dao.ClientesJpaController;
+import com.dao.EmpleadosJpaController;
 import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,12 +51,26 @@ public class FmrClientes extends javax.swing.JFrame {
     //Se crea el Entity manager factory
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
-    TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
-    SexoJpaController daoSexo = new SexoJpaController();
-    ClientesJpaController daoClientes = new ClientesJpaController();    
     
-    Clientes objCliente = new Clientes();
+    SexoJpaController daoSexo = new SexoJpaController();    
+    ClientesJpaController daoClientes = new ClientesJpaController();    
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
+    
     ClientesDataSource dataSource;
+    Clientes objCliente = new Clientes();    
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
     public FmrClientes() {
@@ -1304,14 +1324,16 @@ public class FmrClientes extends javax.swing.JFrame {
         }
         
         HashMap param = new HashMap();                      
-        param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Fecha", formatoFecha.format(fecha));       
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteClientes = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteClientes.jrxml");
             JasperPrint print = JasperFillManager.fillReport(reporteClientes,
                     param, 
                     dataSource.getDataSource(arrayClientes));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrClientes.class.getName()).log(Level.SEVERE, null, ex);

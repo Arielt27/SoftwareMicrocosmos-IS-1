@@ -9,9 +9,11 @@ import com.clases.AreaLaboral;
 
 import com.clases.Empleados;
 import com.clases.EmpleadosDataSource;
-import com.clases.Proveedores;
+import com.clases.JasperV;
 import com.clases.Sexo;
+import com.clases.SingletonUser;
 import com.clases.TipoDocumento;
+import com.clases.Usuarios;
 import com.clases.fechas;
 import com.dao.AreaLaboralJpaController;
 import com.dao.EmpleadosJpaController;
@@ -24,9 +26,6 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +47,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
@@ -64,6 +62,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
     AreaLaboralJpaController daoArea = new AreaLaboralJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);
+    
     EmpleadosDataSource dataSource;
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
@@ -1436,13 +1447,15 @@ public class FmrEmpleados extends javax.swing.JFrame {
         
         HashMap param = new HashMap();                      
         param.put("Fecha", formatoFecha.format(fecha));                                     
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reporteClientes = JasperCompileManager.compileReport("src/main/resources/Reports/ReporteEmpleados.jrxml");
             JasperPrint print = JasperFillManager.fillReport(reporteClientes,
                     param, 
                     dataSource.getDataSource(arrayEmpleados));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);

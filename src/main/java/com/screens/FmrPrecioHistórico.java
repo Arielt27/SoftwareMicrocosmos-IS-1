@@ -5,12 +5,16 @@
  */
 package com.screens;
 
-import com.clases.Parametros;
+import com.clases.JasperV;
 import com.clases.PrecioHistorico;
 import com.clases.PrecioHistoricoDataSource;
+import com.clases.SingletonUser;
+import com.clases.Usuarios;
 import com.dao.ArticuloJpaController;
+import com.dao.EmpleadosJpaController;
 import com.dao.PrecioHistoricoJpaController;
 import java.awt.Image;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +33,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -38,9 +41,24 @@ import net.sf.jasperreports.view.JasperViewer;
 public class FmrPrecioHistórico extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-    PrecioHistoricoJpaController daoPrecioH = new PrecioHistoricoJpaController();
-    ArticuloJpaController daoArticulo = new ArticuloJpaController();
+    
     PrecioHistorico objPrecioH = new PrecioHistorico();
+    ArticuloJpaController daoArticulo = new ArticuloJpaController();    
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();       
+    PrecioHistoricoJpaController daoPrecioH = new PrecioHistoricoJpaController();
+    
+    //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
+    private Usuarios usuarios = new Usuarios(); 
+    private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
+    
+    //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
+    Date date = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
+    String horaImpresion = dateFormat.format(date);    
+    
     PrecioHistoricoDataSource dataSource;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -512,13 +530,15 @@ public class FmrPrecioHistórico extends javax.swing.JFrame {
         
         HashMap param = new HashMap();                      
         param.put("Fecha", formatoFecha.format(fecha));
+        param.put("Empleado",Empleado);
+        param.put("Hora", horaImpresion);
         
         try{
             JasperReport reportePrecio = JasperCompileManager.compileReport("src/main/resources/Reports/ReportePrecioHistorico.jrxml");
             JasperPrint print = JasperFillManager.fillReport(reportePrecio,
                     param, 
                     dataSource.getDataSource(arrayPrecioHistorico));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);    
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrPrecioHistórico.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,15 +5,14 @@
  */
 package com.screens;
 
+import com.clases.JasperV;
 import com.clases.SingletonUser;
-import com.clases.Talla;
 import com.clases.TipoDocumento;
 import com.clases.TipoDocumentoDataSource;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.TipoDocumentoJpaController;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,7 +59,9 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
     private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
-    String Empleado = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Nombre = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado();              
+    String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
+    String Empleado = Nombre + " " + Apellido;
     
     //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
     Date date = new Date();
@@ -860,7 +861,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             JasperPrint print = JasperFillManager.fillReport(reporteTalla,
                     param, 
                     dataSource.getDataSource(arrayTipoDocumento));
-            JasperViewer view = new JasperViewer(print,false);
+            JasperV view = new JasperV(print,false);            
             view.setVisible(true);            
         } catch (JRException ex) {
             Logger.getLogger(FmrTipoDocumento.class.getName()).log(Level.SEVERE, null, ex);
