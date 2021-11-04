@@ -1,0 +1,4 @@
+nov 03, 2021 9:41:11 PM com.screens.FmrAreaLaboral Btn_ImprimirActionPerformed
+GRAVE: Uncompilable source code - cannot find symbol
+  symbol:   variable arrayArea
+  location: class com.screens.FmrAreaLaboral

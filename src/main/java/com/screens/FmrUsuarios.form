@@ -171,7 +171,11 @@
                           <Component id="Btn_Admin" min="-2" pref="85" max="-2" attributes="0"/>
                       </Group>
                       <Component id="Btn_AñadirUser" alignment="0" max="32767" attributes="0"/>
-                      <Component id="Btn_Imprimir" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="Btn_Imprimir" min="-2" pref="47" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="Btn_Permisos" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
               </Group>
@@ -212,13 +216,19 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel9" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="Txt_Confirmar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="Btn_Permisos" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel9" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="Txt_Confirmar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="Btn_Imprimir" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="Btn_Imprimir" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="21" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -488,7 +498,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="Btn_Imprimir">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Imprimir"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagenes/imprimir.png"/>
+            </Property>
             <Property name="toolTipText" type="java.lang.String" value="Imprime los datos de la tabla en un archivo PDF."/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -510,6 +522,28 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_ImprimirActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="Btn_Permisos">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/imagenes/seguridad.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Administra los permisos de usuario para acceder a m&#xf3;dulos del sistema."/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder>
+                  <Color PropertyName="color" blue="ff" green="99" red="0" type="rgb"/>
+                </LineBorder>
+              </Border>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+          </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
+          </AccessibilityProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Btn_PermisosActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

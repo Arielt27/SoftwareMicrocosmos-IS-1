@@ -12,19 +12,23 @@ import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -47,7 +51,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     
     UsuarioDataSource dataSource;
-    Usuarios objUsuario = new Usuarios();       
+    Usuarios objUsuario = new Usuarios();               
     
     //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
     private Usuarios usuarios = new Usuarios(); 
@@ -59,8 +63,10 @@ public class FmrUsuarios extends javax.swing.JFrame {
     //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
     Date date = new Date();
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
-    String horaImpresion = dateFormat.format(date);
-                
+    String horaImpresion = dateFormat.format(date);        
+                        
+    public String nombreUsuario;
+    
     /**
      * Creates new form FmrUsuarios
      */
@@ -76,7 +82,8 @@ public class FmrUsuarios extends javax.swing.JFrame {
         actualizarUsuario();        
         Btn_CambiarPass.setEnabled(false);
         Btn_Activar.setEnabled(false);  
-        Btn_Limpiar.setEnabled(false);                      
+        Btn_Limpiar.setEnabled(false);  
+        Btn_Permisos.setEnabled(false);                
     }
 
     /**
@@ -110,6 +117,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Contraseña = new javax.swing.JPasswordField();
         Txt_Confirmar = new javax.swing.JPasswordField();
         Btn_Imprimir = new javax.swing.JButton();
+        Btn_Permisos = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Usuarios = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
@@ -248,7 +256,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             }
         });
 
-        Btn_Imprimir.setText("Imprimir");
+        Btn_Imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imprimir.png"))); // NOI18N
         Btn_Imprimir.setToolTipText("Imprime los datos de la tabla en un archivo PDF.");
         Btn_Imprimir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
         Btn_Imprimir.setFocusPainted(false);
@@ -258,6 +266,16 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_Imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Btn_ImprimirActionPerformed(evt);
+            }
+        });
+
+        Btn_Permisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/seguridad.png"))); // NOI18N
+        Btn_Permisos.setToolTipText("Administra los permisos de usuario para acceder a módulos del sistema.");
+        Btn_Permisos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 255)));
+        Btn_Permisos.setFocusPainted(false);
+        Btn_Permisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_PermisosActionPerformed(evt);
             }
         });
 
@@ -312,7 +330,10 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(Btn_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Btn_AñadirUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Btn_Permisos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(123, 123, 123))
         );
         jPanel2Layout.setVerticalGroup(
@@ -345,15 +366,20 @@ public class FmrUsuarios extends javax.swing.JFrame {
                         .addComponent(Txt_Contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(Btn_Permisos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Txt_Confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Btn_Imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         Txt_Estado.getAccessibleContext().setAccessibleDescription("");
         Btn_Admin.getAccessibleContext().setAccessibleDescription("Otorga privilegios de administrador al usuario seleccionado.");
+        Btn_Permisos.getAccessibleContext().setAccessibleDescription("");
 
         jTable_Usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -516,29 +542,194 @@ public class FmrUsuarios extends javax.swing.JFrame {
     //BOTONES Y TABLA   
     private void Btn_CambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarPassActionPerformed
         
-        cambiarPass();           
+        try{
+            cambiarPass();           
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnCambiarPass-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_CambiarPassActionPerformed
 
     private void Btn_ActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ActivarActionPerformed
                
-        int fila = jTable_Usuarios.getSelectedRow();        
+        try{
+            int fila = jTable_Usuarios.getSelectedRow();        
         
-        if(fila != -1 && fila != 0)
-        {
-            estadoUsuario();            
-        }else if(fila == 0){
-            JOptionPane.showMessageDialog(null, "El usuario root no puede ser desactivado.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para realizar esta acción.","¡Aviso!", JOptionPane.WARNING_MESSAGE);            
-        }                       
+            if(fila != -1 && fila != 0)
+            {
+                estadoUsuario();            
+            }else if(fila == 0){
+                JOptionPane.showMessageDialog(null, "El usuario root no puede ser desactivado.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para realizar esta acción.","¡Aviso!", JOptionPane.WARNING_MESSAGE);            
+            }   
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnActivar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_Btn_ActivarActionPerformed
       
     private void Btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ReturnActionPerformed
         
-        FmrMenú M = new FmrMenú();
-        M.setVisible(true);
-        this.dispose();
+        try{
+            FmrMenú M = new FmrMenú();        
+            M.setVisible(true);
+            this.dispose();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnRegresar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_ReturnActionPerformed
 
@@ -554,6 +745,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Btn_Activar.setEnabled(true);  
             Btn_Limpiar.setEnabled(true);
             Btn_AñadirUser.setEnabled(false);
+            Btn_Permisos.setEnabled(true);
             
             String IdU = jTable_Usuarios.getValueAt(fila, 0).toString();
             String Nombre = jTable_Usuarios.getValueAt(fila, 1).toString();            
@@ -561,7 +753,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
             String Estado = jTable_Usuarios.getValueAt(fila, 3).toString();
             String Admin = jTable_Usuarios.getValueAt(fila, 4).toString();
             String IdE = jTable_Usuarios.getValueAt(fila, 5).toString();
-            
+                        
             Txt_IdUsuario.setText(IdU);
             Txt_UserName.setText(Nombre);            
             Txt_Intentos.setText(Intentos);
@@ -597,40 +789,326 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
-        limpiarUsuario();        
-        Btn_Limpiar.setEnabled(false);
-        Btn_Admin.setEnabled(false);
-        Btn_AñadirUser.setEnabled(true);
+        try{
+            limpiarUsuario();        
+            Btn_Limpiar.setEnabled(false);
+            Btn_Admin.setEnabled(false);
+            Btn_AñadirUser.setEnabled(true);
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnLimpiar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AdminActionPerformed
         
-        int fila = jTable_Usuarios.getSelectedRow();
+        try{
+            int fila = jTable_Usuarios.getSelectedRow();
         
-        if(fila != -1 && fila != 0)            
-        {                      
-            adminUsuario();                                                                              
-        }else if(fila == 0){
-            JOptionPane.showMessageDialog(null, "El usuario root es un administrador por defecto.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);            
-        }                           
+            if(fila != -1 && fila != 0)            
+            {                      
+                adminUsuario();                                                                              
+            }else if(fila == 0){
+                JOptionPane.showMessageDialog(null, "El usuario root es un administrador por defecto.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para realizar esta acción.","Error!", JOptionPane.ERROR_MESSAGE);            
+            }   
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnAdmin-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_Btn_AdminActionPerformed
 
     private void Btn_AñadirUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirUserActionPerformed
         
-        FmrNuevoUsuario nUser = new FmrNuevoUsuario();
-        nUser.setVisible(true);
-        this.dispose();
+        try{
+            FmrNuevoUsuario nUser = new FmrNuevoUsuario();
+            nUser.setVisible(true);
+            this.dispose();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnAñadirUser-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_AñadirUserActionPerformed
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
         
-        imprimirReporte();
+        try{
+            imprimirReporte();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnImprimir-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
+
+    private void Btn_PermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_PermisosActionPerformed
+                       
+        try{
+            nombreUsuario = Txt_UserName.getText();
+            //JOptionPane.showMessageDialog(null, nombreUsuario);
+            System.out.println(nombreUsuario);
+                        
+            FmrPermisos permisos = new FmrPermisos();                       
+            permisos.setVisible(true);        
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Usuarios-BtnPermisos-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }//GEN-LAST:event_Btn_PermisosActionPerformed
     
             
     //FUNCIONES
@@ -805,6 +1283,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     {
         Btn_CambiarPass.setEnabled(true);
         Btn_Activar.setEnabled(false);
+        Btn_Permisos.setEnabled(false);        
         
         Txt_IdUsuario.setText("");
         Txt_IdEmpleado.setText("");
@@ -814,25 +1293,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Txt_Intentos.setText("");
         Txt_Estado.setText("");
         Txt_Admin.setText("");             
-    }        
-    
-    private static boolean contraseñaRepetida(String Contraseña)
-    {             
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
-        EntityManager em = emf.createEntityManager();
-                    
-        String select = "SELECT idUsuario FROM Usuarios WHERE pass  = '"+Contraseña+ "'";
-   
-        Query query = em.createQuery(select);
-       
-        if(query.getResultList().size() == 0)
-        {
-            return false;
-             
-        }else{
-            return true;                
-        }             
-    }
+    }              
     
     public void imprimirReporte()
     {         
@@ -933,6 +1394,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton Btn_CambiarPass;
     private javax.swing.JButton Btn_Imprimir;
     private javax.swing.JButton Btn_Limpiar;
+    private javax.swing.JButton Btn_Permisos;
     private javax.swing.JButton Btn_Return;
     private javax.swing.JTextField Txt_Admin;
     private javax.swing.JPasswordField Txt_Confirmar;
