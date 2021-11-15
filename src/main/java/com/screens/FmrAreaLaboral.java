@@ -12,6 +12,7 @@ import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.AreaLaboralJpaController;
 import com.dao.EmpleadosJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -49,7 +50,8 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
-    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();    
     AreaLaboralJpaController daoAreaLaboral = new AreaLaboralJpaController();  
  
     AreaDataSource dataSource;
@@ -68,6 +70,10 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
     String horaImpresion = dateFormat.format(date);        
 
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+    
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     /**
      * Creates new form ÁreaLaboral
      */
@@ -81,7 +87,9 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
        Btn_Limpiar.setEnabled(false);
        Btn_Actualizar.setEnabled(false);
        Btn_Activar.setEnabled(false);
-    
+       
+       if(idUsuario != 1)    
+           inicializarPermisos();
     }
 
     /**
@@ -646,8 +654,7 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
       
         try{
-            LimpiarAreaLaboral();
-            Btn_Añadir.setEnabled(true);
+            LimpiarAreaLaboral();            
             Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
@@ -771,31 +778,34 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
     private void Tbl_AreaLaboralMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_AreaLaboralMouseClicked
 
         int fila = Tbl_AreaLaboral.getSelectedRow();
-        if(fila == -1){
-        
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
-        
+        if(fila == -1)
+        {        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");        
         }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Actualizar.setEnabled(true);
-        Btn_Activar.setEnabled(true);
-        String Id = Tbl_AreaLaboral.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_AreaLaboral.getValueAt(fila, 1).toString();
-        String Descripcion = Tbl_AreaLaboral.getValueAt(fila, 2).toString();
-        String Activo = Tbl_AreaLaboral.getValueAt(fila, 3).toString();
-         Txt_IdÁreaLaboral.setText(Id);
-        Txt_ÁreaLaboral.setText(Nombre);
-        Txt_DescripciónÁreaLaboral.setText(Descripcion);
-        Txt_Activo.setText(Activo);
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);                
+                Btn_Activar.setEnabled(true);
+                Btn_Actualizar.setEnabled(true);                
+            }                                    
+            Btn_Limpiar.setEnabled(true);
+            
+            String Id = Tbl_AreaLaboral.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_AreaLaboral.getValueAt(fila, 1).toString();
+            String Descripcion = Tbl_AreaLaboral.getValueAt(fila, 2).toString();
+            String Activo = Tbl_AreaLaboral.getValueAt(fila, 3).toString();
+            
+            Txt_IdÁreaLaboral.setText(Id);
+            Txt_ÁreaLaboral.setText(Nombre);
+            Txt_DescripciónÁreaLaboral.setText(Descripcion);
+            Txt_Activo.setText(Activo);
         
-        if(Activo == "Activado"){
-        Btn_Activar.setText("Desactivar");
-        }else{
-        
-             Btn_Activar.setText("Activar");
-        
-        }
+            if(Activo == "Activado")
+            {
+                Btn_Activar.setText("Desactivar");
+            }else{        
+                Btn_Activar.setText("Activar");            
+            }
         }
     }//GEN-LAST:event_Tbl_AreaLaboralMouseClicked
 
@@ -925,13 +935,49 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
 
-    private void LimpiarAreaLaboral(){
-       Btn_Actualizar.setEnabled(false);
-       Btn_Activar.setEnabled(false);
-       Btn_Añadir.setEnabled(true);       
-       Txt_IdÁreaLaboral.setText("");
-       Txt_ÁreaLaboral.setText("");
-       Txt_DescripciónÁreaLaboral.setText("");
+    //METODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 0).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 0).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 0).equals("true"))
+        {
+            Btn_Actualizar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 0).equals("false")){
+            Btn_Actualizar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 0).equals("true"))
+        {
+            Btn_Activar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 0).equals("false")){
+            Btn_Activar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 0).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 0).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
+    
+    private void LimpiarAreaLaboral()
+    {
+        if(idUsuario == 1)
+        {
+            Btn_Actualizar.setEnabled(false);
+            Btn_Activar.setEnabled(false);
+            Btn_Añadir.setEnabled(true);                   
+        }       
+        Txt_IdÁreaLaboral.setText("");
+        Txt_ÁreaLaboral.setText("");
+        Txt_DescripciónÁreaLaboral.setText("");
        }
 
     private void ActualizarAreaLaboral()
@@ -1143,6 +1189,55 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
         }
     }
     
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+    
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    } 
     
     /**
      * @param args the command line arguments

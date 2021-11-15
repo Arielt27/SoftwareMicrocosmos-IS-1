@@ -12,6 +12,7 @@ import com.clases.TipoDocumentoDataSource;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.TipoDocumentoJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -51,7 +52,9 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     
     //Se crea el Entity manager factory
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    
     //Se declaran los controladores de cada una de las tablas
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
         
@@ -75,6 +78,9 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));            
     
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     public FmrTipoDocumento() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -85,6 +91,9 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -462,10 +471,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    
-    
-    
+          
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
         
         try{
@@ -533,8 +539,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         try{
-            LimpiarTipoDocumento();
-            Btn_Añadir.setEnabled(true);
+            LimpiarTipoDocumento();            
             Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
@@ -799,29 +804,32 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila.");
         
         }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Editar.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(true);
-        String Id = Tbl_TipoDocumento.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_TipoDocumento.getValueAt(fila, 1).toString();
-        String Descripcion = Tbl_TipoDocumento.getValueAt(fila, 2).toString();
-        String Activo = Tbl_TipoDocumento.getValueAt(fila, 3).toString();
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);                
+                Btn_Editar.setEnabled(true);
+                Btn_Activar_Desactivar.setEnabled(true);                
+            }
+            Btn_Limpiar.setEnabled(true);
         
-        Txt_IdDocumento.setText(Id);
-        Txt_NombreTipoDocumento.setText(Nombre);
-        Txt_DescripcionTipoDocumento.setText(Descripcion);
-        Txt_Activo.setText(Activo);
+            String Id = Tbl_TipoDocumento.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_TipoDocumento.getValueAt(fila, 1).toString();
+            String Descripcion = Tbl_TipoDocumento.getValueAt(fila, 2).toString();
+            String Activo = Tbl_TipoDocumento.getValueAt(fila, 3).toString();
+            
+            Txt_IdDocumento.setText(Id);
+            Txt_NombreTipoDocumento.setText(Nombre);
+            Txt_DescripcionTipoDocumento.setText(Descripcion);
+            Txt_Activo.setText(Activo);
         
-        if(Activo == "Activado"){
-             Btn_Activar_Desactivar.setText("Desactivar");
+            if(Activo == "Activado")
+            {
+                 Btn_Activar_Desactivar.setText("Desactivar");
        
-        }else{ 
-             Btn_Activar_Desactivar.setText("Activar");   
-        }
-        }
-        
-        
+            }else{ 
+                 Btn_Activar_Desactivar.setText("Activar");   
+            }
+        }                
     }//GEN-LAST:event_Tbl_TipoDocumentoMouseClicked
 
     private void Txt_NombreTipoDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreTipoDocumentoKeyTyped
@@ -948,8 +956,40 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
   
+    //METODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 10).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 10).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 10).equals("true"))
+        {
+            Btn_Editar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 10).equals("false")){
+            Btn_Editar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 10).equals("true"))
+        {
+            Btn_Activar_Desactivar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 10).equals("false")){
+            Btn_Activar_Desactivar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 10).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 10).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
     
-    private void LlenarTipoDocumento(){
+    private void LlenarTipoDocumento()
+    {
         
         if(Txt_NombreTipoDocumento.getText().length() < 3){
                 
@@ -985,7 +1025,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
        }   
        }
       
-    private void ActualizarTipoDocumento(){
+    private void ActualizarTipoDocumento()
+    {
        
             t = (DefaultTableModel)Tbl_TipoDocumento.getModel();
             t.setRowCount(0);            
@@ -1014,7 +1055,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
        
        }
         
-    private void EditarTipoDocumento(){
+    private void EditarTipoDocumento()
+    {
                
         if(Txt_NombreTipoDocumento.getText().length() < 3){
         
@@ -1049,17 +1091,21 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         }
        }
                             
-    private void LimpiarTipoDocumento(){
-       
-       Txt_IdDocumento.setText("");
-       Txt_NombreTipoDocumento.setText("");
-       Txt_DescripcionTipoDocumento.setText("");
-       Btn_Editar.setEnabled(false);
-       Btn_Activar_Desactivar.setEnabled(false);
-       
-       }
+    private void LimpiarTipoDocumento()
+    {
+        if(idUsuario == 1)
+        {
+            Btn_Añadir.setEnabled(true);
+            Btn_Editar.setEnabled(false);
+            Btn_Activar_Desactivar.setEnabled(false);           
+        }
+        Txt_IdDocumento.setText("");
+        Txt_NombreTipoDocumento.setText("");
+        Txt_DescripcionTipoDocumento.setText("");              
+    }
     
-    private void Activar_Desactivar(){
+    private void Activar_Desactivar()
+    {
         
         int fila = Tbl_TipoDocumento.getSelectedRow();
         
@@ -1112,7 +1158,8 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         
         }
                 
-    public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -1193,6 +1240,56 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
         } catch (JRException ex) {
             Logger.getLogger(FmrTipoDocumento.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+     
+     private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+    
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
     }
     
     public static void main(String args[]) {

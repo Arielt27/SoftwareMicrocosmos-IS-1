@@ -12,6 +12,7 @@ import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.EstadoJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -50,6 +51,7 @@ public class FmrEstado extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
     EstadoJpaController daoEstado = new EstadoJpaController();  
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     
     EstadoDataSource dataSource;
@@ -68,20 +70,28 @@ public class FmrEstado extends javax.swing.JFrame {
     String horaImpresion = dateFormat.format(date);
        
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+    
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     /**
      * Creates new form Estado
      */
-    public FmrEstado() {
+    public FmrEstado(){
         initComponents();
+        
         this.setLocationRelativeTo(null);
-         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
+        Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
   
-       Txt_Activo.setVisible(false);
-       Btn_Limpiar.setEnabled(false);
-       Btn_Actualizar.setEnabled(false);
-       Btn_Activar.setEnabled(false);
         ActualizarEstado();
+        Txt_Activo.setVisible(false);
+        Btn_Limpiar.setEnabled(false);
+        Btn_Actualizar.setEnabled(false);
+        Btn_Activar.setEnabled(false);       
+       
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -684,8 +694,7 @@ public class FmrEstado extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
 
         try{
-            LimpiarEstado();
-            Btn_Añadir.setEnabled(true);
+            LimpiarEstado();            
             Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
@@ -808,34 +817,37 @@ public class FmrEstado extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
     private void Tbl_EstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_EstadoMouseClicked
-
             
         int fila = Tbl_Estado.getSelectedRow();
-        if(fila == -1){
         
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
-        
+        if(fila == -1)
+        {        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");        
         }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Actualizar.setEnabled(true);
-        Btn_Activar.setEnabled(true);
-        String Id = Tbl_Estado.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_Estado.getValueAt(fila, 1).toString();
-        String Descripcion = Tbl_Estado.getValueAt(fila, 2).toString();
-        String Activo = Tbl_Estado.getValueAt(fila, 3).toString();
-        Txt_IdEstado.setText(Id);
-        Txt_NombreEstado.setText(Nombre);
-        Txt_DescripcionEstado.setText(Descripcion);
-        Txt_Activo.setText(Activo);
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);                
+                Btn_Actualizar.setEnabled(true);
+                Btn_Activar.setEnabled(true);                
+            }
+            Btn_Limpiar.setEnabled(true);
+            
+            String Id = Tbl_Estado.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_Estado.getValueAt(fila, 1).toString();
+            String Descripcion = Tbl_Estado.getValueAt(fila, 2).toString();
+            String Activo = Tbl_Estado.getValueAt(fila, 3).toString();
+            
+            Txt_IdEstado.setText(Id);
+            Txt_NombreEstado.setText(Nombre);
+            Txt_DescripcionEstado.setText(Descripcion);
+            Txt_Activo.setText(Activo);
         
-        if(Activo == "Activado"){
-        Btn_Activar.setText("Desactivar");
-        }else{
-        
-             Btn_Activar.setText("Activar");
-        
-        }
+            if(Activo == "Activado")
+            {
+                Btn_Activar.setText("Desactivar");
+            }else{                
+                 Btn_Activar.setText("Activar");        
+            }
         }
     }//GEN-LAST:event_Tbl_EstadoMouseClicked
 
@@ -927,14 +939,51 @@ public class FmrEstado extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
 
-    private void LimpiarEstado(){
-       Btn_Actualizar.setEnabled(false);
-       Btn_Activar.setEnabled(false);
-       Btn_Añadir.setEnabled(true);
+    //MÉTODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 5).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 5).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 5).equals("true"))
+        {
+            Btn_Actualizar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 5).equals("false")){
+            Btn_Actualizar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 5).equals("true"))
+        {
+            Btn_Activar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 5).equals("false")){
+            Btn_Activar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 5).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 5).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
+    
+    private void LimpiarEstado()
+    {
+        if(idUsuario == 1)
+        {
+            Btn_Actualizar.setEnabled(false);
+            Btn_Activar.setEnabled(false);
+            Btn_Añadir.setEnabled(true);            
+        }
+       
        Txt_IdEstado.setText("");
        Txt_NombreEstado.setText("");
        Txt_DescripcionEstado.setText("");
-       }
+    }
     
     private void ActualizarEstado()
     {
@@ -964,7 +1013,8 @@ public class FmrEstado extends javax.swing.JFrame {
         }
       }
           
-    private void Activar_Desactivar(){
+    private void Activar_Desactivar()
+    {
             int fila = Tbl_Estado.getSelectedRow();
         
               String a = Txt_Activo.getText().toString();
@@ -1074,7 +1124,8 @@ public class FmrEstado extends javax.swing.JFrame {
         }   
     }  
            
-    public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -1158,6 +1209,55 @@ public class FmrEstado extends javax.swing.JFrame {
             Logger.getLogger(FmrEstado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);            
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+    
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    } 
                                  
     /**
      * @param args the command line arguments
@@ -1200,7 +1300,6 @@ public class FmrEstado extends javax.swing.JFrame {
             }
         });
     }
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar;

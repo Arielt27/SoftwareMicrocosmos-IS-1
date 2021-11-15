@@ -1,4 +1,0 @@
-nov 12, 2021 4:02:12 AM com.screens.FmrMenú Btn_ComprasActionPerformed
-GRAVE: No data type for node: org.hibernate.hql.internal.ast.tree.IdentNode 
- \-[IDENT] IdentNode: 'BuscarC' {originalText=BuscarC}
-

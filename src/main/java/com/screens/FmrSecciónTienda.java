@@ -12,6 +12,7 @@ import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.SeccionTiendaJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -50,6 +51,7 @@ import net.sf.jasperreports.engine.JasperReport;
 public class FmrSecciónTienda extends javax.swing.JFrame{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");    
     
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     SeccionTiendaJpaController daoSeccionTienda = new SeccionTiendaJpaController();
     
@@ -71,6 +73,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
 
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     /**
      * Creates new form SecciónTienda
      */
@@ -88,6 +93,9 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         Txt_Activo.setVisible(false);
         Btn_Actualizar.setEnabled(false);
         Btn_Activar.setEnabled(false);
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -722,6 +730,7 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         
         try{
             LimpiarSeccion();
+            Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
                 Calendar fecha = new GregorianCalendar();
@@ -849,11 +858,15 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");            
         }else{
-            Btn_Añadir.setEnabled(false);
-            Btn_Limpiar.setEnabled(true);
-            Btn_Actualizar.setEnabled(true);
-            Btn_Activar.setEnabled(true);
             
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);                
+                Btn_Actualizar.setEnabled(true);
+                Btn_Activar.setEnabled(true);                
+            }
+            Btn_Limpiar.setEnabled(true);
+                        
             String Id = JTable_Sección.getValueAt(fila, 0).toString();
             String Nombre = JTable_Sección.getValueAt(fila, 1).toString();
             String Descripcion = JTable_Sección.getValueAt(fila, 2).toString();
@@ -936,6 +949,37 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
 
         
     //FUNCIONES 
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 8).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 8).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 8).equals("true"))
+        {
+            Btn_Actualizar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 8).equals("false")){
+            Btn_Actualizar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 8).equals("true"))
+        {
+            Btn_Activar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 8).equals("false")){
+            Btn_Activar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 8).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 8).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
+    
     private void LlenarSeccion()
     {
         if(Txt_NombreSección.getText().length() < 4)
@@ -1026,12 +1070,15 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
     
     private void LimpiarSeccion()
     {
-        Btn_Actualizar.setEnabled(false);
-        Btn_Activar.setEnabled(false);
+        if(idUsuario == 1)
+        {
+            Btn_Actualizar.setEnabled(false);
+            Btn_Activar.setEnabled(false);            
+            Btn_Añadir.setEnabled(true);
+        }        
         Txt_IdSección.setText("");
         Txt_NombreSección.setText("");
-        Txt_DescripcionSecciónTienda.setText("");  
-        Btn_Añadir.setEnabled(true);
+        Txt_DescripcionSecciónTienda.setText("");          
     }
     
     private void Activar_Desactivar()
@@ -1116,7 +1163,8 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
             return true;
         }
     }
-       public void imprimir()
+
+    public void imprimir()
     {         
         java.util.Date fecha = new Date();        
         
@@ -1166,7 +1214,55 @@ public class FmrSecciónTienda extends javax.swing.JFrame{
         }
     }
 
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
     
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }       
     
     /**
      * @param args the command line arguments

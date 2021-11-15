@@ -12,6 +12,7 @@ import com.clases.TallaDataSource;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.TallaJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -46,13 +47,15 @@ import net.sf.jasperreports.engine.JasperReport;
  * @author Ariel
  */
 public class FmrTalla extends javax.swing.JFrame {
-
     
     //Se crea el Entity manager factory
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+    
     //Se declaran los controladores de cada una de las tablas
     TallaJpaController daoTalla = new TallaJpaController();
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    
     //Objeto global
     Talla objTalla = new Talla();
     TallaDataSource dataSource;
@@ -71,6 +74,9 @@ public class FmrTalla extends javax.swing.JFrame {
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));        
     
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     public FmrTalla() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -81,7 +87,10 @@ public class FmrTalla extends javax.swing.JFrame {
         Txt_Activo.setVisible(false);
         Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
-        Btn_Activar_Desactivar.setEnabled(false);                        
+        Btn_Activar_Desactivar.setEnabled(false);  
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -496,36 +505,38 @@ public class FmrTalla extends javax.swing.JFrame {
     }//GEN-LAST:event_Txt_IdTallaFocusLost
 
     private void Tbl_TallaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Tbl_TallaMouseClicked
-       
-        
+               
         int fila = Tbl_Talla.getSelectedRow();
-        if(fila == -1){
         
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
-        
+        if(fila == -1)
+        {        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");        
         }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Editar.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(true);
-        String Id = Tbl_Talla.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_Talla.getValueAt(fila, 1).toString();
-        String Descripcion = Tbl_Talla.getValueAt(fila, 2).toString();
-        String Activo = Tbl_Talla.getValueAt(fila, 3).toString();
-        Txt_IdTalla.setText(Id);
-        Txt_NombreTalla.setText(Nombre);
-        Txt_DescripcionTalla.setText(Descripcion);
-        Txt_Activo.setText(Activo);
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);                
+                Btn_Editar.setEnabled(true);
+                Btn_Activar_Desactivar.setEnabled(true);                
+            }
+            Btn_Limpiar.setEnabled(true);
+            
+            String Id = Tbl_Talla.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_Talla.getValueAt(fila, 1).toString();
+            String Descripcion = Tbl_Talla.getValueAt(fila, 2).toString();
+            String Activo = Tbl_Talla.getValueAt(fila, 3).toString();
+            
+            Txt_IdTalla.setText(Id);
+            Txt_NombreTalla.setText(Nombre);
+            Txt_DescripcionTalla.setText(Descripcion);
+            Txt_Activo.setText(Activo);
         
-        if(Activo == "Activado"){
-        Btn_Activar_Desactivar.setText("Desactivar");
-        }else{
-        
-             Btn_Activar_Desactivar.setText("Activar");
-        
-        }
-        }
-        
+            if(Activo == "Activado")
+            {
+                Btn_Activar_Desactivar.setText("Desactivar");
+            }else{       
+                Btn_Activar_Desactivar.setText("Activar");                
+            }
+        }        
         
     }//GEN-LAST:event_Tbl_TallaMouseClicked
 
@@ -761,8 +772,7 @@ public class FmrTalla extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         try{
-            LimpiarTalla();
-            Btn_Añadir.setEnabled(true);
+            LimpiarTalla();            
             Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
@@ -977,16 +987,53 @@ public class FmrTalla extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
 
-    private void LimpiarTalla(){
-       Btn_Editar.setEnabled(false);
-       Btn_Activar_Desactivar.setEnabled(false);
-       Btn_Añadir.setEnabled(true);
+    //MÉTODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 9).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 9).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 9).equals("true"))
+        {
+            Btn_Editar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 9).equals("false")){
+            Btn_Editar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 9).equals("true"))
+        {
+            Btn_Activar_Desactivar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 9).equals("false")){
+            Btn_Activar_Desactivar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 9).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 9).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }                 
+    
+    private void LimpiarTalla()
+    {
+        if(idUsuario == 1)
+        {
+            Btn_Editar.setEnabled(false);
+            Btn_Activar_Desactivar.setEnabled(false);
+            Btn_Añadir.setEnabled(true);            
+        }       
        Txt_IdTalla.setText("");
        Txt_NombreTalla.setText("");
        Txt_DescripcionTalla.setText("");
-       }
+    }
        
-    private void ActualizarTalla(){
+    private void ActualizarTalla()
+    {
        
             DefaultTableModel t = (DefaultTableModel)Tbl_Talla.getModel();
             t.setRowCount(0);  
@@ -1080,7 +1127,8 @@ public class FmrTalla extends javax.swing.JFrame {
         }
     }      
        
-    private void Activar_Desactivar(){
+    private void Activar_Desactivar()
+    {
         
         int fila = Tbl_Talla.getSelectedRow();
         
@@ -1131,7 +1179,8 @@ public class FmrTalla extends javax.swing.JFrame {
         
         }
                 
-    public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -1216,8 +1265,55 @@ public class FmrTalla extends javax.swing.JFrame {
         }
     }
     
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
     
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
     
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }   
     
     /**
      * @param args the command line arguments

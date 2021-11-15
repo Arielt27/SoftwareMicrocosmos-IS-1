@@ -12,6 +12,7 @@ import com.clases.SingletonUser;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.ParametrosJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -51,6 +52,7 @@ public class FmrParametros extends javax.swing.JFrame {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     ParametrosJpaController daoParam = new ParametrosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     
@@ -71,6 +73,9 @@ public class FmrParametros extends javax.swing.JFrame {
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
     String horaImpresion = dateFormat.format(date);
     
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     /**
      * Creates new form FmrParametros
      */
@@ -85,7 +90,10 @@ public class FmrParametros extends javax.swing.JFrame {
         //INICIALIZAR PANTALLA
         actualizarCai();
         Txt_Estado.setVisible(false);
-        Txt_IdCai.setVisible(false);                
+        Txt_IdCai.setVisible(false); 
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -563,7 +571,8 @@ public class FmrParametros extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         try{
-            Limpiar();               
+            Limpiar(); 
+            Btn_Limpiar.setEnabled(true);
         }catch(Exception ex){
             try{
                 Calendar fecha = new GregorianCalendar();
@@ -710,8 +719,11 @@ public class FmrParametros extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento para ver su información.","Error!", JOptionPane.ERROR_MESSAGE);            
         }else{
-            Btn_Añadir.setEnabled(false);            
-            Btn_Limpiar.setEnabled(true);
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);                            
+            }           
+            Btn_Limpiar.setEnabled(true);                
             
             String IdCai = jTable_CAI.getValueAt(fila, 0).toString();
             String CAI = jTable_CAI.getValueAt(fila, 1).toString();                                   
@@ -797,7 +809,24 @@ public class FmrParametros extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
         
     
-    //METODOS
+    //MÉTODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 6).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 6).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+                                        
+        if(verificarPermisosImprimir(idUsuario, 6).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 6).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
+    
     private void Añadir()
     {
         //OBTENIENDO VALORES INGRESADOS POR USER DE TXT 
@@ -898,12 +927,16 @@ public class FmrParametros extends javax.swing.JFrame {
     
     private void Limpiar()
     {
+        if(idUsuario == 1)
+        {
+            Btn_Añadir.setEnabled(true);
+        }
+        
         Txt_Cai.setText("");
         Txt_FechaIC.setText("");
         Txt_FechaFC.setText("");
         Txt_NumeroI.setText("");
-        Txt_NumeroF.setText("");
-        Btn_Añadir.setEnabled(true);
+        Txt_NumeroF.setText("");        
     }
     
     private void validacionCAI()
@@ -1030,6 +1063,32 @@ public class FmrParametros extends javax.swing.JFrame {
         }
         
     }
+    
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+                    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }  
     
     /**
      * @param args the command line arguments

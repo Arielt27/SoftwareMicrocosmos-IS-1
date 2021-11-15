@@ -26,6 +26,7 @@ import com.dao.EmpleadosJpaController;
 import com.dao.EstadoJpaController;
 import com.dao.ParametrosJpaController;
 import com.dao.TipoDePagoJpaController;
+import com.dao.UsuariosJpaController;
 import com.dao.VentaJpaController;
 import com.dao.facturasanuladasJpaController;
 import java.awt.Image;
@@ -66,6 +67,7 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     EstadoJpaController daoEstado = new EstadoJpaController();                 
     CompraJpaController daoCompras = new CompraJpaController();
     ArticuloJpaController daoArticulo = new ArticuloJpaController();  
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     ClientesJpaController daoClientes = new ClientesJpaController();   
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();          
@@ -94,6 +96,9 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     
     private Usuarios usuarios = new Usuarios(); 
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);
+    
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
 
     /**
      * Creates new form FmrHistorialFacturas
@@ -111,7 +116,10 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         Btn_DetallesVentas.setEnabled(false);
         actualizarVentas(); 
         actualizarCompras();
-        actualizarAnuladas();        
+        actualizarAnuladas();    
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -621,9 +629,11 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-            Btn_DetallesCompras.setEnabled(true);     
-            //Btn_Anular.setEnabled(true);
-            
+            if(idUsuario == 1)
+            {
+                Btn_DetallesCompras.setEnabled(true);                                 
+            }
+                        
             String valor = jTable_DetallesCompras.getValueAt(fila, 0).toString();
             
             idCompra = valor;                      
@@ -766,9 +776,12 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-            Btn_DetallesVentas.setEnabled(true);     
-            Btn_Anular.setEnabled(true);
-            
+            if(idUsuario == 1)
+            {
+                Btn_DetallesVentas.setEnabled(true);     
+                Btn_Anular.setEnabled(true);                
+            }
+                        
             String valor = jTable_DetallesVentas.getValueAt(fila, 0).toString();
             
             idVenta = valor;            
@@ -911,8 +924,11 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una factura.","Error!", JOptionPane.ERROR_MESSAGE);
         }else{
-            Btn_DetallesAnuladas.setEnabled(true);                 
-            
+            if(idUsuario == 1)
+            {
+                Btn_DetallesAnuladas.setEnabled(true);                                 
+            }
+                        
             String valor = jTable_DetallesAnuladas.getValueAt(fila, 0).toString();
             
             idAnulada = valor;
@@ -1186,6 +1202,36 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     
                                
     //METODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosDetalles(idUsuario, 14).equals("true"))
+        {
+            Btn_DetallesCompras.setEnabled(true);
+            Btn_DetallesVentas.setEnabled(true);
+            Btn_DetallesAnuladas.setEnabled(true);                    
+        }else if(verificarPermisosDetalles(idUsuario, 14).equals("false")){
+            Btn_DetallesCompras.setEnabled(false);
+            Btn_DetallesVentas.setEnabled(false);
+            Btn_DetallesAnuladas.setEnabled(false);
+        }
+        
+        if(verificarPermisosAnular(idUsuario, 14).equals("true"))
+        {
+            Btn_Anular.setEnabled(true);
+        }else if(verificarPermisosAnular(idUsuario, 14).equals("false")){
+            Btn_Anular.setEnabled(false);
+        }       
+        
+        if(verificarPermisosImprimir(idUsuario, 14).equals("true"))
+        {
+            Btn_ImprimirFact.setEnabled(true);
+            Btn_ImprimirFact1.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 14).equals("false")){
+            Btn_ImprimirFact.setEnabled(false);
+            Btn_ImprimirFact1.setEnabled(false);
+        } 
+    }
+    
     private void actualizarVentas()
     {    
         t = (DefaultTableModel)jTable_DetallesVentas.getModel();
@@ -1454,6 +1500,43 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
         em.close();
     }
     
+    private String verificarPermisosDetalles(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT detalles FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+    
+    private String verificarPermisosAnular(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT anular FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }  
     
     /**
      * @param args the command line arguments

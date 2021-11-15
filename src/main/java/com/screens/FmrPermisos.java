@@ -40,7 +40,8 @@ public class FmrPermisos extends javax.swing.JFrame {
     boolean admin;
     boolean agregar;
     boolean permiso;
-    
+    boolean detalles;
+    boolean anular;    
 
     //INSTANCIAS         
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
@@ -94,6 +95,8 @@ public class FmrPermisos extends javax.swing.JFrame {
         CBox_AddU = new javax.swing.JCheckBox();
         CBox_Permisos = new javax.swing.JCheckBox();
         CBox_Añadir = new javax.swing.JCheckBox();
+        CBox_Detalles = new javax.swing.JCheckBox();
+        CBox_Anular = new javax.swing.JCheckBox();
         Btn_Guardar = new javax.swing.JButton();
         Btn_Cancelar = new javax.swing.JButton();
         CBox_Usuarios = new javax.swing.JComboBox<>();
@@ -226,6 +229,22 @@ public class FmrPermisos extends javax.swing.JFrame {
         CBox_Añadir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         CBox_Añadir.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
+        CBox_Detalles.setBackground(new java.awt.Color(60, 63, 65));
+        CBox_Detalles.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        CBox_Detalles.setForeground(new java.awt.Color(255, 255, 255));
+        CBox_Detalles.setText("Detalles Facturas");
+        CBox_Detalles.setFocusPainted(false);
+        CBox_Detalles.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        CBox_Detalles.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        CBox_Anular.setBackground(new java.awt.Color(60, 63, 65));
+        CBox_Anular.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        CBox_Anular.setForeground(new java.awt.Color(255, 255, 255));
+        CBox_Anular.setText("Anular Facturas");
+        CBox_Anular.setFocusPainted(false);
+        CBox_Anular.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        CBox_Anular.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -237,20 +256,27 @@ public class FmrPermisos extends javax.swing.JFrame {
                     .addComponent(CBox_Activar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(CBox_BuscarC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(CBox_AddU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Añadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(CBox_BuscarV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Actualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Imprimir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CBox_Permisos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40))
+                    .addComponent(CBox_Añadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CBox_Detalles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CBox_BuscarV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CBox_Actualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CBox_Imprimir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CBox_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CBox_Permisos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(40, 40, 40))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CBox_Anular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CBox_Actualizar)
                     .addComponent(CBox_Añadir))
@@ -270,7 +296,11 @@ public class FmrPermisos extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CBox_AddU)
                     .addComponent(CBox_Permisos))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CBox_Detalles)
+                    .addComponent(CBox_Anular))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         Btn_Guardar.setText("Guardar Cambios");
@@ -332,15 +362,15 @@ public class FmrPermisos extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CBox_Usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CBox_Modulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
+                        .addGap(30, 30, 30)
                         .addComponent(Btn_Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(15, 15, 15)
                         .addComponent(Btn_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 20, Short.MAX_VALUE)))
+                        .addGap(0, 43, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
         );
 
@@ -377,6 +407,8 @@ public class FmrPermisos extends javax.swing.JFrame {
             CBox_Admin.setVisible(true);
             CBox_AddU.setVisible(true);
             CBox_Permisos.setVisible(true);
+            CBox_Detalles.setVisible(false);
+            CBox_Anular.setVisible(false);
         }else if(CBox_Modulo.getSelectedItem().equals("Compras")){
             CBox_Añadir.setVisible(false);
             CBox_Actualizar.setVisible(false);
@@ -387,7 +419,9 @@ public class FmrPermisos extends javax.swing.JFrame {
             CBox_Pass.setVisible(false);
             CBox_Admin.setVisible(false);
             CBox_AddU.setVisible(false);
-            CBox_Permisos.setVisible(false);            
+            CBox_Permisos.setVisible(false);   
+            CBox_Detalles.setVisible(false);
+            CBox_Anular.setVisible(false);  
         }else if(CBox_Modulo.getSelectedItem().equals("Ventas")){
             CBox_Añadir.setVisible(false);
             CBox_Actualizar.setVisible(false);
@@ -398,11 +432,38 @@ public class FmrPermisos extends javax.swing.JFrame {
             CBox_Pass.setVisible(false);
             CBox_Admin.setVisible(false);
             CBox_AddU.setVisible(false);
-            CBox_Permisos.setVisible(false);                                    
+            CBox_Permisos.setVisible(false);   
+            CBox_Detalles.setVisible(false);
+            CBox_Anular.setVisible(false);
+        }else if(CBox_Modulo.getSelectedItem().equals("Parámetros")){
+            CBox_Añadir.setVisible(true);
+            CBox_Actualizar.setVisible(false);
+            CBox_Activar.setVisible(false);
+            CBox_Imprimir.setVisible(true);
+            CBox_BuscarC.setVisible(false);
+            CBox_BuscarV.setVisible(false);
+            CBox_Pass.setVisible(false);
+            CBox_Admin.setVisible(false);
+            CBox_AddU.setVisible(false);
+            CBox_Permisos.setVisible(false);  
+            CBox_Detalles.setVisible(false);
+            CBox_Anular.setVisible(false);
+        }else if(CBox_Modulo.getSelectedItem().equals("Facturas")){
+            CBox_Añadir.setVisible(false);
+            CBox_Actualizar.setVisible(false);
+            CBox_Activar.setVisible(false);
+            CBox_Imprimir.setVisible(false);
+            CBox_BuscarC.setVisible(false);
+            CBox_BuscarV.setVisible(false);
+            CBox_Pass.setVisible(false);
+            CBox_Admin.setVisible(false);
+            CBox_AddU.setVisible(false);
+            CBox_Permisos.setVisible(false);  
+            CBox_Detalles.setVisible(true);
+            CBox_Anular.setVisible(true);            
         }else if(CBox_Modulo.getSelectedItem().equals("Área Laboral") || CBox_Modulo.getSelectedItem().equals("Artículos") ||
                  CBox_Modulo.getSelectedItem().equals("Cliente") || CBox_Modulo.getSelectedItem().equals("Empleados") || 
-                 CBox_Modulo.getSelectedItem().equals("Estado") || CBox_Modulo.getSelectedItem().equals("Parámetros") ||
-                 CBox_Modulo.getSelectedItem().equals("Proveedores") || CBox_Modulo.getSelectedItem().equals("SecciónTienda")||
+                 CBox_Modulo.getSelectedItem().equals("Estado") || CBox_Modulo.getSelectedItem().equals("Proveedores") || CBox_Modulo.getSelectedItem().equals("SecciónTienda")||
                  CBox_Modulo.getSelectedItem().equals("Tallas") || CBox_Modulo.getSelectedItem().equals("TipoDocumento") || 
                  CBox_Modulo.getSelectedItem().equals("TipoPago")){
             CBox_Añadir.setVisible(true);
@@ -414,7 +475,9 @@ public class FmrPermisos extends javax.swing.JFrame {
             CBox_Pass.setVisible(false);
             CBox_Admin.setVisible(false);
             CBox_AddU.setVisible(false);
-            CBox_Permisos.setVisible(false);                                 
+            CBox_Permisos.setVisible(false);       
+            CBox_Detalles.setVisible(false);
+            CBox_Anular.setVisible(false);
         }
         
         //Cargar Permisos
@@ -503,6 +566,8 @@ public class FmrPermisos extends javax.swing.JFrame {
         CBox_Admin.setVisible(false);
         CBox_AddU.setVisible(false);
         CBox_Permisos.setVisible(false);
+        CBox_Detalles.setVisible(false);
+        CBox_Anular.setVisible(false);        
     }
     
     private void listaUsuarios()
@@ -603,6 +668,20 @@ public class FmrPermisos extends javax.swing.JFrame {
                 permiso = false;
             }
             
+            if(CBox_Detalles.isSelected() == true)
+            {
+                detalles = true;                              
+            }else{
+                detalles = false;
+            }
+            
+            if(CBox_Anular.isSelected() == true)
+            {
+                anular = true;                
+            }else{
+                anular = false;
+            }
+            
             objPermiso.setIdModulo(GetIdModulo(CBox_Modulo.getSelectedItem().toString()));
             objPermiso.setIdUsuario(GetIdUsuario(CBox_Usuarios.getSelectedItem().toString()));                        
             objPermiso.setAñadir(añadir); 
@@ -614,7 +693,9 @@ public class FmrPermisos extends javax.swing.JFrame {
             objPermiso.setCambiarPass(cambiar);
             objPermiso.setAdmin(admin);
             objPermiso.setAgregarUsuario(agregar);
-            objPermiso.setEditarPermisos(permiso);            
+            objPermiso.setEditarPermisos(permiso);   
+            objPermiso.setDetalles(detalles);
+            objPermiso.setAnular(anular);            
                                              
             try{
                 daoPermiso.edit(objPermiso);
@@ -693,9 +774,11 @@ public class FmrPermisos extends javax.swing.JFrame {
     private javax.swing.JCheckBox CBox_Actualizar;
     private javax.swing.JCheckBox CBox_AddU;
     private javax.swing.JCheckBox CBox_Admin;
+    private javax.swing.JCheckBox CBox_Anular;
     private javax.swing.JCheckBox CBox_Añadir;
     private javax.swing.JCheckBox CBox_BuscarC;
     private javax.swing.JCheckBox CBox_BuscarV;
+    private javax.swing.JCheckBox CBox_Detalles;
     private javax.swing.JCheckBox CBox_Imprimir;
     private javax.swing.JComboBox<String> CBox_Modulo;
     private javax.swing.JCheckBox CBox_Pass;

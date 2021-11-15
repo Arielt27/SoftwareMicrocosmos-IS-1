@@ -12,6 +12,7 @@ import com.clases.TipoPagoDataSource;
 import com.clases.Usuarios;
 import com.dao.EmpleadosJpaController;
 import com.dao.TipoDePagoJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -49,7 +50,8 @@ public class FmrTipoPago extends javax.swing.JFrame {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
 
-    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
+    EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();    
     TipoDePagoJpaController daoTipoDePago = new TipoDePagoJpaController();  
 
     //OBTENER NOMBRE DE USUARIO UTILIZANDO PATRON SINGLETON
@@ -68,6 +70,10 @@ public class FmrTipoPago extends javax.swing.JFrame {
     TipoDePago objTipoDePago = new TipoDePago();
 
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+    
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     /**
      * Creates new form TipoPago
      */
@@ -80,7 +86,10 @@ public class FmrTipoPago extends javax.swing.JFrame {
         Txt_Activo.setVisible(false);
         Btn_Limpiar.setEnabled(false);
         Btn_Actualizar.setEnabled(false);
-        Btn_Activar.setEnabled(false);   
+        Btn_Activar.setEnabled(false);
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -707,8 +716,7 @@ public class FmrTipoPago extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
 
         try{
-            LimpiarTipoPago();
-            Btn_Añadir.setEnabled(true);
+            LimpiarTipoPago();            
             Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
@@ -834,31 +842,33 @@ public class FmrTipoPago extends javax.swing.JFrame {
 
          
         int fila = Tbl_TipoPago.getSelectedRow();
-        if(fila == -1){
-        
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
-        
+        if(fila == -1)
+        {        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");        
         }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Actualizar.setEnabled(true);
-        Btn_Activar.setEnabled(true);
-        String Id = Tbl_TipoPago.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_TipoPago.getValueAt(fila, 1).toString();
-        String Descripcion = Tbl_TipoPago.getValueAt(fila, 2).toString();
-        String Activo = Tbl_TipoPago.getValueAt(fila, 3).toString();
-         Txt_IdTipoPago.setText(Id);
-         Txt_TipoPago.setText(Nombre);
-         Txt_DescripcionTipoPago.setText(Descripcion);
-        Txt_Activo.setText(Activo);
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);            
+                Btn_Actualizar.setEnabled(true);
+                Btn_Activar.setEnabled(true);                
+            }
+            Btn_Limpiar.setEnabled(true);
         
-        if(Activo == "Activado"){
-        Btn_Activar.setText("Desactivar");
-        }else{
+            String Id = Tbl_TipoPago.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_TipoPago.getValueAt(fila, 1).toString();
+            String Descripcion = Tbl_TipoPago.getValueAt(fila, 2).toString();
+            String Activo = Tbl_TipoPago.getValueAt(fila, 3).toString();
+            Txt_IdTipoPago.setText(Id);
+            Txt_TipoPago.setText(Nombre);
+            Txt_DescripcionTipoPago.setText(Descripcion);
+            Txt_Activo.setText(Activo);
         
-             Btn_Activar.setText("Activar");
-        
-        }
+            if(Activo == "Activado")
+            {
+                Btn_Activar.setText("Desactivar");
+            }else{        
+                Btn_Activar.setText("Activar");        
+            }
         }
     }//GEN-LAST:event_Tbl_TipoPagoMouseClicked
 
@@ -923,52 +933,54 @@ public class FmrTipoPago extends javax.swing.JFrame {
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //METODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 11).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 11).equals("false")){
+            Btn_Añadir.setEnabled(false);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmrTipoPago().setVisible(true);
-            }
-        });
+        
+        if(verificarPermisosEditar(idUsuario, 11).equals("true"))
+        {
+            Btn_Actualizar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 11).equals("false")){
+            Btn_Actualizar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 11).equals("true"))
+        {
+            Btn_Activar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 11).equals("false")){
+            Btn_Activar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 11).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 11).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
     }
     
-    private void LimpiarTipoPago(){
-       Btn_Actualizar.setEnabled(false);
-       Btn_Activar.setEnabled(false);
-    
+    private void LimpiarTipoPago()
+    {
+        if(idUsuario == 1)
+        {
+            Btn_Actualizar.setEnabled(false);
+            Btn_Activar.setEnabled(false);            
+            Btn_Añadir.setEnabled(true);            
+        }       
+   
        Txt_IdTipoPago.setText("");
        Txt_TipoPago.setText("");
        Txt_DescripcionTipoPago.setText("");
        }
 
-    private void ActualizarTipoPago(){
+    private void ActualizarTipoPago()
+    {
        
             DefaultTableModel t = (DefaultTableModel)Tbl_TipoPago.getModel();
             t.setRowCount(0);  
@@ -996,7 +1008,8 @@ public class FmrTipoPago extends javax.swing.JFrame {
        
        }
 
-    private void Activar_Desactivar(){
+    private void Activar_Desactivar()
+    {
         
         int fila = Tbl_TipoPago.getSelectedRow();
         
@@ -1107,7 +1120,8 @@ public class FmrTipoPago extends javax.swing.JFrame {
         }   
     }    
 
-    public static boolean ValidacionDeRepetidos(String Nombre){
+    public static boolean ValidacionDeRepetidos(String Nombre)
+    {
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -1139,8 +1153,9 @@ public class FmrTipoPago extends javax.swing.JFrame {
         }else{
             return true;
         }
-    }                             
-       public void imprimir()
+    }       
+    
+    public void imprimir()
     {         
         java.util.Date fecha = new Date();        
         
@@ -1189,6 +1204,92 @@ public class FmrTipoPago extends javax.swing.JFrame {
             Logger.getLogger(FmrTipoPago.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+                        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+    
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    } 
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FmrTipoPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FmrTipoPago().setVisible(true);
+            }
+        });
+    }        
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Btn_Activar;

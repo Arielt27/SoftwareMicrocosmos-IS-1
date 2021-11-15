@@ -46,7 +46,12 @@ public class Permisos implements Serializable{
     private boolean agregarUsuario;
     @Column
     private boolean editarPermisos;
-    
+    @Column
+    private boolean detalles;
+    @Column
+    private boolean anular;    
+
+        
     public int getIdPermiso() {
         return idPermiso;
     }
@@ -149,5 +154,21 @@ public class Permisos implements Serializable{
 
     public void setEditarPermisos(boolean editarPermisos) {
         this.editarPermisos = editarPermisos;
-    }                        
+    }  
+    
+    public boolean isDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(boolean detalles) {
+        this.detalles = detalles;
+    }
+
+    public boolean isAnular() {
+        return anular;
+    }
+
+    public void setAnular(boolean anular) {
+        this.anular = anular;
+    }
 }
