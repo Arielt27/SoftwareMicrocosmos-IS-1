@@ -245,7 +245,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                 
         FmrUsuarios frmUsers = new FmrUsuarios();
         frmUsers.setVisible(true);        
-        this.dispose();             
+        this.dispose();                     
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 

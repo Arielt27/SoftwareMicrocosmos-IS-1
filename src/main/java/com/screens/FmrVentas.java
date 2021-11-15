@@ -21,6 +21,7 @@ import com.dao.DetalleVentaJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.ParametrosJpaController;
 import com.dao.TipoDePagoJpaController;
+import com.dao.UsuariosJpaController;
 import com.dao.VentaJpaController;
 import java.awt.Image;
 import java.io.IOException;
@@ -66,6 +67,7 @@ public class FmrVentas extends javax.swing.JFrame {
     VentaJpaController daoVenta = new VentaJpaController();            
     ClientesJpaController daoClientes = new ClientesJpaController();        
     ArticuloJpaController daoArticulo = new ArticuloJpaController();
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();      
     ParametrosJpaController daoParametros = new ParametrosJpaController();    
@@ -100,6 +102,9 @@ public class FmrVentas extends javax.swing.JFrame {
     SimpleDateFormat formatterBD = new SimpleDateFormat("yyyy-MM-dd");
     
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
+    
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
 
     /**
      * Creates new form Ventas
@@ -113,8 +118,7 @@ public class FmrVentas extends javax.swing.JFrame {
         setIconImage(icon);
         
         //INICIALIZAR PANTALLA
-        Inicializar();    
-        //validarCAI();
+        Inicializar();            
         facturaID();
     }        
 
@@ -609,7 +613,7 @@ public class FmrVentas extends javax.swing.JFrame {
     //BOTONES
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
 
-        try{
+        try{            
             FmrMenú Menu = new FmrMenú();
             Menu.setVisible(true);        
             this.dispose();        
@@ -1077,7 +1081,17 @@ public class FmrVentas extends javax.swing.JFrame {
         Txt_Impuesto.setText("0.00");                
         Txt_TotalVenta.setText("0.00");
         CBox_TipoPago.setEnabled(false);  
-        Txt_FechaBD.setVisible(false);        
+        Txt_FechaBD.setVisible(false);    
+                       
+        if(idUsuario != 1)
+        {
+            if(verificarPermisos(idUsuario, 13).equals("true"))
+            {
+                Btn_Buscar.setEnabled(true);
+            }else{
+                Btn_Buscar.setEnabled(false);
+            }                
+        }
 
         listaClientes();
         listaTipoPago();              
@@ -1554,6 +1568,16 @@ public class FmrVentas extends javax.swing.JFrame {
       .atZone(ZoneId.systemDefault())
       .toLocalDate();
     }                  
+    
+    private String verificarPermisos(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT buscarV FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();
+    }
            
     /**
      * @param args the command line arguments

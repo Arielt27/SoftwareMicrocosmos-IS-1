@@ -9,7 +9,7 @@ import com.clases.Articulo;
 import com.clases.Compra;
 import com.clases.DetalleCompra;
 import com.clases.Empleados;
-import com.clases.Estado;
+import com.clases.Permisos;
 import com.clases.Proveedores;
 import com.clases.SingletonUser;
 import com.clases.TipoDePago;
@@ -18,13 +18,11 @@ import com.dao.ArticuloJpaController;
 import com.dao.CompraJpaController;
 import com.dao.DetalleCompraJpaController;
 import com.dao.EmpleadosJpaController;
-import com.dao.EstadoJpaController;
+import com.dao.PermisosJpaController;
 import com.dao.ProveedoresJpaController;
 import com.dao.TipoDePagoJpaController;
-import static com.screens.FmrArticulos.ValidacionDeRepetidos;
-import static com.screens.FmrVentas.t2;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -32,7 +30,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import static java.util.Collections.singleton;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -47,7 +44,6 @@ import javax.persistence.Query;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 
@@ -60,17 +56,20 @@ public class FmrCompras extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     CompraJpaController daoCompra = new CompraJpaController();
+    PermisosJpaController daoPermiso = new PermisosJpaController();
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     ArticuloJpaController daoArticulo = new  ArticuloJpaController();    
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();        
     TipoDePagoJpaController daoTipoPago = new TipoDePagoJpaController();
     ProveedoresJpaController daoProveedores = new ProveedoresJpaController();
-    DetalleCompraJpaController daoDetalle = new DetalleCompraJpaController();
+    DetalleCompraJpaController daoDetalle = new DetalleCompraJpaController();        
     
     Compra objCompra = new Compra();
+    Permisos objPermiso = new Permisos();
     Articulo objArticulo = new  Articulo();
     Empleados objEmpleados = new Empleados();
     TipoDePago objTipoPago = new TipoDePago();        
-    DetalleCompra objDetalle = new DetalleCompra();            
+    DetalleCompra objDetalle = new DetalleCompra();                
     
     static DefaultTableModel t3; 
     
@@ -78,6 +77,9 @@ public class FmrCompras extends javax.swing.JFrame {
     private Usuarios usuarios = new Usuarios(); 
     DecimalFormat formato1 = new DecimalFormat("#.00");
     private SingletonUser singleton = SingletonUser.getUsuario(usuarios);    
+    
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
    
     /**
      * Creates new form Compras
@@ -91,8 +93,8 @@ public class FmrCompras extends javax.swing.JFrame {
         setIconImage(icon); 
         
         //INICIALIZAR PANTALLA
-        Inicializar();
-        listaProveedores();                                                
+        listaProveedores();                                                                                     
+        Inicializar();                
     }
 
     /**
@@ -1028,17 +1030,27 @@ public class FmrCompras extends javax.swing.JFrame {
     
     //MÉTODOS
     private void Inicializar()
-    {
+    {               
         //DESACTIVAR BOTONES         
         Btn_Retirar.setEnabled(false);                
         Btn_Guardar.setEnabled(false);
         Btn_Cancelar.setEnabled(false);                        
         Btn_AñadirCant.setEnabled(false);    
-        Txt_FechaTomada.setVisible(false);        
-        
+        Txt_FechaTomada.setVisible(false);    
+          
+        if(idUsuario != 1)
+        {
+            if(verificarPermisos(idUsuario, 3).equals("true"))
+            {
+                Btn_Agregar.setEnabled(true);
+            }else if(verificarPermisos(idUsuario, 3).equals("false")){
+                Btn_Agregar.setEnabled(false);
+            } 
+        }
+                                
         //OBTENER ID Y NOMBRE DE EMPLEADO Y MOSTRARLO
         Txt_IdEmpleado.setText(daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getNombreEmpleado());                      
-        
+                                                                
         //OBTENER, FORMATEAR Y MOSTRAR FECHA ACTUAL
         Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -1266,9 +1278,16 @@ public class FmrCompras extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para retirarlo.","Error!", JOptionPane.ERROR_MESSAGE);
         }                
     }  
-    
-    
-                                   
+   
+    private String verificarPermisos(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT buscarC FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();
+    }
     
     /**
      * @param args the command line arguments

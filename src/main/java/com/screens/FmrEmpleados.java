@@ -19,6 +19,7 @@ import com.dao.AreaLaboralJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -64,6 +65,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
                     
     Empleados objEmpleados = new Empleados();
     SexoJpaController daoSexo = new SexoJpaController();
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     AreaLaboralJpaController daoArea = new AreaLaboralJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
@@ -83,6 +85,9 @@ public class FmrEmpleados extends javax.swing.JFrame {
     EmpleadosDataSource dataSource;
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     DefaultTableModel t;
     
     /**
@@ -95,16 +100,19 @@ public class FmrEmpleados extends javax.swing.JFrame {
         //ÍCONO
         Image icon = new ImageIcon(getClass().getResource("/imagenes/IconoMicrocosmos.png")).getImage();
         setIconImage(icon);
-        
+                        
         //INICIALIZAR
         actualizarEmpleados();
         listaTipoDocumento();
         listaGenero();
         listaArea();
-        Txt_Activar.setVisible(false);
+        Txt_Activar.setVisible(false);        
+        Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(false);        
+        Btn_Activar_Desactivar.setEnabled(false);         
+                
+        if(idUsuario != 1)        
+            inicializarPermisos();                        
     }
 
     /**
@@ -1114,9 +1122,13 @@ public class FmrEmpleados extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un empleado.","¡Aviso!", JOptionPane.WARNING_MESSAGE);                        
         }else{
-            Btn_Añadir.setEnabled(false);
-            Btn_Editar.setEnabled(true);    
-            Btn_Activar_Desactivar.setEnabled(true);
+            
+            if(idUsuario == 1)
+            {
+                Btn_Añadir.setEnabled(false);
+                Btn_Editar.setEnabled(true);    
+                Btn_Activar_Desactivar.setEnabled(true);
+            }
             Btn_Limpiar.setEnabled(true);
             
             String IdE = Tbl_Empleados.getValueAt(fila, 0).toString();
@@ -1248,6 +1260,37 @@ public class FmrEmpleados extends javax.swing.JFrame {
             
     
     //METODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 4).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 4).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 4).equals("true"))
+        {
+            Btn_Editar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 4).equals("false")){
+            Btn_Editar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 4).equals("true"))
+        {
+            Btn_Activar_Desactivar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 4).equals("false")){
+            Btn_Activar_Desactivar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 4).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 4).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
+    
     private void actualizarEmpleados()
     {
         t = (DefaultTableModel)Tbl_Empleados.getModel();
@@ -1374,9 +1417,6 @@ public class FmrEmpleados extends javax.swing.JFrame {
     
     private void limpiarEmpleado()
     {
-        Btn_Añadir.setEnabled(true);
-        Btn_Editar.setEnabled(false);
-        Btn_Activar_Desactivar.setEnabled(false);
         Txt_IdEmpleados.setText("");
         Txt_NombreEmpleado.setText("");
         Txt_Apellido.setText("");
@@ -1387,7 +1427,14 @@ public class FmrEmpleados extends javax.swing.JFrame {
         Txt_Documento.setText("");
         Txt_Fecha.setText("");
         CBox_Genero.setSelectedIndex(0);        
-        CBox_Area.setSelectedIndex(0);                        
+        CBox_Area.setSelectedIndex(0);               
+        
+        if(idUsuario == 1)
+        {
+            Btn_Añadir.setEnabled(true);
+            Btn_Editar.setEnabled(false);
+            Btn_Activar_Desactivar.setEnabled(false);            
+        }                         
     }
     
     private void Activar_Desactivar()
@@ -1451,27 +1498,7 @@ public class FmrEmpleados extends javax.swing.JFrame {
     }
     
     private void añadirEmpleado()
-    {                   
-       //
-        //    String fechaTxt = Txt_Fecha.getText();
-       //     String fecha = new SimpleDateFormat("dd/MM/yyyy").format(Txt_Fecha.getText());
-       //     String [] dateParts = fecha.split("/");
-       //     String año = dateParts[2],
-       //            mes = dateParts[1],
-       //            dia = dateParts[0];
-      //      String año_actual = fechas.fecha_actual();
-             
-    //        int edad;
-            
-      //      edad = Integer.parseInt(año_actual)- Integer.parseInt(año);
-        //    if (edad <= 17 ){
-          //    JOptionPane.showMessageDialog(null, "La persona no es mayor de edad","¡Error!", JOptionPane.ERROR_MESSAGE);  
-         //   }else
-            
-            
-           // {
-                
-
+    {                                          
         if(Txt_NombreEmpleado.getText().length() < 3)
         {
             JOptionPane.showMessageDialog(null, "El nombre tiene que contener al menos 3 letras.","¡Error!", JOptionPane.ERROR_MESSAGE);                                                
@@ -1716,13 +1743,13 @@ public class FmrEmpleados extends javax.swing.JFrame {
       return formato_fecha.format(fecha);
     }
     
-     public static boolean Validacionvisa(String Visa)
+    public static boolean Validacionvisa(String Visa)
     {  
         
         return Visa.matches("[a-zA-Z]{2,}");               
     }
  
-       public void imprimir()
+    public void imprimir()
     {         
         java.util.Date fecha = new Date();        
         
@@ -1796,7 +1823,46 @@ public class FmrEmpleados extends javax.swing.JFrame {
             Logger.getLogger(FmrEmpleados.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
-     
+    
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
      
     /**
      * @param args the command line arguments

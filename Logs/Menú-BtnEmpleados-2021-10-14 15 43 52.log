@@ -1,0 +1,4 @@
+nov 14, 2021 3:43:52 PM com.screens.FmrMenú Btn_EmpleadosActionPerformed
+GRAVE: No data type for node: org.hibernate.hql.internal.ast.tree.IdentNode 
+ \-[IDENT] IdentNode: 'Añadir' {originalText=Añadir}
+

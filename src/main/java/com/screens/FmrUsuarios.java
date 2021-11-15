@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -60,6 +61,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
     String Apellido = daoEmpleados.findEmpleados(singleton.getCuenta().getIdEmpleados()).getApellidoEmpleado();
     String Empleado = Nombre + " " + Apellido;
     
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     //OBTENER HORA ACTUAL PARA IMPRIMIRLA EN REPORTE DE FACTURA
     Date date = new Date();
     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); 
@@ -83,7 +87,9 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_CambiarPass.setEnabled(false);
         Btn_Activar.setEnabled(false);  
         Btn_Limpiar.setEnabled(false);  
-        Btn_Permisos.setEnabled(false);                
+        
+        if(idUsuario != 1)
+            inicializarPermisos();
     }
 
     /**
@@ -741,11 +747,14 @@ public class FmrUsuarios extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario.","¡Aviso!", JOptionPane.WARNING_MESSAGE);            
         }else{
-            Btn_CambiarPass.setEnabled(true);
-            Btn_Activar.setEnabled(true);  
+            
+            if(idUsuario == 1)
+            {
+                Btn_CambiarPass.setEnabled(true);
+                Btn_Activar.setEnabled(true);                  
+                Btn_AñadirUser.setEnabled(false);            
+            }
             Btn_Limpiar.setEnabled(true);
-            Btn_AñadirUser.setEnabled(false);
-            Btn_Permisos.setEnabled(true);
             
             String IdU = jTable_Usuarios.getValueAt(fila, 0).toString();
             String Nombre = jTable_Usuarios.getValueAt(fila, 1).toString();            
@@ -761,29 +770,32 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Txt_Admin.setText(Admin);
             Txt_IdEmpleado.setText(IdE);                       
             
-            if(Estado == "Activado")
-            {
-                Btn_Activar.setText("Desactivar Usuario");
-                Btn_Admin.setEnabled(true);
-            }else{ 
-                Btn_Activar.setText("Activar Usuario");   
-                Btn_Admin.setEnabled(false);
-                Btn_CambiarPass.setEnabled(false);
-            }     
-            
+            if(idUsuario == 1 || verificarPermisosAdmin(idUsuario,12).equals("true"))
+            {                
+                if(Estado == "Activado")
+                {
+                    Btn_Activar.setText("Desactivar Usuario");
+                    Btn_Admin.setEnabled(true);
+                }else{ 
+                    Btn_Activar.setText("Activar Usuario");   
+                    Btn_Admin.setEnabled(false);
+                    Btn_CambiarPass.setEnabled(false);
+                }     
+            }
+                       
             if(Estado == "true")
             {
                 Txt_Estado.setText("Activo");                                                 
             }else if(Estado == "false"){
                 Txt_Estado.setText("Desactivado"); 
             }
-            
+                
             if(Admin == "Admin")
             {
                 Txt_Admin.setText("Si");                
             }else{
                 Txt_Admin.setText("No");
-            }
+            }            
         }        
     }//GEN-LAST:event_jTable_UsuariosMouseClicked
 
@@ -792,8 +804,12 @@ public class FmrUsuarios extends javax.swing.JFrame {
         try{
             limpiarUsuario();        
             Btn_Limpiar.setEnabled(false);
-            Btn_Admin.setEnabled(false);
-            Btn_AñadirUser.setEnabled(true);
+            
+            if(idUsuario == 1)
+            {
+                Btn_Admin.setEnabled(false);
+                Btn_AñadirUser.setEnabled(true);
+            }
         }catch(Exception ex){
             try{
                 Calendar fecha = new GregorianCalendar();
@@ -835,7 +851,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnLimpiar-"+fecha1+".log");
@@ -1046,11 +1062,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
 
     private void Btn_PermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_PermisosActionPerformed
                        
-        try{
-            nombreUsuario = Txt_UserName.getText();
-            //JOptionPane.showMessageDialog(null, nombreUsuario);
-            System.out.println(nombreUsuario);
-                        
+        try{                                    
             FmrPermisos permisos = new FmrPermisos();                       
             permisos.setVisible(true);        
         }catch(Exception ex){
@@ -1094,7 +1106,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnPermisos-"+fecha1+".log");
@@ -1112,6 +1124,51 @@ public class FmrUsuarios extends javax.swing.JFrame {
     
             
     //FUNCIONES
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosCambiarPass(idUsuario, 12).equals("true"))
+        {
+            Btn_CambiarPass.setEnabled(true);
+        }else if(verificarPermisosCambiarPass(idUsuario, 12).equals("false")){
+            Btn_CambiarPass.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 12).equals("true"))
+        {
+            Btn_Activar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 12).equals("false")){
+            Btn_Activar.setEnabled(false);
+        }
+        
+        if(verificarPermisosAdmin(idUsuario, 12).equals("true"))
+        {
+            Btn_Admin.setEnabled(true);
+        }else if(verificarPermisosAdmin(idUsuario, 12).equals("false")){
+            Btn_Admin.setEnabled(false);
+        }
+        
+        if(verificarPermisosAgregarU(idUsuario, 12).equals("true"))
+        {
+            Btn_AñadirUser.setEnabled(true);
+        }else if(verificarPermisosAgregarU(idUsuario, 12).equals("false")){
+            Btn_AñadirUser.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 12).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 12).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }
+        
+        if(verificarPermisos(idUsuario, 12).equals("true"))
+        {
+            Btn_Permisos.setEnabled(true);
+        }else if(verificarPermisos(idUsuario, 12).equals("false")){
+            Btn_Permisos.setEnabled(false);
+        }
+    }    
+    
     private void cambiarPass()
     {
         String contra = Txt_Contraseña.getText();
@@ -1281,9 +1338,12 @@ public class FmrUsuarios extends javax.swing.JFrame {
     
     private void limpiarUsuario()
     {
-        Btn_CambiarPass.setEnabled(true);
-        Btn_Activar.setEnabled(false);
-        Btn_Permisos.setEnabled(false);        
+        if(idUsuario == 1)
+        {
+            Btn_CambiarPass.setEnabled(true);
+            Btn_Activar.setEnabled(false);
+            Btn_Permisos.setEnabled(true);             
+        }
         
         Txt_IdUsuario.setText("");
         Txt_IdEmpleado.setText("");
@@ -1350,7 +1410,80 @@ public class FmrUsuarios extends javax.swing.JFrame {
             Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private String verificarPermisosCambiarPass(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
         
+        String permiso = "true";
+                        
+        String select = "SELECT cambiarPass FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);    
+        System.out.println(query);
+                              
+        return query.getSingleResult().toString();        
+        
+    }
+            
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();               
+    }
+    
+    private String verificarPermisosAdmin(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT admin FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosAgregarU(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT agregarUsuario FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }
+    
+    private String verificarPermisos(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String permiso = "true";
+        
+        String select = "SELECT editarPermisos FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();                        
+    }        
             
     /**
      * @param args the command line arguments

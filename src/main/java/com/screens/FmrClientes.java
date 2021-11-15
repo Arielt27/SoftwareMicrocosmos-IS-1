@@ -10,13 +10,13 @@ import com.clases.ClientesDataSource;
 import com.clases.JasperV;
 import com.clases.Sexo;
 import com.clases.SingletonUser;
-import com.clases.Talla;
 import com.clases.TipoDocumento;
 import com.clases.Usuarios;
 import com.dao.ClientesJpaController;
 import com.dao.EmpleadosJpaController;
 import com.dao.SexoJpaController;
 import com.dao.TipoDocumentoJpaController;
+import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -57,8 +56,9 @@ public class FmrClientes extends javax.swing.JFrame {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
     
     
-    SexoJpaController daoSexo = new SexoJpaController();    
+    SexoJpaController daoSexo = new SexoJpaController();        
     ClientesJpaController daoClientes = new ClientesJpaController();    
+    UsuariosJpaController daoUsuarios = new UsuariosJpaController();
     EmpleadosJpaController daoEmpleados = new EmpleadosJpaController();
     TipoDocumentoJpaController daoTipoDocumento = new TipoDocumentoJpaController();
     
@@ -78,6 +78,9 @@ public class FmrClientes extends javax.swing.JFrame {
     Clientes objCliente = new Clientes();    
     Icon icono = new ImageIcon(getClass().getResource("/imagenes/guardar.png"));
     
+    //Obtener ID de Usuario para verificar permisos
+    int idUsuario = daoUsuarios.findUsuarios(singleton.getCuenta().getIdUsuario()).getIdUsuario();
+    
     public FmrClientes() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -90,6 +93,9 @@ public class FmrClientes extends javax.swing.JFrame {
         Btn_Limpiar.setEnabled(false);
         Btn_Editar.setEnabled(false);
         Btn_Activar_Desactivar.setEnabled(false);
+        
+        if(idUsuario != 1)        
+            inicializarPermisos(); 
     }
 
     /**
@@ -688,8 +694,7 @@ public class FmrClientes extends javax.swing.JFrame {
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
         try{
-            LimpiarCliente();
-            Btn_Añadir.setEnabled(true);
+            LimpiarCliente();            
             Btn_Limpiar.setEnabled(false);
         }catch(Exception ex){
             try{
@@ -760,43 +765,43 @@ public class FmrClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una Fila");
         
         }else{
-        Btn_Añadir.setEnabled(false);
-        Btn_Limpiar.setEnabled(true);
-        Btn_Editar.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(true);
-        String Id = Tbl_Clientes.getValueAt(fila, 0).toString();
-        String Nombre = Tbl_Clientes.getValueAt(fila, 1).toString();
-        String Apellido = Tbl_Clientes.getValueAt(fila, 2).toString();
-        String Telefono = Tbl_Clientes.getValueAt(fila, 3).toString();
-        String Direccion = Tbl_Clientes.getValueAt(fila, 4).toString();
-        String Correo = Tbl_Clientes.getValueAt(fila, 5).toString();
-        String TipoDocumento = Tbl_Clientes.getValueAt(fila, 6).toString();
-        String Documento = Tbl_Clientes.getValueAt(fila, 7).toString();
-        String Sexo = Tbl_Clientes.getValueAt(fila, 8).toString();
-        String Activo = Tbl_Clientes.getValueAt(fila, 9).toString();
+            if(idUsuario == 1)     
+            {
+            Btn_Añadir.setEnabled(false);            
+            Btn_Editar.setEnabled(true);
+            Btn_Activar_Desactivar.setEnabled(true);
+            }                 
+            Btn_Limpiar.setEnabled(true);
         
+            String Id = Tbl_Clientes.getValueAt(fila, 0).toString();
+            String Nombre = Tbl_Clientes.getValueAt(fila, 1).toString();
+            String Apellido = Tbl_Clientes.getValueAt(fila, 2).toString();
+            String Telefono = Tbl_Clientes.getValueAt(fila, 3).toString();
+            String Direccion = Tbl_Clientes.getValueAt(fila, 4).toString();
+            String Correo = Tbl_Clientes.getValueAt(fila, 5).toString();
+            String TipoDocumento = Tbl_Clientes.getValueAt(fila, 6).toString();
+            String Documento = Tbl_Clientes.getValueAt(fila, 7).toString();
+            String Sexo = Tbl_Clientes.getValueAt(fila, 8).toString();
+            String Activo = Tbl_Clientes.getValueAt(fila, 9).toString();
+                
+            Txt_IdCliente.setText(Id);
+            Txt_NombreCliente.setText(Nombre);
+            Txt_ApellidoCliente.setText(Apellido);
+            Txt_TelefonoCliente.setText(Telefono);
+            jComboBox2.setSelectedItem(Sexo);
+            Txt_DireccionCliente.setText(Direccion);
+            Txt_CorreoCliente.setText(Correo);
+            jComboBox1.setSelectedItem(TipoDocumento);
+            Txt_DocumentoCliente.setText(Documento);
+            Txt_Activo.setText(Activo);
         
-
-        Txt_IdCliente.setText(Id);
-        Txt_NombreCliente.setText(Nombre);
-        Txt_ApellidoCliente.setText(Apellido);
-        Txt_TelefonoCliente.setText(Telefono);
-        jComboBox2.setSelectedItem(Sexo);
-        Txt_DireccionCliente.setText(Direccion);
-        Txt_CorreoCliente.setText(Correo);
-        jComboBox1.setSelectedItem(TipoDocumento);
-        Txt_DocumentoCliente.setText(Documento);
-        Txt_Activo.setText(Activo);
-        
-        if(Activo == "Activado"){
-        Btn_Activar_Desactivar.setText("Desactivar");
-        }else{
-        
-             Btn_Activar_Desactivar.setText("Activar");
-        
-        }
-        }
-        
+            if(Activo == "Activado")
+            {
+            Btn_Activar_Desactivar.setText("Desactivar");
+            }else{       
+                Btn_Activar_Desactivar.setText("Activar");        
+            }
+        }       
         
     }//GEN-LAST:event_Tbl_ClientesMouseClicked
 
@@ -1197,11 +1202,41 @@ public class FmrClientes extends javax.swing.JFrame {
 
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
     
+    
+    //METODOS
+    private void inicializarPermisos()
+    {                        
+        if(verificarPermisosAñadir(idUsuario, 2).equals("true"))
+        {
+            Btn_Añadir.setEnabled(true);
+        }else if(verificarPermisosAñadir(idUsuario, 2).equals("false")){
+            Btn_Añadir.setEnabled(false);
+        }
+        
+        if(verificarPermisosEditar(idUsuario, 2).equals("true"))
+        {
+            Btn_Editar.setEnabled(true);
+        }else if(verificarPermisosEditar(idUsuario, 2).equals("false")){
+            Btn_Editar.setEnabled(false);
+        }
+        
+        if(verificarPermisosActivar(idUsuario, 2).equals("true"))
+        {
+            Btn_Activar_Desactivar.setEnabled(true);
+        }else if(verificarPermisosActivar(idUsuario, 2).equals("false")){
+            Btn_Activar_Desactivar.setEnabled(false);
+        }
+        
+        if(verificarPermisosImprimir(idUsuario, 2).equals("true"))
+        {
+            Btn_Imprimir.setEnabled(true);
+        }else if(verificarPermisosImprimir(idUsuario, 2).equals("false")){
+            Btn_Imprimir.setEnabled(false);
+        }                        
+    }
 
-    private void LimpiarCliente(){
-        Btn_Editar.setEnabled(false);
-        Btn_Añadir.setEnabled(true);
-        Btn_Activar_Desactivar.setEnabled(false);
+    private void LimpiarCliente()
+    {
         Txt_IdCliente.setText("");
         Txt_NombreCliente.setText("");
         Txt_ApellidoCliente.setText("");
@@ -1212,9 +1247,16 @@ public class FmrClientes extends javax.swing.JFrame {
         jComboBox1.setSelectedIndex(0);
         Txt_DocumentoCliente.setText("");        
         
-       }
+        if(idUsuario == 1)
+        {            
+            Btn_Editar.setEnabled(false);
+            Btn_Añadir.setEnabled(true);
+            Btn_Activar_Desactivar.setEnabled(false);                        
+        }        
+    }
         
-    public void listaTipoDocumento(){
+    public void listaTipoDocumento()
+    {
   
       jComboBox1.removeAllItems();
   
@@ -1233,7 +1275,8 @@ public class FmrClientes extends javax.swing.JFrame {
                     };
     }  
     
-    public void listaSexo(){
+    public void listaSexo()
+    {
   
          jComboBox2.removeAllItems();
   
@@ -1249,7 +1292,8 @@ public class FmrClientes extends javax.swing.JFrame {
                     };
   }  
                 
-    private void ActualizarCliente(){
+    private void ActualizarCliente()
+    {
         
         DefaultTableModel t = (DefaultTableModel)Tbl_Clientes.getModel();
         t.setRowCount(0);
@@ -1281,7 +1325,8 @@ public class FmrClientes extends javax.swing.JFrame {
         }            
     }
                               
-    private void LlenarCliente(){
+    private void LlenarCliente()
+    {
         
         if(Txt_NombreCliente.getText().length() < 3){        
         
@@ -1436,7 +1481,8 @@ public class FmrClientes extends javax.swing.JFrame {
             
             }            
             
-    private void Activar_Desactivar(){
+    private void Activar_Desactivar()
+    {
         
         int fila = Tbl_Clientes.getSelectedRow();
         
@@ -1500,7 +1546,8 @@ public class FmrClientes extends javax.swing.JFrame {
         
         }                       
     
-    private static String GetNombreTipoDocumento(int id){
+    private static String GetNombreTipoDocumento(int id)
+    {
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1511,7 +1558,8 @@ public class FmrClientes extends javax.swing.JFrame {
             
           }         
    
-    private static int GetIdTipoDocumento(String Nombre){
+    private static int GetIdTipoDocumento(String Nombre)
+    {
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1522,7 +1570,8 @@ public class FmrClientes extends javax.swing.JFrame {
             
           }             
           
-    private static String GetNombreSexo(int id){
+    private static String GetNombreSexo(int id)
+    {
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1533,7 +1582,8 @@ public class FmrClientes extends javax.swing.JFrame {
             
           }   
           
-    private static int GetIdSexo(String Nombre){
+    private static int GetIdSexo(String Nombre)
+    {
         
               EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
               EntityManager em = emf.createEntityManager();
@@ -1544,31 +1594,36 @@ public class FmrClientes extends javax.swing.JFrame {
             
           }   
                                      
-    public static boolean ValidacionMail(String Nombre){
+    public static boolean ValidacionMail(String Nombre)
+    {
         
         return Nombre.matches("[^@]+@[^@]+\\.[a-zA-Z]{2,}");
         
         
         }
-      public static boolean Validacionvisa(String Visa)
+      
+    public static boolean Validacionvisa(String Visa)
     {  
         
         return Visa.matches("[a-zA-Z]{2,}");               
     }
           
-    public static boolean ValidacionDNI(String DNI){
+    public static boolean ValidacionDNI(String DNI)
+    {
         
         return DNI.matches("^[0-1]{1}[0-9]{12}$");
                 
         }
        
-    public static boolean ValidacionRTN(String RTN){
+    public static boolean ValidacionRTN(String RTN)
+    {
         
         return RTN.matches("^[0-1]{1}[0-9]{13}$");
                 
         }
        
-    public static boolean ValidacionDeRepetidos(String Documento){
+    public static boolean ValidacionDeRepetidos(String Documento)
+    {
        
          EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
          EntityManager em = emf.createEntityManager();
@@ -1672,7 +1727,45 @@ public class FmrClientes extends javax.swing.JFrame {
         }
     }
     
+    private String verificarPermisosAñadir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
     
+    private String verificarPermisosEditar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosActivar(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
+    
+    private String verificarPermisosImprimir(int idUsuario, int Modulo)
+    {        
+        EntityManager em = emf.createEntityManager();
+        
+        String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
+        Query query = em.createQuery(select);                        
+                
+        return query.getSingleResult().toString();        
+    }
    
     /**
      * @param args the command line arguments
