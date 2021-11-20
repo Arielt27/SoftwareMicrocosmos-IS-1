@@ -245,7 +245,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
                 
         FmrUsuarios frmUsers = new FmrUsuarios();
         frmUsers.setVisible(true);        
-        this.dispose();                     
+        this.dispose();                             
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
@@ -256,7 +256,7 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
     private void Txt_NameUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NameUserKeyTyped
                 
          char l = evt.getKeyChar();
-        String Txt = Txt_NameUser.getText();
+        String Txt = Txt_NameUser.getText();        
         
         // Primera letra masyúscula
         if (Txt_NameUser.getText().length() == 1)
@@ -276,9 +276,10 @@ public class FmrNuevoUsuario extends javax.swing.JFrame {
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
-        añadirUsuario();      
-        FmrUsuarios frmUsers = new FmrUsuarios();
-        frmUsers.setVisible(true);
+        añadirUsuario();              
+        FmrPermisos permisos = new FmrPermisos();
+        permisos.setVisible(true); 
+        this.dispose();
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 

@@ -548,7 +548,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
     //BOTONES Y TABLA   
     private void Btn_CambiarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CambiarPassActionPerformed
         
-        try{
+        try{            
             cambiarPass();           
         }catch(Exception ex){
             try{
@@ -591,7 +591,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnCambiarPass-"+fecha1+".log");
@@ -661,7 +661,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnActivar-"+fecha1+".log");
@@ -723,7 +723,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnRegresar-"+fecha1+".log");
@@ -921,7 +921,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnAdmin-"+fecha1+".log");
@@ -940,8 +940,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         
         try{
             FmrNuevoUsuario nUser = new FmrNuevoUsuario();
-            nUser.setVisible(true);
-            this.dispose();
+            nUser.setVisible(true);            
         }catch(Exception ex){
             try{
                 Calendar fecha = new GregorianCalendar();
@@ -983,7 +982,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnAñadirUser-"+fecha1+".log");
@@ -1044,7 +1043,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Usuarios-BtnImprimir-"+fecha1+".log");
@@ -1413,76 +1412,110 @@ public class FmrUsuarios extends javax.swing.JFrame {
     
     private String verificarPermisosCambiarPass(int idUsuario, int Modulo)
     {        
-        EntityManager em = emf.createEntityManager();
+        String result;
         
-        String permiso = "true";
-                        
+        EntityManager em = emf.createEntityManager();
+                                        
         String select = "SELECT cambiarPass FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
-        Query query = em.createQuery(select);    
-        System.out.println(query);
+        Query query = em.createQuery(select);            
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
                               
-        return query.getSingleResult().toString();        
+        return result;        
         
     }
             
     private String verificarPermisosActivar(int idUsuario, int Modulo)
     {        
+        String result; 
+        
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
-                
-        return query.getSingleResult().toString();               
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
+        
+        return result;               
     }
     
     private String verificarPermisosAdmin(int idUsuario, int Modulo)
     {        
+        String result; 
+        
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT admin FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
-                
-        return query.getSingleResult().toString();        
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
+        
+        return result;        
     }
     
     private String verificarPermisosAgregarU(int idUsuario, int Modulo)
-    {        
+    {   
+        String result; 
+        
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT agregarUsuario FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
-                
-        return query.getSingleResult().toString();                        
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
+        
+        return result;                        
     }
     
     private String verificarPermisosImprimir(int idUsuario, int Modulo)
     {        
+        String result; 
+        
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
-                
-        return query.getSingleResult().toString();                        
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
+        return result;
     }
     
     private String verificarPermisos(int idUsuario, int Modulo)
     {        
+        String result;
+        
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT editarPermisos FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
                 
-        return query.getSingleResult().toString();                        
+        return result;                        
     }        
             
     /**

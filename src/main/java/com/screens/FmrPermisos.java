@@ -12,11 +12,17 @@ import com.dao.ModulosJpaController;
 import com.dao.PermisosJpaController;
 import com.dao.UsuariosJpaController;
 import java.awt.Image;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
@@ -484,49 +490,258 @@ public class FmrPermisos extends javax.swing.JFrame {
         String usuario = String.valueOf(CBox_Usuarios.getSelectedItem());
         String modulo = String.valueOf(CBox_Modulo.getSelectedItem());
         
+        int id = GetIdUsuario(usuario);
+        int mod = GetIdModulo(modulo);
+        
+        String permisoAñadir;
+        String permisoActualizr;
+        String permisoActivar;
+        String permisoImprimir;
+        String cambiarP;
+        String adminU;
+        String addU;
+        String editarP;
+        String detalles;
+        String anular;
+        
+        //PantallasGenerales
+        if(modulo.equals("Área Laboral") || modulo.equals("Artículos") || modulo.equals("Cliente") || modulo.equals("Empleados")
+           || modulo.equals("Estado") || modulo.equals("Parámetros") || modulo.equals("Proveedores") || modulo.equals("SecciónTienda")
+           || modulo.equals("Tallas") || modulo.equals("TipoDocumento") || modulo.equals("TipoPago"))
+        {                                            
+            String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query = em.createQuery(select);                                                
+            
+            String select1 = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query1 = em.createQuery(select1);    
+            
+            String select2 = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query2 = em.createQuery(select2);    
+            
+            String select3 = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query3 = em.createQuery(select3);    
+            
+            try{
+                permisoAñadir = query.getSingleResult().toString();
+                permisoActualizr = query1.getSingleResult().toString();
+                permisoActivar = query2.getSingleResult().toString();
+                permisoImprimir = query3.getSingleResult().toString();
+                
+                //AÑADIR                
+                if(permisoAñadir.equals("true")){
+                    CBox_Añadir.setSelected(true);
+                }else if(permisoAñadir.equals("false")){
+                    CBox_Añadir.setSelected(false);
+                }
+                
+                //ACTUALIZAR
+                if(permisoActualizr.equals("true")){
+                    CBox_Actualizar.setSelected(true);
+                }else if(permisoActualizr.equals("false")){
+                    CBox_Actualizar.setSelected(false);
+                }
+                
+                //ACTIVAR
+                if(permisoActivar.equals("true")){
+                    CBox_Activar.setSelected(true);
+                }else if(permisoActivar.equals("false")){
+                    CBox_Activar.setSelected(false);
+                }
+                
+                //IMPRIMIR
+                if(permisoImprimir.equals("true")){
+                    CBox_Imprimir.setSelected(true);
+                }else if(permisoImprimir.equals("false")){
+                    CBox_Imprimir.setSelected(false);
+                }
+            }catch(NoResultException ex){    
+                CBox_Añadir.setSelected(false);
+                CBox_Actualizar.setSelected(false);
+                CBox_Activar.setSelected(false);  
+                CBox_Imprimir.setSelected(false);
+            }                                                                                   
+        }
+                
         //COMPRAS
         if(modulo.equals("Compras"))
-        {
-            int id = GetIdUsuario(usuario);
-            int mod = GetIdModulo(modulo);
-                                
-            String select = "SELECT buscarC FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
-            Query query = em.createQuery(select);                        
-                
-            String buscarC = query.getSingleResult().toString();
-                        
-            if(buscarC.equals("true") )
-            {
-                CBox_BuscarC.setSelected(true);
-            }else if(buscarC.equals("")){                
-                int i = 0;                                
-            }
+        {                                            
+            String selectC = "SELECT buscarC FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query queryC = em.createQuery(selectC);                        
+            
+            try{
+                String buscarC = queryC.getSingleResult().toString();
+
+                if(buscarC.equals("true")){
+                    CBox_BuscarC.setSelected(true);
+                }else if(buscarC.equals("false")){
+                    CBox_BuscarC.setSelected(false);
+                }                                
+            }catch(javax.persistence.NoResultException ex){            
+                CBox_BuscarC.setSelected(false);                
+            } 
         }
         
         //VENTAS
         if(modulo.equals("Ventas"))
-        {
-            int id = GetIdUsuario(usuario);
-            int mod = GetIdModulo(modulo);
-                                
-            String select = "SELECT buscarV FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
-            Query query = em.createQuery(select);                        
-                
-            String buscarV = query.getSingleResult().toString();
-                        
-            if(buscarV.equals("true") )
-            {
-                CBox_BuscarV.setSelected(true);
-            }else if(buscarV.equals("")){                
-                int i = 0;                                
-            }
-        }
+        {                                           
+            String selectV = "SELECT buscarV FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query queryV = em.createQuery(selectV);                        
+            
+            try{
+                String buscarV = queryV.getSingleResult().toString();
+
+                if(buscarV.equals("true") ){
+                    CBox_BuscarV.setSelected(true);
+                }else if(buscarV.equals("false")){                
+                    CBox_BuscarV.setSelected(false);
+                }
+            }catch(NoResultException ex){            
+                CBox_BuscarV.setSelected(false);
+            } 
+        }     
         
+        //USUARIOS
+        if(modulo.equals("Usuarios"))
+        {                                           
+            String selectU = "SELECT cambiarPass FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query queryU = em.createQuery(selectU);                        
+            
+            String select4 = "SELECT admin FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query4 = em.createQuery(select4);                        
+            
+            String select5 = "SELECT agregarUsuario FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query5 = em.createQuery(select5);                        
+            
+            String select6 = "SELECT editarPermisos FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query query6 = em.createQuery(select6);                        
+            
+            try{
+                cambiarP = queryU.getSingleResult().toString();
+                adminU = query4.getSingleResult().toString();
+                addU = query5.getSingleResult().toString();
+                editarP = query6.getSingleResult().toString();
+
+                if(cambiarP.equals("true") ){
+                    CBox_Pass.setSelected(true);
+                }else if(cambiarP.equals("false")){                
+                    CBox_Pass.setSelected(false);
+                }
+                
+                if(adminU.equals("true") ){
+                    CBox_Admin.setSelected(true);
+                }else if(adminU.equals("false")){                
+                    CBox_Admin.setSelected(false);
+                }
+                
+                if(addU.equals("true") ){
+                    CBox_AddU.setSelected(true);
+                }else if(addU.equals("false")){                
+                    CBox_AddU.setSelected(false);
+                }
+                
+                if(editarP.equals("true") ){
+                    CBox_Permisos.setSelected(true);
+                }else if(editarP.equals("false")){                
+                    CBox_Permisos.setSelected(false);
+                }
+                
+            }catch(NoResultException ex){            
+                CBox_Pass.setSelected(false);
+                CBox_Admin.setSelected(false);
+                CBox_AddU.setSelected(false);
+                CBox_Permisos.setSelected(false);
+            } 
+        } 
+        
+        //FACTURAS
+        if(modulo.equals("Facturas"))
+        {                                           
+            String selectF = "SELECT detalles FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query queryF = em.createQuery(selectF);                        
+            
+            String selectA = "SELECT anular FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+            Query queryA = em.createQuery(selectA);                        
+            
+            try{
+                detalles = queryF.getSingleResult().toString();
+                anular = queryA.getSingleResult().toString();
+
+                if(detalles.equals("true") ){
+                    CBox_Detalles.setSelected(true);
+                }else if(detalles.equals("false")){                
+                    CBox_Detalles.setSelected(false);
+                }
+                
+                if(anular.equals("true") ){
+                    CBox_Anular.setSelected(true);
+                }else if(anular.equals("false")){                
+                    CBox_Anular.setSelected(false);
+                }
+            }catch(NoResultException ex){            
+                CBox_Detalles.setSelected(false);
+                CBox_Anular.setSelected(false);
+            } 
+        } 
     }//GEN-LAST:event_CBox_ModuloActionPerformed
 
     private void Btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_CancelarActionPerformed
 
-        this.dispose();
+        try{
+            this.dispose();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Permisos-BtnCancelar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_CancelarActionPerformed
 
@@ -536,16 +751,82 @@ public class FmrPermisos extends javax.swing.JFrame {
     }//GEN-LAST:event_CBox_UsuariosActionPerformed
 
     private void Btn_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_GuardarActionPerformed
-        
-        guardarCambios();        
+          
+        try{
+            if(CBox_Usuarios.getSelectedItem().equals("Seleccione Usuario"))
+            {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para modificar sus permisos.","Error", JOptionPane.ERROR_MESSAGE);            
+            }else if(CBox_Modulo.getSelectedItem().equals("Seleccione Módulo")){
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un módulo para activar las acciones a las que tendrá acceso el usuario.","Error", JOptionPane.ERROR_MESSAGE);                                    
+            }else{        
+                int idPermiso = obtenerIdPermiso();
+
+                if(obtenerIdPermiso() != 0)
+                {
+                    editarPermisos(idPermiso);
+                }else if(obtenerIdPermiso() == 0){
+                    guardarCambios();        
+                }     
+            }
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrUsuarios.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Permisos-BtnGuardar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_GuardarActionPerformed
    
     
-    //METODOS
-    /*private void inicializar()
-    {}*/
-    
+    //METODOS        
     private void cargarModulos()
     {      
         List<Modulos> modulos = this.daoModulo.findModulosEntities();
@@ -581,7 +862,7 @@ public class FmrPermisos extends javax.swing.JFrame {
         for(Usuarios Usuarios : usuarios)
         {
             String lista = Usuarios.getNombreUsuario();
-            if(Usuarios.isActivoUsuario() == true)
+            if(Usuarios.isActivoUsuario() == true && Usuarios.getIdUsuario() != 1) 
             {
                 CBox_Usuarios.addItem(lista);                                                    
             }            
@@ -590,122 +871,129 @@ public class FmrPermisos extends javax.swing.JFrame {
     
     private void guardarCambios()
     {                        
-        //Guardar Permisos
-        if(CBox_Usuarios.getSelectedItem().equals("Seleccione Usuario"))
-        {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un usuario para otorgarle permisos.","Error", JOptionPane.ERROR_MESSAGE);            
-        }else if(CBox_Modulo.getSelectedItem().equals("Seleccione Módulo")){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un módulo para editar las acciones a las que tendrá acceso el usuario.","Error", JOptionPane.ERROR_MESSAGE);                                    
-        }else{
+        //Guardar Permisos                
+        añadir = CBox_Añadir.isSelected();
             
-            if(CBox_Añadir.isSelected() == true)
-            {
-                añadir = true;            
-            }else{
-                añadir = false;
-            }
+        actualizar = CBox_Actualizar.isSelected();
             
-            if(CBox_Actualizar.isSelected() == true)
-            {
-                actualizar = true;            
-            }else{
-                actualizar = false;
-            }
+        activar = CBox_Activar.isSelected();
+           
+        imprimir = CBox_Imprimir.isSelected();
             
-            if(CBox_Activar.isSelected() == true)
-            {
-                activar = true;            
-            }else{
-                activar = false;
-            }
+        buscarC = CBox_BuscarC.isSelected();
+          
+        buscarV = CBox_BuscarV.isSelected();
             
-            if(CBox_Imprimir.isSelected() == true)
-            {
-                imprimir = true;            
-            }else{
-                imprimir = false;
-            }
+        cambiar = CBox_Pass.isSelected();
             
-            if(CBox_BuscarC.isSelected() == true)
-            {
-                buscarC = true;            
-            }else{
-                buscarC = false;
-            }
+        admin = CBox_Admin.isSelected();
             
-            if(CBox_BuscarV.isSelected() == true)
-            {
-                buscarV = true;            
-            }else{
-                buscarV = false;
-            }
+        agregar = CBox_AddU.isSelected();
             
-            if(CBox_Pass.isSelected() == true)
-            {
-                cambiar = true;            
-            }else{
-                cambiar = false;
-            }
+        permiso = CBox_Permisos.isSelected();
             
-            if(CBox_Admin.isSelected() == true)
-            {
-                admin = true;            
-            }else{
-                admin = false;
-            }
+        detalles = CBox_Detalles.isSelected();
             
-            if(CBox_AddU.isSelected() == true)
-            {
-                agregar = true;            
-            }else{
-                agregar = false;
-            }
+        anular = CBox_Anular.isSelected();
             
-            if(CBox_Permisos.isSelected() == true)
-            {
-                permiso = true;            
-            }else{
-                permiso = false;
-            }
-            
-            if(CBox_Detalles.isSelected() == true)
-            {
-                detalles = true;                              
-            }else{
-                detalles = false;
-            }
-            
-            if(CBox_Anular.isSelected() == true)
-            {
-                anular = true;                
-            }else{
-                anular = false;
-            }
-            
-            objPermiso.setIdModulo(GetIdModulo(CBox_Modulo.getSelectedItem().toString()));
-            objPermiso.setIdUsuario(GetIdUsuario(CBox_Usuarios.getSelectedItem().toString()));                        
-            objPermiso.setAñadir(añadir); 
-            objPermiso.setActualizar(actualizar);
-            objPermiso.setActivar(activar);
-            objPermiso.setImprimir(imprimir);
-            objPermiso.setBuscarC(buscarC);
-            objPermiso.setBuscarV(buscarV);
-            objPermiso.setCambiarPass(cambiar);
-            objPermiso.setAdmin(admin);
-            objPermiso.setAgregarUsuario(agregar);
-            objPermiso.setEditarPermisos(permiso);   
-            objPermiso.setDetalles(detalles);
-            objPermiso.setAnular(anular);            
+        objPermiso.setIdModulo(GetIdModulo(CBox_Modulo.getSelectedItem().toString()));
+        objPermiso.setIdUsuario(GetIdUsuario(CBox_Usuarios.getSelectedItem().toString()));                        
+        objPermiso.setAñadir(añadir); 
+        objPermiso.setActualizar(actualizar);
+        objPermiso.setActivar(activar);
+        objPermiso.setImprimir(imprimir);
+        objPermiso.setBuscarC(buscarC);
+        objPermiso.setBuscarV(buscarV);
+        objPermiso.setCambiarPass(cambiar);
+        objPermiso.setAdmin(admin);
+        objPermiso.setAgregarUsuario(agregar);
+        objPermiso.setEditarPermisos(permiso);   
+        objPermiso.setDetalles(detalles);
+        objPermiso.setAnular(anular);            
                                              
-            try{
-                daoPermiso.edit(objPermiso);
-                JOptionPane.showMessageDialog(null, "Los cambios se han guardado correctamente.","Cambios Guardados.", JOptionPane.INFORMATION_MESSAGE);                                                
-                this.dispose();
-            }catch(Exception ex){
-                Logger.getLogger(FmrPermisos.class.getName()).log(Level.SEVERE, null, ex);                
-            }                                                
-        }
+        try{                
+            daoPermiso.create(objPermiso);                
+            JOptionPane.showMessageDialog(null, "Los cambios se han guardado correctamente.","Permisos Registrados.", JOptionPane.INFORMATION_MESSAGE);                                                
+            this.dispose();
+        }catch(Exception ex){
+            Logger.getLogger(FmrPermisos.class.getName()).log(Level.SEVERE, null, ex);                
+        }                                                        
     }
+    
+    private int obtenerIdPermiso()
+    {
+        int resp;
+                      
+        String usuario = String.valueOf(CBox_Usuarios.getSelectedItem());
+        String modulo = String.valueOf(CBox_Modulo.getSelectedItem());
+
+        int id = GetIdUsuario(usuario);
+        int mod = GetIdModulo(modulo);        
+       
+        String select = "SELECT idPermiso FROM Permisos WHERE IdUsuario = '"+ id+ "' AND IdModulo = '"+ mod+ "'";
+        Query query = em.createQuery(select);                                                                       
+
+        try{
+            resp = (int) query.getSingleResult();                               
+        }catch(javax.persistence.NoResultException ex){            
+            resp = 0;
+        }    
+                
+        return resp;
+    }
+    
+    private void editarPermisos(int id)
+    {
+        int idPermiso = id;
+                            
+        añadir = CBox_Añadir.isSelected();
+            
+        actualizar = CBox_Actualizar.isSelected();
+            
+        activar = CBox_Activar.isSelected();
+            
+        imprimir = CBox_Imprimir.isSelected();
+            
+        buscarC = CBox_BuscarC.isSelected();
+            
+        buscarV = CBox_BuscarV.isSelected();
+           
+        cambiar = CBox_Pass.isSelected();
+            
+        admin = CBox_Admin.isSelected();
+            
+        agregar = CBox_AddU.isSelected();
+            
+        permiso = CBox_Permisos.isSelected();
+            
+        detalles = CBox_Detalles.isSelected();
+            
+        anular = CBox_Anular.isSelected();
+           
+        objPermiso.setIdPermiso(idPermiso);            
+        objPermiso.setIdModulo(GetIdModulo(CBox_Modulo.getSelectedItem().toString()));
+        objPermiso.setIdUsuario(GetIdUsuario(CBox_Usuarios.getSelectedItem().toString()));                        
+        objPermiso.setAñadir(añadir); 
+        objPermiso.setActualizar(actualizar);
+        objPermiso.setActivar(activar);
+        objPermiso.setImprimir(imprimir);
+        objPermiso.setBuscarC(buscarC);
+        objPermiso.setBuscarV(buscarV);
+        objPermiso.setCambiarPass(cambiar);
+        objPermiso.setAdmin(admin);
+        objPermiso.setAgregarUsuario(agregar);
+        objPermiso.setEditarPermisos(permiso);   
+        objPermiso.setDetalles(detalles);
+        objPermiso.setAnular(anular);
+            
+        try{                
+            daoPermiso.edit(objPermiso);                
+            JOptionPane.showMessageDialog(null, "Los cambios se han guardado correctamente.","Cambios Guardados.", JOptionPane.INFORMATION_MESSAGE);                                                
+            this.dispose();
+        }catch(Exception ex){
+            Logger.getLogger(FmrPermisos.class.getName()).log(Level.SEVERE, null, ex);                
+        }                                                        
+    }  
     
     private static int GetIdUsuario(String Nombre)
     {
@@ -725,12 +1013,7 @@ public class FmrPermisos extends javax.swing.JFrame {
         Query query = em.createQuery(select);
     
         return Integer.parseInt(query.getSingleResult().toString());            
-    }
-    
-    private void editarPermisos()
-    {
-                
-    }
+    }              
     
     /**
      * @param args the command line arguments
@@ -760,7 +1043,7 @@ public class FmrPermisos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable(){
             public void run() {
                 new FmrPermisos().setVisible(true);
             }

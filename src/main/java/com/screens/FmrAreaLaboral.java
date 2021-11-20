@@ -1190,54 +1190,76 @@ public class FmrAreaLaboral extends javax.swing.JFrame {
     }
     
     private String verificarPermisosAñadir(int idUsuario, int Modulo)
-    {        
+    {   
+        String result;
+        
         EntityManager em = emf.createEntityManager();
         
-        String permiso = "true";
-                        
         String select = "SELECT añadir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
-        Query query = em.createQuery(select);    
-        System.out.println(query);
-                              
-        return query.getSingleResult().toString();        
+        Query query = em.createQuery(select);                        
+                
+        try{
+            result = query.getSingleResult().toString();            
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";            
+        }
         
+        return result;
     }
     
     private String verificarPermisosEditar(int idUsuario, int Modulo)
     {        
-        EntityManager em = emf.createEntityManager();
+        String result;
         
-        String permiso = "true";
+        EntityManager em = emf.createEntityManager();
         
         String select = "SELECT actualizar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
                 
-        return query.getSingleResult().toString();        
+        try{
+            result = query.getSingleResult().toString();            
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";            
+        }
+        
+        return result;
     }
     
     private String verificarPermisosActivar(int idUsuario, int Modulo)
     {        
-        EntityManager em = emf.createEntityManager();
+        String result;
         
-        String permiso = "true";
+        EntityManager em = emf.createEntityManager();
         
         String select = "SELECT activar FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
                 
-        return query.getSingleResult().toString();               
+        try{
+            result = query.getSingleResult().toString();            
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";            
+        }
+        
+        return result;
     }
     
     private String verificarPermisosImprimir(int idUsuario, int Modulo)
-    {        
-        EntityManager em = emf.createEntityManager();
+    {      
+        String result;
         
-        String permiso = "true";
+        EntityManager em = emf.createEntityManager();
         
         String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
                 
-        return query.getSingleResult().toString();                        
-    } 
+        try{
+            result = query.getSingleResult().toString();            
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";            
+        }
+        
+        return result;
+    }
     
     /**
      * @param args the command line arguments

@@ -1501,41 +1501,54 @@ public class FmrHistorialFacturas extends javax.swing.JFrame {
     }
     
     private String verificarPermisosDetalles(int idUsuario, int Modulo)
-    {        
+    {   
+        String result;        
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-                        
+                                        
         String select = "SELECT detalles FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);    
-        System.out.println(query);
-                              
-        return query.getSingleResult().toString();        
         
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
+                              
+        return result;        
     }
     
     private String verificarPermisosAnular(int idUsuario, int Modulo)
     {        
+        String result;
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT anular FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
                 
-        return query.getSingleResult().toString();        
+        return result;
     }
     
     private String verificarPermisosImprimir(int idUsuario, int Modulo)
-    {        
+    {      
+        String result;
         EntityManager em = emf.createEntityManager();
-        
-        String permiso = "true";
-        
+                        
         String select = "SELECT imprimir FROM Permisos WHERE IdUsuario = '"+ idUsuario+ "' AND IdModulo = '"+ Modulo+ "'";
         Query query = em.createQuery(select);                        
-                
-        return query.getSingleResult().toString();                        
+        
+        try{
+            result = query.getSingleResult().toString();
+        }catch(javax.persistence.NoResultException ex){
+            result = "false";
+        }
+            
+        return result;
     }  
     
     /**
