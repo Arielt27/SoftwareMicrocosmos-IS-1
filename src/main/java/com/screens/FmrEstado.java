@@ -539,7 +539,7 @@ public class FmrEstado extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrEstado.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Estado-BtnAñadir-"+fecha1+".log");
@@ -607,7 +607,7 @@ public class FmrEstado extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrEstado.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Estado-BtnActualizar-"+fecha1+".log");
@@ -675,7 +675,7 @@ public class FmrEstado extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrEstado.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Estado-BtnActivar-"+fecha1+".log");
@@ -737,7 +737,7 @@ public class FmrEstado extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrEstado.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Estado-BtnLimpiar-"+fecha1+".log");
@@ -800,7 +800,7 @@ public class FmrEstado extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrEstado.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Estado-BtnRegresar-"+fecha1+".log");
@@ -923,7 +923,7 @@ public class FmrEstado extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrEstado.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Estado-BtnImprimir-"+fecha1+".log");

@@ -519,7 +519,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrTipoDocumento.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"TipoDocumento-BtnRegresar-"+fecha1+".log");
@@ -582,7 +582,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrTipoDocumento.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"TipoDocumento-BtnLimpiar-"+fecha1+".log");
@@ -643,7 +643,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrTipoDocumento.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"TipoDocumento-BtnAñadir-"+fecha1+".log");
@@ -712,7 +712,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrTipoDocumento.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"TipoDocumento-BtnEditar-"+fecha1+".log");
@@ -779,7 +779,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrTipoDocumento.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"TipoDocumento-BtnActivar-"+fecha1+".log");
@@ -941,7 +941,7 @@ public class FmrTipoDocumento extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrTipoDocumento.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"TipoDocumento-BtnImprimir-"+fecha1+".log");

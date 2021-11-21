@@ -368,7 +368,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnTipoDocumento-"+fecha1+".log");
@@ -431,7 +431,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnTipoPago-"+fecha1+".log");
@@ -494,7 +494,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnSeccionTienda-"+fecha1+".log");
@@ -557,7 +557,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnPrecioH-"+fecha1+".log");
@@ -620,7 +620,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnAreaLaboral-"+fecha1+".log");
@@ -683,7 +683,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnTalla-"+fecha1+".log");
@@ -746,7 +746,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnEstado-"+fecha1+".log");
@@ -809,7 +809,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnMenu-"+fecha1+".log");
@@ -872,7 +872,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnParametros-"+fecha1+".log");
@@ -935,7 +935,7 @@ public class FmrConfiguraciones extends javax.swing.JFrame {
                                                     break;
                 }
                 aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
-                fecha1 = aux1+"-"+aux2+"-"+aux3+" "+fecha.get(Calendar.HOUR_OF_DAY)+" "+fecha.get(Calendar.MINUTE)+" "+fecha.get(Calendar.SECOND);
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
                 Logger logger = Logger.getLogger(FmrConfiguraciones.class.getName());
                 FileHandler fh = null;
                 fh = new FileHandler("./Logs/"+"Configuraciones-BtnFacturas-"+fecha1+".log");

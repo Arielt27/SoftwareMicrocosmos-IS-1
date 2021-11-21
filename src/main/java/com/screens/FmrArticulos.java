@@ -23,16 +23,20 @@ import com.dao.UsuariosJpaController;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
@@ -665,8 +669,7 @@ public class FmrArticulos extends javax.swing.JFrame {
 
     //VALIDACIONES CAMPOS
     private void Txt_NombreArticuloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Txt_NombreArticuloKeyTyped
-
-        
+                
         char l = evt.getKeyChar();
         String Texto = Txt_NombreArticulo.getText();
         
@@ -780,77 +783,352 @@ public class FmrArticulos extends javax.swing.JFrame {
     //FUNCIONES BOTONES
     private void Btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_RegresarActionPerformed
         
-        FmrMenú M = new FmrMenú();
-        M.setVisible(true);
-        this.dispose();
-        
+        try{
+            FmrMenú M = new FmrMenú();
+            M.setVisible(true);
+            this.dispose();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnRegresar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+               
     }//GEN-LAST:event_Btn_RegresarActionPerformed
 
     private void Btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_LimpiarActionPerformed
         
-        LimpiarArticulo();
+        try{
+            LimpiarArticulo();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnLimpiar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
         
     }//GEN-LAST:event_Btn_LimpiarActionPerformed
 
     private void Btn_Activar_DesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Activar_DesactivarActionPerformed
         
-        int fila = Tbl_Articulo.getSelectedRow();
+        try{
+            int fila = Tbl_Articulo.getSelectedRow();
 
-        if(fila != -1)
-        {
-            Activar_Desactivar();
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            if(fila != -1)
+            {
+                Activar_Desactivar();
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnActivar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }//GEN-LAST:event_Btn_Activar_DesactivarActionPerformed
 
     private void Btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_EditarActionPerformed
          
-        int fila = Tbl_Articulo.getSelectedRow();
-        
-        if(fila == -1)
-        {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
-        }else{
-            EditarArticulo();
-            
-            //DESPUES DE EDITAR ARTICULO, OBTENGO EL PRECIO NUEVO Y LO COMPARO CON EL ACTUAL,
-            //SI SON DISTINTOS, GUARDO EL PRECIOACTUAL EN EL PRECIO HISTORICO
-            precioNuevo = Double.parseDouble(Txt_PrecioArticulo.getText());            
-            //JOptionPane.showMessageDialog(null, "Nuevo: " + precioNuevo);
-            
-            if(precioActual != precioNuevo)
+        try{
+            int fila = Tbl_Articulo.getSelectedRow();
+
+            if(fila == -1)
             {
-                //OBTENER Y FORMATEAR FECHA ACTUAL 
-                Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                String fechaTexto = formatter.format(fecha);
-                String fechaH = fechaTexto + " 00:00:00"; 
-                
-                //OBTENER Y PARSEAR A STRING EL IDARTICULO
-                int idArt = (int) Tbl_Articulo.getValueAt(fila, 0);
-                
-                //JOptionPane.showMessageDialog(null, fechaTexto);                                                                
-                
-                objPrecio.setPrecio(precioActual);
-                objPrecio.setFechaInicial(Timestamp.valueOf(fechaH));
-                objPrecio.setFechaFinal(Timestamp.valueOf(fechaH));                
-                objPrecio.setActivoPrecioHistorico(true);
-                objPrecio.setIdArticulo(idArt);
-                
-                try{
-                    daoPrecioH.edit(objPrecio);                         
-                }catch(Exception ex){
-                    Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);                    
-                }                
-            }                                
-        }        
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un artículo para realizar esta acción.","¡Error!", JOptionPane.ERROR_MESSAGE);
+            }else{
+                EditarArticulo();
+
+                //DESPUES DE EDITAR ARTICULO, OBTENGO EL PRECIO NUEVO Y LO COMPARO CON EL ACTUAL,
+                //SI SON DISTINTOS, GUARDO EL PRECIOACTUAL EN EL PRECIO HISTORICO
+                precioNuevo = Double.parseDouble(Txt_PrecioArticulo.getText());            
+                //JOptionPane.showMessageDialog(null, "Nuevo: " + precioNuevo);
+
+                if(precioActual != precioNuevo)
+                {
+                    //OBTENER Y FORMATEAR FECHA ACTUAL 
+                    Date fecha = new Date(Calendar.getInstance().getTimeInMillis());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String fechaTexto = formatter.format(fecha);
+                    String fechaH = fechaTexto + " 00:00:00"; 
+
+                    //OBTENER Y PARSEAR A STRING EL IDARTICULO
+                    int idArt = (int) Tbl_Articulo.getValueAt(fila, 0);
+
+                    //JOptionPane.showMessageDialog(null, fechaTexto);                                                                
+
+                    objPrecio.setPrecio(precioActual);
+                    objPrecio.setFechaInicial(Timestamp.valueOf(fechaH));
+                    objPrecio.setFechaFinal(Timestamp.valueOf(fechaH));                
+                    objPrecio.setActivoPrecioHistorico(true);
+                    objPrecio.setIdArticulo(idArt);
+
+                    try{
+                        daoPrecioH.edit(objPrecio);                         
+                    }catch(Exception ex){
+                        Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);                    
+                    }                
+                }                                
+            }        
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnEditar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_Btn_EditarActionPerformed
 
     private void Btn_AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_AñadirActionPerformed
         
-        LlenarArticulo();
+        try{
+            LlenarArticulo();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnGuardar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_AñadirActionPerformed
 
@@ -923,14 +1201,124 @@ public class FmrArticulos extends javax.swing.JFrame {
 
     private void Btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_BuscarActionPerformed
 
-        int busquedaID = Integer.parseInt(Txt_Campo.getText());
-        consultarIDArt(busquedaID);
+        try{
+            int busquedaID = Integer.parseInt(Txt_Campo.getText());
+            consultarIDArt(busquedaID);
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnBuscar-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
     }//GEN-LAST:event_Btn_BuscarActionPerformed
 
     private void Btn_ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_ImprimirActionPerformed
         
-        imprimirReporte();
+        try{
+            imprimirReporte();
+        }catch(Exception ex){
+            try{
+                Calendar fecha = new GregorianCalendar();
+                String fecha1;
+                String aux1,aux2,aux3;
+                aux1 = Integer.toString(fecha.get(Calendar.YEAR));
+                aux2 = (fecha.get(Calendar.MONTH)<10)? "0"+(Integer.toString(fecha.get(Calendar.MONTH)+1)) : Integer.toString(fecha.get(Calendar.MONTH));
+                switch(aux2){
+                    case "01":
+                        aux2= "01";
+                        break;
+                    case "02":
+                        aux2= "02";
+                        break;case "03":
+                            aux2= "03";
+                            break;case "04":
+                                aux2= "04";
+                                break;case "05":
+                                    aux2= "05";
+                                    break;case "06":
+                                        aux2= "06";
+                                        break;case "07":
+                                            aux2= "07";
+                                            break;case "08":
+                                                aux2= "08";
+                                                break;case "09":
+                                                    aux2= "09";
+                                                    break;
+                                                case "010":
+                                                    aux2= "10";
+                                                    break;
+                                                case "011":
+                                                    aux2= "11";
+                                                    break;
+                                                case "012":
+                                                    aux2= "12";
+                                                    break;
+                                                default:
+                                                    break;
+                }
+                aux3 = (fecha.get(Calendar.DAY_OF_MONTH)<10)? "0"+Integer.toString(fecha.get(Calendar.DAY_OF_MONTH)) : Integer.toString(fecha.get(Calendar.DAY_OF_MONTH));
+                fecha1 = aux1+aux2+aux3+"-"+fecha.get(Calendar.HOUR_OF_DAY)+fecha.get(Calendar.MINUTE)+fecha.get(Calendar.SECOND);
+                Logger logger = Logger.getLogger(FmrArticulos.class.getName());
+                FileHandler fh = null;
+                fh = new FileHandler("./Logs/"+"Articulos-BtnImprimir-"+fecha1+".log");
+                logger.addHandler(fh);
+                fh.setFormatter(new SimpleFormatter());
+                logger.setLevel(Level.WARNING);
+                logger.log(Level.SEVERE,ex.getMessage());
+                fh.close();
+            } catch (IOException | SecurityException e) {
+                Logger.getLogger(FmrArticulos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_Btn_ImprimirActionPerformed
       

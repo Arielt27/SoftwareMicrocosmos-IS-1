@@ -89,7 +89,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
         Btn_Limpiar.setEnabled(false);  
         
         if(idUsuario != 1)
-            inicializarPermisos();
+            inicializarPermisos();                
     }
 
     /**
@@ -782,6 +782,13 @@ public class FmrUsuarios extends javax.swing.JFrame {
                     Btn_CambiarPass.setEnabled(false);
                 }     
             }
+            
+            if(GetNombreUsuario(idUsuario).equals(Nombre))
+            {
+                Btn_CambiarPass.setEnabled(true);
+            }else{
+                Btn_CambiarPass.setEnabled(false);
+            }
                        
             if(Estado == "true")
             {
@@ -795,7 +802,7 @@ public class FmrUsuarios extends javax.swing.JFrame {
                 Txt_Admin.setText("Si");                
             }else{
                 Txt_Admin.setText("No");
-            }            
+            }                         
         }        
     }//GEN-LAST:event_jTable_UsuariosMouseClicked
 
@@ -1516,7 +1523,17 @@ public class FmrUsuarios extends javax.swing.JFrame {
         }
                 
         return result;                        
-    }        
+    }     
+    
+    private static String GetNombreUsuario(int id)
+    {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DB");
+        EntityManager em = emf.createEntityManager();
+        String select = "SELECT nombreUsuario FROM Usuarios WHERE idUsuario = '"+ id+ "'";
+        Query query = em.createQuery(select);
+    
+        return query.getSingleResult().toString();            
+    }
             
     /**
      * @param args the command line arguments
